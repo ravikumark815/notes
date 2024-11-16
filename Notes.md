@@ -23,6 +23,22 @@ Hello World!
 terminal@linux$ 
 ```
 
+### Identifiers
+- Start with `[a-z][A-Z][_]`
+- Contains `[a-z][A-Z][0-9][_]`
+- No Keywords
+- Identifier with only `_` is a blank identifier and used as a placeholder
+- Exported identiers start with **Upper** Case Letter and are accessed across files
+
+### Keywords
+|   |   |   |   |   |
+|---|---|---|---|---|
+| break | case | chan | const | continue | 
+default | defer | else | fallthrough | for | 
+func | go | goto | if | import | 
+interface | map | package | range | return | 
+select | struct | switch |  type | var
+
 ### Comments:
 ```go
 // Single Line Comment
@@ -32,13 +48,6 @@ Line
 Comment
 */
 ```
-
-### Identifiers
-- Start with `[a-z][A-Z][_]`
-- Contains `[a-z][A-Z][0-9][_]`
-- No Keywords
-- Identifier with only `_` is a blank identifier and used as a placeholder
-- Exported identiers start with **Upper** Case Letter and are accessed across files
 
 ### I/O functions
 
