@@ -29,7 +29,10 @@ terminal@linux$
 - No Keywords
 - Identifier with only `_` is a blank identifier and used as a placeholder
 - Exported identiers start with **Upper** Case Letter and are accessed across files
-- Two types of declaring a variable:
+
+> Declaring a variable:
+- Using `var` keyword: Can be used anywhere
+- Using `:=` short declaration operator: Can be used inside functions only.
 ```go
 var variable_name type = expression
 variable_name:= expression
@@ -70,21 +73,31 @@ float64	| 64-bit IEEE 754 floating-point number
 complex64 | Complex numbers which contain float32 as a real and imaginary component.
 complex128 | Complex numbers which contain float64 as a real and imaginary component
 
-> To print type of a variable:
-```go
-package main 
-import "fmt"
-func main() { 
-var a = 20
-fmt.Printf("Type: %T\n", a) // int
-```
 
-### Runes and Strings:
+> Runes and Strings:
 - Text is represented using the rune type (char in other languages)
 - Rune is an alias for int32.
 - A rune can represent any symbol - letters, numbers, language characters etc.
 - String is the data type for storing multiple runes
 - Strings are arrays of bytes and a string length
+
+> To print data type of a variable:
+```go
+var a = 20
+fmt.Printf("Type: %T\n", a) // int
+```
+
+> Typecasting:
+```go
+package main
+import "fmt"
+func main() {
+	var totalsum int = 846
+	var number int = 19
+	var avg float32
+	avg = float32(totalsum) / float32(number)
+}
+```
 
 ### Operators
 | Category | Operators |
@@ -95,7 +108,7 @@ Logical | `&&` &#124;&#124; `!`
 Bitwise | `&` &#124; `^ << >> &^`
 Assignment | `= += -= *= /= %= &= ^= <<= >>=` &#124;= 
 Unary | `+ - ! & * ^ ++ --`
-Misc | `&:`(Address) `*:`(Pointer) `<-`(Receive)
+Misc | `&:`(Address) `*:`(Pointer) `<-`(Receive) `:=` (Declaration)
 
 ### Comments:
 ```go
