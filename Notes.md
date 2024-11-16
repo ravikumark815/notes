@@ -29,6 +29,11 @@ terminal@linux$
 - No Keywords
 - Identifier with only `_` is a blank identifier and used as a placeholder
 - Exported identiers start with **Upper** Case Letter and are accessed across files
+- Two types of declaring a variable:
+```go
+var variable_name type = expression
+variable_name:= expression
+```
 
 ### Keywords
 |   |   |   |   |   |
@@ -73,6 +78,24 @@ func main() {
 var a = 20
 fmt.Printf("Type: %T\n", a) // int
 ```
+
+### Runes and Strings:
+- Text is represented using the rune type (char in other languages)
+- Rune is an alias for int32.
+- A rune can represent any symbol - letters, numbers, language characters etc.
+- String is the data type for storing multiple runes
+- Strings are arrays of bytes and a string length
+
+### Operators
+| Category | Operators |
+|---|---|
+Arithmetic | `+ - * / %`
+Relational | `== != > < >= <=`
+Logical | `&&` &#124;&#124; `!`
+Bitwise | `&` &#124; `^ << >> &^`
+Assignment | `= += -= *= /= %= &= ^= <<= >>=` &#124;= 
+Unary | `+ - ! & * ^ ++ --`
+Misc | `&:`(Address) `*:`(Pointer) `<-`(Receive)
 
 ### Comments:
 ```go
