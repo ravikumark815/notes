@@ -58,3 +58,45 @@
 - **Fiber-optic Cabling:** Uses optical fibers to transmit data in the form of light signals. There are two types of fiber-optic cables - Single-mode fiber (SMF) and Multi-mode fiber (MMF). Uses ST/SC Connectors
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/cables.png)
+
+### Ethernet Standards:
+- **10Base-T (IEEE 802.3):** 10 Mbps with category 3 unshielded twisted pair (UTP) wiring, up to 100 meters long.
+- **100Base-TX (IEEE 802.3u):** known as Fast Ethernet, uses category 5, 5E, or 6 UTP wiring, up to 100 meters long.
+- **100Base-FX (IEEE 802.3u):** a version of Fast Ethernet that uses multi-mode optical fiber. Up to 412 meters long.
+- **1000Base-CX (IEEE 802.3z):** uses copper twisted-pair cabling. Up to 25 meters long.
+- **1000Base-T (IEEE 802.3ab):** Gigabit Ethernet that uses Category 5 UTP wiring. Up to 100 meters long.
+- **1000Base-SX (IEEE 802.3z):** 1 Gigabit Ethernet running over multimode fiber-optic cable.
+- **1000Base-LX (IEEE 802.3z):** 1 Gigabit Ethernet running over single-mode fiber.
+- **10GBase-T (802.3.an):** 10 Gbps connections over category 5e, 6, and 7 UTP cables.
+
+### Cable Categories:
+Higher Categories have more twists, are less susceptible to EMIs, more stringent specifications for cross talk and system noise.
+- **CAT1:** was previously used for telephones and modems.
+- **CAT2:** was used for telephone and data networks up to 4Mbps.
+- **CAT3:** Now generally used for telephones. Previously for data networks up to 10Mbps
+- **CAT4:** Defined up to 50 MHz with speeds up to 16 Mbps.
+- **CAT5:** Defined up to 100 MHz, speeds of 10/100Mbps supported longer cable runs of 1Gbps an issue. 
+- **CAT5e:** Defined up to 100 MHz, speeds up to 1Gbps. 
+- **CAT6:** Defined up to 250 MHZ, supports 10Gbps up to 55 m. 
+- **CAT6a:** Defined up to 500 MHz, supports 10Gbps up to 100m. Good reduction in cross talks. 
+- **CAT7:** Defined up to 600 MHz, supports 10Gbps up to 100m with better connectors to reduce cross talks.
+- **CAT7a:** Defined up to 1000MHz, supports 100Gbps.
+- **CAT8:** Supports 40Gbps. Released in March 2013, next generation.
+- **CAT8.1:** Backward compatible and interoperable with CAT 6a.
+- **CAT8.2:** Interoperable with CAT7
+
+*CAT1 CAT5 are now obsolete*
+
+### Other Cables:
+Direct Attachment Cable (DAC) Copper Twinax:
+- Comes in various lengths with SFPs at each end.
+- SFP: Hot pluggable transceiver. 
+- SFPs supports various connectors and data rates up to 10Gbps. 
+- Roll over cable: Special cable used in Cisco environment to connect a com port to console port.
+
+### Ethernet Cable Forms:
+- **Straight-through Cable:** On a straight through cable, the wired pins match. Straight through cable use one wiring standard: both ends use T568A wiring standard or both ends use T568B wiring standard. 
+- **Crossover Cable:** Crossover cable uses two different wiring standards: one end uses the T568A wiring standard, and the other end uses the T568B wiring standard. Pin1->Pin3 and Pin2->Pin6
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/straight-through.png)
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/crossover.png)
