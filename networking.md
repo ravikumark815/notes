@@ -134,26 +134,32 @@ Direct Attachment Cable (DAC) Copper Twinax:
 Layers and Protocol Data Units (PDUs):
 
 **OSI Model:**
-1.	Physical Layer (Bits)
-2.	Datalink Layer (Frame)
-3.	Network Layer (Packet)
-4.	Transport Layer (Segment)
-5.	Session Layer (Data)
-6.	Presentation Layer (Data)
-7.	Application Layer (Data)
+|#|Layer|PDU|
+|---|---|---|
+|1|Physical Layer|Bits|
+|2|Datalink Layer|Frame|
+|3|Network Layer|Packet|
+|4|Transport Layer|Segment|
+|5|Session Layer|Data|
+|6|Presentation Layer|Data|
+|7|Application Layer|Data|
 
 **TCP/IP Model (4):**
-1.	Physical Layer (Frame): Physical Addresses (MAC)
-2.	Network Layer (Packet): IP Addresses (IP)
-3.	Transport Layer (Segment): Port Addresses (Ports)
-4.	Application Layer (Data): Specific Addresses (Data)
+|   |   |   |
+|---|---|---|
+|1|Physical Layer (Frame): |Physical Addresses (MAC)|
+|2|Network Layer (Packet):|IP Addresses (IP)|
+|3|Transport Layer (Segment)|Port Addresses (Ports)|
+|4|Application Layer (Data)|Specific Addresses (Data)|
 
 **TCP/IP Model (5 – In use by CCNA):**
-1.	Physical Layer (Bits)
-2.	Datalink Layer (Frame): Physical Address (MAC)
-3.	Network Layer (Packet): IP Addresses (IP)
-4.	Transport Layer (Segment): Port Addresses (Ports)
-5.	Application Layer (Data): Specific Addresses (Data)
+|#|Layer|PDU|Address|
+|---|---|---|---|
+|1|Physical Layer|Bits|
+|2|Datalink Layer|Frame|Physical Address (MAC)|
+|3|Network Layer|Packet|IP Addresses (IP)|
+|4|Transport Layer|Segment|Port Addresses (Ports)|
+|5|Application Layer|Data|Specific Addresses (Data)|
 
 **Cisco 3-Layer Model:**
 1.	**Core Layer:** This layer is considered the backbone of the network and includes the high-end switches and high-speed cables such as Fiber cables. This layer of the network does not route traffic at the LAN. In addition, no packet manipulation is done by devices in this layer. Rather, this layer is concerned with speed and ensures reliable delivery of packets.
