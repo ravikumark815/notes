@@ -85,7 +85,7 @@ Higher Categories have more twists, are less susceptible to EMIs, more stringent
 - **CAT8.1:** Backward compatible and interoperable with CAT 6a.
 - **CAT8.2:** Interoperable with CAT7
 
-*CAT1 CAT5 are now obsolete*
+*CAT1-CAT5 are now obsolete*
 
 ### Other Cables:
 Direct Attachment Cable (DAC) Copper Twinax:
@@ -100,3 +100,153 @@ Direct Attachment Cable (DAC) Copper Twinax:
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/straight-through.png)
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/crossover.png)
+
+> **Medium Dependent Interface (MDI):** It is a type of ethernet port connection that uses twisted-pair cabling to link two network devices. MDIX (MDI Crossover) is a version of MDI that enables connection between like devices.
+
+### Data flow Types:
+- **Simplex Mode:** Communication is unidirectional.
+- **Half-Duplex Mode:** Each station can both transmit and receive, but not at the same time.
+- **Full-Duplex Mode:** Both stations can transmit and receive simultaneously.
+ 
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/data-flow.png)
+
+### Communication Types:
+- **Unicast:** Communication from one point to another point
+- **Broadcast:** Communication from one point to all other points
+- **Multicast:** Communication from one/more points to a set of other points
+- **Anycast:** It is a network addressing and routing methodology in which a single destination IP address is shared by nodes in multiple locations.
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/communication-types.png)
+
+### Network Domain:
+- **Broadcast Domain:** A broadcast domain is a logical division of a computer network, in which all nodes can reach each other by broadcast at the data link layer.
+- **Collision Domain:** A collision domain is a network segment connected by a shared medium where simultaneous data transmissions collide with one another. 
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/network-domains.png)
+
+> **54321 Rule:**
+- 5 - the number of network segments
+- 4 - the number of repeaters needed to join the segments into one collision domain
+- 3 - the number of network segments that have active (transmitting) devices attached
+- 2 - the number of segments that do not have active devices attached
+- 1 - the number of collision domains
+
+### Layered Models: 
+Layers and Protocol Data Units (PDUs):
+
+**OSI Model:**
+1.	Physical Layer (Bits)
+2.	Datalink Layer (Frame)
+3.	Network Layer (Packet)
+4.	Transport Layer (Segment)
+5.	Session Layer (Data)
+6.	Presentation Layer (Data)
+7.	Application Layer (Data)
+
+**TCP/IP Model (4):**
+1.	Physical Layer (Frame): Physical Addresses (MAC)
+2.	Network Layer (Packet): IP Addresses (IP)
+3.	Transport Layer (Segment): Port Addresses (Ports)
+4.	Application Layer (Data): Specific Addresses (Data)
+
+**TCP/IP Model (5 – In use by CCNA):**
+1.	Physical Layer (Bits)
+2.	Datalink Layer (Frame): Physical Address (MAC)
+3.	Network Layer (Packet): IP Addresses (IP)
+4.	Transport Layer (Segment): Port Addresses (Ports)
+5.	Application Layer (Data): Specific Addresses (Data)
+
+**Cisco 3-Layer Model:**
+1.	**Core Layer:** This layer is considered the backbone of the network and includes the high-end switches and high-speed cables such as Fiber cables. This layer of the network does not route traffic at the LAN. In addition, no packet manipulation is done by devices in this layer. Rather, this layer is concerned with speed and ensures reliable delivery of packets.
+2.	**Distribution Layer:** This layer includes LAN-based routers and layer 3 switches. This layer ensures that packets are properly routed between subnets and VLANs in your enterprise. This layer is also called the Workgroup layer.
+3.	**Access Layer:** This layer includes hubs and switches. This layer is also called the desktop layer because it focuses on connecting client nodes, such as workstations to the network. This layer ensures that packets are delivered to end user computers.
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/cisco-3-layer.png)
+
+### Math Review:
+**Binary:**
+- IPv4 addresses use Binary.
+- 2 possible values per bit (Base 2): 0,1
+- Total number of outcomes for a given number: 2n (For example, for 8 bits: 28 = 256) 
+
+- 128+64+32+16+8+4+2+1 = 255
+
+- To represent 255 in Binary
+
+|Base|2<sup>7</sup>|2<sup>6</sup>|2<sup>5</sup>|2<sup>4</sup>|2<sup>3</sup>|2<sup>2</sup>|2<sup>1</sup>|2<sup>0</sup>|
+|---|---|---|---|---|---|---|---|---|
+|Binary Bit|1|1|1|1|1|1|1|1|
+|Decimal|128|64|32|16|8|4|2|1|
+
+> IPv4 has 32 bits – 4 octets. 2<sup>32</sup> = 429,49,67,296 IP addresses 
+
+**Hexadecimal:**
+- MAC addresses use Hexadecimal.
+- 16 possible values per bit (Base 16): 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F
+- Converting from Decimal to Hexadecimal (Ex: 224->E0):
+<br>&nbsp; 224 in Binary: 1110 0000 (Divide into 4 bits each)
+<br>&nbsp; 1110<sup>2</sup> = 14<sup>10</sup> = E<sup>16</sup>
+<br>&nbsp; 0000<sup>2</sup> = 0<sup>10</sup> = 0<sup>16</sup>
+<br>&nbsp; Result: E0
+
+### IPv4 Addressing:
+- Internet Protocol v4 is a connectionless network layer protocol. Each packet is treated independently in this protocol which allows the packets to take different paths as needed. 
+- An IPv4 address is a layer 3 logical address assigned by an administrator. It is used to identify specific devices on a network and must be unique in internet.
+- Private IP addresses are NATted to public address when traffic is sent onto internet.
+- Format of IP address:
+<br>&nbsp; • 32 bits 4 octets of 8 bits (1byte) each
+<br>&nbsp; • Network Address Portion (Network ID):	Identifies a specific network. Routers look at destination of IP address and match to network address.
+<br>&nbsp; • Host portion (Host ID): Identifies a specific endpoint on a network.
+- Address Classes to accommodate different sizes of network and aid in classifying networks:
+
+|Class|Range|
+|---|---|
+|Class A – Unicast|0.0.0.0 to 127.255.255.255
+|Class B – Unicast|128.0.0.0 to 191.255.255.255
+|Class C – Unicast|192.0.0.0 to 223.255.255.255
+|Class D – Multicast|224.0.0.0 to 240.255.255.255
+|Class E – Reserved for future|241.0.0.0 to 255.255.255.255	
+
+- Exceptions, Reservations and Special addresses:
+<br>&nbsp; • 0.0.0.0/8 - Default network
+<br>&nbsp; • 127.0.0.0/8 – Local Loopback address. 
+<br>&nbsp; • 224.0.0.X – Link local multicasts, generally used by routing tables.
+<br>&nbsp; • 224.0.0.5-224.0.0.6 - OSPF
+<br>&nbsp; • Directed Broadcast address: Fill 1s in the entire host portion of the address.
+<br>&nbsp; • Local Broadcast address: Fill 1s in all 32 bits. Generally used for DHCP address
+<br>&nbsp; • 10.0.0.0/8 – Private IP address range (not routable on internet)
+<br>&nbsp; • 172.16.0.0/12 – Private IP address range (not routable on internet)
+<br>&nbsp; • 192.168.0.0/16 – Private IP address range (not routable on internet)
+<br>&nbsp; • 169.254.0.0/16 – Non-routable Link Local Addresses (Automatic Private IP Addressing)
+
+- Subnet Masks:
+<br>&nbsp; • Used to determine network and host portion of a given IP address through AND operation.
+<br>&nbsp; • Is the device remote (route through default gateway) or local (ARP)?
+<br>&nbsp; • Class A: 255.0.0.0
+<br>&nbsp; • Class B: 255.255.0.0
+<br>&nbsp; • Class C: 255.255.255.0
+<br>&nbsp; • Discontinuous subnet masks not supported:
+`11110000.11111111.00000110.11000000 (240.244.3.191)`
+<br>&nbsp; • Only contiguous subnet masks are supported.
+`11111111.11110000.00000000.00000000 (255.240.0.0)`
+
+- Classless Inter Domain Routing (CIDR):
+<br>&nbsp; • Replaces classful IP addressing with variable length subnet mask (VLSM)
+<br>&nbsp; • CIDR notation /X where X denotes number of 1’s present in binary form of a subnet mask.
+<br>&nbsp; • Reduces wastage of big number of addresses.
+<br>&nbsp; • Ex: /11 = 255.224.0.0
+
+- Subnetting:
+<br>&nbsp; • Work the following for a given IP address: Network address, First IP address, Last IP address, Broadcast address. 
+<br>&nbsp; • Binary method to work an IP address:
+<br>&nbsp; &nbsp; • Subnet address: Fill the host portion with binary 0s.
+<br>&nbsp; &nbsp; • Broadcast address: Fill the host portion with binary 1s.
+<br>&nbsp; &nbsp; • First host: Fill the host portion with binary 0s and set the last bit to 1.
+<br>&nbsp; &nbsp; • Last host: Fill the host portion with binary 1s and set the last bit to 0.
+<br>&nbsp; &nbsp; • Ex: 172.16.35.123/20:
+Subnet: 172.16.0010 0000.0000 0000 = 172.16.32.0
+1st Host: 172.16.0010 0000.0000 0001 = 172.16.32.1
+Last Host: 172.16.0010 1111.1111 1110 = 172.16.47.254
+Broadcast: 172.16.0010 1111.1111 1111 = 172.16.47.255
+<br>&nbsp; • Number of hosts in a network: 2h – 2 (h = number of bits in host portion)
+<br>&nbsp; • Number of networks: 2n (n = number of bits in network portion)
+<br>&nbsp; • Number of subnets: 2n (n = number of bits in variating network octet)
