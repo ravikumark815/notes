@@ -120,6 +120,132 @@ Comment
 */
 ```
 
+### Control and Loop Statements
+**if-else-if:**
+```go
+if v1 == 100 {
+    fmt.Printf("100\n")
+} else if v1 == 200 {
+    fmt.Printf("200\n")
+} else if v1 == 300 {
+    fmt.Printf("300\n")
+} else {
+    fmt.Printf("No Matches\n")
+}
+```
+**for:**
+```go
+for i := 0; i < 5; i++{ 
+    fmt.Printf("%d",i)   
+}
+```
+```go
+// Infinite loop 
+for { 
+    fmt.Printf("GeeksforGeeks\n")   
+}
+```
+```go
+// for loop as while
+i:= 0 
+for i < 3 { 
+    i += 2 
+}
+```
+```go
+// Range Loop
+arr := []string{"a", "b"}
+for i, j := range rvariable { 
+    fmt.Println(i, j)  
+}
+/* Output:
+0 a
+1 b
+*/
+```
+```go
+// Strings
+for i,j := range "abc" {
+    fmt.Printf("%d: %c\n", i, j)
+}
+```
+```go
+// Maps
+mmap := map[int]string {
+    1:"a",
+    2:"b",
+    3:"c",
+}
+for k, v := range mmap {
+    fmt.Println(k, v)
+}
+```
+**Switch:**
+```go
+func main() {
+    day := 1
+    switch day {
+    case 1:
+        fmt.Println("Monday")
+    case 2:
+        fmt.Println("Tuesday")
+    default:
+        fmt.Println("Invalid")
+    }
+}
+```
+```go
+// Type Switch
+func main() {
+    var day interface{} = 2
+    switch v := day.(type) {
+    case int:
+        switch v {
+        case 1:
+            fmt.Println("Monday")
+        case 2:
+            fmt.Println("Tuesday")
+        default:
+            fmt.Println("Invalid day")
+        }
+    default:
+        fmt.Printf("Unknown type: %T\n", v)
+    }
+}
+```
+
+**Loop Control:**
+```go
+// break
+for i:=0; i<5; i++ { 
+    fmt.Println(i) 
+    if i == 3{ 
+         break; 
+    } 
+}
+```
+```go
+// continue
+for i < 8 {
+    if i == 5 {
+        i = i + 2;
+        continue;
+    }
+    fmt.Printf("value is: %d\n", i);
+    i++;
+} 
+```
+```go
+// goto
+label: for x < 8 {
+    if x == 5 {
+        x = x + 1; 
+        goto label
+    }
+    x++;
+}
+```
+    
 ### I/O functions
 
 ```go
