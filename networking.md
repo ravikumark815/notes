@@ -206,34 +206,34 @@ Layers and Protocol Data Units (PDUs):
 |Class D – Multicast|224.0.0.0 to 240.255.255.255
 |Class E – Reserved for future|241.0.0.0 to 255.255.255.255	
 
-- Exceptions, Reservations and Special addresses:
-<br>&nbsp; • 0.0.0.0/8 - Default network
-<br>&nbsp; • 127.0.0.0/8 – Local Loopback address. 
-<br>&nbsp; • 224.0.0.X – Link local multicasts, generally used by routing tables.
-<br>&nbsp; • 224.0.0.5-224.0.0.6 - OSPF
+- **Exceptions, Reservations and Special addresses:**
+<br>&nbsp; • `0.0.0.0/8` - Default network
+<br>&nbsp; • `127.0.0.0/8` – Local Loopback address. 
+<br>&nbsp; • `224.0.0.X` – Link local multicasts, generally used by routing tables.
+<br>&nbsp; • `224.0.0.5-224.0.0.6` - OSPF
 <br>&nbsp; • Directed Broadcast address: Fill 1s in the entire host portion of the address.
 <br>&nbsp; • Local Broadcast address: Fill 1s in all 32 bits. Generally used for DHCP address
-<br>&nbsp; • 10.0.0.0/8 – Private IP address range (not routable on internet)
-<br>&nbsp; • 172.16.0.0/12 – Private IP address range (not routable on internet)
-<br>&nbsp; • 192.168.0.0/16 – Private IP address range (not routable on internet)
-<br>&nbsp; • 169.254.0.0/16 – Non-routable Link Local Addresses (Automatic Private IP Addressing)
+<br>&nbsp; • `10.0.0.0/8` – Private IP address range (not routable on internet)
+<br>&nbsp; • `172.16.0.0/12` – Private IP address range (not routable on internet)
+<br>&nbsp; • `192.168.0.0/16` – Private IP address range (not routable on internet)
+<br>&nbsp; • `169.254.0.0/16` – Non-routable Link Local Addresses (Automatic Private IP Addressing)
 
-- Subnet Masks:
+- **Subnet Masks:**
 <br>&nbsp; • Used to determine network and host portion of a given IP address through AND operation.
 <br>&nbsp; • Is the device remote (route through default gateway) or local (ARP)?
-<br>&nbsp; • Class A: 255.0.0.0
-<br>&nbsp; • Class B: 255.255.0.0
-<br>&nbsp; • Class C: 255.255.255.0
+<br>&nbsp; • `Class A: 255.0.0.0`
+<br>&nbsp; • `Class B: 255.255.0.0`
+<br>&nbsp; • `Class C: 255.255.255.0`
 <br>&nbsp; • Discontinuous subnet masks not supported:
 `11110000.11111111.00000110.11000000 (240.244.3.191)`
 <br>&nbsp; • Only contiguous subnet masks are supported.
 `11111111.11110000.00000000.00000000 (255.240.0.0)`
 
-- Classless Inter Domain Routing (CIDR):
+- **Classless Inter Domain Routing (CIDR):**
 <br>&nbsp; • Replaces classful IP addressing with variable length subnet mask (VLSM)
 <br>&nbsp; • CIDR notation /X where X denotes number of 1’s present in binary form of a subnet mask.
 <br>&nbsp; • Reduces wastage of big number of addresses.
-<br>&nbsp; • Ex: /11 = 255.224.0.0
+<br>&nbsp; • Ex: `/11 = 255.224.0.0`
 
 - **Subnetting:**
 <br>&nbsp; • Work the following for a given IP address: Network address, First IP address, Last IP address, Broadcast address. 
@@ -243,10 +243,10 @@ Layers and Protocol Data Units (PDUs):
 <br>&nbsp; &nbsp; • First host: Fill the host portion with binary 0s and set the last bit to 1.
 <br>&nbsp; &nbsp; • Last host: Fill the host portion with binary 1s and set the last bit to 0.
 <br>&nbsp; &nbsp; • Ex: 172.16.35.123/20:
-<br>&nbsp; &nbsp; Subnet: 172.16.0010 0000.0000 0000 = 172.16.32.0
-<br>&nbsp; &nbsp; 1st Host: 172.16.0010 0000.0000 0001 = 172.16.32.1
-<br>&nbsp; &nbsp; Last Host: 172.16.0010 1111.1111 1110 = 172.16.47.254
-<br>&nbsp; &nbsp; Broadcast: 172.16.0010 1111.1111 1111 = 172.16.47.255
-<br>&nbsp; • Number of hosts in a network: 2h – 2 (h = number of bits in host portion)
-<br>&nbsp; • Number of networks: 2n (n = number of bits in network portion)
-<br>&nbsp; • Number of subnets: 2n (n = number of bits in variating network octet)
+<br>&nbsp; &nbsp; `Subnet: 172.16.0010 0000.0000 0000 = 172.16.32.0`
+<br>&nbsp; &nbsp; `1st Host: 172.16.0010 0000.0000 0001 = 172.16.32.1`
+<br>&nbsp; &nbsp; `Last Host: 172.16.0010 1111.1111 1110 = 172.16.47.254`
+<br>&nbsp; &nbsp; `Broadcast: 172.16.0010 1111.1111 1111 = 172.16.47.255`
+<br>&nbsp; • Number of hosts in a network: `2h – 2` (h = number of bits in host portion)
+<br>&nbsp; • Number of networks: `2<sup>n</sup>` (n = number of bits in network portion)
+<br>&nbsp; • Number of subnets: `2<sup>n</sup>` (n = number of bits in variating network octet)
