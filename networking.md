@@ -47,3 +47,14 @@
 - Point to Point Topology
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/topologies.png)
+
+### Signaling:
+- **Baseband Signaling:** Can only transmit a single signal at any given time. 
+- **Broadband Signaling:** Can transmit multiple signals at any given time. 
+ 
+### Cable Types:
+- **Coaxial Cabling:** Coaxial cable has an inner conductor that runs down the middle of the cable. This type of cabling comes in two types, thinnet and thicknet. Max Transmission Speed of 10 Mbps
+- **Twisted-pair Cabling:** Has four pair of wires.  It comes in two versions, UTP (Unshielded Twisted-Pair) and STP (Shielded Twisted-Pair). Uses 8P8C/RJ45 Connector
+- **Fiber-optic Cabling:** Uses optical fibers to transmit data in the form of light signals. There are two types of fiber-optic cables - Single-mode fiber (SMF) and Multi-mode fiber (MMF). Uses ST/SC Connectors
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/cables.png)
