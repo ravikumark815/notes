@@ -247,6 +247,6 @@ Layers and Protocol Data Units (PDUs):
 <br>&nbsp; &nbsp; `1st Host: 172.16.0010 0000.0000 0001 = 172.16.32.1`
 <br>&nbsp; &nbsp; `Last Host: 172.16.0010 1111.1111 1110 = 172.16.47.254`
 <br>&nbsp; &nbsp; `Broadcast: 172.16.0010 1111.1111 1111 = 172.16.47.255`
-<br>&nbsp; • Number of hosts in a network: `2h – 2` (h = number of bits in host portion)
-<br>&nbsp; • Number of networks: `2<sup>n</sup>` (n = number of bits in network portion)
-<br>&nbsp; • Number of subnets: `2<sup>n</sup>` (n = number of bits in variating network octet)
+<br>&nbsp; • Number of hosts in a network: **2<sup>h</sup> – 2** (h = number of bits in host portion)
+<br>&nbsp; • Number of networks: **2<sup>n</sup>** (n = number of bits in network portion)
+<br>&nbsp; • Number of subnets: **2<sup>n</sup>** (n = number of bits in variating network octet)
