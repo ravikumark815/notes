@@ -235,7 +235,7 @@ Layers and Protocol Data Units (PDUs):
 <br>&nbsp; • Reduces wastage of big number of addresses.
 <br>&nbsp; • Ex: /11 = 255.224.0.0
 
-- Subnetting:
+- **Subnetting:**
 <br>&nbsp; • Work the following for a given IP address: Network address, First IP address, Last IP address, Broadcast address. 
 <br>&nbsp; • Binary method to work an IP address:
 <br>&nbsp; &nbsp; • Subnet address: Fill the host portion with binary 0s.
@@ -243,10 +243,10 @@ Layers and Protocol Data Units (PDUs):
 <br>&nbsp; &nbsp; • First host: Fill the host portion with binary 0s and set the last bit to 1.
 <br>&nbsp; &nbsp; • Last host: Fill the host portion with binary 1s and set the last bit to 0.
 <br>&nbsp; &nbsp; • Ex: 172.16.35.123/20:
-Subnet: 172.16.0010 0000.0000 0000 = 172.16.32.0
-1st Host: 172.16.0010 0000.0000 0001 = 172.16.32.1
-Last Host: 172.16.0010 1111.1111 1110 = 172.16.47.254
-Broadcast: 172.16.0010 1111.1111 1111 = 172.16.47.255
+<br>&nbsp; &nbsp; Subnet: 172.16.0010 0000.0000 0000 = 172.16.32.0
+<br>&nbsp; &nbsp; 1st Host: 172.16.0010 0000.0000 0001 = 172.16.32.1
+<br>&nbsp; &nbsp; Last Host: 172.16.0010 1111.1111 1110 = 172.16.47.254
+<br>&nbsp; &nbsp; Broadcast: 172.16.0010 1111.1111 1111 = 172.16.47.255
 <br>&nbsp; • Number of hosts in a network: 2h – 2 (h = number of bits in host portion)
 <br>&nbsp; • Number of networks: 2n (n = number of bits in network portion)
 <br>&nbsp; • Number of subnets: 2n (n = number of bits in variating network octet)
