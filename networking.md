@@ -256,3 +256,66 @@ Layers and Protocol Data Units (PDUs):
 <br>&nbsp; • Number of hosts in a network: **2<sup>h</sup> – 2** (h = number of bits in host portion)
 <br>&nbsp; • Number of networks: **2<sup>n</sup>** (n = number of bits in network portion)
 <br>&nbsp; • Number of subnets: **2<sup>n</sup>** (n = number of bits in variating network octet)
+
+### MAC Address:
+-  6 bytes or 48 bits in length: 24 bits OUI (Organizational unique identifier) and 24 bits of Station Address
+-  MAC addresses are unique to avoid collisions and conflicts.
+-  Broadcast MAC address: FF:FF:FF:FF:FF:FF
+-  OUI bits can be used to represent nature of communication as shown below:
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/mac.png)
+
+### Carrier Sense Multiple Access/Collision Detection (CSMA/CD):
+-  Used to find if any other device sending traffic in a bus topology to avoid collisions in a CD. 
+-  Before sending traffic, a device broadcasts if another device is communicating. If there is no response, it goes ahead and sends traffic. 
+-  If a collision takes place, a backoff/jam signal is sent. 
+
+### Data Flow in Hub, Bridge, Switch, Router:
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/data-flow-topo.png)
+
+> Hub 
+-  Physical Layer Device
+-  Multiport Repeater
+-  Amplifies/Repeats any packet it gets in any port to all other ports.
+-  When PC A sends a packet to PC D in the above topology, the device, being hub in this case would broadcast the packet to PCs B, C and D 
+-  Star topology inside
+-  Cable break for any spoke doesn’t affect it. 
+-  Easy to extend further distances easily by just adding another hub, thereby overcoming the distance limits of various cables. 
+-  A collision in any point would send a jamming signal to everyone. 
+-  Very low bandwidth due to shared logical bus topology in practical applications.
+-  All ports are in single collision domain and single broadcast domain.
+
+> Bridge:
+-  Datalink Layer Device
+-  Maintains a MAC address table.
+-  CAM Table: Content Addressable Memory – another term used for MAC address table in switching (not bridging)
+-  Star Topology
+-  Processing mostly done in software and hence is slow in nature. 
+-  When PC A sends a packet to PC D in the above topology, the device, being bridge in this case, creates an entry for PC A in its MAC table and since it doesn’t know the MAC address of PC D, it broadcasts the received frame to all ports except PC A to create an entry for PC D. Since it is not destined to PC B and PC C, they are supposed to drop the packet. When D replies to this frame, the bridge doesn’t broadcast anything, it forwards the packet only to PC A. 
+-  Each port of the bridge is in a different collision domain. 
+-  All ports in a single Broadcast Domain. 
+
+> Switch:
+-  Datalink Layer Device. 
+-  Processing is don’t Hardware, namely ASICs and hence is faster. 
+-  No degradation performance between two devices. Wire speed in switching frames. 
+-  Support many ports compared bridges. 
+-  Maintains a MAC Address Table. 
+-  Star Topology
+-  When PC A sends a packet to PC C in the above topology and the frame arrives at the device, being switch in this case, the switch broadcasts the received frame to all ports except PC A to create an entry for PC C. When C replies to this frame, the switch forwards subsequent frames between A and C only between them.
+-  Each port of the bridge is in a different collision domain. 
+-  All ports in a single Broadcast Domain. 
+-  Broadcast addresses are not written into the MAC table. 
+-  Layer 3 Switches available now. 
+
+> Routers:
+-  Network Layer Device. 
+-  They make routing decisions based on IP address.
+-  Router may have:
+<br>&nbsp; • Serial interfaces – uses PPP and HDLC for encapsulation. 
+<br>&nbsp; • Ethernet interfaces – uses MAC address and Ethernet II for encapsulation.
+-  Routers populate routing table with IP addresses.
+-  They use subnet masks to determine which interface the packet to be forwarded to. 
+-  PCs look for MAC address for destination IP in their ARP cache, if not available, they send the packet to their default gateway, Router. 
+-  Router then performs an AND operation on the IP address with subnet mask, and if the network ID is known in routing table, it forwards to the respective interface. 
+-  MAC addresses change from hop to hop and not IP addresses in a packet flow unless a NAT is used.
