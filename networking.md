@@ -45,4 +45,5 @@
 - Star Topology
 - Hybrid Topology
 - Point to Point Topology
-![Topologies](Notes/topologies.png)
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/topologies.png)
