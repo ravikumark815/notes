@@ -374,4 +374,5 @@ Layers and Protocol Data Units (PDUs):
 > Maximum Transaction Unit: 1500B
 
 **UDP Header**
+
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
