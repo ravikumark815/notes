@@ -325,9 +325,11 @@ Layers and Protocol Data Units (PDUs):
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/tcp-header.png)
 
 > TCP Connection Establishment [3-Way Handshake]
+
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/3-way.png)
 
 > TCP Connection Termination [4-Way Handshake]
+
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
 
 **TCP Features/Functions:**
@@ -370,5 +372,4 @@ Layers and Protocol Data Units (PDUs):
 > Maximum Transaction Unit: 1500B
 
 **UDP Header**
-> TCP Connection Termination [4-Way Handshake]
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
