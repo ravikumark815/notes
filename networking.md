@@ -368,7 +368,9 @@ Layers and Protocol Data Units (PDUs):
 - **Time Wait Timer:** Used during connection termination. Refer 4-way handshake.
 
 > Maximum Segment Size: 1460B
+
 > Maximum Datagram Size: 1480B
+
 > Maximum Transaction Unit: 1500B
 
 **UDP Header**
