@@ -321,7 +321,7 @@ Layers and Protocol Data Units (PDUs):
 -  MAC addresses change from hop to hop and not IP addresses in a packet flow unless a NAT is used.
 
 ### Layer 4
-TCP Header:
+**TCP Header:**
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/tcp-header.png)
 
 > TCP Connection Establishment [3-Way Handshake]
@@ -330,7 +330,7 @@ TCP Header:
 > TCP Connection Termination [4-Way Handshake]
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
 
-TCP Features/Functions:
+**TCP Features/Functions:**
 -  Segment Numbering System:
 <br>&nbsp; • Byte numbers assigned to data bytes.
 <br>&nbsp; • Sequence numbers assigned to Segments.
@@ -357,3 +357,18 @@ TCP Features/Functions:
 <br>&nbsp; • Improve inflight data by using SACK (Selective Acknowledgement <br>&nbsp; • Knowledge of gaps in receive buffer). 
 <br>&nbsp; • Rate halving technique.
 <br>&nbsp; • Proportional rate reduction.
+
+**TCP Timers:**
+- **Round Trip Time (RTT):** Time required for segment to reach destination and be acknowledged. 
+- **Retransmission Time Out (RTO):** Starts when segment is sent and stops when ACK is received. If it crosses RTT, segment retransmitted.
+- **Persistent Timer:** To deal with zero-window-size deadlock situation, this timer is set to probe a segment with only 1 byte of data and sent to cause resend from server. 
+- **Keep Alive Timer:** To prevent long idle connection between two TCP nodes. Usually, its 2 hrs and then, 10 probes of 75 sec intervals are sent. 
+- **Time Wait Timer:** Used during connection termination. Refer 4-way handshake.
+
+> Maximum Segment Size: 1460B
+> Maximum Datagram Size: 1480B
+> Maximum Transaction Unit: 1500B
+
+**UDP Header**
+> TCP Connection Termination [4-Way Handshake]
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
