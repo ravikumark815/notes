@@ -319,3 +319,41 @@ Layers and Protocol Data Units (PDUs):
 -  PCs look for MAC address for destination IP in their ARP cache, if not available, they send the packet to their default gateway, Router. 
 -  Router then performs an AND operation on the IP address with subnet mask, and if the network ID is known in routing table, it forwards to the respective interface. 
 -  MAC addresses change from hop to hop and not IP addresses in a packet flow unless a NAT is used.
+
+### Layer 4
+TCP Header:
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/tcp-header.png)
+
+> TCP Connection Establishment [3-Way Handshake]
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/3-way.png)
+
+> TCP Connection Termination [4-Way Handshake]
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
+
+TCP Features/Functions:
+-  Segment Numbering System:
+<br>&nbsp; • Byte numbers assigned to data bytes.
+<br>&nbsp; • Sequence numbers assigned to Segments.
+<br>&nbsp; • Acknowledgement numbers assigned to received segments.
+-  Connection Oriented: Order of data is maintained.
+-  Full Duplex
+-  Flow Control:
+<br>&nbsp; • Limits the rate at which data transfers.
+<br>&nbsp; • Sliding Window: How much data can be transferred in next segment?
+-  Error Control: Detects
+<br>&nbsp; • Corrupted segments
+<br>&nbsp; • Lost Segments
+<br>&nbsp; • Out of Order segments
+<br>&nbsp; • Duplicate Segments
+-  Congestion Control:
+<br>&nbsp; • Amount of data sent by sender is variating.
+-  Past Recovery: When there is packet loss:
+<br>&nbsp; • Reduce Control Window Size by 50%
+<br>&nbsp; • Reduce Sesson threshold by 50% of control window.
+<br>&nbsp; • Retransmit lost packet.
+<br>&nbsp; • Half window of silence
+<br>&nbsp; • Maintain inflight = cwnd until new ACK arrives at sender
+-  Improvisation Techniques: Due to half window of silence there’s underutilization of network resources.
+<br>&nbsp; • Improve inflight data by using SACK (Selective Acknowledgement <br>&nbsp; • Knowledge of gaps in receive buffer). 
+<br>&nbsp; • Rate halving technique.
+<br>&nbsp; • Proportional rate reduction.
