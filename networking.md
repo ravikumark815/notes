@@ -367,11 +367,11 @@ Layers and Protocol Data Units (PDUs):
 - **Keep Alive Timer:** To prevent long idle connection between two TCP nodes. Usually, its 2 hrs and then, 10 probes of 75 sec intervals are sent. 
 - **Time Wait Timer:** Used during connection termination. Refer 4-way handshake.
 
-> Maximum Segment Size: 1460B
-
-> Maximum Datagram Size: 1480B
-
-> Maximum Transaction Unit: 1500B
+```
+Maximum Segment Size: 1460B
+Maximum Datagram Size: 1480B
+Maximum Transaction Unit: 1500B
+```
 
 **UDP Header**
 
