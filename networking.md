@@ -324,19 +324,19 @@ Layers and Protocol Data Units (PDUs):
 
 **Transmission Control Protocol [TCP]:**
 
-**1. Header:**
+*1. Header:*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/tcp-header.png)
 
-**2. TCP Connection Establishment [3-Way Handshake]**
+*2. TCP Connection Establishment [3-Way Handshake]*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/3-way.png)
 
-**3. TCP Connection Termination [4-Way Handshake]**
+*3. TCP Connection Termination [4-Way Handshake]*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
 
-**4. Features/Functions:**
+*4. Features/Functions:*
 -  Segment Numbering System:
 <br>&nbsp; • Byte numbers assigned to data bytes.
 <br>&nbsp; • Sequence numbers assigned to Segments.
@@ -364,7 +364,7 @@ Layers and Protocol Data Units (PDUs):
 <br>&nbsp; • Rate halving technique.
 <br>&nbsp; • Proportional rate reduction.
 
-**5. TCP Timers:**
+*5. TCP Timers:*
 - **Round Trip Time (RTT):** Time required for segment to reach destination and be acknowledged. 
 - **Retransmission Time Out (RTO):** Starts when segment is sent and stops when ACK is received. If it crosses RTT, segment retransmitted.
 - **Persistent Timer:** To deal with zero-window-size deadlock situation, this timer is set to probe a segment with only 1 byte of data and sent to cause resend from server. 
@@ -379,7 +379,7 @@ Maximum Transaction Unit: 1500B
 
 **User Datagram Protocol [UDP]**
 
-**1.Header**
+*1.Header*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
 
