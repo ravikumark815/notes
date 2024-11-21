@@ -321,18 +321,22 @@ Layers and Protocol Data Units (PDUs):
 -  MAC addresses change from hop to hop and not IP addresses in a packet flow unless a NAT is used.
 
 ### Layer 4
-**TCP Header:**
+
+**Transmission Control Protocol [TCP]:**
+
+**1. Header:**
+
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/tcp-header.png)
 
-> TCP Connection Establishment [3-Way Handshake]
+**2. TCP Connection Establishment [3-Way Handshake]**
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/3-way.png)
 
-> TCP Connection Termination [4-Way Handshake]
+**3. TCP Connection Termination [4-Way Handshake]**
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
 
-**TCP Features/Functions:**
+**4. Features/Functions:**
 -  Segment Numbering System:
 <br>&nbsp; • Byte numbers assigned to data bytes.
 <br>&nbsp; • Sequence numbers assigned to Segments.
@@ -360,7 +364,7 @@ Layers and Protocol Data Units (PDUs):
 <br>&nbsp; • Rate halving technique.
 <br>&nbsp; • Proportional rate reduction.
 
-**TCP Timers:**
+**5. TCP Timers:**
 - **Round Trip Time (RTT):** Time required for segment to reach destination and be acknowledged. 
 - **Retransmission Time Out (RTO):** Starts when segment is sent and stops when ACK is received. If it crosses RTT, segment retransmitted.
 - **Persistent Timer:** To deal with zero-window-size deadlock situation, this timer is set to probe a segment with only 1 byte of data and sent to cause resend from server. 
@@ -373,6 +377,63 @@ Maximum Datagram Size: 1480B
 Maximum Transaction Unit: 1500B
 ```
 
-**UDP Header**
+**User Datagram Protocol [UDP]**
+
+**1.Header**
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
+
+### Layer 3
+**Internet Protocol [IP]:**
+
+*1. Header:*
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ip-header.png)
+
+*2. Features/Functions:*
+- IP Addressing
+- Data Encapsulation and Packaging
+- Fragmentation & Reassembly
+- Routing and Indirect Delivery
+- Multicasting
+- Protocols: IPNAT, IPSec, MobileIP, IPv4, IPv6
+
+*3. ToS Field Bits:*
+- Precedence: 3 Bits
+- Delay: 1 bit
+- Throughput: 1 bit
+- Reliability: 1 bit
+- Reserved: 2 bits
+
+*4. Options:*
+- Option Type: 8 bits
+- Option Length: 8 bits
+- Option Data: 16 bits
+
+*5. Fragmentation:*
+- Sequencing & placement: Receiving device is responsible for reassembly.
+- Separation of Fragmented messages: From different connection transfers
+- Completion: Reassembly offset values updated
+
+**Internet Control Message Protocol [ICMP]:**
+- Protocol to communicate problems with data transmission.
+- RFC 792
+- Connectionless protocol: One devices does not need to open a connection with another before transmission. 
+- ICMP flood attack: Attacker overwhelming a target device with ICMP echo-request packets 
+- Smurf Attack: Attacker sends an ICMP packet with spoofed source IP address. 
+- Traceroute: Utility to know the route between two devices. 
+- Header:
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/icmp-header.png)
+
+    |||
+    |---|---|
+    Type 0| Echo Reply
+    Type 3| Destination unreachable
+    Type 5| Redirect Message
+    Type 8| Echo Request
+    Type 11| Time Exceeded
+    Type 12| Parameter Problem
+
+- Code: Carries additional info about error message and type
+- Checksum: Used to check no of bits of complete message and enable ICMP tool to ensure the complete data is delivered. 
+- Extended Header: Indicates problem in IP message. Byte locations are identified by the pointer which causes the problem message and receiving devices looks here for any problem. 
+- Data/Payload: 576 Bytes in IPv4 and 1280 Bytes in IPv6
