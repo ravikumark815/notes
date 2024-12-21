@@ -23,6 +23,16 @@ Hello World!
 terminal@linux$ 
 ```
 
+### Go CLI
+|   |   |
+|---|---|
+|`go build` | Compiles go source code |
+|`go run`   | Compiles and executes go source code |
+|`go fmt`   | Formats all the go code in each file in current directory|
+|`go install`| Compiles and "installs" a package|
+|`go get`   | Downloads the raw source code of someone else's package|
+|`go test`  | Runs any tests associated with current project|
+
 ### Identifiers
 - Start with `[a-z][A-Z][_]`
 - Contains `[a-z][A-Z][0-9][_]`
