@@ -155,7 +155,7 @@ for i < 3 {
 ```go
 // Range Loop
 arr := []string{"a", "b"}
-for i, j := range rvariable { 
+for i, j := range arr { 
     fmt.Println(i, j)  
 }
 /* Output:
