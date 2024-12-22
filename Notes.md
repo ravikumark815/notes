@@ -7,6 +7,9 @@ Main features:
 
 > [Official Documentation](https://go.dev/doc/)
 
+> [Go Packages](https://go.dev/pkg)
+
+
 ### Hello World:
 ```go
 package main // Packages used to organize and reuse code
