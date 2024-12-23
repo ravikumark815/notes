@@ -36,7 +36,7 @@ terminal@linux$
 |`go get`   | Downloads the raw source code of someone else's package|
 |`go test`  | Runs any tests associated with current project|
 
-### Identifiers
+### Variables
 - Start with `[a-z][A-Z][_]`
 - Contains `[a-z][A-Z][0-9][_]`
 - No Keywords
@@ -46,9 +46,19 @@ terminal@linux$
 > Declaring a variable:
 - Using `var` keyword: Can be used anywhere
 - Using `:=` short declaration operator: Can be used inside functions only.
+
 ```go
 var variable_name type = expression
 variable_name:= expression
+```
+
+```go
+// Examples
+var vName string = "Ravi"
+var vName2 = "Ravi"
+var v1, v2 = 1, 2.3
+v3 := 5.78
+var pl = fmt.Println
 ```
 
 ### Keywords
@@ -61,7 +71,7 @@ interface | map | package | range | return |
 select | struct | switch |  type | var
 
 ### Data Types
-1. Basic Types: Integers, Strings, Boolean
+1. Basic Types: Integers, Float, Strings, Boolean
 2. Aggregate Types: Arrays, Structs
 3. Reference Types: Pointers, Slices, Maps, Functions, Channels
 4. Interface Types
@@ -86,18 +96,22 @@ float64	| 64-bit IEEE 754 floating-point number
 complex64 | Complex numbers which contain float32 as a real and imaginary component.
 complex128 | Complex numbers which contain float64 as a real and imaginary component
 
-
-> Runes and Strings:
+```
+Runes and Strings:
 - Text is represented using the rune type (char in other languages)
 - Rune is an alias for int32.
 - A rune can represent any symbol - letters, numbers, language characters etc.
 - String is the data type for storing multiple runes
 - Strings are arrays of bytes and a string length
+```
 
-> To print data type of a variable:
 ```go
-var a = 20
-fmt.Printf("Type: %T\n", a) // int
+// Printing Data type of a variable
+fmt.Printf("Type: %T\n", "hello")   // string
+fmt.Println(reflect.TypeOf(25))     // int
+fmt.Println(reflect.TypeOf(3.14))   // float64
+fmt.Println(reflect.TypeOf(true))   // bool
+fmt.Println(reflect.TypeOf(🦍))     // int32
 ```
 
 > Typecasting:
@@ -111,6 +125,8 @@ func main() {
 	avg = float32(totalsum) / float32(number)
 }
 ```
+
+
 
 ### Operators
 | Category | Operators |
@@ -126,6 +142,7 @@ Misc | `&:`(Address) `*:`(Pointer) `<-`(Receive) `:=` (Declaration)
 ### Comments:
 ```go
 // Single Line Comment
+
 /*
 Multi 
 Line
@@ -262,11 +279,16 @@ label: for x < 8 {
 ### I/O functions
 
 ```go
-func Printf(format string, a ...any) (n int, err error)
-/*
-func        : Keyword for function
-Printf      : Name of function
-format, a   : Arguments
-n, err      : Returns
-*/
+// Print
+import fmt
+fmt.Println("Hello Go")
+fmt.Printf("value is: %d\n", i);
+
+// Scan
+import (
+    "bufio"
+    "os"
+)
+reader := bufio.NewReader(os.Stdin)
+name, err := reader.ReadString('\n')
 ```
