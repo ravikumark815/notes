@@ -124,27 +124,27 @@ func main() {
 	// Doesn't work with bools or strings
 	cV1 := 1.5
 	cV2 := int(cV1)
-	pl(cV2)
+	fmt.PrintlncV2)
 
 	// Convert string to int (ASCII to Integer)
 	cV3 := "50000000"
 	cV4, err := strconv.Atoi(cV3)
-	pl(cV4, err, reflect.TypeOf(cV4))
+	fmt.PrintlncV4, err, reflect.TypeOf(cV4))
 
 	// Convert int to string (Integer to ASCII)
 	cV5 := 50000000
 	cV6 := strconv.Itoa(cV5)
-	pl(cV6)
+	fmt.PrintlncV6)
 
 	// Convert string to float
 	cV7 := "3.14"
 	if cV8, err := strconv.ParseFloat(cV7, 64); err == nil {
-		pl(cV8)
+		fmt.PrintlncV8)
 	}
 
 	// Use Sprintf to convert from float to string
 	cV9 := fmt.Sprintf("%f", 3.14)
-	pl(cV9)
+	fmt.PrintlncV9)
 }
 ```
 
@@ -323,35 +323,35 @@ sV1 := "A word"
 // to replace one string with another
 replacer := strings.NewReplacer("A", "Another")
 sV2 := replacer.Replace(sV1)
-pl(sV2)
+fmt.PrintlnsV2)
 
 // Get length
-pl("Length : ", len(sV2))
+fmt.Println"Length : ", len(sV2))
 
 // Contains string
-pl("Contains Another :", strings.Contains(sV2, "Another"))
+fmt.Println"Contains Another :", strings.Contains(sV2, "Another"))
 
 // Get first index match
-pl("o index :", strings.Index(sV2, "o"))
+fmt.Println"o index :", strings.Index(sV2, "o"))
 
 // Replace all matches with 0
 // If -1 was 2 it would replace the 1st 2 matches
-pl("Replace :", strings.Replace(sV2, "o", "0", -1))
+fmt.Println"Replace :", strings.Replace(sV2, "o", "0", -1))
 
 // Remove whitespace characters from beginning and end of string
 sV3 := "\nSome words\n"
 sV3 = strings.TrimSpace(sV3)
 
 // Split at delimiter
-pl("Split :", strings.Split("a-b-c-d", "-"))
+fmt.Println"Split :", strings.Split("a-b-c-d", "-"))
 
 // Upper and lowercase string
-pl("Lower :", strings.ToLower(sV2))
-pl("Upper :", strings.ToUpper(sV2))
+fmt.Println"Lower :", strings.ToLower(sV2))
+fmt.Println"Upper :", strings.ToUpper(sV2))
 
 // Prefix or suffix
-pl("Prefix :", strings.HasPrefix("tacocat", "taco"))
-pl("Suffix :", strings.HasSuffix("tacocat", "cat"))
+fmt.Println"Prefix :", strings.HasPrefix("tacocat", "taco"))
+fmt.Println"Suffix :", strings.HasSuffix("tacocat", "cat"))
 
 // ----- RUNES -----
 // In Go characters are called Runes
@@ -359,7 +359,7 @@ pl("Suffix :", strings.HasSuffix("tacocat", "cat"))
 rStr := "abcdefg"
 
 // Runes in string
-pl("Rune Count :", utf8.RuneCountInString(rStr))
+fmt.Println"Rune Count :", utf8.RuneCountInString(rStr))
 
 // Print runes in string
 for i, runeVal := range rStr {
