@@ -326,36 +326,33 @@ sV2 := replacer.Replace(sV1)
 fmt.Println(sV2)
 
 // Get length
-fmt.Println("Length : ", len(sV2))
+fmt.Println("Length : ", len(sV2)) // 12
 
 // Contains string
-fmt.Println("Contains Another :", strings.Contains(sV2, "Another"))
+fmt.Println("Contains Another :", strings.Contains(sV2, "Another")) // true
 
 // Get first index match
-fmt.Println("o index :", strings.Index(sV2, "o"))
+fmt.Println("o index :", strings.Index(sV2, "o")) // 2
 
 // Replace all matches with 0
 // If -1 was 2 it would replace the 1st 2 matches
-fmt.Println("Replace :", strings.Replace(sV2, "o", "0", -1))
+fmt.Println("Replace :", strings.Replace(sV2, "o", "0", -1)) // An0ther w0rd
 
 // Remove whitespace characters from beginning and end of string
 sV3 := "\nSome words\n"
-sV3 = strings.TrimSpace(sV3)
+sV3 = strings.TrimSpace(sV3) //Some words
 
 // Split at delimiter
-fmt.Println("Split :", strings.Split("a-b-c-d", "-"))
+fmt.Println("Split :", strings.Split("a-b-c-d", "-")) //[a b c d]
 
 // Upper and lowercase string
-fmt.Println("Lower :", strings.ToLower(sV2))
-fmt.Println("Upper :", strings.ToUpper(sV2))
+fmt.Println("Lower :", strings.ToLower(sV2)) //another word
+fmt.Println("Upper :", strings.ToUpper(sV2)) //ANOTHER WORD
 
 // Prefix or suffix
-fmt.Println("Prefix :", strings.HasPrefix("tacocat", "taco"))
-fmt.Println("Suffix :", strings.HasSuffix("tacocat", "cat"))
+fmt.Println("Prefix :", strings.HasPrefix("tacocat", "taco")) // true
+fmt.Println("Suffix :", strings.HasSuffix("tacocat", "cat")) // true
 
-// ----- RUNES -----
-// In Go characters are called Runes
-// Runes are unicodes that represent characters
 rStr := "abcdefg"
 
 // Runes in string
