@@ -315,7 +315,7 @@ label: for x < 8 {
 // Print
 import fmt
 fmt.Println("Hello Go")
-fmt.Printf("value is: %d\n", i);
+fmt.Printf("%s %d %c %f %t %o %x\n", "String", 1, 'A', 3.14, true, 1, 1)
 
 // Scan
 import (
