@@ -364,3 +364,10 @@ for i, runeVal := range rStr {
     fmt.Printf("%d : %#U : %c\n", i, runeVal, runeVal)
 }
 ```
+
+### Times
+```go
+import time
+now := time.Now()
+fmt.Println(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second()) // 2024 December 25 19 4 25
+```
