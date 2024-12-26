@@ -367,7 +367,10 @@ for i, runeVal := range rStr {
 
 ### Times
 ```go
-import time
+import "time"
 now := time.Now()
 fmt.Println(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second()) // 2024 December 25 19 4 25
+seedVal := time.Now().Unix() //To generate seconds since 1970/1/1
+randNum := rand.seed(seedVal) // Generate a value between 0 and seedVal
 ```
+
