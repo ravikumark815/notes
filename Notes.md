@@ -396,8 +396,9 @@ r90 := 90 * math.Pi / 180
 // Convert 1.5708 radians to degrees
 d90 := r90 * (180 / math.Pi)
 fmt.Printf("%f radians = %f degrees\n", r90, d90) // 1.57096 radians = 90 degrees
-fmt.Println("Sin(90) =", math.Sin(90 * math.Pi / 180)) // 1
-fmt.Println("Cos(45) =", math.Cos(0 * math.Pi / 180)) // 1
-fmt.Println("Tan(90) =", math.Tan(45 * math.Pi / 180)) // 1
+fmt.Println("Sin(90): ", math.Sin(90 * math.Pi / 180)) // 1
+fmt.Println("Cos(0): ", math.Cos(0 * math.Pi / 180)) // 1
+fmt.Println("Tan(45): ", math.Tan(45 * math.Pi / 180)) // 1
+fmt.Println("Hypot: ", math.Hypot(3,4)) // 5
 ```
 
