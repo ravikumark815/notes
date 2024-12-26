@@ -391,5 +391,11 @@ fmt.Println("Log10(100) =", math.Log10(100)) // 2
 fmt.Println("Log(7.389) =", math.Log(math.Exp(2))) // 2
 fmt.Println("Max(5,4) =", math.Max(5, 4)) // 5
 fmt.Println("Min(5,4) =", math.Min(5, 4)) // 4
+// Convert 90 degrees to radians
+r90 := 90 * math.Pi / 180
+// Convert 1.5708 radians to degrees
+d90 := r90 * (180 / math.Pi)
+fmt.Printf("%f radians = %f degrees\n", r90, d90) // 1.57096 radians = 90 degrees
+fmt.Println("Sin(90) =", math.Sin(r90)) // 1
 ```
 
