@@ -397,5 +397,7 @@ r90 := 90 * math.Pi / 180
 d90 := r90 * (180 / math.Pi)
 fmt.Printf("%f radians = %f degrees\n", r90, d90) // 1.57096 radians = 90 degrees
 fmt.Println("Sin(90) =", math.Sin(r90)) // 1
+fmt.Println("Cos(90) =", math.Cos(r90)) // 1
+fmt.Println("Tan(90) =", math.Tan(r90)) // 1
 ```
 
