@@ -378,4 +378,18 @@ fmt.Println(now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Se
 import "math"
 randNum := rand.Intn(50) // Generate a rand int between 0 and 50
 fmt.Println(randNum)
+fmt.Println("Abs(-10) =", math.Abs(-10)) // 10
+fmt.Println("Pow(4, 2) =", math.Pow(4, 2)) // 16
+fmt.Println("Sqrt(16) =", math.Sqrt(16)) // 4
+fmt.Println("Cbrt(8) =", math.Cbrt(8)) // 2
+fmt.Println("Ceil(4.4) =", math.Ceil(4.4)) // 5
+fmt.Println("Floor(4.4) =", math.Floor(4.4)) // 4
+fmt.Println("Round(4.4) =", math.Round(4.4)) // 4
+fmt.Println("Log2(8) =", math.Log2(8)) // 3
+fmt.Println("Log10(100) =", math.Log10(100)) // 2
+// Get the log of e to the power of 2
+fmt.Println("Log(7.389) =", math.Log(math.Exp(2))) // 2
+fmt.Println("Max(5,4) =", math.Max(5, 4)) // 5
+fmt.Println("Min(5,4) =", math.Min(5, 4)) // 4
 ```
+
