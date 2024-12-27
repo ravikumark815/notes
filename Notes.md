@@ -318,7 +318,9 @@ fmt.Println("Hello Go")
 fmt.Printf("%s %d %c %f %t %o %x\n", "String", 1, 'A', 3.14, true, 1, 1)
 fmt.Printf("%9f\n", 3.14)      // Width 9
 fmt.Printf("%.2f\n", 3.141592) // Decimal precision 3.14
-fmt.Printf("%9.f\n", 3.141592) // Width 9 no precision  3
+
+sp := fmt.Sprintf("%9.f\n", 3.141592) // Returns a formatted string
+fmt.Println(sp) // Width 9 no precision  3
 
 // Scan
 import (
