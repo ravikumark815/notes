@@ -455,7 +455,7 @@ for _,v := range rArr {
 ```
 
 ### Slices
-Slices are like array that can grow. It points to an array.
+Slices are arrays that can grow.
 ```go
 // Create
 sl1 := make([]string, 3) // size 3
@@ -474,11 +474,13 @@ for _,v := range sl1 {
     fmt.Println(sl1[v])
 }
 
-// Creating slice from an arry. Slice changes when the array it points to, changes and vice versa.
+// Creating slice from an arry. Slice changes when the array it points to, changes and vice versa. 
 sArr := [5] int {10,20,30,40,50}
 sl2 := sArr[0:2] // Creating Slice for range 0-2
 fmt.Println(s)
 for _,v := range sl2 {
-    fmt.Println(sl1[v]) // 
+    fmt.Println(sl1[v]) 
 }
+sl2.append(sl2, 10)
+
 ```
