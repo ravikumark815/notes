@@ -142,6 +142,11 @@ func main() {
 		fmt.Println(cV8)
 	}
 
+    // Convert Byte arr into string
+    byteArr := []byte{'a', 'b', 'c'}
+	bStr := string(byteArr[:])
+	pl("Byte String :", bStr) // abc
+
 	// Use Sprintf to convert from float to string
 	cV9 := fmt.Sprintf("%f", 3.14)
 	fmt.Println(cV9)
@@ -438,4 +443,12 @@ for i:=0; i<len(arr2); i++ {
 for k,v := range arr2 {
     fmt.Printf("%d : %d\n", k, v)
 }
+
+// Slices of Array
+str1 := "abcdef"
+rArr := [] rune(str1) // Convert to array of runes
+for _,v := range rArr {
+    fmt.Printf("%d", v) // 97 98 99 100 101
+}
+
 ```
