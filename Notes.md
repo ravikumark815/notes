@@ -434,6 +434,8 @@ arr1[0] = 10 // Assign
 fmt.Println (arr1[0]) // Access
 fmt.Println (len(arr2)) // Length
 arr3 := [][]int {} // Multidimension array
+fmt.Println(arr1[:3]) // Slice from beginning
+fmt.Println(arr1[2:]) // Slice to the end
 
 //  Iterate: 
 for i:=0; i<len(arr2); i++ {
@@ -450,5 +452,33 @@ rArr := [] rune(str1) // Convert to array of runes
 for _,v := range rArr {
     fmt.Printf("%d", v) // 97 98 99 100 101
 }
+```
 
+### Slices
+Slices are like array that can grow. It points to an array.
+```go
+// Create
+sl1 := make([]string, 3) // size 3
+sl1[0] = "Ravi"
+sl1[1] = "Kumar"
+sl1[2] = "Reddy"
+
+// Length
+fmt.Println(len(sl1)) // 3
+
+// Iterate
+for i:=0; i<len(sl1); i++ {
+    fmt.Println(sl1[i])
+}
+for _,v := range sl1 {
+    fmt.Println(sl1[v])
+}
+
+// Creating slice from an arry. Slice changes when the array it points to, changes and vice versa.
+sArr := [5] int {10,20,30,40,50}
+sl2 := sArr[0:2] // Creating Slice for range 0-2
+fmt.Println(s)
+for _,v := range sl2 {
+    fmt.Println(sl1[v]) // 
+}
 ```
