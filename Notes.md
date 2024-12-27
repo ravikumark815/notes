@@ -483,3 +483,20 @@ for _,v := range sl2 {
 }
 sl2.append(sl2, 10)
 ```
+
+### Functions
+Syntax:
+```go
+func funcName(parameters) returnTypes {
+    // BODY
+}
+```
+Example:
+```go
+func getFibonacci(x float64, y float64) (ans float64, err error) {
+    if y==0 {
+        return 0, fmt.Errorf("Division by 0")
+    }
+    return x/y, nil
+}
+```
