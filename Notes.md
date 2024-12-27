@@ -315,6 +315,7 @@ label: for x < 8 {
 // Print
 import fmt
 fmt.Println("Hello Go")
+
 fmt.Printf("%s %d %c %f %t %o %x\n", "String", 1, 'A', 3.14, true, 1, 1)
 fmt.Printf("%9f\n", 3.14)      // Width 9
 fmt.Printf("%.2f\n", 3.141592) // Decimal precision 3.14
@@ -420,3 +421,21 @@ fmt.Println("Tan(45): ", math.Tan(45 * math.Pi / 180)) // 1
 fmt.Println("Hypot: ", math.Hypot(3,4)) // 5
 ```
 
+### Arrays
+```go
+var arr1 [5] int //Declare
+arr2 := [5] int {1, 2, 3, 4, 5} // Declare and Initialize
+arr1[0] = 10 // Assign
+fmt.Println (arr1[0]) // Access
+fmt.Println (len(arr2)) // Length
+arr3 := [][]int {} // Multidimension array
+
+//  Iterate: 
+for i:=0; i<len(arr2); i++ {
+    fmt.Println(arr2[i])
+}
+
+for k,v := range arr2 {
+    fmt.Printf("%d : %d\n", k, v)
+}
+```
