@@ -493,10 +493,13 @@ func funcName(parameters) returnTypes {
 ```
 Example:
 ```go
-func getFibonacci(x float64, y float64) (ans float64, err error) {
+func divide(x float64, y float64) (ans float64, err error) {
     if y==0 {
         return 0, fmt.Errorf("Division by 0")
     }
     return x/y, nil
+}
+func main() {
+    divide(5/4)
 }
 ```
