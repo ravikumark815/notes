@@ -482,5 +482,4 @@ for _,v := range sl2 {
     fmt.Println(sl1[v]) 
 }
 sl2.append(sl2, 10)
-
 ```
