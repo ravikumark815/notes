@@ -485,13 +485,13 @@ sl2.append(sl2, 10)
 ```
 
 ### Functions
-Syntax:
+*Syntax:*
 ```go
 func funcName(parameters) returnTypes {
     // BODY
 }
 ```
-Example:
+*Example:*
 ```go
 func divide(x float64, y float64) (ans float64, err error) {
     if y==0 {
@@ -502,4 +502,30 @@ func divide(x float64, y float64) (ans float64, err error) {
 func main() {
     divide(5/4)
 }
+```
+```go
+// Voradic Functions: receive unknown number of values:
+func getSum(nums ...int) int {
+    sum := 0
+    for _, num := range nums {
+        sum += num
+    }
+    return sum
+}
+
+// Passing Arrays:
+func getArraySum(arr[] int) int {
+    sum := 0
+    for _, v := range arr {
+        sum += v
+    }
+    return sum
+}
+
+// Passing Pointer:
+func changeVal(numPtr *int) int {
+    *numPtr = 12
+}
+num := 10
+changeVal(&num)
 ```
