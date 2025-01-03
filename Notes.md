@@ -527,6 +527,16 @@ func changeVal(numPtr *int) int {
 }
 num := 10
 changeVal(&num)
+
+// Passing Array Pointer
+func arrayPtrFunc(arr*[]int) int {
+    return 1
+}
+
+func main() {
+    arr := []int {1,2,3,4}
+    fmt.Println(arrayPtrFunc(&arr))
+}
 ```
 
 ### Pointers
