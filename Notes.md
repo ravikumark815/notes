@@ -528,7 +528,7 @@ func changeVal(numPtr *int) int {
 num := 10
 changeVal(&num)
 
-// Passing Array Pointer
+// Passing Pointer of an Array
 func arrayPtrFunc(arr*[]int) int {
     return 1
 }
@@ -536,6 +536,16 @@ func arrayPtrFunc(arr*[]int) int {
 func main() {
     arr := []int {1,2,3,4}
     fmt.Println(arrayPtrFunc(&arr))
+}
+
+// Passing a slice
+func sliceFunc(nums ...int) int {
+    return len(nums)
+}
+
+func main() {
+    sSlice := []int{10,20,30}
+    fmt.Println(sliceFunc(sSlice...))
 }
 ```
 
