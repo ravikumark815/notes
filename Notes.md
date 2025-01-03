@@ -491,8 +491,8 @@ func funcName(parameters) returnTypes {
     // BODY
 }
 ```
-*Example:*
 ```go
+// Example:
 func divide(x float64, y float64) (ans float64, err error) {
     if y==0 {
         return 0, fmt.Errorf("Division by 0")
@@ -502,8 +502,7 @@ func divide(x float64, y float64) (ans float64, err error) {
 func main() {
     divide(5/4)
 }
-```
-```go
+
 // Voradic Functions: receive unknown number of values:
 func getSum(nums ...int) int {
     sum := 0
@@ -528,4 +527,14 @@ func changeVal(numPtr *int) int {
 }
 num := 10
 changeVal(&num)
+```
+
+### Pointers
+```go
+// Declaration
+num := 10
+var numPtr *int = &num
+
+// Access
+*numPtr = 12
 ```
