@@ -558,5 +558,3 @@ var numPtr *int = &num
 // Access
 *numPtr = 12
 ```
-
-### Files
