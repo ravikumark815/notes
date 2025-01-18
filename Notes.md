@@ -704,8 +704,44 @@ func getSumGen[T MyConstraint] (x T, y T) T {
 }
 
 func main() {
-    fmt.Println("5+4 =", getSumGen(5, 4)) // 9
-    fmt.Println("5.6+4.7 =", getSumGen(5.6, 4.7)) // 10.3
+    fmt.Println("5 + 4 =", getSumGen(5, 4)) // 9
+    fmt.Println("5.6 + 4.7 =", getSumGen(5.6, 4.7)) // 10.3
 }
 ```
 
+### Structs
+- Allow you to store values with many different types in a structured manner 
+```go
+// Define
+type customer struct {
+    name string
+    address string
+    balance float64
+    id int64
+}
+
+// Composition: Struct inside struct
+type business struct {
+    businessName string
+    workaddr string
+    contact
+}
+
+// Struct Args
+func getCustInfo(c customer) {
+    fmt.Println("%s owes us %2.f", c.name, c.bal)
+}
+
+// Instance and Access
+func main() {
+    var test customer
+    test.name = "John Smith"
+    test.address = "9 Main St"
+    test.balance = 234.56
+    getCustInfo(test) // John Smith owes us 234.56
+    
+    var bTest business
+    bTest.name = "ABC Corp"
+    bTest.contact.name = "Jane Doe"
+}
+```
