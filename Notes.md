@@ -653,6 +653,7 @@ func main() {
 ### Maps
 - Maps are collections of k-v pairs.
 - Key can be anything that can be compared using `==`
+
 Syntax:
 ```go
 var mapName map [keyType]valueType
@@ -686,3 +687,25 @@ for k,v := range mapName {
 // Delete
 delete(heroes, "Superman")
 ```
+
+### Generics
+- With generics we can specify the data type to be used at a later time. 
+- Mainly used when we want to use functions with moldable data types
+- Generic type parameter is capitalized and in square brackets
+
+```go
+type MyConstraint interface {
+    int | float64
+}
+
+// T is the generic and can be int/Float64 only
+func getSumGen[T MyConstraint] (x T, y T) T {
+    return x + y
+}
+
+func main() {
+    fmt.Println("5+4 =", getSumGen(5, 4)) // 9
+    fmt.Println("5.6+4.7 =", getSumGen(5.6, 4.7)) // 10.3
+}
+```
+
