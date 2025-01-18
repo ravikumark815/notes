@@ -49,7 +49,7 @@ terminal@linux$
 
 ```go
 var variable_name type = expression
-variable_name:= expression
+variable_name := expression
 ```
 
 ```go
@@ -389,7 +389,7 @@ for i, runeVal := range rStr {
 }
 ```
 
-### Times
+### Time
 ```go
 import "time"
 now := time.Now()
