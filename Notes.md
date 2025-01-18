@@ -557,4 +557,7 @@ var numPtr *int = &num
 
 // Access
 *numPtr = 12
+
+// Address
+fmt.Println("Addr:", numPtr)
 ```
