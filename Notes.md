@@ -641,7 +641,6 @@ Output: [test.go, 24, abc]
 package test
 var GlobalVar := 10 // G uppercase for external access
 
-
 // main.go
 import (
     test "testproj/mypackage"
@@ -649,4 +648,41 @@ import (
 func main() {
     fmt.Println("Var:", test.GlobalVar) // Var: 10
 }
+```
+
+### Maps
+- Maps are collections of k-v pairs.
+- Key can be anything that can be compared using `==`
+Syntax:
+```go
+var mapName map [keyType]valueType
+mapName := make(map[keyType]valueType)
+mapName := map[int]string {1: "a",
+    2: "b",
+    3: "c"
+}
+```
+Example:
+```go
+var heroes map[string]string
+villains := make(map[string]string)
+mapName := map[int]string {1: "a",
+    2: "b",
+    3: "c"
+}
+
+// Access and Assignment
+heroes["Ironman"] = "Tony Stark"
+heroes["Batman"] = "Bruce Wayne"
+heroes["Superman"] = "Clark Kent"
+
+fmt.Println(mapName) // O/p: map[1:a 2:b 3:c]
+
+// Iterate
+for k,v := range mapName {
+    fmt.Printf("%d:%s", k, v) // 1:a2:b3:c
+}
+
+// Delete
+delete(heroes, "Superman")
 ```
