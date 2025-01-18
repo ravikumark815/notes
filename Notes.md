@@ -545,7 +545,7 @@ func sliceFunc(nums ...int) int {
 
 func main() {
     sSlice := []int{10,20,30}
-    fmt.Println(sliceFunc(sSlice...))
+    fmt.Println(sliceFunc(sSlice...)) // Notice ... in func call
 }
 ```
 
@@ -560,4 +560,26 @@ var numPtr *int = &num
 
 // Address
 fmt.Println("Addr:", numPtr)
+```
+
+### File I/O
+```go
+// Create a file
+f,err := os.Create("data.txt")
+defer f.Close() // Closes the file as soon as we are out of scope
+
+// Write to file
+arr := []int{2,3,5,7,11}
+for _,num := range arr {
+    _,err := f.WriteString(strcov.Itoa(num) + "\n")
+}
+
+// Open a file
+f,err = os.Open("data.txt")
+
+// Read from file
+scan1 := bufio.NewScanner(f)
+for scan1.Scan() {
+    fmt.Println(scan1.Text())
+}
 ```
