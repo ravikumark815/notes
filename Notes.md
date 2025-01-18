@@ -35,6 +35,7 @@ terminal@linux$
 |`go install`| Compiles and "installs" a package|
 |`go get`   | Downloads the raw source code of someone else's package|
 |`go test`  | Runs any tests associated with current project|
+|`go mod init testproj`| Creates a new project named testproj|
 
 ### Variables
 - Start with `[a-z][A-Z][_]`
@@ -617,5 +618,35 @@ if errors.Is(err, os.ErrNotExist) {
     if _, err := f.WriteString("13\n"); err != nil {
         log.Fatal(err)
     }
+}
+```
+
+### Command Line Args
+```go
+func main() {
+    fmt.Println(os.Args)
+}
+/*
+go run test.go 24 abc
+Output: [test.go, 24, abc]
+*/
+```
+
+### Packages/Modules
+- Packages allow you to keep related together and go looks for packages codes in specific directories. 
+- `package main` must have `main` function in it. Package names are mostly lowercase
+- Example:
+```go
+// testproj/mypackage/mypackage.go
+package test
+var GlobalVar := 10 // G uppercase for external access
+
+
+// main.go
+import (
+    test "testproj/mypackage"
+)
+func main() {
+    fmt.Println("Var:", test.GlobalVar) // Var: 10
 }
 ```
