@@ -634,6 +634,8 @@ Output: [test.go, 24, abc]
 
 ### Packages/Modules
 - Packages allow you to keep related together and go looks for packages codes in specific directories. 
+- Variables/Functions starting with uppercase letters are accessible outside the package
+- To retrieve values or variables for valid authenticated access, we can write getter functions that start with uppercase letters and simply return the variable value.
 - `package main` must have `main` function in it. Package names are mostly lowercase
 - Example:
 ```go
@@ -790,4 +792,17 @@ func main() {
 	fmt.Printf("%.2f tsp = %.2f mL\n", tsp1, tsp1.ToMLs())
 ```
 
-### Encapsulation (Protecting Data)
+### Interfaces
+- Interfaces allow you to create contracts that say if anything inherits it that they will implement defined methods
+- If we had animals and wanted to define that they all perform certain actions, but in their specific way we could use an interface
+- With Go you don't have to say a type uses an interface. When your type implements the required methods it is automatic
+
+```go
+var kitty Animal
+kitty = Cat("Kitty")
+kitty.AngrySound()
+
+var kitty2 Cat = kitty.(Cat)
+kitty2.Attack()
+pl("Cats Name :", kitty2.Name())
+```
