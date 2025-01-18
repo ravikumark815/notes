@@ -58,7 +58,7 @@ var vName string = "Ravi"
 var vName2 = "Ravi"
 var v1, v2 = 1, 2.3
 v3 := 5.78
-var pl = fmt.Println
+var pl = fmt.Println //Alias for function
 ```
 
 ### Keywords
@@ -145,7 +145,7 @@ func main() {
     // Convert Byte arr into string
     byteArr := []byte{'a', 'b', 'c'}
 	bStr := string(byteArr[:])
-	pl("Byte String :", bStr) // abc
+	fmt.Println("Byte String :", bStr) // abc
 
 	// Use Sprintf to convert from float to string
 	cV9 := fmt.Sprintf("%f", 3.14)
@@ -574,6 +574,12 @@ for _,num := range arr {
     _,err := f.WriteString(strcov.Itoa(num) + "\n")
 }
 
+// Check if file exists
+_, err = os.Stat("data.txt")
+if errors.Is(err, os.ErrNotExist) {
+    fmt.Println("File Doesn't Exist")
+}
+
 // Open a file
 f,err = os.Open("data.txt")
 
@@ -581,5 +587,35 @@ f,err = os.Open("data.txt")
 scan1 := bufio.NewScanner(f)
 for scan1.Scan() {
     fmt.Println(scan1.Text())
+}
+
+// Append to file
+/*
+        Exactly one of O_RDONLY, O_WRONLY, or O_RDWR must be specified
+
+    O_RDONLY : open the file read-only
+    O_WRONLY : open the file write-only
+    O_RDWR   : open the file read-write
+
+    These can be or'ed
+
+    O_APPEND : append data to the file when writing
+    O_CREATE : create a new file if none exists
+    O_EXCL   : used with O_CREATE, file must not exist
+    O_SYNC   : open for synchronous I/O
+    O_TRUNC  : truncate regular writable file when opened
+*/
+_, err = os.Stat("data.txt")
+if errors.Is(err, os.ErrNotExist) {
+    fmt.Println("File Doesn't Exist")
+} else {
+    f, err = os.OpenFile("data.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer f.Close()
+    if _, err := f.WriteString("13\n"); err != nil {
+        log.Fatal(err)
+    }
 }
 ```
