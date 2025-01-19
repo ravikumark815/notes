@@ -949,7 +949,7 @@ func main() {
     match,_ := regexp.MatchString("ape[^ ]", reStr) // ape not followed by a space
     fmt.Println(match) // true
 
-    reStr2 := "rat mat fat pat"
+    reStr2 := "Cat rat mat fat pat"
 	r, _ := regexp.Compile("([crmfp]at)")
 
     // Did you find any matches?
