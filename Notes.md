@@ -778,8 +778,8 @@ func main() {
 	fmt.Printf("3 TBs = %.2f mL\n", ml2)
 
 	// You can use arithmetic and comparison operators
-	pl("2 tsp + 4 tsp =", Tsp(2) + Tsp(4))
-	pl("2 tsp > 4 tsp =", Tsp(2) > Tsp(4))
+	fmt.Println("2 tsp + 4 tsp =", Tsp(2) + Tsp(4))
+	fmt.Println("2 tsp > 4 tsp =", Tsp(2) > Tsp(4))
 
 	// We can convert with functions
 	// Bad Way
@@ -855,12 +855,12 @@ func main() {
 ```go
 func printTo15() {
 	for i := 1; i <= 15; i++ {
-		pl("Func 1 :", i)
+		fmt.Println("Func 1 :", i)
 	}
 }
 func printTo10() {
 	for i := 1; i <= 10; i++ {
-		pl("Func 2 :", i)
+		fmt.Println("Func 2 :", i)
 	}
 }
 
@@ -912,7 +912,7 @@ func main() {
 ```go
 // Pass a function to a function
 func useFunc(f func(int, int) int, x, y int) {
-	pl("Answer :", (f(x, y)))
+	fmt.Println("Answer :", (f(x, y)))
 }
 
 func sumVals(x, y int) int {
@@ -938,5 +938,39 @@ func main() {
 
 	// Pass a function to a function
 	useFunc(sumVals, 5, 8)
+}
+```
+
+### Recursion
+```go
+import regexp
+func main() {
+    reStr := "The ape was at the apex"
+    match,_ := regexp.MatchString("ape[^ ]", reStr) // ape not followed by a space
+    fmt.Println(match) // true
+
+    reStr2 := "Cat rat mat fat pat"
+	r, _ := regexp.Compile("([crmfp]at)")
+
+    // Did you find any matches?
+	fmt.Println("MatchString :", r.MatchString(reStr2))
+
+	// Return first match
+	fmt.Println("FindString :", r.FindString(reStr2))
+
+	// Starting and ending index for 1st match
+	fmt.Println("Index :", r.FindStringIndex(reStr2))
+
+	// Return all matches
+	fmt.Println("All String :", r.FindAllString(reStr2, -1))
+
+	// Get 1st 2 matches
+	fmt.Println("All String :", r.FindAllString(reStr2, 2))
+
+	// Get indexes for all matches
+	fmt.Println("All Submatch Index :", r.FindAllStringSubmatchIndex(reStr2, -1))
+
+	// Replace all matches with Dog
+	fmt.Println(r.ReplaceAllString(reStr2, "Dog"))
 }
 ```
