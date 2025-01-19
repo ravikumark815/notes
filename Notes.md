@@ -949,28 +949,28 @@ func main() {
     match,_ := regexp.MatchString("ape[^ ]", reStr) // ape not followed by a space
     fmt.Println(match) // true
 
-    reStr2 := "Cat rat mat fat pat"
+    reStr2 := "rat mat fat pat"
 	r, _ := regexp.Compile("([crmfp]at)")
 
     // Did you find any matches?
-	fmt.Println("MatchString :", r.MatchString(reStr2))
+	fmt.Println("MatchString :", r.MatchString(reStr2)) // true
 
 	// Return first match
-	fmt.Println("FindString :", r.FindString(reStr2))
+	fmt.Println("FindString :", r.FindString(reStr2)) // rat
 
 	// Starting and ending index for 1st match
-	fmt.Println("Index :", r.FindStringIndex(reStr2))
+	fmt.Println("Index :", r.FindStringIndex(reStr2)) // [4 7]
 
 	// Return all matches
-	fmt.Println("All String :", r.FindAllString(reStr2, -1))
+	fmt.Println("All Matches :", r.FindAllString(reStr2, -1)) // [rat mat fat pat]
 
 	// Get 1st 2 matches
-	fmt.Println("All String :", r.FindAllString(reStr2, 2))
+	fmt.Println("First 2 Matches :", r.FindAllString(reStr2, 2)) // [rat mat]
 
 	// Get indexes for all matches
-	fmt.Println("All Submatch Index :", r.FindAllStringSubmatchIndex(reStr2, -1))
+	fmt.Println("Indexes for all matches :", r.FindAllStringSubmatchIndex(reStr2, -1)) //[[4 7 4 7][8 11 8 11][12 15 12 15][16 19 16 19]]
 
 	// Replace all matches with Dog
-	fmt.Println(r.ReplaceAllString(reStr2, "Dog"))
+	fmt.Println(r.ReplaceAllString(reStr2, "Dog")) // Cat Dog Dog Dog Dog
 }
 ```
