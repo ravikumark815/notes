@@ -793,16 +793,116 @@ func main() {
 ```
 
 ### Interfaces
-- Interfaces allow you to create contracts that say if anything inherits it that they will implement defined methods
+- Interfaces basically group types together based on their methods
+- They allow you to create contracts that say if anything inherits it that they will implement defined methods
 - If we had animals and wanted to define that they all perform certain actions, but in their specific way we could use an interface
 - With Go you don't have to say a type uses an interface. When your type implements the required methods it is automatic
 
 ```go
-var kitty Animal
-kitty = Cat("Kitty")
-kitty.AngrySound()
+// Creating interface
+type shape interface {
+    area() float64
+    perimeter() float64
+}
 
-var kitty2 Cat = kitty.(Cat)
-kitty2.Attack()
-pl("Cats Name :", kitty2.Name())
+type square struct {
+    length float64
+}
+
+type circle struct {
+    radius float64
+}
+
+func (s square) area() float64{
+    return s.length * s.length
+}
+
+func (s square) perimeter() float64{
+    return s.length * 4
+}
+
+func (c circle) area() string {
+    return math.Pi * c.radius * c.radius
+}
+
+func (c circle) perimeter() string {
+    return 2 * math.Pi * c.radius
+}
+
+/* 
+Originally square and circle have their own structs and methods.
+From here on, the methods are common to both of them and we don't want to write redundant code. Interface groups them together.
+So s belongs to a struct that has both area and perimeter functions.
+*/
+
+func printShapeInfo(s shape) {
+    fmt.Printf("Area: %0.2f", s.area())
+    fmtPrintf("Perimeter: %0.2f", s.perimeter())
+}
+
+func main() {
+    printShapeInfo(square_a{length: 15.2})
+    printShapeInfo(circle_a{radius: 7.5})
+}
+```
+
+### Concurrency
+- Concurrency is the concept of executing multiple tasks simultaneously at the same time
+- Concurrency allows us to have multiple blocks of code share execution time by pausing their execution. 
+- We can also run blocks of codes in parallel at the same time. (Concurrent tasks in Go are called goroutines) 
+- To execute multiple functions in new goroutines add the word go in front of the function calls (Those functions can't have return values)
+
+```go
+func printTo15() {
+	for i := 1; i <= 15; i++ {
+		pl("Func 1 :", i)
+	}
+}
+func printTo10() {
+	for i := 1; i <= 10; i++ {
+		pl("Func 2 :", i)
+	}
+}
+
+func main() {
+    go printTo15() // Adding go infront would make them run as go routines (threads)
+    go printTo10()
+    time.Sleep(2*time.Second)
+}
+
+/* O/p
+Fun 1: 1
+Fun 2: 1
+Fun 1 : 3
+....
+*/
+```
+
+### Channels
+- We can have go routines communicate using channels. One routine acts a sender another acts as a receiver
+- For example, if you want the above `printTo15` and `printTo10` functions to print in order, but execute concurrently
+
+```go
+func nums1(channel chan int) {
+	channel <- 1
+	channel <- 2
+}
+func nums2(channel chan int) {
+	channel <- 3
+	channel <- 4
+}
+
+func main() {
+    // Creating channels
+    channel1 := make(chan int)
+    channel2 := make(chan int)
+    // Running nums1 and nums2 concurrently
+    go nums1(channel1)
+    go nums2(channel2)
+    // Printing them in order using channels
+    fmt.Println(<-channel1)
+    fmt.Println(<-channel1)
+    fmt.Println(<-channel2)
+    fmt.Println(<-channel2)
+}
 ```
