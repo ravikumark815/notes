@@ -303,7 +303,7 @@ Layers and Protocol Data Units (PDUs):
 -  Maintains a MAC Address Table. 
 -  Star Topology
 -  When PC A sends a packet to PC C in the above topology and the frame arrives at the device, being switch in this case, the switch broadcasts the received frame to all ports except PC A to create an entry for PC C. When C replies to this frame, the switch forwards subsequent frames between A and C only between them.
--  Each port of the bridge is in a different collision domain. 
+-  Each port of the switch is in a different collision domain. 
 -  All ports in a single Broadcast Domain. 
 -  Broadcast addresses are not written into the MAC table. 
 -  Layer 3 Switches available now. 
