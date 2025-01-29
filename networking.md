@@ -320,6 +320,87 @@ Layers and Protocol Data Units (PDUs):
 -  Router then performs an AND operation on the IP address with subnet mask, and if the network ID is known in routing table, it forwards to the respective interface. 
 -  MAC addresses change from hop to hop and not IP addresses in a packet flow unless a NAT is used.
 
+### Layer 2
+**Ethernet:**
+
+*1. Header:*
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ethernet-header.png)
+
+- *Preamble:* Pattern of alternative 0s and 1s to allow sender and receiver to establish bit synchronization.
+- *Start Frame Delimiter (SFD):* 1 Byte field that is always set to 10101011 to indicate that the upcoming bits are starting of the frame which destination address.
+- *Destination MAC Address*
+- *Source MAC Address*
+- *802.1Q tag:* 4 octet field that indicates VLAN tag. The first two octets of the tag are called Tag Procol Identifier (TPID).
+- *Ether Type Field:* To identify protocol carried in payload. Common Ether Types:
+
+|Type| Description|
+|---|---|
+|0x0800|IPv4|
+|0x0806|ARP|
+|0x86DD|IPv6|
+|0x22F0|Audio/Video Transport Protocol (AVTP)|
+|0x22EA|Multiple Stream Registration Protocol (MSRP)|
+
+- *Payload:* Actual data/payload from higher layers
+- *CRC:* Contains 32-bit hash code generated from destination address, source address, length and data fields. If checksum computed by destination is not same as sent checksum value, data received is corrupted.  
+- *Jumbo Frames:* To increase n/w throughput by reducing the overhead associated with transmitting many small frames. 
+
+
+### Layer 3
+**Internet Protocol [IP]:**
+
+*1. Header:*
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ip-header.png)
+
+*2. Features/Functions:*
+- IP Addressing
+- Data Encapsulation and Packaging
+- Fragmentation & Reassembly
+- Routing and Indirect Delivery
+- Multicasting
+- Protocols: IPNAT, IPSec, MobileIP, IPv4, IPv6
+
+*3. ToS Field Bits:*
+- Precedence: 3 Bits
+- Delay: 1 bit
+- Throughput: 1 bit
+- Reliability: 1 bit
+- Reserved: 2 bits
+
+*4. Options:*
+- Option Type: 8 bits
+- Option Length: 8 bits
+- Option Data: 16 bits
+
+*5. Fragmentation:*
+- Sequencing & placement: Receiving device is responsible for reassembly.
+- Separation of Fragmented messages: From different connection transfers
+- Completion: Reassembly offset values updated
+
+**Internet Control Message Protocol [ICMP]:**
+- Protocol to communicate problems with data transmission.
+- RFC 792
+- Connectionless protocol: One devices does not need to open a connection with another before transmission. 
+- ICMP flood attack: Attacker overwhelming a target device with ICMP echo-request packets 
+- Smurf Attack: Attacker sends an ICMP packet with spoofed source IP address. 
+- Traceroute: Utility to know the route between two devices. 
+- Header:
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/icmp-header.png)
+
+    |||
+    |---|---|
+    Type 0| Echo Reply
+    Type 3| Destination unreachable
+    Type 5| Redirect Message
+    Type 8| Echo Request
+    Type 11| Time Exceeded
+    Type 12| Parameter Problem
+
+- Code: Carries additional info about error message and type
+- Checksum: Used to check no of bits of complete message and enable ICMP tool to ensure the complete data is delivered. 
+- Extended Header: Indicates problem in IP message. Byte locations are identified by the pointer which causes the problem message and receiving devices looks here for any problem. 
+- Data/Payload: 576 Bytes in IPv4 and 1280 Bytes in IPv6
+
 ### Layer 4
 
 **Transmission Control Protocol [TCP]:**
@@ -382,58 +463,3 @@ Maximum Transaction Unit: 1500B
 *1.Header*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
-
-### Layer 3
-**Internet Protocol [IP]:**
-
-*1. Header:*
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ip-header.png)
-
-*2. Features/Functions:*
-- IP Addressing
-- Data Encapsulation and Packaging
-- Fragmentation & Reassembly
-- Routing and Indirect Delivery
-- Multicasting
-- Protocols: IPNAT, IPSec, MobileIP, IPv4, IPv6
-
-*3. ToS Field Bits:*
-- Precedence: 3 Bits
-- Delay: 1 bit
-- Throughput: 1 bit
-- Reliability: 1 bit
-- Reserved: 2 bits
-
-*4. Options:*
-- Option Type: 8 bits
-- Option Length: 8 bits
-- Option Data: 16 bits
-
-*5. Fragmentation:*
-- Sequencing & placement: Receiving device is responsible for reassembly.
-- Separation of Fragmented messages: From different connection transfers
-- Completion: Reassembly offset values updated
-
-**Internet Control Message Protocol [ICMP]:**
-- Protocol to communicate problems with data transmission.
-- RFC 792
-- Connectionless protocol: One devices does not need to open a connection with another before transmission. 
-- ICMP flood attack: Attacker overwhelming a target device with ICMP echo-request packets 
-- Smurf Attack: Attacker sends an ICMP packet with spoofed source IP address. 
-- Traceroute: Utility to know the route between two devices. 
-- Header:
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/icmp-header.png)
-
-    |||
-    |---|---|
-    Type 0| Echo Reply
-    Type 3| Destination unreachable
-    Type 5| Redirect Message
-    Type 8| Echo Request
-    Type 11| Time Exceeded
-    Type 12| Parameter Problem
-
-- Code: Carries additional info about error message and type
-- Checksum: Used to check no of bits of complete message and enable ICMP tool to ensure the complete data is delivered. 
-- Extended Header: Indicates problem in IP message. Byte locations are identified by the pointer which causes the problem message and receiving devices looks here for any problem. 
-- Data/Payload: 576 Bytes in IPv4 and 1280 Bytes in IPv6
