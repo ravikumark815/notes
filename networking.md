@@ -324,7 +324,7 @@ Layers and Protocol Data Units (PDUs):
 **Ethernet:**
 
 *1. Header:*
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ethernet-header.png)
+<br>![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ethernet-header.png)
 
 - *Preamble:* Pattern of alternative 0s and 1s to allow sender and receiver to establish bit synchronization.
 - *Start Frame Delimiter (SFD):* 1 Byte field that is always set to 10101011 to indicate that the upcoming bits are starting of the frame which destination address.
