@@ -191,22 +191,6 @@ power management:
 
 ubuntu:~#
 ```
-- **crypto**: displays information about the cryptographic algorithms supported by the Linux kernel.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-crypto
-
-```bash
-ubuntu:~# cat /proc/crypto
-name         : dh
-driver       : dh-generic
-module       : kernel
-priority     : 100
-refcnt       : 1
-selftest     : passed
-internal     : no
-type         : kpp
-ubuntu:~# 
-```
 
 - **devices**
 The file /proc/bus/pci/devices is part of the procfs virtual filesystem and contains details about all PCI devices in the system.
@@ -243,24 +227,6 @@ ubuntu:~# cat /proc/dma
  4: cascade
 ubuntu:~#
 ## Indicates that channel no 4 is used for cascading DMA controllers.
-```
-
-- **driver**: 
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-dir-driver
-
-```bash
-ubuntu:~# head /proc/driver/nvram 
-Checksum status: not valid
-# floppies     : 0
-Floppy 0 type  : none
-Floppy 1 type  : none
-HD 0 type      : none
-HD 1 type      : none
-HD type 48 data: 0/0/0 C/H/S, precomp 0, lz 0
-HD type 49 data: 191/32/0 C/H/S, precomp 48, lz 0
-DOS base memory: 640 kB
-Extended memory: 65535 kB (configured), 65535 kB (tested)
-ubuntu:~#
 ```
 
 - **dynamic_debug** allows you to dynamically enable/disable kernel debug-print code to obtain additional kernel information. If /proc/dynamic_debug/control exists, your kernel has dynamic debug. 
@@ -332,6 +298,89 @@ ubuntu:~# head /proc/iomem
 000cc000-000ce3ff : Adapter ROM
 000f0000-000fffff : Reserved
   000f0000-000fffff : System ROM
+ubuntu:~#
+```
+
+- **meminfo**:  reports valuable information about the system's RAM usage.
+
+https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-meminfo#s2-proc-meminfo
+
+```bash
+ubuntu:~# head /proc/meminfo
+MemTotal:       16112680 kB
+MemFree:         9770876 kB
+MemAvailable:   13297556 kB
+Buffers:            6184 kB
+Cached:          3711428 kB
+SwapCached:            0 kB
+Active:          2427732 kB
+Inactive:        2651532 kB
+Active(anon):    1582668 kB
+Inactive(anon):        0 kB
+ubuntu:~#
+```
+
+- **mounts**:  list of all mounts in use by the system
+
+https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-mounts#s2-proc-mounts
+
+```bash
+ubuntu:~# head /proc/mounts
+rootfs / rootfs rw 0 0
+/proc /proc proc rw,nodiratime 0 0 none
+/dev ramfs rw 0 0
+/dev/mapper/VolGroup00-LogVol00 / ext3 rw 0 0
+none /dev ramfs rw 0 0
+/proc /proc proc rw,nodiratime 0 0
+/sys /sys sysfs rw 0 0
+none /dev/pts devpts rw 0 0
+usbdevfs /proc/bus/usb usbdevfs rw 0 0
+/dev/hda1 /boot ext3 rw 0 0
+none /dev/shm tmpfs rw 0 0
+none /proc/sys/fs/binfmt_misc binfmt_misc rw 0 0
+sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw 0 0
+ubuntu:~#
+```
+
+- **stat**:  keeps track of a variety of different statistics about the system since it was last restarted.
+
+https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-stat#s2-proc-stat
+
+```bash
+ubuntu:~# cat /proc/stat
+cpu  259246 7001 60190 34250993 137517 772 0
+cpu0 259246 7001 60190 34250993 137517 772 0
+intr 354133732 347209999 2272 0 4 4 0 0 3 1 1249247 0 0 80143 0 422626 5169433
+ctxt 12547729
+btime 1093631447
+processes 130523
+procs_running 1
+procs_blocked 0
+preempt 5651840
+cpu  209841 1554 21720 118519346 72939 154 27168
+cpu0 42536 798 4841 14790880 14778 124 3117
+cpu1 24184 569 3875 14794524 30209 29 3130
+cpu2 28616 11 2182 14818198 4020 1 3493
+cpu3 35350 6 2942 14811519 3045 0 3659
+cpu4 18209 135 2263 14820076 12465 0 3373
+cpu5 20795 35 1866 14825701 4508 0 3615
+cpu6 21607 0 2201 14827053 2325 0 3334
+cpu7 18544 0 1550 14831395 1589 0 3447
+intr 15239682 14857833 6 0 6 6 0 5 0 1 0 0 0 29 0 2 0 0 0 0 0 0 0 94982 0 286812
+ctxt 4209609
+btime 1078711415
+processes 21905
+procs_running 1
+procs_blocked 0
+ubuntu:~#
+```
+- **swaps**: measures swap space and its utilization.
+
+https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-swaps#s2-proc-swaps
+```bash
+ubuntu:~# cat /proc/swaps
+Filename                                Type            Size            Used            Priority
+/dev/dm-1                               partition       16773116        0               -2
 ubuntu:~#
 ```
 
