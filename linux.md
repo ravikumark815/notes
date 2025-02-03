@@ -8,21 +8,65 @@
     - `ls -lt`: Sort files by modification time
     - `ls -lS`: Sort files by file size
 - `cp`:  Copy files and directories.
+    - `cp -r`: Copy the source directory recursively
+    - `cp -b`: Create backups for destination files
+    - `cp -f`: Replace the file, if it already exists
+    - `cp -n`: Do not overwrite the file, if it already exists
+    - `cp -v`: Verbose mode
 - `mv`:  Move or rename files and directories.
+    - `mv -f source destination`: Overwrite if destination file already exists
+    - `mv -v source destination`: Verbose mode
 - `mkdir`:  Create new directories.
+    - `mkdir -p /path/to/your/file.txt`: Create interim directories if they don't exist
 - `cat`:  Concatenate and display file contents.
+    - `cat -n test1.txt`: Show line numbers
+    - `cat test1.txt test2.txt`: Display contents of multiple files sequentially
+    - `cat test1.txt > test2.txt`: Replace contents of test2.txt with test1.txt
+    - `cat test1.txt >> test2.txt`: Append contents of test1.txt to test2.txt
+    - `tac test1.txt`: Display in reverse order
 - `pwd`:  Print the current working directory.
+    - `echo "$OLDPWD"`: Display previous working directory
 - `cd`:  Change the directory.
+    - `cd`: Home Directory
+    - `cd -`: Switch to previous directory
 - `rm`:  Remove files or directories.
+    - `rm -f`: Force delete
+    - `rm -r`: Delete recursively
 - `ln`:  Create hard and symbolic links.
+    - `ln file.txt link.txt`: Creates a hard link - link.txt that points to file.txt
+    - `ln -s file.txt link.txt`: Creates a symbolic link - link.txt that points to file.
 - `lsns`:  List namespace details.
 
 ## Viewing and Manipulating Files
 - `less/more`:  View file content page by page.
+    - `less -N /var/log/dmesg`: Show line numbers
+    - `less -X /var/log/dmesg`: Keep content on screen after quitting.
+    - `less -F /var/log/dmesg`: Monitor the file in real time
+    - Press `v` while viewing file to transfer the file to text editor
 - `tail/head`:  Display the last or first lines of a file.
+    - `tail -n /var/log/dmesg`: Show line numbers
+    - `tail -20 /var/log/dmesg`: Display last 20 lines
+    - `tail -f /var/log/dmesg`: Monitor the file in real time
 - `diff`:  Compare two files line by line.
+    - `diff -c f1.txt f2.txt`: Display context format
+    - `diff -u f1.txt f2.txt`: Display compact format
+    - `diff -i f1.txt f2.txt`: Ignore case
 - `cmp`:  Compare two files byte by byte.
+    - `cmp -s f1.txt f2.txt`: Supress cmp command's output
 - `grep/egrep/pgrep`:  Search for patterns in files or processes.
+    - `grep -i "foo" ./*.txt`: Case insensitive
+    - `grep -w "foo" ./*.log`: Check for full words, not sub-strings
+    - `grep -e '^[a-zA-Z]' -e'foo$' test.txt`: Search using regular expressions
+    - `grep -E '^[a-z]|AB CD' test.txt`: Search using extended regular expressions
+    - `grep -A 5 "foo" ./*.c`: Display 5 lines after match
+    - `grep -B 3 "bar" ./*.c`: Display 3 lines before match
+    - `grep -C 2 "foo" ./*.c`: Display 2 lines around match
+    - `grep -r "foo" ./*`: Search recursively
+    - `grep -v -e "^foo" -e "foo$" ./*.txt`: Display lines that do not match the given patterns
+    - `grep -c "foo" ./*.log`: Count number of matches
+    - `grep -l "bar" ./*.py`: Display the file names only
+    - `grep -n "foo" ./*.php`: Show line number
+
 - `find`:  Search for files and directories.
 - `sed`:  Stream editor for modifying files.
 - `awk`:  Pattern scanning and processing language.
