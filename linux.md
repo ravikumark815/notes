@@ -81,8 +81,57 @@ ls -a
 - `ethtool`:  Get or modify network driver settings.
 
 ## Package Management
-- `apt/yum/pacman/rpm/dnf`:  Package managers for different Linux distributions.
-- `dpkg`:  Debian package manager.
+- `apt`:
+    - `apt update`: Download package information
+    - `apt upgrade`: Upgrade all installed packages and security updates
+    - `apt --upgradable`: List packages that can be upgraded
+    - `apt full-upgrade`: Perform full system upgrade
+    - `apt install nginx`: Install new package
+    - `apt remove nginx`: Remove a package
+    - `apt purge nginx`: Remove both package and config files
+    - `apt autoremove`: Removes automatically installed packages that are no longer needed due to dependency changes or package removal.
+    - `apt --purge autoremove`: Purge installed packages that are no longer needed
+    - `apt search nginx*`: Search installed packages
+    - `apt show nginx`: Show info about packages
+    - `apt list --installed`: List all installed packages
+    - `apt depends nginx`: List all dependencies of a package
+    - `apt reinstall nginx`: Reinstall a package
+- `yum`:
+    - `yum install firefox`: Install a package
+    - `yum remove firefox`: Remove a package
+    - `yum update firefox`: Update a package
+    - `yum search firefox`: Search for a package
+    - `yum info firefox`: Get info about a package
+    - `yum check-update`: Check for available updates
+    - `yum update`: Update system
+    - `yum repolist`: List enabled yum repositories
+    - `yum --enablerepo=epel install phpmyadmin`: Install a package from specific repository
+    - `yum provides /etc/passwd`: Find which package this file belongs to
+    - `yum list installed`: List installed packages
+    - `yum clean all`: Clean yum cache
+- `rpm`: 
+    - `rpm -ivh firefox.rpm`: Install the package
+    - `rpm -Uvh firefox.rpm`: Upgrade the package
+    - `rpm -ev firefox`: Erase/Remove an installed package
+    - `rpm -ev --nodeps firefox`: Erase/Remove without checking for dependencies
+    - `rpm -qa`: Display or list all installed packages
+    - `rpm -qi firefox`: Display information about an installed package
+    - `rpm -qf /etc/passwd`: Find out what package a file belongs to
+    - `rpm -qc firefox`: Display list of configuration files for a package
+    - `rpm -qpR firefox.rpm`: Find all dependencies of a rpm file
+    - `rpm -qpR firefox`: Find all dependencies of a package
+- `pacman/dnf`:  Package managers for different Linux distributions.
+- `dpkg`:
+    - `dpkg -i apache2.deb` : Install a package
+    - `dpkg -l`: List installed packages
+    - `dpkg -l apache2`: Check if a package is installed or not
+    - `dpkg -r apache2`: Remove/Uninstall a package 
+    - `dpkg -p apache2`: Purge (Uninstall and remove config) a package 
+    - `dpkg -c apache2`: View contents of a deb package.
+    - `dpkg -L apache2`: List files installed by deb package
+    - `dpkg -R apache2 tomcat`: Install multiple deb packages
+    - `dpkg --unpack apache2.deb`: Extract contents of .deb package
+    - `dpkg --configure apache2`: Configure an unpacked package
 
 ## Compression and Archiving
 - `tar/zip/gzip`:  File compression utilities.
