@@ -1,8 +1,12 @@
 ## File and Directory Management
 - `ls`:  List files and directories.
-```bash
-ls -a
-```
+    - `ls -l`: Long list with detailed information including permissions, size, date etc.
+    - `ls -a`: Show hidden files and dirs
+    - `ls- lh`: Display filesize in human readable format
+    - `ls -F`: Distinguish files and dirs by adding '/' at the end for dirs.
+    - `ls -lr`: Sort in reverse order
+    - `ls -lt`: Sort files by modification time
+    - `ls -lS`: Sort files by file size
 - `cp`:  Copy files and directories.
 - `mv`:  Move or rename files and directories.
 - `mkdir`:  Create new directories.
