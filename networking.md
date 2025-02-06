@@ -351,6 +351,21 @@ Layers and Protocol Data Units (PDUs):
 
 *1. Header:*
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ip-header.png)
+- Version (4 bits): IP Version = 4
+- IHL (4 bits): Internet Header length. (20 bytes - 60 bytes)
+- DSCP/ToS: Differentiated Services Code Point/Type of Service: Sets precedence for each packet. Ex. VoIP
+    - Precedence: 3 Bits
+    - Delay: 1 bit
+    - Throughput: 1 bit
+    - Reliability: 1 bit
+- Explicit Congestion Notification (2 bit): Allows end to end notification of network congestion without dropping packets
+- Total Length (16 bits): Entire packet size
+- Identification (16 bits): To identify group of fragments of a single IP datagram
+- Flags (3bits):
+    - Reserved
+    - Don't Fragment (DF)
+    - More Fragments (MF)
+
 
 *2. Features/Functions:*
 - IP Addressing
@@ -359,13 +374,6 @@ Layers and Protocol Data Units (PDUs):
 - Routing and Indirect Delivery
 - Multicasting
 - Protocols: IPNAT, IPSec, MobileIP, IPv4, IPv6
-
-*3. ToS Field Bits:*
-- Precedence: 3 Bits
-- Delay: 1 bit
-- Throughput: 1 bit
-- Reliability: 1 bit
-- Reserved: 2 bits
 
 *4. Options:*
 - Option Type: 8 bits
