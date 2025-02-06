@@ -361,10 +361,25 @@ Layers and Protocol Data Units (PDUs):
 - Explicit Congestion Notification (2 bit): Allows end to end notification of network congestion without dropping packets
 - Total Length (16 bits): Entire packet size
 - Identification (16 bits): To identify group of fragments of a single IP datagram
-- Flags (3bits):
+- Flags (3 bits):
     - Reserved
     - Don't Fragment (DF)
     - More Fragments (MF)
+- Fragment Offset (8 bits): Specifies the offset of a particular fragment relative to the beginning of an unfragmented IP datagram.
+- Time to Live (TTL) (8 bits): Limits a datagram's lifetime to prevent network failure in the event of a routing loop
+- Protocol (8 bits): Defines the transport layer protocol used in the payload. 
+
+    |Protocol No| Protocol |
+    |---|---|
+    |1|ICMP|
+    |2|IGMP|
+    |6|TCP|
+    |17|UDP|
+    |89|OSPF|
+- Header Checksum (16 bits): Used for error checking of the header. The 16-bit ones' complement sum of all 16-bit words in the header is computed, with the Header Checksum field set to zero during calculation. Upon arrival at a router or destination, the checksum is recalculated. If the result is zero, the packet is valid. If not, the packet is discarded.
+- Source IP Address (32 bits)
+- Destination IP Address (32 bits)
+- Options: 0 - 320 bits, padded to multiples of 32 bits
 
 
 *2. Features/Functions:*
@@ -381,9 +396,12 @@ Layers and Protocol Data Units (PDUs):
 - Option Data: 16 bits
 
 *5. Fragmentation:*
-- Sequencing & placement: Receiving device is responsible for reassembly.
-- Separation of Fragmented messages: From different connection transfers
-- Completion: Reassembly offset values updated
+- The router checks the destination address and selects the outgoing interface and its MTU (Maximum Transmission Unit). If the packet size exceeds the MTU and the Do Not Fragment (DF) bit is 0, the router fragments the packet before forwarding.
+
+*6. Reassembly:*
+- A receiver knows that a packet is a fragment, if at least one of the following conditions is true:
+    - The flag more fragments is set, which is true for all fragments except the last.
+    - The field fragment offset is nonzero, which is true for all fragments except the first.
 
 **Internet Control Message Protocol [ICMP]:**
 - Protocol to communicate problems with data transmission.
