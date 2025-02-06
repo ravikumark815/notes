@@ -320,7 +320,7 @@ Layers and Protocol Data Units (PDUs):
 -  Router then performs an AND operation on the IP address with subnet mask, and if the network ID is known in routing table, it forwards to the respective interface. 
 -  MAC addresses change from hop to hop and not IP addresses in a packet flow unless a NAT is used.
 
-### Layer 2
+## Layer 2
 **Ethernet:**
 
 *1. Header:*
@@ -376,7 +376,7 @@ Layers and Protocol Data Units (PDUs):
         - Request sent to VTP server to ask for VTP summary/subset advertisement.
 - VTP Pruning: On enablement, a switch discards broadcast packets from another VLAN.
 
-### Layer 3
+## Layer 3
 **Internet Protocol [IP]:**
 
 *1. Header:*
@@ -457,7 +457,7 @@ Layers and Protocol Data Units (PDUs):
 - Extended Header: Indicates problem in IP message. Byte locations are identified by the pointer which causes the problem message and receiving devices looks here for any problem. 
 - Data/Payload: 576 Bytes in IPv4 and 1280 Bytes in IPv6
 
-### Layer 4
+## Layer 4
 
 **Transmission Control Protocol [TCP]:**
 
@@ -549,3 +549,36 @@ Maximum Transaction Unit: 1500B
 *1.Header*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
+
+## Layer 7
+
+### Dynamic Host Configuration Protocol [DHCP]
+- Used to manage IP allocation in a network
+- Packet Flow:
+    ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/dhcp-dora.png)
+    
+    - `DISCOVER` [Broadcast]: The client sends a DISCOVER in broadcast to all servers in the subnet.
+    - `OFFER` [Broadcast]: Every server in the subnet sends an OFFER with the offered configuration to the client. 
+    - `REQUEST` [Broadcast]: The client selects one of the offered configurations and then sends a REQUEST. Broadcast is sent so that all servers receive the message, even to those that do not offer the accepted configuration. This allows servers to flush this offer from memory.
+    - `ACK` [Unicast]: The server that receives the REQUEST checks if that configuration belongs to it. And if it is so, send an ACK message to confirm the lease.
+
+- Packet Flow with Relay agent:
+    - `DISCOVER`: The client sends a DISCOVER in broadcast. The relay agent receives the message and forwards it to the server, which is in a different subnet, in unicast. 
+    - `OFFER`: The server sends an OFFER in unicast to the address. The relay agent receives the message and forwards it to the client in broadcast.
+    - `REQUEST`: The client selects one of the offered configurations and then sends a REQUEST in broadcast. The relay agent receives the message and forwards it to the server, which is in a different subnet, in unicast.
+    - `ACK`: The server that receives the REQUEST checks if that configuration belongs to it. And if it is so, send an ACK in unicast to the address. The relay agent receives the message and forwards it to the client in broadcast.
+
+- Other DHCP Messages:
+    - `DHCP NACK`: Negative Acknowledgement. Whenever a DHCP server receives a request for an IP address that is invalid according to the scopes that are configured, it sends a DHCP NACK message to the client. 
+    - `DHCP Decline`: If the DHCP client determines the offered configuration parameters are different or invalid, it sends a DHCP decline message to the server. When there is a reply to the gratuitous ARP by any host to the client, the client sends a DHCP decline message to the server showing the offered IP address is already in use.
+    - `DHCP Release`: A DHCP client sends a DHCP release packet to the server to release the IP address and cancel any remaining lease time.
+
+- Common DHCP Options:
+    - `DHCP option 1`: subnet mask to be applied on the interface asking for an IP address.
+    - `DHCP option 3`: default router or last resort gateway for this interface
+    - `DHCP option 6`: which DNS to include in the IP configuration for name resolution.
+    - `DHCP option 51`: lease time for this IP address
+    - `DHCP option 2`: time offset in seconds from UTC to be applied on the current time.
+    - `DHCP option 4`: list of time server
+    - `DHCP option 12`: host name of the client, very useful for IoT and any device without user
+    - `DHCP option 121`: classless static route table composed of multiple network and subnet mask.
