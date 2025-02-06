@@ -582,3 +582,36 @@ Maximum Transaction Unit: 1500B
     - `DHCP option 4`: list of time server
     - `DHCP option 12`: host name of the client, very useful for IoT and any device without user
     - `DHCP option 121`: classless static route table composed of multiple network and subnet mask.
+
+### Domain Name Server [DNS]:
+- DNS is a protocol that is used to convert easily readable names for communicating over the network, instead of remembering IP Address.
+- Port: `53 UDP`
+- DNS Lookup:
+    - Local DNS Resolver/Cache
+    - Root DNS server
+    - Top-Level Domain Server (TLD)
+    - Authoritative DNS Server/Recursive DNS Server
+    - Web Server
+- DNS Record: Instructions that live in authoritative DNS servers and provide info about domain including IP address, how to handle requests to that domain. Common Types:
+    |   |   |   |
+    |---|---|---|
+    A	    | 1	|   IPv4Address record
+    AAAA	|28|	IPv6 address record
+    CAA	    |257|	Certification Authority Authorization
+    CERT	|37|	Certificate record
+    CNAME	|5|	    Canonical name record
+    HTTPS	|65|	HTTPS Binding
+    IPSECKEY|45|	IPsec Key
+    MX	    |15|	Mail exchange record
+    NS	    |2|	    Name server record
+    PTR	    |12|	PTR Resource Record
+    SOA	    |6|	    Start of [a zone of] authority record
+    TXT	    |16|	Text record
+    URI	    |256|	Uniform Resource Identifier
+    
+- Types of Queries:
+    - `Recursive Query`: In this query, if the resolver is unable to find the record, in that case, DNS client wants the DNS Server will respond to the client in any way like with the requested source record or an error message.
+    - `Iterative Query`: Iterative Query is the query in which DNS Client wants the best answer possible from the DNS Server.
+    - `Non-Recursive Query`: Non-Recursive Query is the query that occurs when a DNS Resolver queries a DNS Server for some record that has access to it because of the record that exists in its cache.
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/dns-query.png)
