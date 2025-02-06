@@ -345,6 +345,36 @@ Layers and Protocol Data Units (PDUs):
 - *CRC:* Contains 32-bit hash code generated from destination address, source address, length and data fields. If checksum computed by destination is not same as sent checksum value, data received is corrupted.  
 - *Jumbo Frames:* To increase n/w throughput by reducing the overhead associated with transmitting many small frames. 
 
+**VLAN Trunking Protocol (VTP):**
+- 802.1Q. Used to manage all configured VLANs consistency across a switched network
+- VTP Domain: Consists of a group interconnected switches that share the same VLAN details. A Router or L3 switches defines the boundary of a VTP Domain.
+- VTP Modes:
+    - VTP Client: 
+        - Can send and forward advertisements
+        - Can synchronize VLAN configurations from VTP servers
+        - Cannot add, modify or delete VLANs.
+    - VTP Server:
+        - Can create, modify and delete VLANs
+        - Can send and forward advertisements 
+        - Can synchronize VLAN configurations from VTP servers with high revision number
+    - VTP Transparent: 
+        - Does not participate in VTP domain
+        - Does not advertise/synchronize VLAN configurations from VTP server
+        - Can forward advertisements
+        - Can create, modify and delete local VLANs only
+- By default, all Cisco switches are in VTP Server mode.
+- Revision Number: Indicates the level of revision for a VTP packet. Each time we add or remove a device from a VLAN, the revision no increments by one. 
+- VTP Messages:
+    - Summary Advertisement:
+        - Includes current VTP domain name, revision number and VTP version.
+        - Does not have VLAN configurations.
+        - VTP server sends summary advertisements every 5 mins by default.
+        - When switch recieves a summary advertisement, it checks for VTP domain name and if it matches, it compares revision numbers and if it is less, it synchronizes VLAN configuration.
+    - Subset Advertisement:
+        - Includes details of VLAN information
+    - Client Advertisement Request: 
+        - Request sent to VTP server to ask for VTP summary/subset advertisement.
+- VTP Pruning: On enablement, a switch discards broadcast packets from another VLAN.
 
 ### Layer 3
 **Internet Protocol [IP]:**
