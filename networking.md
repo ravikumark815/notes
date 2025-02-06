@@ -615,3 +615,30 @@ Maximum Transaction Unit: 1500B
     - `Non-Recursive Query`: Non-Recursive Query is the query that occurs when a DNS Resolver queries a DNS Server for some record that has access to it because of the record that exists in its cache.
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/dns-query.png)
+
+### Internet Protocol Security [IPsec]
+- Security:
+    - Confidentiality: by encrypting our data, nobody except the sender and receiver will be able to read our data.
+    - Integrity: we want to make sure that nobody changes the data in our packets. By calculating a hash value, the sender and receiver will be able to check if changes have been made to the packet.
+    - Authentication: the sender and receiver will authenticate each other to make sure that we are really talking with the device we intend to.
+    - Anti-replay: even if a packet is encrypted and authenticated, an attacker could try to capture these packets and send them again. By using sequence numbers, IPsec will not transmit any duplicate packets.
+
+- Internet Key Exchange [IKE] is used to establish an IPsec tunnel in two phases
+    - IKE Phase 1:
+        1. Negotiation:
+            - Hashing: MD5/SHA
+            - Authentication: Shared Key/Digital Certificates
+            - DH group: To determine strength of the key being used. 
+            - Lifetime: Duration of the tunnel
+            - Encryption: DES, 3DES, AES
+        2. DH Key Exchange: Once Negotiation succeeds, peers use DH Group to exchange keying material. End result: Both peers will have a shared key
+        3. Authentiation: Peers will authenticate using the method negotiated earlier. Finally we have a ISAKMP (Internet Security Association and Key Management Protocol) session established. 
+    - IKE Phase 2
+
+- IKE Phase 1 can be completed in 2 modes:
+    - Main Mode:
+    - Aggressive Mode:
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/IKE-phase1-main.png)
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/IKE-phase2-quick.png)
