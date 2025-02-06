@@ -642,3 +642,40 @@ Maximum Transaction Unit: 1500B
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/IKE-phase1-main.png)
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/IKE-phase2-quick.png)
+
+### Secure Sockets Layer [SSL] / Transport Level Security [TLS]:
+1. Client Hello
+    - The client initiates communication with a CLIENT HELLO message, providing:
+        - SSL/TLS Protocol Version
+        - Session ID
+        - List of Cipher Suites
+        - List of CLIENT HELLO Extensions
+2. Server Hello
+    - The server checks the provided protocol version and cipher suites for compatibility.
+    - It responds with a SERVER HELLO message, containing:
+        - Chosen SSL/TLS Protocol Version
+        - Selected Cipher Suite
+        - Server Certificate (without private key)
+        - List of SERVER HELLO Extensions
+3. Server Authentication (Client Validates Server Certificate)
+    - The client verifies the server’s certificate by checking:
+        - Validity period
+        - Trusted Certificate Authority (CA)
+        - Issuer’s digital signature validation
+        - Domain name match
+4. Key Exchange & Session Establishment
+    - The client:
+        - Generates a pre-master secret
+        - Encrypts it using the server’s public key
+        - Sends it to the server
+    - The server:
+        - Decrypts the pre-master secret using its private key
+        - Uses it to derive the master secret
+    - Both client and server generate session keys from the master secret
+5. Secure Communication Begins
+    - Both parties exchange a final handshake message to indicate that:
+        - Future communication will be encrypted
+        - Handshake is complete
+    - The SSL session starts with encrypted communication using session keys.
+
+![](https://github.com/ravikumark815/networking/blob/main/Notes-images/SSL-handshake.png)
