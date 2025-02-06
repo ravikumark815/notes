@@ -351,23 +351,23 @@ Layers and Protocol Data Units (PDUs):
 
 *1. Header:*
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ip-header.png)
-- Version (4 bits): IP Version = 4
-- IHL (4 bits): Internet Header length. (20 bytes - 60 bytes)
-- DSCP/ToS: Differentiated Services Code Point/Type of Service: Sets precedence for each packet. Ex. VoIP
+- `Version` (4 bits): IP Version = 4
+- `IHL` (4 bits): Internet Header length. (20 bytes - 60 bytes)
+- `DSCP/ToS`: Differentiated Services Code Point/Type of Service: Sets precedence for each packet. Ex. VoIP
     - Precedence: 3 Bits
     - Delay: 1 bit
     - Throughput: 1 bit
     - Reliability: 1 bit
-- Explicit Congestion Notification (2 bit): Allows end to end notification of network congestion without dropping packets
-- Total Length (16 bits): Entire packet size
-- Identification (16 bits): To identify group of fragments of a single IP datagram
-- Flags (3 bits):
-    - Reserved
-    - Don't Fragment (DF)
-    - More Fragments (MF)
-- Fragment Offset (8 bits): Specifies the offset of a particular fragment relative to the beginning of an unfragmented IP datagram.
-- Time to Live (TTL) (8 bits): Limits a datagram's lifetime to prevent network failure in the event of a routing loop
-- Protocol (8 bits): Defines the transport layer protocol used in the payload. 
+- `Explicit Congestion Notification` (2 bit): Allows end to end notification of network congestion without dropping packets
+- `Total Length` (16 bits): Entire packet size
+- `Identification` (16 bits): To identify group of fragments of a single IP datagram
+- `Flags` (3 bits):
+    - `Reserved`
+    - `Don't Fragment` (DF)
+    - `More Fragments` (MF)
+- `Fragment Offset` (8 bits): Specifies the offset of a particular fragment relative to the beginning of an unfragmented IP datagram.
+- `Time to Live (TTL)` (8 bits): Limits a datagram's lifetime to prevent network failure in the event of a routing loop
+- `Protocol` (8 bits): Defines the transport layer protocol used in the payload. 
 
     |Protocol No| Protocol |
     |---|---|
@@ -376,10 +376,10 @@ Layers and Protocol Data Units (PDUs):
     |6|TCP|
     |17|UDP|
     |89|OSPF|
-- Header Checksum (16 bits): Used for error checking of the header. The 16-bit ones' complement sum of all 16-bit words in the header is computed, with the Header Checksum field set to zero during calculation. Upon arrival at a router or destination, the checksum is recalculated. If the result is zero, the packet is valid. If not, the packet is discarded.
-- Source IP Address (32 bits)
-- Destination IP Address (32 bits)
-- Options: 0 - 320 bits, padded to multiples of 32 bits
+- `Header Checksum` (16 bits): Used for error checking of the header. The 16-bit ones' complement sum of all 16-bit words in the header is computed, with the Header Checksum field set to zero during calculation. Upon arrival at a router or destination, the checksum is recalculated. If the result is zero, the packet is valid. If not, the packet is discarded.
+- `Source IP Address` (32 bits)
+- `Destination IP Address` (32 bits)
+- `Options`: 0 - 320 bits, padded to multiples of 32 bits
 
 
 *2. Features/Functions:*
@@ -413,7 +413,7 @@ Layers and Protocol Data Units (PDUs):
 - Header:
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/icmp-header.png)
 
-    |||
+    |   |   |
     |---|---|
     Type 0| Echo Reply
     Type 3| Destination unreachable
@@ -434,14 +434,44 @@ Layers and Protocol Data Units (PDUs):
 *1. Header:*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/tcp-header.png)
+- `Source Port` (16 bits)
+- `Destination Port` (16 bits)
+- `Sequence No` (32 bits): Is SYN is set, this is the initial sequence no. Else, it is the accumulated sequence number. 
+- `Acknowledgement No` (32 bits): If ACK is set, then it is the next sequence no that sender expects. It also shows no of bytes received. 
+- `Data Offset` (4 bits): Specifies the size of TCP header so that we can know where actual data starts. 
+- `Reserved` (4 bits)
+- `Flags:` 
+    - `CWR` [Congestion Window Reduced]: indicates that a TCP segement with ECE flag set is received
+    - `ECE` [ECN-Echo]: 
+        - If SYN is set: indicates peer is ECN capable
+        - Else indicates network congestion
+    - `URG` [Urgent]
+    - `ACK` [Acknowledgement]
+    - `PSH` [Push]: Push the buffered data to receiving application
+    - `RST` [Reset]
+    - `SYN` [Synchronize] sequence numbers. Only first packet should have it set
+    - `FIN` [Final] Last packet from sender
+- `Window` (16 bits): The size of the receive window
+- `Checksum` (16 bits): Used for error-checking of TCP header. 
+- `Urgent Pointer` (16 bits): If URG is set, then it is an offset from the dequence no indicating the last urgent data byte
+- `Options` (0-320 bits, in units of 32 bits): 
 
 *2. TCP Connection Establishment [3-Way Handshake]*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/3-way.png)
 
+- `SYN`: Client sends a TCP segment with SYN=1 Sequence_No=A (Random)
+- `SYN-ACK`: Server responds: SYN=1 ACK=1 Sequence_Mo=B (Random) Ack_No=A+1
+- `ACK`: Client sends: ACK=1 Sequence_No=A+1 Ack No=B+1
+
 *3. TCP Connection Termination [4-Way Handshake]*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
+
+- `FIN`: Initiator sends a TCP segment with FIN=1 FIN_WAIT_1 timer started
+- `ACK`: Responder to Initiator: ACK=1 CLOSE_WAIT timer started
+- `FIN`: Responder to Initiator: FIN=1
+- `ACK`: Initiator to Responder: Timer closed and connection terminated
 
 *4. Features/Functions:*
 -  Segment Numbering System:
