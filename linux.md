@@ -66,7 +66,6 @@
     - `grep -c "foo" ./*.log`: Count number of matches
     - `grep -l "bar" ./*.py`: Display the file names only
     - `grep -n "foo" ./*.php`: Show line number
-
 - `find`:  Search for files and directories.
 - `sed`:  Stream editor for modifying files.
 - `awk`:  Pattern scanning and processing language.
@@ -93,22 +92,72 @@
 
 ## System Monitoring & Troubleshooting
 - `top/htop`:  Monitor system processes and resource usage.
+    - `htop -u ram`: Display processes based on username
+    - `htop -d 15`: Delay between screen updates to 1.5 sec
+    - `htop -p 123,456`: Monitor certain Process IDs
+    - `htop -s PERCENT_MEM`: Sort by memory usage
 - `ps`:  View currently running processes.
+    - `ps -A` | `ps -e`:  View all running processes
+    - `ps -ef`| `ps -eF`: View full format listing
+    - `ps -aux`: Display processes in BSD format
+    - `ps -e --forest`: Display process hierarchy
+    - `ps -e -o pid,uname,pmem`: Display selected list of columns
+    - `ps -e -o etime`: Display elapsed time
+    - `ps -u ram`: Filter based on user
+    - `ps -L 426`: View all threads of a process id
+    - `ps -U root -u root`: Show all processes running as root
+    - `ps -C process_name`: Search based on process name
+    - `ps -fG groupID`|`ps -fG group_name`: List all processes of a group id 
+    - `ps -T`: View terminal related processes
 - `kill/killall`:  Terminate processes.
 - `systemctl`:  Manage system services.
+    - `systemctl start smb`: Start a service
+    - `systemctl stop smb`: Stop a service
+    - `systemctl enable smb`: Start automatically at boot
+    - `systemctl status smb`: View status of service
+    - `systemctl mask smb`: Prevent a service from being started
+    - `systemctl list-dependencies smb`: List all dependencies
+    - `systemctl set-default gud`: Change the default system target
 - `service`:  Start, stop, or restart services.
+    - `service smb start`: Start a service
+    - `service smb stop`: Stop a service
+    - `service smb status`: View status of service
 - `df`:  Display disk space usage.
 - `du`:  Show directory size.
 - `free`:  Show memory usage.
 - `dmesg`:  Display kernel logs.
+    - `dmesg -T`: Display time in human-readable format
+    - `dmesg -f syslog`: To follow updates in real-time
+    - `dmesg -l warn,notice`: Filter based on log levels
+    - `dmesg -L`: Display output of particular facility
+    - `dmesg -L`: Adds color to the output
 - `journalctl`:  View system logs.
+    - `journalctl -b`: Boot messages
+    - `journalctl -r`: Show in reverse chronological order
+    - `journalctl --since "1 hour ago"`: Time range
+    - `journalctl -u nginx.service`: By service
+    - `journalctl -f`: In realtime
+    - `journalctl -u nginx.service -f`: In realtime for a particular service
+    - `journalctl -o verbose`: Verbose mode
+    - `journalctl -o json-pretty`: Display in JSON format
+    - `journalctl -p "emerg"`: By priority level
+    - `journalctl _UID=108`: By user id 
 - `uptime`:  Show system uptime.
 - `vmstat`:  Show system performance statistics.
 - `rsync`:  Synchronize files between locations.
 - `strace`:  Trace system calls made by a process.
 - `lsmod`:  Show loaded kernel modules.
+- `modinfo`: Display information about kernel module
+- `insmod`: Insert a module into kernel
 - `lspci`:  List PCI devices.
+    - `lspci -mm`: Machine readable format
+    - `lspci -vv`: Detailed Format
+    - `lspci -s 00:01.0`: Show detailed information of a device
+    - `lspci -nn`: Show vendor and device code for each PCI device
+    - `lspci -k`: Shows kernel modules in use for each PCI device
 - `lshw`:  Display detailed hardware information.
+    - `lshw -short`: Short version
+    - `lshw -businfo`: To show SCSI, USB, IDE, PCI info
 - `lsof`:  List open files.
 - `dd`:  Copy and convert data at a low level.
 
@@ -121,12 +170,26 @@
 - `ftp/sftp`:  File transfer protocol commands.
 - `ifconfig/ip`:  Configure network interfaces.
 - `dig/nslookup`:  Query DNS records.
+    - `dig @8.8.8.8 google.com +short`: Short output
 - `ping`:  Test network connectivity.
 - `traceroute`:  Trace network routes.
 - `iptables/ufw/firewall-cmd`:  Configure firewall rules.
 - `netstat/ss`:  Display network statistics.
+    - `netstat -a`: List all ports and connections
+    - `netstat -at`: List all TCP ports
+    - `netstat -au`: List all UDP ports
+    - `netstat -l`: List only listening ports
+    - `netstat -s`: Display statistics
+    - `netstat -i`: To see packet statistics and MTU
+    - `netstat -lp`: Display listening programs
+    - `netstat -r`: Display kernel routing table
 - `nmap`:  Scan networks and detect open ports.
 - `ethtool`:  Get or modify network driver settings.
+    - `ethtool eth0`: Particular device
+    - `ethtool -s eth0 speed 100 autoneg off`: Change NIC parameters
+    - `ethtool -i eth0`: Display ethernet driver settings
+    - `ethtool -a eth0`: Display rx/tx queues 
+    - `ethtool -S eth0`: Display network statistics
 
 ## Package Management
 - `apt`:
