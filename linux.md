@@ -143,12 +143,19 @@
     - `journalctl -p "emerg"`: By priority level
     - `journalctl _UID=108`: By user id 
 - `uptime`:  Show system uptime.
-- `vmstat`:  Show system performance statistics.
+- `vmstat`:  Show Virtual memory statistics, system processes, paging, interrupts, I/O.
+    - `vmstat -a`: Show active and inactive memory
+    - `vmstat -s`: Show Memory statistics
+    - `vmstat -f`: No of forks since boot
+    - `vmstat -d`: Display disk stats
+    - `vmstat -p vda1`: Show partition stats
+    - `vmstat -S k`: Change units to kib
+    - `vmstat m`: Show slab statistics
 - `rsync`:  Synchronize files between locations.
 - `strace`:  Trace system calls made by a process.
-- `lsmod`:  Show loaded kernel modules.
 - `modinfo`: Display information about kernel module
 - `insmod`: Insert a module into kernel
+- `lsmod`:  Show loaded kernel modules.
 - `lspci`:  List PCI devices.
     - `lspci -mm`: Machine readable format
     - `lspci -vv`: Detailed Format
@@ -159,6 +166,7 @@
     - `lshw -short`: Short version
     - `lshw -businfo`: To show SCSI, USB, IDE, PCI info
 - `lsof`:  List open files.
+- `lsblk`: List all block devices and partitions
 - `dd`:  Copy and convert data at a low level.
 
 ## Networking
