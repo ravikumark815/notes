@@ -110,6 +110,9 @@
     - `ps -fG groupID`|`ps -fG group_name`: List all processes of a group id 
     - `ps -T`: View terminal related processes
 - `kill/killall`:  Terminate processes.
+    - `kill 257`: Kill process ID 257
+    - `kill -s 9 257`: Sends SIGTERM to process 257 instead of TERM to force kill.
+    - `kill -l`: Lists all available SIGNAL names that can be send instead of TERM
 - `systemctl`:  Manage system services.
     - `systemctl start smb`: Start a service
     - `systemctl stop smb`: Stop a service
@@ -122,7 +125,12 @@
     - `service smb start`: Start a service
     - `service smb stop`: Stop a service
     - `service smb status`: View status of service
-- `df`:  Display disk space usage.
+- `df`: Display info about all mounted Linux file systems
+    - `df -m /boot`: Display info about /boot in 1M-bytes
+    - `df -h`: Display in human readable output
+    - `df -T`: Includes file system types
+    - `df -a`: Show all mount points
+    - `df -i`: Show inodes info
 - `du`:  Show directory size.
 - `free`:  Show memory usage.
 - `dmesg`:  Display kernel logs.
@@ -150,7 +158,7 @@
     - `vmstat -d`: Display disk stats
     - `vmstat -p vda1`: Show partition stats
     - `vmstat -S k`: Change units to kib
-    - `vmstat m`: Show slab statistics
+    - `vmstat -m`: Show slab statistics
 - `rsync`:  Synchronize files between locations.
 - `strace`:  Trace system calls made by a process.
 - `modinfo`: Display information about kernel module
