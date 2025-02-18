@@ -162,6 +162,8 @@
     - `journalctl -p "emerg"`: By priority level
     - `journalctl _UID=108`: By user id 
 - `uptime`:  Show system uptime.
+    - `uptime -s`: Show when the system was booted
+    - `uptime -p`: Show in pretty format
 - `vmstat`:  Show Virtual memory statistics, system processes, paging, interrupts, I/O.
     - `vmstat -a`: Show active and inactive memory
     - `vmstat -s`: Show Memory statistics
