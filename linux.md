@@ -172,7 +172,14 @@
     - `vmstat -p vda1`: Show partition stats
     - `vmstat -S k`: Change units to kib
     - `vmstat -m`: Show slab statistics
-- `rsync`:  Synchronize files between locations.
+- `rsync`:  Copy and Synchronize files between remotely
+    - `rsync -zvh backup.tar.gz /tmp/backups/`: backup.tar will be copied and synced to /tmp/backups dir in verbose mode with compression during transfer (z)
+    - `rsync -avzh /root/rpmpkgs /tmp/backups/`: Transfer/sync all the files from /root/rpmpkgs to /tmp/backups
+    - `rsync -avzh /root/rpmpkgs root@10.0.0.1:~/rpms/`: Copy all files in a dir to a remote server
+    - `rsync -avzh root@10.0.0.1:/rpms /root/rpmpkgs`: Copy rpms fir from remote to /root/rpmpkgs
+    - `rsync -e ssh root@10.0.0.1:/rpms /root/rpmpkgs`: Rsync these locations using SSH
+    - `rsync -avzhe ssh --progress /root/rpmpkgs root@10.0.0.1:/rpms`: Show progress while synchronizing
+    - `rsync -avz --include='*.txt' /root/rpmpkgs /tmp/backups`:  Include only txt files
 - `strace`:  Trace system calls made by a process.
 - `modinfo`: Display information about kernel module
 - `insmod`: Insert a module into kernel
