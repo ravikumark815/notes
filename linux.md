@@ -135,11 +135,15 @@
     - `du -h /var`: Show disk usage of every file in /var in human-readable format
     - `du -sh /var`: Show disk usage of /var dir
     - `du -a /var`: Show disk usage of every file and dir in /var
-    - `du -BK /var`: Show disk usage in Kilobytes | `-BM` | `-BG`
+    - `du -BK /var`: Show disk usage in Kilobytes `-BM` `-BG`
     - `du --max-depth=1 /var`: Size of sub-directories in current location
     - `du -h --exclude="*.log" /var`: Exclude .log files from size calculation
     - `du --total /var`: Show grand total of all dish usage at the end
 - `free`:  Show memory usage.
+    - `free -h`: Display in human readable format
+    - `free -m`: Display memory size in megabytes `-g` `-k`
+    - `free -s 5 -c 10`: Display memory info every 5 seconds for 10 times
+    - `free -l`: Show low and high information
 - `dmesg`:  Display kernel logs.
     - `dmesg -T`: Display time in human-readable format
     - `dmesg -f syslog`: To follow updates in real-time
