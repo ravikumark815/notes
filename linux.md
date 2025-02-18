@@ -180,6 +180,9 @@
     - `rsync -e ssh root@10.0.0.1:/rpms /root/rpmpkgs`: Rsync these locations using SSH
     - `rsync -avzhe ssh --progress /root/rpmpkgs root@10.0.0.1:/rpms`: Show progress while synchronizing
     - `rsync -avz --include='*.txt' /root/rpmpkgs /tmp/backups`:  Include only txt files
+    - `rsync -avz --exclude='*.txt' /root/rpmpkgs /tmp/backups`:  Exclude only txt files
+    - `rsync -avz --max-size='200k' /root/rpmpkgs /tmp/backups`:  File transfer limit
+    - `rsync -avz --bwlimit='100' /root/rpmpkgs /tmp/backups`:  Bandwidth limit
 - `strace`:  Trace system calls made by a process.
 - `modinfo`: Display information about kernel module
 - `insmod`: Insert a module into kernel
