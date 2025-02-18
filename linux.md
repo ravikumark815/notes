@@ -125,13 +125,20 @@
     - `service smb start`: Start a service
     - `service smb stop`: Stop a service
     - `service smb status`: View status of service
-- `df`: Display info about all mounted Linux file systems
+- `df`: Report file system space usage
     - `df -m /boot`: Display info about /boot in 1M-bytes
     - `df -h`: Display in human readable output
     - `df -T`: Includes file system types
     - `df -a`: Show all mount points
     - `df -i`: Show inodes info
-- `du`:  Show directory size.
+- `du`:  Disk Usage Summary
+    - `du -h /var`: Show disk usage of every file in /var in human-readable format
+    - `du -sh /var`: Show disk usage of /var dir
+    - `du -a /var`: Show disk usage of every file and dir in /var
+    - `du -BK /var`: Show disk usage in Kilobytes | `-BM` | `-BG`
+    - `du --max-depth=1 /var`: Size of sub-directories in current location
+    - `du -h --exclude="*.log" /var`: Exclude .log files from size calculation
+    - `du --total /var`: Show grand total of all dish usage at the end
 - `free`:  Show memory usage.
 - `dmesg`:  Display kernel logs.
     - `dmesg -T`: Display time in human-readable format
