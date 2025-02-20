@@ -184,6 +184,12 @@
     - `rsync -avz --max-size='200k' /root/rpmpkgs /tmp/backups`:  File transfer limit
     - `rsync -avz --bwlimit='100' /root/rpmpkgs /tmp/backups`:  Bandwidth limit
 - `strace`:  Trace system calls made by a process.
+    - `strace ls`: Trace execution of `ls`
+    - `strace -e open ls`: Display only a specific system call
+    - `strace -o output.txt ls`: Save the output to a file
+    - `strace -p 257`: Trace a running linux process
+    - `strace -t ls`: Print timestamp for each output line
+    - `strace -c ls`: General statistics report
 - `modinfo`: Display information about kernel module
 - `insmod`: Insert a module into kernel
 - `lsmod`:  Show loaded kernel modules.
