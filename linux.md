@@ -210,7 +210,9 @@
     - `lsof -i`: Show files accessed by network connections
     - `lsof -i 4`: Show files with IP version 4 `lsof -i 6`
     - `lsof -i tcp`: Show files that use TCP connection `lsof -i udp`
-    - `lsof -i :3306`: Show opened files based on port number
+    - `lsof -i :3306`: Show opened files based on port number 
+    - `lsof -i :80-1024`: Show opened files based on port range
+    - `lsof -t /usr/bin/df`: Show processes holding /usr/bin/df file 
 - `lsblk`: List all block devices and partitions
 - `dd`:  Copy and convert data at a low level.
 
