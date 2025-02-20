@@ -202,7 +202,15 @@
 - `lshw`:  Display detailed hardware information.
     - `lshw -short`: Short version
     - `lshw -businfo`: To show SCSI, USB, IDE, PCI info
-- `lsof`:  List open files.
+- `lsof`:  List open files and processes using these files
+    - `lsof -b`: Hide kernel function related files
+    - `lsof /etc`: Show open files in a particular filesystem
+    - `lsof -u root`: Show files accessed by a user
+    - `lsof -p 257`: Show files opened by a process id
+    - `lsof -i`: Show files accessed by network connections
+    - `lsof -i 4`: Show files with IP version 4 `lsof -i 6`
+    - `lsof -i tcp`: Show files that use TCP connection `lsof -i udp`
+    - `lsof -i :3306`: Show opened files based on port number
 - `lsblk`: List all block devices and partitions
 - `dd`:  Copy and convert data at a low level.
 
