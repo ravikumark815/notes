@@ -214,6 +214,8 @@
     - `lsof -i :80-1024`: Show opened files based on port range
     - `lsof -t /usr/bin/df`: Show processes holding /usr/bin/df file 
 - `lsblk`: List all block devices and partitions
+    - `lsblk -a`: Display all block devices, including empty ones
+    - `lsblk -m`: Display owner, group and mode
 - `dd`:  Copy and convert data at a low level.
 
 ## Networking
