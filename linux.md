@@ -217,6 +217,19 @@
     - `lsblk -a`: Display all block devices, including empty ones
     - `lsblk -m`: Display owner, group and mode
 - `dd`:  Copy and convert data at a low level.
+    - `dd if=/tmp/ubuntu.iso of=/dev/sdX bs=4M status=progress`: Create a bootable usb of ubuntu iso in /tmp with 4M block size and display progress in real-time
+    - `sudo dd if=/dev/sdX | gzip > backup.img.gz`: Create Zipped disk image
+    - `sudo dd if=/dev/sdX | openssl enc -aes-256-cbc -out backup.img.enc`: Create encrypted disk image
+    - `dd if=/dev/nvme0n1 of=/var/backup.img bs=4M status=progress`: Create a full disk backup
+    - `dd if=/var/backup.img of=/dev/nvme01n1 bs=4M status=progress`:  Restore disk image
+    - `dd if=/dev/zero of=/dev/sdX bs=1M status=progress`: Wipe Disk
+    - `dd if=/dev/zero of=tempfile bs=1M count=1024 conv=fdatasync status=progress`: Test Disk write performance
+    - `sudo dd if=/dev/sda of=/dev/null bs=1M status=progress`: Test Disk Read performance
+    - `sudo dd if=/dev/sdX of=mbr_backup.bin bs=512 count=1`: Create Master Boot Record (contains bootloader)
+    - `sudo dd if=mbr_backup.bin of=/dev/sdX bs=512 count=1`: Restore Master Boot Record
+    - `dd if=/dev/sda of=/dev/sdb bs=64k conv=noerror,sync status=progress`: Clone sda to sdb; prevent minor read errors and fill unreadable blocks with zeroes to maintain alignment
+    - `dd if=/dev/zero of=/swapfile bs=1M count 2048`: Create a 2GB swap files to be used as additional virtual memory
+        - `mkswap /swapfile && sudo swapon /swapfile`: Activating the swapfile created above  
 
 ## Networking
 - `ssh`:  Secure shell for remote access.
