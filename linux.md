@@ -306,7 +306,7 @@
     - `pacman -S htop`:  Install htop tool
     - `pacman -Ss htop`: Search for a package
     - `pacman -R htop`: Remove a package
-- `pacman/dnf`:  Package managers for different Linux distributions.
+- `dnf`:  Package managers for different Linux distributions.
 - `dpkg`:
     - `dpkg -i apache2.deb` : Install a package
     - `dpkg -l`: List installed packages
