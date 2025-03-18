@@ -301,6 +301,11 @@
     - `rpm -qc firefox`: Display list of configuration files for a package
     - `rpm -qpR firefox.rpm`: Find all dependencies of a rpm file
     - `rpm -qpR firefox`: Find all dependencies of a package
+- `pacman`:
+    - `pacman -Syu`: Update existing packages and install latest package information
+    - `pacman -S htop`:  Install htop tool
+    - `pacman -Ss htop`: Search for a package
+    - `pacman -R htop`: Remove a package
 - `pacman/dnf`:  Package managers for different Linux distributions.
 - `dpkg`:
     - `dpkg -i apache2.deb` : Install a package
