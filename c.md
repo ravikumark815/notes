@@ -287,3 +287,156 @@ if (k < 3) {
 // Repeat 2
 
 ```
+
+## Common Program Error Signals in C/C++
+
+| Signal   | Name                  | Description                                                                 | Common Causes                                         |
+|----------|-----------------------|-----------------------------------------------------------------------------|-------------------------------------------------------|
+| `SIGFPE` | Floating Point Exception | Arithmetic error such as division by zero or overflow.                    | Division by zero, invalid floating-point operation    |
+| `SIGILL` | Illegal Instruction   | Attempt to execute an illegal, privileged, or corrupted instruction.       | Stack corruption, executing invalid binary code       |
+| `SIGSEGV`| Segmentation Fault    | Invalid memory access (outside allocated memory space).                    | Dereferencing NULL/wild pointer, buffer overflow      |
+| `SIGBUS` | Bus Error             | Misaligned or physically invalid memory access.                            | Accessing non-existent physical address, unaligned access on certain architectures |
+| `SIGABRT`| Abort Signal          | Abnormal program termination. Typically triggered by `abort()` or failed `assert()`. | Failed assertion, internal fatal errors               |
+| `SIGSYS` | Bad System Call       | Invalid argument or misuse of system call.                                 | Calling non-implemented syscall, bad syscall arguments |
+| `SIGTRAP`| Trace/Breakpoint Trap | Triggered by debuggers or to indicate a trap/exception.                    | Debug breakpoint hit, intentional traps for debugging |
+| `SIGTERM`| Termination Signal    | Requests program termination (gracefully).                                 | `kill` command or system shutdown                     |
+| `SIGKILL`| Kill Signal           | Forces immediate termination (cannot be caught or ignored).               | `kill -9` or critical resource violations              |
+| `SIGINT` | Interrupt             | Sent when user types Ctrl+C at terminal.                                   | User interruption                                     |
+
+## Preprocessor Directives
+
+In C, all lines beginning with `#` are handled by the **preprocessor**, which processes these directives *before* compilation.
+
+### Common Preprocessor Directives
+
+| Directive       | Description |
+|----------------|-------------|
+| `#include`      | Inserts the contents of a file. `<...>` searches standard system directories; `"..."` searches current directory first. |
+| `#define`       | Defines a macro or constant. The preprocessor replaces all matching tokens with the expression. |
+| `#undef`        | Undefines a macro. |
+| `#if`, `#elif`, `#else`, `#endif` | Used for conditional compilation. |
+| `#ifdef`, `#ifndef` | Used to check if a macro is defined or not. |
+
+---
+
+## Macros
+
+- **Simple Macros**: Replace tokens with text.
+```c
+#define PI 3.14
+```
+
+- **Function-like Macros**: Accept arguments but perform **no type checking**.
+```c
+#define SQUARE(x) ((x) * (x))
+```
+
+- **Arguments Are Not Evaluated Before Expansion**: Macros substitute tokens as-is.
+
+- **Token Pasting (`##`)**: Concatenate macro parameters.
+```c
+#define COMBINE(a, b) a##b
+// COMBINE(hello, world) -> helloworld
+```
+
+- **Stringizing (`#`)**: Convert macro parameter to string literal.
+```c
+#define TO_STRING(x) #x
+// TO_STRING(123) -> "123"
+```
+
+- **Multi-line Macros:** Use a backslash (`\`) to continue a macro definition on the next line:
+```c
+#define DEBUG_PRINT(msg) \    printf("Debug: %s\n", msg); \    log_to_file(msg)
+```
+
+
+- **Predefined Macros in C:**
+
+| Macro         | Description                       |
+|---------------|-----------------------------------|
+| `__FILE__`    | Name of the current source file   |
+| `__LINE__`    | Current line number in the source file |
+| `__DATE__`    | Compilation date (string)         |
+| `__TIME__`    | Compilation time (string)         |
+| `__STDC__`    | Defined if the compiler conforms to ANSI C |
+
+## Files
+| Function     | Description                                                                 |
+|--------------|-----------------------------------------------------------------------------|
+| `fopen()`     | Opens a file in a specified mode (`"r"`, `"w"`, `"a"`, etc.)                |
+| `fclose()`    | Closes an opened file                                                       |
+| `fprintf()`   | Writes formatted output to a file                                           |
+| `fscanf()`    | Reads formatted input from a file                                           |
+| `fgets()`     | Reads a string from a file                                                  |
+| `fputs()`     | Writes a string to a file                                                   |
+| `fgetc()`     | Reads a character from a file                                               |
+| `fputc()`     | Writes a character to a file                                                |
+| `feof()`      | Checks for the end of a file                                                |
+| `fseek()`     | Moves the file pointer to a specific location                              |
+| `ftell()`     | Returns the current file pointer position                                  |
+| `rewind()`    | Moves the file pointer to the beginning of a file                          |
+| `remove()`    | Deletes a file                                                              |
+| `rename()`    | Renames a file                                                              |
+
+```c
+#include <stdio.h>
+
+int main() {
+    FILE *file;
+
+    // Writing to a file
+    file = fopen("sample.txt", "w");
+    if (file != NULL) {
+        fprintf(file, "Hello, World!\n");
+        fprintf(file, "This is a sample file.\n");
+        fclose(file);
+        printf("File 'sample.txt' written successfully.\n");
+    } else {
+        printf("Error opening file for writing.\n");
+        return 1;
+    }
+
+    // Reading from a file
+    file = fopen("sample.txt", "r");
+    if (file != NULL) {
+        printf("\nReading from file 'sample.txt':\n");
+        char buffer[100];
+        while (fgets(buffer, sizeof(buffer), file) != NULL) {
+            printf("%s", buffer);
+        }
+        fclose(file);
+    } else {
+        printf("Error opening file for reading.\n");
+        return 1;
+    }
+
+    // Appending to a file
+    file = fopen("sample.txt", "a");
+    if (file != NULL) {
+        fprintf(file, "Appending to the file.\n");
+        fclose(file);
+        printf("\nFile 'sample.txt' appended successfully.\n");
+    } else {
+        printf("Error opening file for appending.\n");
+        return 1;
+    }
+
+    return 0;
+}
+```
+
+---
+
+### Output
+
+```
+File 'sample.txt' written successfully.
+
+Reading from file 'sample.txt':
+Hello, World!
+This is a sample file.
+
+File 'sample.txt' appended successfully.
+```
+
