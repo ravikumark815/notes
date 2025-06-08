@@ -114,8 +114,6 @@ int main(void) {
 | Pointer      | &, *                                      | Right-to-Left        | High             |
 | Misc         | sizeof(), . (obj.val), ->, []             | Left-to-Right        | Highest          |
 
-> See C operator precedence charts for full details.
-
 ## Identifiers & Keywords
 
 - **Identifiers:** Names for `variables`, `constants`, `functions`; must begin with a letter/`_`; case-sensitive; no spaces or keywords.
