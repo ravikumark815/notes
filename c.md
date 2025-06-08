@@ -630,7 +630,10 @@ if (file) {
 - `<stddef.h>`: Common macros/types (`size_t`, `ptrdiff_t`)
 - `<assert.h>`: Diagnostics
 - `<errno.h>`: Error codes
-- `<signal.h`: Handling Signals
+- `<signal.h>`: Handling Signals
+- `<limits.h>`
+- `<locale.h>`
+- `<time.h>`
 
 ## GCC/Clang Compilation Tips
 
