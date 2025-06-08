@@ -1,469 +1,496 @@
 # C
+
+## Table of Contents
+- [Preset](#preset)
+- [Minimal C Program](#minimal-c-program)
+- [Structure of C Program](#structure-of-c-program)
+- [Compilation Process](#compilation-process)
+- [Memory Map](#memory-map)
+- [Data Types](#data-types)
+- [Operators & Precedence](#operators--precedence)
+- [Identifiers & Keywords](#identifiers--keywords)
+- [Scope, Type Qualifiers, Storage Classes](#scope-type-qualifiers-storage-classes)
+- [Input/Output](#inputoutput)
+- [Format Specifiers & Escape Sequences](#format-specifiers--escape-sequences)
+- [Control Statements](#control-statements)
+- [Functions](#functions)
+- [Command-line Arguments](#command-line-arguments)
+- [Strings](#strings)
+- [Arrays](#arrays)
+- [Pointers](#pointers)
+- [Dynamic Memory Allocation](#dynamic-memory-allocation)
+- [Structures, Unions, Enumerations, Bit Fields](#structures-unions-enumerations-bit-fields)
+- [Files](#files)
+- [Preprocessor Directives & Macros](#preprocessor-directives--macros)
+- [Bit Manipulation](#bit-manipulation)
+- [Common Program Error Signals](#common-program-error-signals)
+- [Useful Libraries](#useful-libraries)
+- [Best Practices & Pitfalls](#best-practices--pitfalls)
+- [GCC/Clang Compilation Tips](#gccclang-compilation-tips)
+
 ## Preset
-- Invented by Dennis Ritchie, 1972, Bell Labs to write Unix OS
-- General Purpose, modular and portable
-- Low-level memory access
-- C-Standards: C89/90 (1989/90), C99 (1999), C11 (2011), C18(2018), C24(2024)
 
-## Structure of C Program:
-|   |   |   |
-|---|---|---|
-| Header | #include <stdio.h> |
-| main() | int main() { |
-| Variable Declaration | int a = 10; |
-| Body | printf(“%d”, a”); |
-| Return | return 0; }|
+- Invented by Dennis Ritchie (1972, Bell Labs) to write Unix OS.
+- General purpose, modular, and portable.
+- Allows low-level memory access.
+- C Standards: C89/90 (ANSI C), C99, C11, C18, C23/C24.
+## Structure of C Program
 
-- Header Files inclusion: Contains C function declarations and macro definitions to be shared between source files.
-- Main Method: Execution starts from this function.
-- Variable Declaration: Variables that are to be used in the function. No variables can be used without being declared.
-- Body: Refers to operations that are performed in the functions.
-- Return: Depending on return type of the function, the return refers to the returning values from a function
+```c
+#include <stdio.h>
+
+int main(void) {
+    printf("Hello, World!\n");
+    return 0;
+}
+```
+
+| Part                  | Example                          | Description                                      |
+|-----------------------|----------------------------------|--------------------------------------------------|
+| Header                | `#include <stdio.h>`             | Include standard/header files                    |
+| main()                | `int main() { ... }`             | Program execution starts here                    |
+| Variable Declaration  | `int a = 10;`                    | Declare and initialize variables                 |
+| Body                  | `printf("%d", a);`               | Statements (actual code)                         |
+| Return                | `return 0; }`                    | Returns value to OS (0 = success)                |
+
+- Header Files: Contain function declarations and macros.
+- Main Method: Entry point.
+- Variable Declaration: Must declare before use.
+- Body: Logic of function/program.
+- Return: Return value per function type.
+
+## Compilation Process
+
+![Compilation Steps](https://github.com/ravikumark815/notes/blob/main/c-images/compilation.png)
+
+- **Source File:** `.c` file written in editor.
+- **Preprocessor:** Handles macros, includes, removes comments (`.i`).
+- **Compiler:** Converts to assembly (`.s`).
+- **Assembler:** Converts to object code (`.o`).
+- **Linker:** Combines objects, resolves references, produces executable.
+- **Loader:** Loads executable into memory for execution.
+
+> Save all intermediate files:  
+> ```sh
+> gcc -Wall -save-temps filename.c -o filename
+> ```
 
 ## Memory Map
-![](https://github.com/ravikumark815/notes/blob/main/c-images/memory-map.png)
 
-## Compilation
-![](https://github.com/ravikumark815/notes/blob/main/c-images/compilation.png)
+![Memory Map](https://github.com/ravikumark815/notes/blob/main/c-images/memory-map.png)
 
-- **Source File:** Create a c program using an editor and save the file as filename.c
-- **Pre-processor:** This phase includes the following and produces filename.i
-    - Removal of comments
-    - Expansion of Macros
-    - Expansion of Included files
-    - Conditional Compilation
-- **Compiling:** Compiles filename.i and produces filename.s which includes assembly-level instructions. 
-- **Assembler:** Takes filename.s as output and produces filename.o – object code. Existing code is converted into machine language. 
-- **Linking:** All function calls linked, adds extra code to mark delimiters of each block and forms a executable file.
-- **Loading:** Loading the process to main memory
+## Data Types
 
-> To save all intermediate files during compilation: `$gcc -Wall -save-temps filename.c –o filename`
+| Type                     | Bits/Size         | Range                                       | Library         |
+|--------------------------|-------------------|---------------------------------------------|-----------------|
+| `char`                   | 8                 | -128 to 127                                 |                 |
+| `unsigned char`          | 8                 | 0 to 255                                    |                 |
+| `signed char`            | 8                 | -128 to 127                                 |                 |
+| `int`                    | 16/32 (platform)  | -32768 to 32767 / -2,147,483,648 to 2,147,483,647 |                 |
+| `unsigned int`           | 16/32             | 0 to 65535 / 0 to 4,294,967,295             |                 |
+| `short int`              | 16                | -32768 to 32767                             |                 |
+| `unsigned short int`     | 16                | 0 to 65535                                  |                 |
+| `long int`               | 32                | -2,147,483,648 to 2,147,483,647             |                 |
+| `unsigned long int`      | 32                | 0 to 4,294,967,295                          |                 |
+| `long long int`          | 64                | -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 |           |
+| `unsigned long long int` | 64                | 0 to 18,446,744,073,709,551,615             |                 |
+| `float`                  | 32                | ±1.17e-38 to ±3.4e38                        | `<float.h>`     |
+| `double`                 | 64                | ±2.3e-308 to ±1.7e308                       | `<float.h>`     |
+| `long double`            | 80/96/128         | ±3.4e-4932 to ±1.1e4932                     | `<float.h>`     |
+| `bool`                   | 1 (implementation)| `true` or `false`                           | `<stdbool.h>`   |
+| `size_t`                 | Platform          | Unsigned type for sizes, array indexing      | `<stddef.h>`    |
+| `int32_t`, etc.          | Fixed-width types | Exact-width integers                         | `<stdint.h>`    |
 
-## Comments:
-- Single Line: `//`
-- Multiline: `/* */`
-> ✅ Prefer using multi line comments everytime
+## Operators
 
-## Data Types:
-| Type                   | Bits   | Range                                  | Library        |
-| :--------------------- | :----- | :------------------------------------- | :------------- |
-| char                   | 8      | -127 to 127                           |                |
-| unsigned char          | 8      | 0 to 255                              |                |
-| signed char            | 8      | -127 to 127                           |                |
-| int                    | 16/32  | -32768 to 32767                       |                |
-| unsigned int           | 16/32  | 0 to 65535                            |                |
-| signed int             | 16/32  | -32768 to 32767                       |                |
-| short int              | 16     | -32768 to 32767                       |                |
-| unsigned short int     | 16     | 0 to 65535                            |                |
-| signed short int       | 16     | -32768 to 32767                       |                |
-| long int               | 32     | $-2^{31}$ to $2^{31}-1$                |                |
-| long long int          | 64     | $-2^{63}$ to $2^{63}-1$                |                |
-| signed long int        | 32     | $-2^{31}$ to $2^{31}-1$                |                |
-| unsigned long int      | 32     | 0 to $2^{32}-1$                       |                |
-| unsigned long long int | 64     | 0 to $2^{64}-1$                       |                |
-| float                  | 32     | $\pm 1.17 \times 10^{-38}$ to $\pm 3.4 \times 10^{38}$ | `<float.h>`    |
-| double                 | 64     | $\pm 2.3 \times 10^{-308}$ to $\pm 1.7 \times 10^{308}$ | `<float.h>`    |
-| long double            | 80/96/128| $\pm 3.4 \times 10^{-4932}$ to $\pm 1.1 \times 10^{4932}$ | `<float.h>`    |
-| bool                   | (Implementation-defined) | `true` or `false`                     | `<stdbool.h>`  |
-| float _Complex_        | (Implementation-defined) |                                       | `<complex.h>`  |
-| float _Imaginary_      | (Implementation-defined) |                                       | `<complex.h>`  |
-| double _Complex_       | (Implementation-defined) |                                       | `<complex.h>`  |
-| double _Imaginary_     | (Implementation-defined) |                                       | `<complex.h>`  |
-| long double _Complex_  | (Implementation-defined) |                                       | `<complex.h>`  |
-| long double _Imaginary_| (Implementation-defined) |                                       | `<complex.h>`  |
+| Category     | Symbols                                   | Associativity        | Precedence       |
+|--------------|-------------------------------------------|----------------------|------------------|
+| Assignment   | =, +=, -=, *=, /=, %=, &=, \|=, ^=, >>=, <<= | Right-to-Left        | Lowest           |
+| Arithmetic   | +, -, *, /, %, ++, --                     | Left-to-Right        | Medium-high      |
+| Relational   | ==, !=, >, <, >=, <=                      | Left-to-Right        | Medium           |
+| Logical      | &&, \|\|, !                               | &&, \|\|: Left-to-Right<br>!: Right-to-Left | Low |
+| Bitwise      | &, \|, ^                                  | Left-to-Right        | Medium           |
+| Ternary      | `?:`                                      | Right-to-Left        | Low              |
+| Pointer      | &, *                                      | Right-to-Left        | High             |
+| Misc         | sizeof(), . (obj.val), ->, []             | Left-to-Right        | Highest          |
 
-## Operators:
-| Operators     | Symbols                                 | Associativity | Precedence      |
-|---------------|-----------------------------------------|---------------|-----------------|
-| Assignment    | =, +=, -=, *=, /=, %=, &=, \|=, ^=, >>=, <<= | Right-to-Left | Lowest          |
-| Arithmetic    | +, -, *, /, %, ++, --                   | Left-to-Right | Medium-high     |
-| Relational    | ==, !=, >, <, >=, <=                     | Left-to-Right | Medium          |
-| Logical       | &&, \|\|, !                              | Left-to-Right (&& and \|\|), Right-to-Left (!) | Low             |
-| Bitwise       | &, \|, ^                                | Left-to-Right | Medium          |
-| Ternary       | Condition ? True : False                | Right-to-Left | Low             |
-| Pointer       | &, * | Right-to-Left | Medium-high     |
-| Misc          | sizeof(), . (obj.val), &(ptr), *(access) | Left-to-Right | Highest         |
+> See C operator precedence charts for full details.
 
-## Identifiers
-- **Variables and Constants:**
-    - Named location which has some memory allocated to it.
-    - Always start with letter/_, only alphanumeric, no whitespace, no keywords.
-- **Keywords:** 
-    - Predefined and reserved words that have special meanings to the compiler in C.
+## Identifiers & Keywords
 
-|          |          |          |          |          |          |          |          |
-|----------|----------|----------|----------|----------|----------|----------|----------|
+- **Identifiers:** Names for `variables`, `constants`, `functions`; must begin with a letter/`_`; case-sensitive; no spaces or keywords.
+- **Keywords:** Reserved by C.
+
 | auto     | break    | case     | char     | const    | continue | default  | do       |
+|----------|----------|----------|----------|----------|----------|----------|----------|
 | double   | else     | enum     | extern   | float    | for      | goto     | if       |
 | int      | long     | register | return   | short    | signed   | sizeof   | static   |
 | struct   | switch   | typedef  | union    | unsigned | void     | volatile | while    |
 
-## Scope Rules
+## Scope, Type Qualifiers, Storage Classes
 
-| Scope                    | Meaning                                                                 |
-|--------------------------|-------------------------------------------------------------------------|
-| File Scope               | Starts at the beginning of the file and ends at the end of the file     |
-| Block Scope              | Starts at the opening `{` and ends at the closing `}`                   |
-| Function Prototype Scope| Identifiers declared in a function prototype; visible within the prototype |
-| Function Scope           | Starts at the opening `{` of a function and ends at the closing `}` of the function |
+### Scope
 
-## Type Qualifiers
+| Scope                      | Meaning                                              |
+|----------------------------|-----------------------------------------------------|
+| File Scope                 | Valid throughout the file                           |
+| Block Scope                | Valid within `{ ... }`                              |
+| Function Prototype Scope   | Valid only inside prototype                         |
+| Function Scope             | Valid only inside function                          |
 
-| Qualifier | Description                                                                                                |
-|-----------|------------------------------------------------------------------------------------------------------------|
-| `const`   | Variables of type `const` cannot be changed by the program. They can only be given an initial value.        |
-| `volatile`| Variable's value may be changed in ways not explicitly specified by the program. A global variable passed to the OS's clock routine is a good example. |
-| `restrict`| To specify that a pointer is an exclusive method of accessing a specific object or area of memory.        |
-| `_Atomic`  | A variable that may be read or written atomically - without interference from other threads or processes. |
+### Type Qualifiers
 
-## Storage Class Specifiers
+| Qualifier    | Description                                                                  |
+|--------------|------------------------------------------------------------------------------|
+| `const`      | Value cannot be changed after initialization                                 |
+| `volatile`   | May change in ways unanticipated by the compiler                             |
+| `restrict`   | Pointer is the only reference to the object                                  |
+| `_Atomic`    | Special atomic access (C11 and later)                                        |
 
-| Specifier  | Description                                                                                                   |
-|------------|---------------------------------------------------------------------------------------------------------------|
-| `auto`     | Default storage class for all the variables declared inside a function or a block.                              |
-| `extern`   | Used to specify that an object is declared with external linkage elsewhere in the program.                    |
-| `static`   | Permanent variables within their own function or file. They maintain their values between function calls.       |
-| `register` | Variables declared with `register` are stored in CPU registers instead of RAM for faster access.              |
+### Storage Classes
+
+| Specifier  | Description                                                                    |
+|------------|--------------------------------------------------------------------------------|
+| `auto`     | Default for local variables (automatic storage)                                |
+| `extern`   | Defined elsewhere; accessible across files                                     |
+| `static`   | Persists for program lifetime, scope-limited                                   |
+| `register` | Hints to store in CPU register (may be ignored)                                |
+
+#### Example
 
 ```c
 #include <stdio.h>
-int global_var = 10; // Global variable
-static int static_global_var = 20; // Initialized data segment
+int global_var = 10;    // global, file scope
+static int file_static = 20; // static, file scope
 
-void demoFunction() {
-    auto int auto_var = 5;
-    printf("auto_var: %d\n", auto_var);
-
-    static int static_func_var = 0; // static (within function)
-    static_func_var++;
-    printf("static_func_var: %d (This value persists!)\n", static_func_var);
-
-    register int register_var = 100; // register (request to store in register)
-    printf("register_var: %d (May or may not be in a register)\n", register_var);
-
-    const int const_var = 3; // const (type qualifier)
-    printf("const_var: %d (Cannot be modified)\n", const_var);
-    // const_var = 4; // This would cause a compilation error
-
-    volatile int volatile_var = 42; // volatile (type qualifier)
-    printf("volatile_var: %d (Value might change unexpectedly)\n", volatile_var);
+void demo() {
+    auto int local = 5;
+    static int func_static = 0; // persists across calls
+    register int reg_var = 100;
+    const int constant = 3;
+    volatile int may_change = 42;
 }
-
-extern int global_var; // extern (declared in another file, but defined here)
-
-int main() {
-    printf("global_var (from main): %d\n", global_var); // extern (accessing global variable)
-
-    demoFunction();
-    demoFunction(); // Call again to see static variable's persistence
-
-    printf("static_global_var (from main): %d\n",static_global_var);
-
-    return 0;
-}
-
-/* Output
-global_var (from main): 10
-auto_var: 5
-static_func_var: 1 (This value persists!)
-register_var: 100 (May or may not be in a register)
-const_var: 3 (Cannot be modified)
-volatile_var: 42 (Value might change unexpectedly)
-auto_var: 5
-static_func_var: 2 (This value persists!)
-register_var: 100 (May or may not be in a register)
-const_var: 3 (Cannot be modified)
-volatile_var: 42 (Value might change unexpectedly)
-static_global_var (from main): 20
-*/
 ```
 
 ## Input/Output
 
-| Function     | Description |
-|--------------|-------------|
-| `scanf()`    | Reads formatted input from stdin. Stops reading a string at the first whitespace character (space, tab, or newline). |
-| `gets()`     | Reads an entire line from stdin until a newline or EOF is encountered. **Unsafe**: Does not perform bounds checking and can cause buffer overflows. **Deprecated** in C11. |
-| `fgets()`    | Reads a line from stdin into a buffer, stopping after `n-1` characters, a newline, or EOF, whichever comes first. Includes the newline character in the buffer if encountered. **Safer alternative to `gets()`.** |
-| `puts()`     | Writes a string to stdout followed by a newline character. |
-| `printf()`   | Writes formatted output to stdout. |
-| `getchar()`  | Reads the next character from stdin. Waits for the Enter key. |
-| `putchar()`  | Writes a single character to stdout. |
-| `getch()`    | Reads a character from the keyboard without echoing it to the console and without waiting for Enter. (Non-standard, typically available in `<conio.h>` on Windows/DOS.) |
-| `getche()`   | Similar to `getch()` but echoes the character to the console. (Also non-standard, typically in `<conio.h>`.) |
-| `fscanf()`   | Reads formatted input from a file. |
-| `fprintf()`  | Writes formatted output to a file. |
-| `fgetc()`    | Reads the next character from a file. |
-| `fputc()`    | Writes a character to a file. |
-| `fputs()`    | Writes a string to a file stream. |
+| Function     | Description                                                                                                     |
+|--------------|----------------------------------------------------------------------------------------------------------------|
+| `scanf()`    | Reads formatted input; stops at whitespace for `%s`                                                             |
+| `gets()`     | Reads line until newline/EOF; **unsafe**, deprecated in C11                                                    |
+| `fgets()`    | Reads line (safer), up to `n-1` chars; includes newline                                                        |
+| `puts()`     | Prints string, adds newline                                                                                    |
+| `printf()`   | Formatted output                                                                                               |
+| `getchar()`  | Reads next character from stdin                                                                                |
+| `putchar()`  | Writes a character to stdout                                                                                   |
+| `getch()`    | Reads a character without echo (non-standard, `<conio.h>`)                                                    |
+| `getche()`   | Like `getch()`, but echoes (non-standard)                                                                     |
+| `fscanf()`   | Reads formatted input from file                                                                                |
+| `fprintf()`  | Writes formatted output to file                                                                                |
+| `fgetc()`    | Reads next character from file                                                                                 |
+| `fputc()`    | Writes character to file                                                                                       |
+| `fputs()`    | Writes string to file                                                                                          |
 
-> ⚠️ Note: `gets()` is considered dangerous and was removed from the C11 standard. Use `fgets()` instead.
+> ⚠️ **Never use `gets()`**. Use `fgets()` for safe input.
 
-## Format Specifiers
+## Format Specifiers & Escape Sequences
 
-| Data Type                 | Format Specifier |
-|---------------------------|------------------|
-| `int`                     | `%d`, `%i`       |
-| `char`                    | `%c`             |
-| `float`                   | `%f`             |
-| `double`                  | `%lf`            |
-| `short int`               | `%hd`            |
-| `unsigned int`            | `%u`             |
-| `long int`                | `%ld` or `%li`   |
-| `long long int`           | `%lld` or `%lli` |
-| `unsigned long int`       | `%lu`            |
-| `unsigned long long int`  | `%llu`           |
-| `signed char`             | `%c`             |
-| `unsigned char`           | `%c`             |
-| `long double`             | `%Lf`            |
+### Format Specifiers
 
-## Escape Sequences
+| Data Type                 | Format Specifier      |
+|---------------------------|----------------------|
+| `int`                     | `%d`, `%i`           |
+| `char`                    | `%c`                 |
+| `float`                   | `%f`                 |
+| `double`                  | `%lf`                |
+| `short int`               | `%hd`                |
+| `unsigned int`            | `%u`                 |
+| `long int`                | `%ld` or `%li`       |
+| `long long int`           | `%lld` or `%lli`     |
+| `unsigned long int`       | `%lu`                |
+| `unsigned long long int`  | `%llu`               |
+| `long double`             | `%Lf`                |
+| `size_t`                  | `%zu`                |
+
+### Escape Sequences
 
 | Escape Sequence | Description                 |
-|------------------|-----------------------------|
-| `\a`             | Alarm or Beep               |
-| `\b`             | Backspace                   |
-| `\f`             | Form Feed                   |
-| `\n`             | New Line                    |
-| `\r`             | Carriage Return             |
-| `\t`             | Horizontal Tab              |
-| `\v`             | Vertical Tab                |
-| `\\`             | Backslash                   |
-| `\'`             | Single Quote                |
-| `\"`             | Double Quote                |
-| `\?`             | Question Mark               |
-| `\ooo`           | Octal Number (e.g., `\075`) |
-| `\xhh`           | Hexadecimal Number (e.g., `\x4B`) |
-| `\0`             | Null Character              |
+|-----------------|----------------------------|
+| `\a`            | Alarm/Bell                 |
+| `\b`            | Backspace                  |
+| `\f`            | Form Feed                  |
+| `\n`            | New Line                   |
+| `\r`            | Carriage Return            |
+| `\t`            | Horizontal Tab             |
+| `\v`            | Vertical Tab               |
+| `\\`            | Backslash                  |
+| `\'`            | Single Quote               |
+| `\"`            | Double Quote               |
+| `\?`            | Question Mark              |
+| `\ooo`          | Octal value (e.g. `\075`)  |
+| `\xhh`          | Hex value (e.g. `\x4B`)    |
+| `\0`            | Null Character             |
 
-## Control Statements in C
+## Control Statements
 
-| Category       | Statements                                           |
-|----------------|------------------------------------------------------|
-| Conditional    | `if`, `else if`, `else`, `switch`                   |
-| Loops          | `for`, `while`, `do-while`                          |
-| Jump           | `return`, `goto`, `break`, `continue`, `exit()`     |
-| Expression     | Any general statement followed by `;` (semicolon)   |
+| Category        | Statements                                       |
+|-----------------|--------------------------------------------------|
+| Conditional     | `if`, `else if`, `else`, `switch`                |
+| Loops           | `for`, `while`, `do-while`                       |
+| Jump            | `return`, `goto`, `break`, `continue`, `exit()`  |
+| Expression      | Any statement ending with `;`                    |
 
+### Example
 
 ```c
-// if-else-if
 int num = 10;
 if (num > 0)
     printf("Positive\n");
 else
     printf("Non-positive\n");
-// Output: Positive
 
-// for
 for (int i = 1; i <= 5; i++)
     printf("%d ", i);
-// Output: 1 2 3 4 5
 
-// while
-int count = 3;
-while (count > 0) {
-    printf("Count: %d\n", count);
-    count--;
+while (num > 0) {
+    printf("Num: %d\n", num);
+    num--;
 }
-// Output:
-// Count: 3
-// Count: 2
-// Count: 1
-
-// break & continue
-for (int j = 1; j <= 5; j++) {
-    if (j == 3) {
-        printf("Skip 3\n");
-        continue;
-    }
-    if (j == 5) {
-        printf("Break at 5\n");
-        break;
-    }
-    printf("%d ", j);
-}
-// Output:
-// 1 2 Skip 3
-// Break at 5
-
-// goto
-int k = 0;
-repeat:
-if (k < 3) {
-    printf("Repeat %d\n", k);
-    k++;
-    goto repeat;
-}
-// Output:
-// Repeat 0
-// Repeat 1
-// Repeat 2
-
 ```
 
-## Strings in C
+> **Switch-case:** Always add `break` to prevent fall-through.
 
-- In C, a **string** is an array of characters terminated by a null character (`'\0'`).
-- C does not have a dedicated string type; instead, strings are handled as `char` arrays.
-### Declaration and Initialization
+## Functions
 
-- **Implicit size, null-terminated:**  
-  ```c
-  char greeting[] = "Hello"; // Size = 6 ('H', 'e', 'l', 'l', 'o', '\0')
-  ```
-- **Explicit size:**
-  ```c
-  char name[20] = "Alice";
-  ```
-- **Manual initialization:**  
-  ```c
-  char code[5] = {'C', 'o', 'd', 'e', '\0'};
-  ```
+- **Declaration (Prototype):** Tells compiler about function.
+- **Definition:** Actual implementation.
+- **Calling:** Executes function code.
+- **Void Function:** No return value.
+- **Returning pointer:** Functions may return pointers.
+- **Recursion:** Function calls itself.
 
-### Input and Output
+### Example
 
-- **Printing strings:**  
-  ```c
-  printf("%s\n", greeting);
-  ```
+```c
+int add(int, int); // prototype
 
-- **Reading strings:**  
-  ```c
-  char buf[100];
-  scanf("%99s", buf); // Reads up to first whitespace
-  ```
-  > ⚠️ `scanf` with `%s` stops at whitespace. For lines with spaces, use `fgets`:
-  ```c
-  fgets(buf, sizeof(buf), stdin); // Reads entire line including spaces
-  ```
+int main() {
+    printf("%d\n", add(2, 3));
+    return 0;
+}
 
----
+int add(int x, int y) {
+    return x + y;
+}
+```
+
+- **Void:** `void greet() { printf("Hi"); }`
+- **Returning pointers:** `int* alloc() { return malloc(sizeof(int)); }`
+- **Recursion:** `int fact(int n) { return n <= 1 ? 1 : n * fact(n - 1); }`
+
+## Command-line Arguments
+
+```c
+int main(int argc, char *argv[]) {
+    // argc: Number of arguments (including program name)
+    // argv: Array of argument strings
+    for (int i = 0; i < argc; i++)
+        printf("%s\n", argv[i]);
+    return 0;
+}
+```
+- Useful for passing values to program at runtime.
+
+## Strings
+
+- C strings are arrays of `char` ending with `'\0'`.
+- Declared as arrays or pointers.
+
+### Declaration & Initialization
+
+```c
+char str1[] = "Hello";
+char str2[10] = "World";
+char str3[6] = {'H', 'e', 'l', 'l', 'o', '\0'};
+char *str4 = "Literal"; // read-only in modern C
+```
+
+### Input/Output
+
+```c
+char buf[100];
+scanf("%99s", buf);       // Reads up to whitespace
+fgets(buf, sizeof(buf), stdin); // Reads a line, includes spaces/newline
+printf("%s\n", buf);
+```
+
+> ⚠️ Use `fgets` for lines with spaces.  
+> ⚠️ Never write to string literals.
 
 ### String Functions (`<string.h>`)
 
 | Function                | Description                                                         | Example                                      |
 |-------------------------|---------------------------------------------------------------------|----------------------------------------------|
-| `strlen(s)`             | Returns length of string (excluding null character)                 | `int n = strlen(str);`                       |
-| `strcpy(dest, src)`     | Copies string from `src` to `dest`                                 | `strcpy(dest, src);`                         |
-| `strncpy(dest, src, n)` | Copies up to `n` characters                                        | `strncpy(dest, src, n);`                     |
-| `strcat(dest, src)`     | Concatenates `src` to end of `dest`                                | `strcat(dest, src);`                         |
-| `strncat(dest, src, n)` | Concatenates up to `n` characters from `src` to `dest`             | `strncat(dest, src, n);`                     |
-| `strcmp(s1, s2)`        | Compares two strings, returns 0 if equal                           | `if (strcmp(a, b) == 0) {...}`               |
-| `strncmp(s1, s2, n)`    | Compares up to `n` characters of two strings                       | `if (strncmp(a, b, n) == 0) {...}`           |
-| `strchr(s, c)`          | Finds first occurrence of char `c` in string `s`                   | `char *p = strchr(str, 'a');`                |
-| `strrchr(s, c)`         | Finds last occurrence of char `c` in string `s`                    | `char *q = strrchr(str, 'a');`               |
-| `strstr(s1, s2)`        | Finds first occurrence of string `s2` in `s1`                      | `char *p = strstr(big, small);`              |
-| `strpbrk(s, accept)`    | Finds first occurrence of any character from `accept` in `s`       | `char *p = strpbrk(str, "aeiou");`           |
-| `strspn(s, accept)`     | Returns length of initial segment of `s` containing only `accept`  | `size_t n = strspn(str, "abc");`             |
-| `strcspn(s, reject)`    | Returns length of initial segment of `s` containing none of `reject`| `size_t n = strcspn(str, "xyz");`            |
-| `strtok(s, delim)`      | Splits string into tokens based on `delim`                         | `char *tok = strtok(str, ",");`              |
-| `memset(s, c, n)`       | Fills first `n` bytes of memory area pointed by `s` with byte `c`  | `memset(str, 0, 100);`                       |
-| `memcpy(dest, src, n)`  | Copies `n` bytes from `src` to `dest`                              | `memcpy(dest, src, 10);`                     |
-| `memmove(dest, src, n)` | Copies `n` bytes from `src` to `dest` (safe for overlapping areas) | `memmove(dest, src, 10);`                    |
-| `memcmp(s1, s2, n)`     | Compares first `n` bytes of two memory areas                       | `memcmp(a, b, 10);`                          |      |
+| `strlen(s)`             | Length (excluding `'\0'`)                                          | `int n = strlen(str);`                       |
+| `strcpy(dest, src)`     | Copy string                                                         | `strcpy(dest, src);`                         |
+| `strncpy(dest, src, n)` | Copy up to `n` chars                                                | `strncpy(dest, src, n);`                     |
+| `strcat(dest, src)`     | Concatenate                                                         | `strcat(dest, src);`                         |
+| `strncat(dest, src, n)` | Concatenate up to `n` chars                                         | `strncat(dest, src, n);`                     |
+| `strcmp(a, b)`          | Compare (`0` if equal)                                              | `strcmp(a, b)`                               |
+| `strncmp(a, b, n)`      | Compare up to `n` chars                                             | `strncmp(a, b, n)`                           |
+| `strchr(s, c)`          | First occurrence of `c` in `s`                                      | `strchr(str, 'a')`                           |
+| `strrchr(s, c)`         | Last occurrence of `c` in `s`                                       | `strrchr(str, 'a')`                          |
+| `strstr(big, small)`    | First occurrence of `small` in `big`                                | `strstr(big, small)`                         |
+| `strpbrk(s, accept)`    | First occurrence of any char from `accept` in `s`                   | `strpbrk(str, "aeiou")`                      |
+| `strspn(s, accept)`     | Length of leading segment with only `accept` chars                  | `strspn(str, "abc")`                         |
+| `strcspn(s, reject)`    | Length of leading segment with none of `reject` chars               | `strcspn(str, "xyz")`                        |
+| `strtok(s, delim)`      | Tokenize string                                                     | `strtok(str, ",")`                           |
+| `memset(s, c, n)`       | Set memory                                                          | `memset(str, 0, 100)`                        |
+| `memcpy(dest, src, n)`  | Copy memory                                                         | `memcpy(dest, src, 10)`                      |
+| `memmove(dest, src, n)` | Safe copy (overlap OK)                                              | `memmove(dest, src, 10)`                     |
+| `memcmp(a, b, n)`       | Compare memory                                                      | `memcmp(a, b, 10)`                           |
 
-- Always ensure destination arrays are large enough for string operations to prevent buffer overflows.
-- Strings in C are mutable unless declared as `const char *`.
-- Use `strncpy`, `strncat`, etc. for safer operations, but always manage null-termination manually.
-### Example
+- Always ensure destination arrays are large enough!
+- Use `strncpy`, `strncat` for safety, but always ensure null-termination.
+
+
+## Arrays
+
+- **1D Array:** `type arr[size];`
+    ```c
+    int arr[10];
+    ```
+- **2D Array:** `type arr[rows][cols];`
+    ```c
+    double mat[3][4];
+    ```
+- **Multi-dimensional:** `type arr[size1][size2]...[sizeN];`
+    ```c
+    int m[4][3][4][5];
+    ```
+
+- Arrays are **zero-indexed**.
+- Passed as pointers to functions (`void foo(int arr[])`).
+- Use `sizeof(arr)/sizeof(arr[0])` for element count (inside scope of definition).
+
+## Pointers
+
+- A pointer holds the address of another variable.
+- **Declaration:** `int *p = &var;`
+- Dereference using `*p`, get address using `&var`.
+- Always initialize pointers; use `NULL` if not pointing anywhere.
+
+### Pointer Arithmetic
+
+- `p++` advances pointer by `sizeof(type)`.
+- Arrays and pointers are closely related.
+
+### Function Pointers
+
+- Store function addresses, enable callbacks.
+    ```c
+    int add(int a, int b) { return a + b; }
+    int (*fptr)(int, int) = add;
+    printf("%d\n", fptr(2, 3));
+    ```
+
+### Pointers and `const`
+
+| Declaration                | Meaning                                    |
+|----------------------------|--------------------------------------------|
+| `int *const ptr`           | Constant pointer to int (cannot change address) |
+| `const int *ptr`           | Pointer to constant int (cannot change value) |
+| `const int *const ptr`     | Constant pointer to constant int           |
+
+### Pointer to Pointer, Void Pointer
+
 ```c
-#include <stdio.h>
-#include <string.h>
+int a = 10;
+int *p = &a;
+int **pp = &p; // pointer to pointer
 
-int main() {
-    char s1[20] = "Hello";
-    char s2[20];
-
-    strcpy(s2, s1);           // Copy s1 into s2
-    strcat(s2, " World");     // Concatenate " World" to s2
-
-    printf("s2: %s\n", s2);   // Output: Hello World
-    printf("Length: %zu\n", strlen(s2)); // Output: 11
-
-    if (strcmp(s1, s2) != 0)
-        printf("Strings are different\n");
-
-    return 0;
-}
+void *vp = p; // generic pointer (must cast to use)
 ```
 
-## Common Program Error Signals in C/C++
+## Dynamic Memory Allocation
 
-| Signal   | Name                  | Description                                                                 | Common Causes                                         |
-|----------|-----------------------|-----------------------------------------------------------------------------|-------------------------------------------------------|
-| `SIGFPE` | Floating Point Exception | Arithmetic error such as division by zero or overflow.                    | Division by zero, invalid floating-point operation    |
-| `SIGILL` | Illegal Instruction   | Attempt to execute an illegal, privileged, or corrupted instruction.       | Stack corruption, executing invalid binary code       |
-| `SIGSEGV`| Segmentation Fault    | Invalid memory access (outside allocated memory space).                    | Dereferencing NULL/wild pointer, buffer overflow      |
-| `SIGBUS` | Bus Error             | Misaligned or physically invalid memory access.                            | Accessing non-existent physical address, unaligned access on certain architectures |
-| `SIGABRT`| Abort Signal          | Abnormal program termination. Typically triggered by `abort()` or failed `assert()`. | Failed assertion, internal fatal errors               |
-| `SIGSYS` | Bad System Call       | Invalid argument or misuse of system call.                                 | Calling non-implemented syscall, bad syscall arguments |
-| `SIGTRAP`| Trace/Breakpoint Trap | Triggered by debuggers or to indicate a trap/exception.                    | Debug breakpoint hit, intentional traps for debugging |
-| `SIGTERM`| Termination Signal    | Requests program termination (gracefully).                                 | `kill` command or system shutdown                     |
-| `SIGKILL`| Kill Signal           | Forces immediate termination (cannot be caught or ignored).               | `kill -9` or critical resource violations              |
-| `SIGINT` | Interrupt             | Sent when user types Ctrl+C at terminal.                                   | User interruption                                     |
+- Allocates memory at runtime from heap.
+- **Always check for `NULL` return value.**
+- **Always free memory to prevent leaks.**
 
-## Preprocessor Directives
+| Function      | Description                                                        | Syntax Example                      | Notes               |
+|---------------|--------------------------------------------------------------------|-------------------------------------|---------------------|
+| `malloc()`    | Allocates memory (uninitialized)                                   | `p = malloc(size);`                 | Returns `void*`    |
+| `calloc()`    | Allocates, zero-initializes memory                                 | `p = calloc(n, size);`              | Returns `void*`    |
+| `realloc()`   | Resizes allocated memory block                                     | `p = realloc(p, new_size);`         | May move memory    |
+| `free()`      | Frees allocated memory                                             | `free(p);`                          |                    |
 
-In C, all lines beginning with `#` are handled by the **preprocessor**, which processes these directives *before* compilation.
+### Example
 
-### Common Preprocessor Directives
+```c
+int *arr = malloc(n * sizeof(int));
+if (!arr) { /* handle error */ }
+free(arr);
+arr = NULL; // after free
+```
 
-| Directive    | Description                                                                             | Example Usage                       |
-|--------------|-----------------------------------------------------------------------------------------|-------------------------------------|
-| `#define`    | Defines a macro or symbolic constant                                                    | `#define MAX 100`                   |
-| `#undef`     | Undefines a macro                                                                       | `#undef MAX`                        |
-| `#include`   | Includes a file into the source file                                                     | `#include <stdio.h>`                |
-| `#ifdef`     | Checks if a macro is defined                                                            | `#ifdef DEBUG`                      |
-| `#ifndef`    | Checks if a macro is not defined                                                        | `#ifndef MAX`                       |
-| `#if`        | Tests a compile-time condition                                                          | `#if VERSION > 2`                   |
-| `#else`      | Specifies alternative code to compile if condition is not met                            | `#else`                             |
-| `#elif`      | Else if, another condition to test if previous `#if` or `#elif` failed                  | `#elif VERSION == 2`                |
-| `#endif`     | Ends preprocessor conditional                                                           | `#endif`                            |
-| `#error`     | Prints an error message and stops compilation                                            | `#error "Wrong version!"`           |
-| `#pragma`    | Provides special instructions to the compiler, varies by compiler                       | `#pragma once`                      |
-| `#line`      | Changes the compiler’s internal line number and optionally the filename                  | `#line 100 "myfile.c"`              |
+- `calloc` is safer for arrays as it initializes to zero.
+- `realloc(ptr, 0)` is like `free(ptr)` (implementation-defined).
+- **Common errors:** forgetting to `free()`, double `free()`, dereferencing freed memory.
 
-### Common `#pragma` Examples
+## Structures, Unions, Enumerations, Bit Fields
 
-| Pragma Directive        | Description                                                                                         | Example Usage                        | Constraints                                      |
-|------------------------ |-----------------------------------------------------------------------------------------------------|-------------------------------------- |--------------------------------------------|
-| `#pragma once`          | Ensures the file is included only once in a single compilation.                                     | `#pragma once`                       | Non-standard, but widely supported         |
-| `#pragma GCC optimize`  | Instructs GCC to apply specific optimizations.                                                      | `#pragma GCC optimize ("O3")`        | GCC specific                               |
-| `#pragma pack`          | Changes memory alignment of structure members.                                                      | `#pragma pack(1)`                    | Use with caution, affects portability      |
-| `#pragma warning`       | Enables, disables, or modifies compiler warnings (MSVC, some GCC/Clang).                           | `#pragma warning(disable:4996)`      | MSVC specific                              |
-| `#pragma region`/`end`  | Marks code regions for folding in editors/IDEs (Visual Studio).                                    | `#pragma region MyRegion` ... `#pragma endregion` | MSVC/IDEs only                |
-| `#pragma message`       | Outputs a message during compilation.                                                               | `#pragma message("Compiling file...")`| MSVC, GCC, Clang                           |
-| `#pragma deprecated`    | Marks functions or types as deprecated (MSVC, some GCC/Clang).                                     | `#pragma deprecated(func)`           | MSVC, some GCC/Clang                       |
+### Structures
 
-## Macros
+- Group variables of different types.
+    ```c
+    struct student {
+        char name[30];
+        int age;
+    };
+    typedef struct student STUDENT;
 
-| Macro Type                  | Example                                            | Description                                                               |
-|-----------------------------|---------------------------------------------------|---------------------------------------------------------------------------|
-| **Object-like Macro**       | `#define PI 3.14`                                 | Simple replacement of tokens with text.                                   |
-| **Function-like Macro**     | `#define SQUARE(x) ((x) * (x))`                   | Macros that take arguments (no type checking).                            |
-| **Multi-line Macro**        | <br/>`#define LOG(msg) \`<br/>`  printf(msg); \`<br/>`  write_log(msg)` | Macro definition split across lines using `\`.   |
-| **Stringizing (`#`)**       | `#define TO_STRING(x) #x`                         | Converts a macro parameter to a string literal.                           |
-| **Token Pasting (`##`)**    | `#define COMBINE(a, b) a##b`                      | Concatenates two tokens.                                                  |
-| **Variadic Macro**          | `#define ERROR(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)` | Macro that accepts variable arguments (C99+).             |
-| **Conditional Macro**       | `#ifdef DEBUG`<br/>`#define LOG(x) printf(x)`<br/>`#else`<br/>`#define LOG(x)`<br/>`#endif` | Macro defined only if a condition is met.              |
-| **Undefining Macro**        | `#undef PI`                                       | Removes a macro definition.                                               |
+    STUDENT ram;
+    strcpy(ram.name, "Ram");
+    ram.age = 5;
+    ```
 
-- **Predefined Macros in C:**
+### Unions
 
-| Macro         | Description                       |
-|---------------|-----------------------------------|
-| `__FILE__`    | Name of the current source file   |
-| `__LINE__`    | Current line number in the source file |
-| `__DATE__`    | Compilation date (string)         |
-| `__TIME__`    | Compilation time (string)         |
-| `__STDC__`    | Defined if the compiler conforms to ANSI C |
-| `__func__`    | Print the function name |
+- One member active at a time (members share memory).
+    ```c
+    union student {
+        char name[30];
+        int age;
+    };
+    ```
+
+### Enumerations
+
+- Named integer constants.
+    ```c
+    enum week {MON, TUE, WED, THU, FRI, SAT, SUN};
+    enum week today = WED;
+    ```
+
+### Bit Fields
+
+- Specify number of bits for structure members.
+    ```c
+    struct {
+        unsigned int flag1 : 1;
+        unsigned int flag2 : 2;
+        unsigned int flag3 : 3;
+    } bits;
+    ```
+
+- Useful for compact data (flags, protocol headers, etc.).
 
 ## Files
-| Function     | Description                                                                 |
-|--------------|-----------------------------------------------------------------------------|
-| `fopen()`     | Opens a file in a specified mode (`"r"`, `"w"`, `"a"`, etc.)                |
+
+| Function      | Description                                                                 |
+|---------------|-----------------------------------------------------------------------------|
+| `fopen()`     | Opens a file (`"r"`, `"w"`, `"a"`, etc.)                                    |
 | `fclose()`    | Closes an opened file                                                       |
 | `fprintf()`   | Writes formatted output to a file                                           |
 | `fscanf()`    | Reads formatted input from a file                                           |
@@ -471,328 +498,146 @@ In C, all lines beginning with `#` are handled by the **preprocessor**, which pr
 | `fputs()`     | Writes a string to a file                                                   |
 | `fgetc()`     | Reads a character from a file                                               |
 | `fputc()`     | Writes a character to a file                                                |
-| `feof()`      | Checks for the end of a file                                                |
-| `fseek()`     | Moves the file pointer to a specific location                              |
-| `ftell()`     | Returns the current file pointer position                                  |
-| `rewind()`    | Moves the file pointer to the beginning of a file                          |
+| `feof()`      | Checks end-of-file                                                          |
+| `fseek()`     | Moves file pointer                                                          |
+| `ftell()`     | Gets current file position                                                  |
+| `rewind()`    | Resets file pointer to start                                                |
 | `remove()`    | Deletes a file                                                              |
 | `rename()`    | Renames a file                                                              |
-
-```c
-#include <stdio.h>
-
-int main() {
-    FILE *file;
-
-    // Writing to a file
-    file = fopen("sample.txt", "w");
-    if (file != NULL) {
-        fprintf(file, "Hello, World!\n");
-        fprintf(file, "This is a sample file.\n");
-        fclose(file);
-        printf("File 'sample.txt' written successfully.\n");
-    } else {
-        printf("Error opening file for writing.\n");
-        return 1;
-    }
-
-    // Reading from a file
-    file = fopen("sample.txt", "r");
-    if (file != NULL) {
-        printf("\nReading from file 'sample.txt':\n");
-        char buffer[100];
-        while (fgets(buffer, sizeof(buffer), file) != NULL) {
-            printf("%s", buffer);
-        }
-        fclose(file);
-    } else {
-        printf("Error opening file for reading.\n");
-        return 1;
-    }
-
-    // Appending to a file
-    file = fopen("sample.txt", "a");
-    if (file != NULL) {
-        fprintf(file, "Appending to the file.\n");
-        fclose(file);
-        printf("\nFile 'sample.txt' appended successfully.\n");
-    } else {
-        printf("Error opening file for appending.\n");
-        return 1;
-    }
-
-    return 0;
-}
-/*
-Output:
-File 'sample.txt' written successfully.
-
-Reading from file 'sample.txt':
-Hello, World!
-This is a sample file.
-
-File 'sample.txt' appended successfully.
-*/
-```
-## Bit Manipulation
-
-| Task                              | Bit Manipulation Expression           | Description                                                |
-|------------------------------------|---------------------------------------|------------------------------------------------------------|
-| Check if number is odd             | `if (n & 1)`                         | If LSB is 1, number is odd                                 |
-| Clear the lowest set bit           | `num & (num - 1)`                    | Turns off the rightmost 1-bit                              |
-| Divide by 2                        | `num >> 1`                           | Logical right shift by 1 (divides by 2)                    |
-| Multiply by 2                      | `num << 1`                           | Logical left shift by 1 (multiplies by 2)                  |
-| Convert to lowercase               | `ch | 32`                            | Sets the 6th bit, works only for alphabetic characters     |
-| Convert to uppercase               | `ch & ~32`                           | Clears the 6th bit, works only for alphabetic characters   |
-| Check power of 2                   | `if ((num & (num - 1)) == 0)`        | True only if num has a single bit set                      |
-| Set k-th bit                       | `num | (1 << k)`                     | Sets the k-th bit                                          |
-| Unset k-th bit                     | `num & ~(1 << k)`                    | Clears the k-th bit                                        |
-| Check k-th bit                     | `if (num & (1 << k))`                | Checks if k-th bit is set                                  |
-| Toggle k-th bit                    | `num ^ (1 << k)`                     | Flips the k-th bit                                         |
-| Count set bits                     | Use Brian Kernighan’s algo           | Loop: `while(n) { n &= (n-1); count++;}`                   |
-| Turn off rightmost 1-bit           | `n & (n - 1)`                        | Same as clear lowest set bit                               |
-| Isolate rightmost 1-bit            | `n & -n`                             | Gives only the rightmost set bit                           |
-| Swap two numbers                   | `a ^= b; b ^= a; a ^= b;`            | XOR-based swap without temp variable                       |
-| Find rightmost different bit       | `(a ^ b) & -(a ^ b)`                 | Finds lowest bit where a and b differ                      |
-| Set all bits below k (not including k) | `(1 << k) - 1`                   | Makes a mask with all lower bits set up to k-1             |
-| Check if exactly one bit set (nonzero) | `num && !(num & (num - 1))`      | True if num is a power of 2 (and not zero)                 |
-| Round up to next power of two      | `n = n-1; n |= n >> 1; n |= n >> 2; n |= n >> 4; n |= n >> 8; n |= n >> 16; n++;` | For 32-bit unsigned ints                                   |
-| Find log2 (position of highest set bit) | `31 - __builtin_clz(n)`           | GCC/Clang built-in, returns index of highest set bit       |
-| Parity (even/odd number of set bits)   | `__builtin_parity(n)`             | GCC/Clang built-in; 1 if odd, 0 if even number of bits     |
-| Absolute value using bits          | `(x ^ (x >> 31)) - (x >> 31)`        | Computes absolute value without branching                  |
-| Reverse all bits                   | `__builtin_bitreverse32(n)`          | GCC/Clang built-in for 32-bit integers                     |
-| Get lowest zero bit (rightmost 0)  | `~n & (n + 1)`                       | Isolates the lowest unset bit                              |
-| Turn on rightmost 0-bit            | `n | (n + 1)`                        | Sets the rightmost 0 bit                                   |                     |
-
-## Example: Toggle k-th Bit
-```c
-#include <stdio.h>
-
-int main() {
-    int num = 42; // 101010
-    int k = 1;
-    int result = num ^ (1 << k); // Toggles the 1st bit (0-indexed)
-    printf("Original: %d, After toggle at %dth bit: %d\n", num, k, result);
-    return 0;
-}
-```
-## Dynamic Memory Allocation
-Dynamic memory allocation allows you to allocate and manage memory at runtime, enabling flexible and efficient use of resources.
-
-| Function      | Description                                                                                              | Syntax Example                                   | Notes                                              |
-|---------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------|----------------------------------------------------|
-| `malloc()`    | Allocates a block of memory of specified size (in bytes). Returns a pointer to the first byte, or `NULL` if allocation fails. | `ptr = (datatype *) malloc(size);`               | Memory is uninitialized (contains garbage values).  |
-| `calloc()`    | Allocates memory for an array of elements, initializes all bytes to zero. Returns pointer or `NULL`.      | `ptr = (datatype *) calloc(n, size);`            | `n` = number of elements, `size` = size of each.    |
-| `realloc()`   | Changes the size of previously allocated memory block (from `malloc`/`calloc`). May move memory if needed.| `ptr = (datatype *) realloc(ptr, new_size);`     | If moved, contents up to min(old, new) size kept.   |
-| `free()`      | Deallocates memory previously allocated by `malloc`, `calloc`, or `realloc`.                             | `free(ptr);`                                     | Always free memory when no longer needed!           |
 
 ### Example
 
 ```c
-#include <stdio.h>
-#include <stdlib.h>
-
-int main() {
-    int *arr;
-    int n = 5;
-
-    // malloc: allocate memory for 5 integers (uninitialized)
-    arr = (int *) malloc(n * sizeof(int));
-    if (arr == NULL) {
-        printf("Memory allocation failed\n");
-        return 1;
-    }
-    // calloc: allocate memory for 5 integers (initialized to 0)
-    int *arr2 = (int *) calloc(n, sizeof(int));
-    if (arr2 == NULL) {
-        printf("Memory allocation failed\n");
-        free(arr);
-        return 1;
-    }
-    // realloc: resize arr2 to hold 10 integers
-    int *temp = (int *) realloc(arr2, 10 * sizeof(int));
-    if (temp == NULL) {
-        printf("Memory reallocation failed\n");
-        free(arr);
-        free(arr2);
-        return 1;
-    }
-    arr2 = temp;
-
-    // ... use arr and arr2 ...
-
-    // Deallocate memory
-    free(arr);
-    free(arr2);
-
-    return 0;
+FILE *file = fopen("sample.txt", "w");
+if (file) {
+    fprintf(file, "Hello!\n");
+    fclose(file);
 }
 ```
+- Use `perror("msg")` to print file-related errors.
 
-### ✅ Best Practices
+## Preprocessor Directives & Macros
 
-- Always check if the pointer returned by `malloc`, `calloc`, or `realloc` is `NULL` (allocation failure).
-- After freeing, set the pointer to `NULL` to avoid dangling pointers.
-- Do not use memory after it has been freed.
-- `calloc` is preferred when you need zero-initialized memory.
-- `realloc(ptr, 0)` is equivalent to `free(ptr)` in most implementations.
-- Always `free()` dynamically allocated memory to prevent memory leaks.
-```c
-free(ptr);
-ptr = NULL; // Good practice after freeing
-```
+### Preprocessor Directives
 
-## Pointers
+| Directive      | Description                                        | Example                  |
+|----------------|----------------------------------------------------|--------------------------|
+| `#define`      | Macro or constant                                  | `#define MAX 100`        |
+| `#undef`       | Undefine a macro                                   | `#undef MAX`             |
+| `#include`     | Include a file                                     | `#include <stdio.h>`     |
+| `#ifdef`       | If macro defined                                   | `#ifdef DEBUG`           |
+| `#ifndef`      | If macro not defined                               | `#ifndef MAX`            |
+| `#if`          | If compile-time condition                          | `#if VERSION > 2`        |
+| `#else`        | Else for preprocessor                              | `#else`                  |
+| `#elif`        | Else if                                            | `#elif VERSION == 2`     |
+| `#endif`       | End if                                             | `#endif`                 |
+| `#error`       | Stop compilation with error                        | `#error "Wrong version"` |
+| `#pragma`      | Special compiler instruction                       | `#pragma once`           |
+| `#line`        | Change line number/file                            | `#line 100 "myfile.c"`   |
 
-### What is a Pointer?
-- A **pointer** is a variable that stores the memory address of another variable.
-- Pointers allow direct memory access, dynamic memory management, and efficient array, structure, or function handling.
-- Always initialize pointers to `NULL` before use.
-- Dereferencing an uninitialized or NULL pointer leads to undefined behavior.
-- Prefer using `const` qualifiers to indicate intent and improve code safety.
+#### Common `#pragma` Examples
 
-```c
-int *p = NULL; // Safe initial state
-```
+- `#pragma once`: Include file only once (non-standard, widely supported).
+- `#pragma GCC optimize("O3")`: GCC optimization.
+- `#pragma pack(1)`: Change struct alignment.
+- `#pragma warning(disable:4996)`: Disable warning (MSVC).
+- `#pragma message("Compiling...")`: Show message at compile time.
 
-### Declaration and Access
-```c
-int a = 10;
-int *p = &a; // 'p' holds the address of 'a'
-```
-- `*p` dereferences the pointer, giving access to the value at the address.
-- `&a` gives the memory address of variable `a`.
+### Macros
 
----
+| Macro Type           | Example                                  | Description                                    |
+|----------------------|------------------------------------------|------------------------------------------------|
+| Object-like          | `#define PI 3.14`                        | Simple replacement                             |
+| Function-like        | `#define SQR(x) ((x)*(x))`               | Accepts arguments, no type checking            |
+| Multi-line           | `#define LOG(msg) do { printf(msg); } while(0)` | Safe macro block                        |
+| Stringizing `#`      | `#define TO_STR(x) #x`                   | Converts parameter to string                   |
+| Token Pasting `##`   | `#define COMB(a, b) a##b`                | Concatenates tokens                           |
+| Variadic             | `#define DBG(fmt, ...) printf(fmt, __VA_ARGS__)` | Variable args (C99+)                  |
+| Conditional Macro    | See `#ifdef`, `#ifndef`                  | Compile different code based on macros         |
+| Undefining Macro     | `#undef PI`                              | Remove macro definition                       |
 
-### Pointer Arithmetic
-- Pointers can be incremented or decremented.
-- **Incrementing a pointer** moves it to the next memory location based on its data type:
-  - `p++` moves the pointer by `sizeof(type)` bytes (e.g., 4 bytes for `int` on most systems).
-- Example:
+### Macro Pitfalls
+
+- Arguments may be evaluated multiple times:  
   ```c
-  int arr[3] = {1, 2, 3};
-  int *p = arr;
-  p++; // Now points to arr[1]
+  #define SQR(x) ((x)*(x))
+  int y = SQR(i++); // i++ is evaluated twice!
   ```
+- Use parentheses and prefer inline functions for complex macros.
 
----
+### Predefined Macros
 
-### Function Pointers
-- A **function pointer** holds the memory address of a function.
-- Enables callbacks, dynamic function calls, and efficient code.
-- Example:
-  ```c
-  int add(int a, int b) { return a + b; }
-  int (*func_ptr)(int, int) = add;
-  int sum = func_ptr(2, 3); // Calls add(2, 3)
-  ```
+| Macro         | Description                                |
+|---------------|--------------------------------------------|
+| `__FILE__`    | Current source filename                    |
+| `__LINE__`    | Current line number                        |
+| `__DATE__`    | Compilation date (string)                  |
+| `__TIME__`    | Compilation time (string)                  |
+| `__STDC__`    | Defined if compiler is ANSI C compliant    |
+| `__func__`    | Name of the current function (C99+)        |
 
----
+## Bit Manipulation
 
-### Pointers and `const`
-| Declaration                | Meaning                                    | Example                       |
-|----------------------------|--------------------------------------------|-------------------------------|
-| `int *const ptr;`          | **Constant pointer to integer:**           | `ptr` cannot point elsewhere, but value at `*ptr` can change. |
-| `int const *ptr;` <br> `const int *ptr;` | **Pointer to constant integer:**                | The value at `*ptr` cannot change, but `ptr` can point elsewhere. |
-| `const int *const ptr;`    | **Constant pointer to constant integer:**  | Neither the value at `*ptr` nor the address `ptr` holds can change. |
+| Task                              | Expression                                          | Description                                                |
+|------------------------------------|-----------------------------------------------------|------------------------------------------------------------|
+| Check if number is odd             | `if (n & 1)`                                       | LSB is 1 if odd                                            |
+| Clear lowest set bit               | `n & (n - 1)`                                      | Turns off rightmost 1-bit                                  |
+| Divide by 2                        | `n >> 1`                                           | Logical right shift                                        |
+| Multiply by 2                      | `n << 1`                                           | Logical left shift                                         |
+| Convert to lowercase               | `ch | 32`                                          | Sets 6th bit, ASCII only                                   |
+| Convert to uppercase               | `ch & ~32`                                         | Clears 6th bit, ASCII only                                 |
+| Check power of 2                   | `n != 0 && (n & (n - 1)) == 0`                     | True if single bit set                                     |
+| Set k-th bit                       | `n | (1 << k)`                                     | Sets kth bit                                               |
+| Unset k-th bit                     | `n & ~(1 << k)`                                    | Clears kth bit                                             |
+| Check k-th bit                     | `if (n & (1 << k))`                                | Checks kth bit                                             |
+| Toggle k-th bit                    | `n ^ (1 << k)`                                     | Flips kth bit                                              |
+| Count set bits                     | `while(n){ n &= (n-1); count++; }`                 | Brian Kernighan’s algorithm                                |
+| Isolate rightmost 1-bit            | `n & -n`                                           | Gives only rightmost set bit                               |
+| Swap two numbers                   | `a ^= b; b ^= a; a ^= b;`                          | XOR swap                                                   |
+| Find rightmost different bit       | `(a ^ b) & -(a ^ b)`                               | Finds lowest bit where a and b differ                      |
+| Set all bits below k (not k)       | `(1 << k) - 1`                                     | All lower bits set up to k-1                               |
+| Round up to next power of two      | `n--; n |= n >> 1; n |= n >> 2; ...; n++`          | For 32-bit unsigned ints                                   |
+| Find log2 (highest set bit)        | `31 - __builtin_clz(n)`                            | GCC/Clang built-in                                         |
+| Parity (even/odd set bits)         | `__builtin_parity(n)`                              | 1 if odd, 0 if even number of bits                         |
+| Absolute value using bits          | `(x ^ (x >> 31)) - (x >> 31)`                      | Absolute value, no branching                               |
+| Reverse all bits                   | `__builtin_bitreverse32(n)`                        | GCC/Clang built-in                                         |
+| Get lowest zero bit                | `~n & (n + 1)`                                     | Isolates lowest unset bit                                  |
+| Turn on rightmost 0-bit            | `n | (n + 1)`                                      | Sets rightmost 0 bit                                       |
 
-#### Examples
-```c
-int x = 10, y = 20;
+## Common Program Error Signals
 
-// Constant pointer to int (can’t point elsewhere)
-int *const ptr1 = &x; 
-*ptr1 = 15;    // OK
-// ptr1 = &y;  // Error
+| Signal   | Name                   | Description                                                                 | Common Causes                                             |
+|----------|------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------|
+| `SIGFPE` | Floating Point Exception | Arithmetic error, e.g., division by zero                                   | Division by zero, invalid floating-point operation        |
+| `SIGILL` | Illegal Instruction    | Illegal, privileged, or corrupted instruction                               | Stack corruption, executing invalid code                  |
+| `SIGSEGV`| Segmentation Fault     | Invalid memory access                                                       | NULL/wild pointer, buffer overflow                        |
+| `SIGBUS` | Bus Error              | Misaligned or physically invalid access                                     | Unaligned access, non-existent physical address           |
+| `SIGABRT`| Abort Signal           | Abnormal program termination (abort, assert)                                | Failed assertion, internal errors                         |
+| `SIGTRAP`| Trace/Breakpoint Trap  | Triggered by debugger, trap/exception                                       | Debug breakpoints, intentional traps                      |
+| `SIGTERM`| Termination Signal     | Requests graceful program termination                                       | `kill` command, system shutdown                           |
+| `SIGKILL`| Kill Signal            | Forces immediate termination (cannot be caught or ignored)                  | `kill -9`, resource violation                             |
+| `SIGINT` | Interrupt              | Sent by user (Ctrl+C)                                                       | User interruption                                         |
 
-// Pointer to constant int (can point elsewhere, but value can’t change)
-const int *ptr2 = &x; 
-// *ptr2 = 15; // Error
-ptr2 = &y;    // OK
+## Useful Libraries
 
-// Constant pointer to constant int (can’t point elsewhere, value can’t change)
-const int *const ptr3 = &x; 
-// *ptr3 = 15; // Error
-// ptr3 = &y;  // Error
-```
+- `<stdio.h>`: Standard I/O
+- `<stdlib.h>`: General utilities, memory allocation
+- `<string.h>`: String operations
+- `<math.h>`: Math functions
+- `<ctype.h>`: Character handling
+- `<stdbool.h>`: Boolean type
+- `<stdint.h>`: Fixed-width integer types
+- `<stddef.h>`: Common macros/types (`size_t`, `ptrdiff_t`)
+- `<assert.h>`: Diagnostics
+- `<errno.h>`: Error codes
+- `<signal.h`: Handling Signals
 
-## Arrays
+## GCC/Clang Compilation Tips
 
-- **Single Dimension Arrays:**  
-  - Declaration:  
-    ```c
-    type var_name[size];
-    double balance[100];
-    ```
-  - Access elements using `balance[0]`, `balance[1]`, etc.
-
-- **Two Dimensional Arrays:**  
-  - Declaration:  
-    ```c
-    int d[10][20]; // 10 rows, 20 columns
-    ```
-  - Access with `d[row][col]`.
-
-- **Multidimensional Arrays:**  
-  - Syntax:  
-    ```c
-    type name[size1][size2]...[sizeN];
-    int m[4][3][4][5];
-    ```
-
-## Structures
-- Structures group variables of different types under a single name
-- Use `.` operator for access
-- Use `typedef` for easier naming
-- **Declaration:**  
-  ```c
-  struct student {
-      char name[30];
-      int age;
-  };
-  typedef struct student STUDENT;
-  ```
-
-- Access:
-  ```c
-  STUDENT ram;
-  strcpy(ram.name, "Ram");
-  ram.age = 5;
-  ```
-
-
-
-## Unions
-- Only one member can store a value at any given time (they share memory).
-- The size of a union is the size of its largest member.
-- Declaration:
-  ```c
-  union student {
-      char name[30];
-      int age;
-  };
-  ```
-
-## Enumerations
-- Used to assign names to integral constants for better code readability.
-- By default, enumeration constants start at 0 and increment by 1.
-- Declaration:
-  ```c
-  enum week {MON, TUE, WED, THU, FRI, SAT, SUN};
-  enum week today = WED;
-  ```
-  
-### Bit Fields
-- Allow specification of the exact number of bits for structure or union members.
-- Useful for memory-efficient storage of flags or small numeric values.
-- Syntax:  
-`type member_name : bit_width;`
-- **Declaration:**  
-  ```c
-  struct {
-      unsigned int flag1 : 1;
-      unsigned int flag2 : 2;
-      unsigned int flag3 : 3;
-  } bits;
-  ```
+- `-Wall -Wextra`: Enable most warnings.
+- `-g`: Include debug info for gdb/lldb.
+- `-O2`, `-O3`: Optimization levels.
+- `-std=c99` or `-std=c11`: Specify C standard.
+- `-fsanitize=address`: Detect memory errors.
+- `-pedantic`: Warn on non-standard code.
+- `-o output`: Name the output file.
