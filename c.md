@@ -302,6 +302,92 @@ if (k < 3) {
 
 ```
 
+## Strings in C
+
+- In C, a **string** is an array of characters terminated by a null character (`'\0'`).
+- C does not have a dedicated string type; instead, strings are handled as `char` arrays.
+### Declaration and Initialization
+
+- **Implicit size, null-terminated:**  
+  ```c
+  char greeting[] = "Hello"; // Size = 6 ('H', 'e', 'l', 'l', 'o', '\0')
+  ```
+- **Explicit size:**
+  ```c
+  char name[20] = "Alice";
+  ```
+- **Manual initialization:**  
+  ```c
+  char code[5] = {'C', 'o', 'd', 'e', '\0'};
+  ```
+
+### Input and Output
+
+- **Printing strings:**  
+  ```c
+  printf("%s\n", greeting);
+  ```
+
+- **Reading strings:**  
+  ```c
+  char buf[100];
+  scanf("%99s", buf); // Reads up to first whitespace
+  ```
+  > ⚠️ `scanf` with `%s` stops at whitespace. For lines with spaces, use `fgets`:
+  ```c
+  fgets(buf, sizeof(buf), stdin); // Reads entire line including spaces
+  ```
+
+---
+
+### String Functions (`<string.h>`)
+
+| Function                | Description                                                         | Example                                      |
+|-------------------------|---------------------------------------------------------------------|----------------------------------------------|
+| `strlen(s)`             | Returns length of string (excluding null character)                 | `int n = strlen(str);`                       |
+| `strcpy(dest, src)`     | Copies string from `src` to `dest`                                 | `strcpy(dest, src);`                         |
+| `strncpy(dest, src, n)` | Copies up to `n` characters                                        | `strncpy(dest, src, n);`                     |
+| `strcat(dest, src)`     | Concatenates `src` to end of `dest`                                | `strcat(dest, src);`                         |
+| `strncat(dest, src, n)` | Concatenates up to `n` characters from `src` to `dest`             | `strncat(dest, src, n);`                     |
+| `strcmp(s1, s2)`        | Compares two strings, returns 0 if equal                           | `if (strcmp(a, b) == 0) {...}`               |
+| `strncmp(s1, s2, n)`    | Compares up to `n` characters of two strings                       | `if (strncmp(a, b, n) == 0) {...}`           |
+| `strchr(s, c)`          | Finds first occurrence of char `c` in string `s`                   | `char *p = strchr(str, 'a');`                |
+| `strrchr(s, c)`         | Finds last occurrence of char `c` in string `s`                    | `char *q = strrchr(str, 'a');`               |
+| `strstr(s1, s2)`        | Finds first occurrence of string `s2` in `s1`                      | `char *p = strstr(big, small);`              |
+| `strpbrk(s, accept)`    | Finds first occurrence of any character from `accept` in `s`       | `char *p = strpbrk(str, "aeiou");`           |
+| `strspn(s, accept)`     | Returns length of initial segment of `s` containing only `accept`  | `size_t n = strspn(str, "abc");`             |
+| `strcspn(s, reject)`    | Returns length of initial segment of `s` containing none of `reject`| `size_t n = strcspn(str, "xyz");`            |
+| `strtok(s, delim)`      | Splits string into tokens based on `delim`                         | `char *tok = strtok(str, ",");`              |
+| `memset(s, c, n)`       | Fills first `n` bytes of memory area pointed by `s` with byte `c`  | `memset(str, 0, 100);`                       |
+| `memcpy(dest, src, n)`  | Copies `n` bytes from `src` to `dest`                              | `memcpy(dest, src, 10);`                     |
+| `memmove(dest, src, n)` | Copies `n` bytes from `src` to `dest` (safe for overlapping areas) | `memmove(dest, src, 10);`                    |
+| `memcmp(s1, s2, n)`     | Compares first `n` bytes of two memory areas                       | `memcmp(a, b, 10);`                          |      |
+
+- Always ensure destination arrays are large enough for string operations to prevent buffer overflows.
+- Strings in C are mutable unless declared as `const char *`.
+- Use `strncpy`, `strncat`, etc. for safer operations, but always manage null-termination manually.
+### Example
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char s1[20] = "Hello";
+    char s2[20];
+
+    strcpy(s2, s1);           // Copy s1 into s2
+    strcat(s2, " World");     // Concatenate " World" to s2
+
+    printf("s2: %s\n", s2);   // Output: Hello World
+    printf("Length: %zu\n", strlen(s2)); // Output: 11
+
+    if (strcmp(s1, s2) != 0)
+        printf("Strings are different\n");
+
+    return 0;
+}
+```
+
 ## Common Program Error Signals in C/C++
 
 | Signal   | Name                  | Description                                                                 | Common Causes                                         |
@@ -490,6 +576,71 @@ int main() {
     return 0;
 }
 ```
+## Dynamic Memory Allocation
+Dynamic memory allocation allows you to allocate and manage memory at runtime, enabling flexible and efficient use of resources.
+
+| Function      | Description                                                                                              | Syntax Example                                   | Notes                                              |
+|---------------|----------------------------------------------------------------------------------------------------------|--------------------------------------------------|----------------------------------------------------|
+| `malloc()`    | Allocates a block of memory of specified size (in bytes). Returns a pointer to the first byte, or `NULL` if allocation fails. | `ptr = (datatype *) malloc(size);`               | Memory is uninitialized (contains garbage values).  |
+| `calloc()`    | Allocates memory for an array of elements, initializes all bytes to zero. Returns pointer or `NULL`.      | `ptr = (datatype *) calloc(n, size);`            | `n` = number of elements, `size` = size of each.    |
+| `realloc()`   | Changes the size of previously allocated memory block (from `malloc`/`calloc`). May move memory if needed.| `ptr = (datatype *) realloc(ptr, new_size);`     | If moved, contents up to min(old, new) size kept.   |
+| `free()`      | Deallocates memory previously allocated by `malloc`, `calloc`, or `realloc`.                             | `free(ptr);`                                     | Always free memory when no longer needed!           |
+
+### Example
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *arr;
+    int n = 5;
+
+    // malloc: allocate memory for 5 integers (uninitialized)
+    arr = (int *) malloc(n * sizeof(int));
+    if (arr == NULL) {
+        printf("Memory allocation failed\n");
+        return 1;
+    }
+    // calloc: allocate memory for 5 integers (initialized to 0)
+    int *arr2 = (int *) calloc(n, sizeof(int));
+    if (arr2 == NULL) {
+        printf("Memory allocation failed\n");
+        free(arr);
+        return 1;
+    }
+    // realloc: resize arr2 to hold 10 integers
+    int *temp = (int *) realloc(arr2, 10 * sizeof(int));
+    if (temp == NULL) {
+        printf("Memory reallocation failed\n");
+        free(arr);
+        free(arr2);
+        return 1;
+    }
+    arr2 = temp;
+
+    // ... use arr and arr2 ...
+
+    // Deallocate memory
+    free(arr);
+    free(arr2);
+
+    return 0;
+}
+```
+
+### ✅ Best Practices
+
+- Always check if the pointer returned by `malloc`, `calloc`, or `realloc` is `NULL` (allocation failure).
+- After freeing, set the pointer to `NULL` to avoid dangling pointers.
+- Do not use memory after it has been freed.
+- `calloc` is preferred when you need zero-initialized memory.
+- `realloc(ptr, 0)` is equivalent to `free(ptr)` in most implementations.
+- Always `free()` dynamically allocated memory to prevent memory leaks.
+```c
+free(ptr);
+ptr = NULL; // Good practice after freeing
+```
 
 ## Pointers
 
@@ -565,3 +716,83 @@ const int *const ptr3 = &x;
 // *ptr3 = 15; // Error
 // ptr3 = &y;  // Error
 ```
+
+## Arrays
+
+- **Single Dimension Arrays:**  
+  - Declaration:  
+    ```c
+    type var_name[size];
+    double balance[100];
+    ```
+  - Access elements using `balance[0]`, `balance[1]`, etc.
+
+- **Two Dimensional Arrays:**  
+  - Declaration:  
+    ```c
+    int d[10][20]; // 10 rows, 20 columns
+    ```
+  - Access with `d[row][col]`.
+
+- **Multidimensional Arrays:**  
+  - Syntax:  
+    ```c
+    type name[size1][size2]...[sizeN];
+    int m[4][3][4][5];
+    ```
+
+## Structures
+- Structures group variables of different types under a single name
+- Use `.` operator for access
+- Use `typedef` for easier naming
+- **Declaration:**  
+  ```c
+  struct student {
+      char name[30];
+      int age;
+  };
+  typedef struct student STUDENT;
+  ```
+
+- Access:
+  ```c
+  STUDENT ram;
+  strcpy(ram.name, "Ram");
+  ram.age = 5;
+  ```
+
+
+
+## Unions
+- Only one member can store a value at any given time (they share memory).
+- The size of a union is the size of its largest member.
+- Declaration:
+  ```c
+  union student {
+      char name[30];
+      int age;
+  };
+  ```
+
+## Enumerations
+- Used to assign names to integral constants for better code readability.
+- By default, enumeration constants start at 0 and increment by 1.
+- Declaration:
+  ```c
+  enum week {MON, TUE, WED, THU, FRI, SAT, SUN};
+  enum week today = WED;
+  ```
+  
+### Bit Fields
+- Allow specification of the exact number of bits for structure or union members.
+- Useful for memory-efficient storage of flags or small numeric values.
+- Syntax:  
+`type member_name : bit_width;`
+- **Declaration:**  
+  ```c
+  struct {
+      unsigned int flag1 : 1;
+      unsigned int flag2 : 2;
+      unsigned int flag3 : 3;
+  } bits;
+  ```
