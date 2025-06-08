@@ -42,7 +42,7 @@
 ## Comments:
 - Single Line: `//`
 - Multiline: `/* */`
-> Prefer using multi line comments everytime
+> ✅ Prefer using multi line comments everytime
 
 ## Data Types:
 | Type                   | Bits   | Range                                  | Library        |
@@ -161,6 +161,21 @@ int main() {
 
     return 0;
 }
+
+/* Output
+global_var (from main): 10
+auto_var: 5
+static_func_var: 1 (This value persists!)
+register_var: 100 (May or may not be in a register)
+const_var: 3 (Cannot be modified)
+volatile_var: 42 (Value might change unexpectedly)
+auto_var: 5
+static_func_var: 2 (This value persists!)
+register_var: 100 (May or may not be in a register)
+const_var: 3 (Cannot be modified)
+volatile_var: 42 (Value might change unexpectedly)
+static_global_var (from main): 20
+*/
 ```
 
 ## Input/Output
@@ -180,7 +195,6 @@ int main() {
 | `fprintf()`  | Writes formatted output to a file. |
 | `fgetc()`    | Reads the next character from a file. |
 | `fputc()`    | Writes a character to a file. |
-| `fgets()`    | Reads a string from a file stream, safe and bounded by size. |
 | `fputs()`    | Writes a string to a file stream. |
 
 > ⚠️ Note: `gets()` is considered dangerous and was removed from the C11 standard. Use `fgets()` instead.
@@ -309,47 +323,45 @@ In C, all lines beginning with `#` are handled by the **preprocessor**, which pr
 
 ### Common Preprocessor Directives
 
-| Directive       | Description |
-|----------------|-------------|
-| `#include`      | Inserts the contents of a file. `<...>` searches standard system directories; `"..."` searches current directory first. |
-| `#define`       | Defines a macro or constant. The preprocessor replaces all matching tokens with the expression. |
-| `#undef`        | Undefines a macro. |
-| `#if`, `#elif`, `#else`, `#endif` | Used for conditional compilation. |
-| `#ifdef`, `#ifndef` | Used to check if a macro is defined or not. |
+| Directive    | Description                                                                             | Example Usage                       |
+|--------------|-----------------------------------------------------------------------------------------|-------------------------------------|
+| `#define`    | Defines a macro or symbolic constant                                                    | `#define MAX 100`                   |
+| `#undef`     | Undefines a macro                                                                       | `#undef MAX`                        |
+| `#include`   | Includes a file into the source file                                                     | `#include <stdio.h>`                |
+| `#ifdef`     | Checks if a macro is defined                                                            | `#ifdef DEBUG`                      |
+| `#ifndef`    | Checks if a macro is not defined                                                        | `#ifndef MAX`                       |
+| `#if`        | Tests a compile-time condition                                                          | `#if VERSION > 2`                   |
+| `#else`      | Specifies alternative code to compile if condition is not met                            | `#else`                             |
+| `#elif`      | Else if, another condition to test if previous `#if` or `#elif` failed                  | `#elif VERSION == 2`                |
+| `#endif`     | Ends preprocessor conditional                                                           | `#endif`                            |
+| `#error`     | Prints an error message and stops compilation                                            | `#error "Wrong version!"`           |
+| `#pragma`    | Provides special instructions to the compiler, varies by compiler                       | `#pragma once`                      |
+| `#line`      | Changes the compiler’s internal line number and optionally the filename                  | `#line 100 "myfile.c"`              |
 
----
+### Common `#pragma` Examples
+
+| Pragma Directive        | Description                                                                                         | Example Usage                        | Constraints                                      |
+|------------------------ |-----------------------------------------------------------------------------------------------------|-------------------------------------- |--------------------------------------------|
+| `#pragma once`          | Ensures the file is included only once in a single compilation.                                     | `#pragma once`                       | Non-standard, but widely supported         |
+| `#pragma GCC optimize`  | Instructs GCC to apply specific optimizations.                                                      | `#pragma GCC optimize ("O3")`        | GCC specific                               |
+| `#pragma pack`          | Changes memory alignment of structure members.                                                      | `#pragma pack(1)`                    | Use with caution, affects portability      |
+| `#pragma warning`       | Enables, disables, or modifies compiler warnings (MSVC, some GCC/Clang).                           | `#pragma warning(disable:4996)`      | MSVC specific                              |
+| `#pragma region`/`end`  | Marks code regions for folding in editors/IDEs (Visual Studio).                                    | `#pragma region MyRegion` ... `#pragma endregion` | MSVC/IDEs only                |
+| `#pragma message`       | Outputs a message during compilation.                                                               | `#pragma message("Compiling file...")`| MSVC, GCC, Clang                           |
+| `#pragma deprecated`    | Marks functions or types as deprecated (MSVC, some GCC/Clang).                                     | `#pragma deprecated(func)`           | MSVC, some GCC/Clang                       |
 
 ## Macros
 
-- **Simple Macros**: Replace tokens with text.
-```c
-#define PI 3.14
-```
-
-- **Function-like Macros**: Accept arguments but perform **no type checking**.
-```c
-#define SQUARE(x) ((x) * (x))
-```
-
-- **Arguments Are Not Evaluated Before Expansion**: Macros substitute tokens as-is.
-
-- **Token Pasting (`##`)**: Concatenate macro parameters.
-```c
-#define COMBINE(a, b) a##b
-// COMBINE(hello, world) -> helloworld
-```
-
-- **Stringizing (`#`)**: Convert macro parameter to string literal.
-```c
-#define TO_STRING(x) #x
-// TO_STRING(123) -> "123"
-```
-
-- **Multi-line Macros:** Use a backslash (`\`) to continue a macro definition on the next line:
-```c
-#define DEBUG_PRINT(msg) \    printf("Debug: %s\n", msg); \    log_to_file(msg)
-```
-
+| Macro Type                  | Example                                            | Description                                                               |
+|-----------------------------|---------------------------------------------------|---------------------------------------------------------------------------|
+| **Object-like Macro**       | `#define PI 3.14`                                 | Simple replacement of tokens with text.                                   |
+| **Function-like Macro**     | `#define SQUARE(x) ((x) * (x))`                   | Macros that take arguments (no type checking).                            |
+| **Multi-line Macro**        | <br/>`#define LOG(msg) \`<br/>`  printf(msg); \`<br/>`  write_log(msg)` | Macro definition split across lines using `\`.   |
+| **Stringizing (`#`)**       | `#define TO_STRING(x) #x`                         | Converts a macro parameter to a string literal.                           |
+| **Token Pasting (`##`)**    | `#define COMBINE(a, b) a##b`                      | Concatenates two tokens.                                                  |
+| **Variadic Macro**          | `#define ERROR(fmt, ...) fprintf(stderr, fmt, __VA_ARGS__)` | Macro that accepts variable arguments (C99+).             |
+| **Conditional Macro**       | `#ifdef DEBUG`<br/>`#define LOG(x) printf(x)`<br/>`#else`<br/>`#define LOG(x)`<br/>`#endif` | Macro defined only if a condition is met.              |
+| **Undefining Macro**        | `#undef PI`                                       | Removes a macro definition.                                               |
 
 - **Predefined Macros in C:**
 
@@ -360,6 +372,7 @@ In C, all lines beginning with `#` are handled by the **preprocessor**, which pr
 | `__DATE__`    | Compilation date (string)         |
 | `__TIME__`    | Compilation time (string)         |
 | `__STDC__`    | Defined if the compiler conforms to ANSI C |
+| `__func__`    | Print the function name |
 
 ## Files
 | Function     | Description                                                                 |
@@ -424,13 +437,8 @@ int main() {
 
     return 0;
 }
-```
-
----
-
-### Output
-
-```
+/*
+Output:
 File 'sample.txt' written successfully.
 
 Reading from file 'sample.txt':
@@ -438,5 +446,122 @@ Hello, World!
 This is a sample file.
 
 File 'sample.txt' appended successfully.
+*/
+```
+## Bit Manipulation
+
+| Task                              | Bit Manipulation Expression           | Description                                                |
+|------------------------------------|---------------------------------------|------------------------------------------------------------|
+| Check if number is odd             | `if (n & 1)`                         | If LSB is 1, number is odd                                 |
+| Clear the lowest set bit           | `num & (num - 1)`                    | Turns off the rightmost 1-bit                              |
+| Divide by 2                        | `num >> 1`                           | Logical right shift by 1 (divides by 2)                    |
+| Multiply by 2                      | `num << 1`                           | Logical left shift by 1 (multiplies by 2)                  |
+| Convert to lowercase               | `ch | 32`                            | Sets the 6th bit, works only for alphabetic characters     |
+| Convert to uppercase               | `ch & ~32`                           | Clears the 6th bit, works only for alphabetic characters   |
+| Check power of 2                   | `if ((num & (num - 1)) == 0)`        | True only if num has a single bit set                      |
+| Set k-th bit                       | `num | (1 << k)`                     | Sets the k-th bit                                          |
+| Unset k-th bit                     | `num & ~(1 << k)`                    | Clears the k-th bit                                        |
+| Check k-th bit                     | `if (num & (1 << k))`                | Checks if k-th bit is set                                  |
+| Toggle k-th bit                    | `num ^ (1 << k)`                     | Flips the k-th bit                                         |
+| Count set bits                     | Use Brian Kernighan’s algo           | Loop: `while(n) { n &= (n-1); count++;}`                   |
+| Turn off rightmost 1-bit           | `n & (n - 1)`                        | Same as clear lowest set bit                               |
+| Isolate rightmost 1-bit            | `n & -n`                             | Gives only the rightmost set bit                           |
+| Swap two numbers                   | `a ^= b; b ^= a; a ^= b;`            | XOR-based swap without temp variable                       |
+| Find rightmost different bit       | `(a ^ b) & -(a ^ b)`                 | Finds lowest bit where a and b differ                      |
+| Set all bits below k (not including k) | `(1 << k) - 1`                   | Makes a mask with all lower bits set up to k-1             |
+| Check if exactly one bit set (nonzero) | `num && !(num & (num - 1))`      | True if num is a power of 2 (and not zero)                 |
+| Round up to next power of two      | `n = n-1; n |= n >> 1; n |= n >> 2; n |= n >> 4; n |= n >> 8; n |= n >> 16; n++;` | For 32-bit unsigned ints                                   |
+| Find log2 (position of highest set bit) | `31 - __builtin_clz(n)`           | GCC/Clang built-in, returns index of highest set bit       |
+| Parity (even/odd number of set bits)   | `__builtin_parity(n)`             | GCC/Clang built-in; 1 if odd, 0 if even number of bits     |
+| Absolute value using bits          | `(x ^ (x >> 31)) - (x >> 31)`        | Computes absolute value without branching                  |
+| Reverse all bits                   | `__builtin_bitreverse32(n)`          | GCC/Clang built-in for 32-bit integers                     |
+| Get lowest zero bit (rightmost 0)  | `~n & (n + 1)`                       | Isolates the lowest unset bit                              |
+| Turn on rightmost 0-bit            | `n | (n + 1)`                        | Sets the rightmost 0 bit                                   |                     |
+
+## Example: Toggle k-th Bit
+```c
+#include <stdio.h>
+
+int main() {
+    int num = 42; // 101010
+    int k = 1;
+    int result = num ^ (1 << k); // Toggles the 1st bit (0-indexed)
+    printf("Original: %d, After toggle at %dth bit: %d\n", num, k, result);
+    return 0;
+}
 ```
 
+## Pointers
+
+### What is a Pointer?
+- A **pointer** is a variable that stores the memory address of another variable.
+- Pointers allow direct memory access, dynamic memory management, and efficient array, structure, or function handling.
+- Always initialize pointers to `NULL` before use.
+- Dereferencing an uninitialized or NULL pointer leads to undefined behavior.
+- Prefer using `const` qualifiers to indicate intent and improve code safety.
+
+```c
+int *p = NULL; // Safe initial state
+```
+
+### Declaration and Access
+```c
+int a = 10;
+int *p = &a; // 'p' holds the address of 'a'
+```
+- `*p` dereferences the pointer, giving access to the value at the address.
+- `&a` gives the memory address of variable `a`.
+
+---
+
+### Pointer Arithmetic
+- Pointers can be incremented or decremented.
+- **Incrementing a pointer** moves it to the next memory location based on its data type:
+  - `p++` moves the pointer by `sizeof(type)` bytes (e.g., 4 bytes for `int` on most systems).
+- Example:
+  ```c
+  int arr[3] = {1, 2, 3};
+  int *p = arr;
+  p++; // Now points to arr[1]
+  ```
+
+---
+
+### Function Pointers
+- A **function pointer** holds the memory address of a function.
+- Enables callbacks, dynamic function calls, and efficient code.
+- Example:
+  ```c
+  int add(int a, int b) { return a + b; }
+  int (*func_ptr)(int, int) = add;
+  int sum = func_ptr(2, 3); // Calls add(2, 3)
+  ```
+
+---
+
+### Pointers and `const`
+| Declaration                | Meaning                                    | Example                       |
+|----------------------------|--------------------------------------------|-------------------------------|
+| `int *const ptr;`          | **Constant pointer to integer:**           | `ptr` cannot point elsewhere, but value at `*ptr` can change. |
+| `int const *ptr;` <br> `const int *ptr;` | **Pointer to constant integer:**                | The value at `*ptr` cannot change, but `ptr` can point elsewhere. |
+| `const int *const ptr;`    | **Constant pointer to constant integer:**  | Neither the value at `*ptr` nor the address `ptr` holds can change. |
+
+#### Examples
+```c
+int x = 10, y = 20;
+
+// Constant pointer to int (can’t point elsewhere)
+int *const ptr1 = &x; 
+*ptr1 = 15;    // OK
+// ptr1 = &y;  // Error
+
+// Pointer to constant int (can point elsewhere, but value can’t change)
+const int *ptr2 = &x; 
+// *ptr2 = 15; // Error
+ptr2 = &y;    // OK
+
+// Constant pointer to constant int (can’t point elsewhere, value can’t change)
+const int *const ptr3 = &x; 
+// *ptr3 = 15; // Error
+// ptr3 = &y;  // Error
+```
