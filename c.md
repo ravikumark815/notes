@@ -2,19 +2,19 @@
 
 ## Table of Contents
 - [Preset](#preset)
-- [Minimal C Program](#minimal-c-program)
 - [Structure of C Program](#structure-of-c-program)
 - [Compilation Process](#compilation-process)
 - [Memory Map](#memory-map)
 - [Data Types](#data-types)
-- [Operators & Precedence](#operators--precedence)
-- [Identifiers & Keywords](#identifiers--keywords)
+- [Operators](#operators)
+- [Variables, Constants, Identifiers, Keywords](#variables-constants-identifiers-keywords)
 - [Scope, Type Qualifiers, Storage Classes](#scope-type-qualifiers-storage-classes)
 - [Input/Output](#inputoutput)
 - [Format Specifiers & Escape Sequences](#format-specifiers--escape-sequences)
 - [Control Statements](#control-statements)
 - [Functions](#functions)
 - [Command-line Arguments](#command-line-arguments)
+- [Date & Time](#date--time)
 - [Strings](#strings)
 - [Arrays](#arrays)
 - [Pointers](#pointers)
@@ -34,6 +34,7 @@
 - General purpose, modular, and portable.
 - Allows low-level memory access.
 - C Standards: C89/90 (ANSI C), C99, C11, C18, C23/C24.
+
 ## Structure of C Program
 
 ```c
@@ -114,9 +115,11 @@ int main(void) {
 | Pointer      | &, *                                      | Right-to-Left        | High             |
 | Misc         | sizeof(), . (obj.val), ->, []             | Left-to-Right        | Highest          |
 
-## Identifiers & Keywords
+## Variables, Constants, Identifiers, Keywords
 
-- **Identifiers:** Names for `variables`, `constants`, `functions`; must begin with a letter/`_`; case-sensitive; no spaces or keywords.
+- **Variables:** Named storage for data. Must start with a letter or `_`; case-sensitive.
+- **Constants:** Use `const` or `#define` for values not meant to change.
+- **Identifiers:** Names for variables, functions, etc.
 - **Keywords:** Reserved by C.
 
 | auto     | break    | case     | char     | const    | continue | default  | do       |
@@ -351,6 +354,22 @@ printf("%s\n", buf);
 - Always ensure destination arrays are large enough!
 - Use `strncpy`, `strncat` for safety, but always ensure null-termination.
 
+## Date & Time
+
+- Use `<time.h>` for time/date manipulation.
+
+```c
+#include <stdio.h>
+#include <time.h>
+
+int main() {
+    time_t now = time(NULL);
+    printf("Current time: %s", ctime(&now));
+    struct tm *t = localtime(&now);
+    printf("Year: %d, Month: %d, Day: %d\n", t->tm_year+1900, t->tm_mon+1, t->tm_mday);
+    return 0;
+}
+```
 
 ## Arrays
 
@@ -631,7 +650,7 @@ if (file) {
 - `<signal.h>`: Handling Signals
 - `<limits.h>`
 - `<locale.h>`
-- `<time.h>`
+- `<time.h>`: Date and time
 
 ## GCC/Clang Compilation Tips
 
