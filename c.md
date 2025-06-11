@@ -62,7 +62,42 @@ int main(void) {
 
 ## Compilation Process
 
-![Compilation Steps](https://github.com/ravikumark815/notes/blob/main/c-images/compilation.png)
+```
++--------------+
+|  Source Code |
+|   (.c/.cpp)  |
++--------------+
+       |
+       v
++-----------------+
+| Preprocessing   |
+|    (.i)         |
++-----------------+
+       |
+       v
++--------------+
+| Compilation  |
+|   (.s)       |
++--------------+
+       |
+       v
++--------------+
+| Assembling   |
+|   (.o)       |
++--------------+
+       |
+       v
++-----------------+
+|   Linking       |
+| (a.out / .exe)  |
++-----------------+
+       |
+       v
++---------------+
+|  Executable   |
+| (machine code)|
++---------------+
+```
 
 - **Source File:** `.c` file written in editor.
 - **Preprocessor:** Handles macros, includes, removes comments (`.i`).
@@ -71,14 +106,34 @@ int main(void) {
 - **Linker:** Combines objects, resolves references, produces executable.
 - **Loader:** Loads executable into memory for execution.
 
-> Save all intermediate files:  
-> ```sh
-> gcc -Wall -save-temps filename.c -o filename
-> ```
+> Save all intermediate files:  `gcc -Wall -save-temps filename.c -o filename`
 
 ## Memory Map
 
-![Memory Map](https://github.com/ravikumark815/notes/blob/main/c-images/memory-map.png)
+```
++-----------------------+ High address
+|      Stack            |
+|  (local variables,    |
+|   function calls)     |
+|   Grows downward      |
++-----------------------+
+|       Heap            |
+|  (dynamic memory,     |
+|   malloc/new/free)    |
+|   Grows upward        |
++-----------------------+
+|   BSS Segment         |
+| (uninitialized static |
+|   and global data)    |
++-----------------------+
+|   Data Segment        |
+| (initialized static   |
+|   and global data)    |
++-----------------------+
+|   Text/Code Segment   |
+|   (executable code)   |
++-----------------------+ Low address
+```
 
 ## Data Types
 
