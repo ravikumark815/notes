@@ -1,10 +1,7 @@
 # Python
 ## Preset
-
 - Created by Guido van Rossum in 1990, Python 3 released in 2008
 - Emphasizes readability and simplicity
-- Rich standard library and huge ecosystem (PyPI)
-- Used for scripting, automation, web, data science, ML, etc.
 - Official docs: [docs.python.org/3](https://docs.python.org/3)
 
 ## Table of Contents
