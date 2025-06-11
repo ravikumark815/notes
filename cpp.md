@@ -1,4 +1,4 @@
-# C++ Interview-Ready Reference Notes
+# C++
 
 ## Table of Contents
 - [Preset](#preset)
