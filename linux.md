@@ -1,626 +1,728 @@
 ## File and Directory Management
 - `ls`:  List files and directories.
     - `ls -l`: Long list with detailed information including permissions, size, date etc.
-    - `ls -a`: Show hidden files and dirs
-    - `ls- lh`: Display filesize in human readable format
-    - `ls -F`: Distinguish files and dirs by adding '/' at the end for dirs.
-    - `ls -lr`: Sort in reverse order
-    - `ls -lt`: Sort files by modification time
-    - `ls -lS`: Sort files by file size
+    - `ls -a`: Show hidden files and directories.
+    - `ls -lh`: Display filesize in human readable format.
+    - `ls -F`: Distinguish files and directories by adding '/' at the end for directories.
+    - `ls -lr`: Sort in reverse order.
+    - `ls -lt`: Sort files by modification time.
+    - `ls -lS`: Sort files by file size.
+    - `ls -lahtr`: List all files, human readable, sorted by time (oldest last).
 - `cp`:  Copy files and directories.
-    - `cp -r`: Copy the source directory recursively
-    - `cp -b`: Create backups for destination files
-    - `cp -f`: Replace the file, if it already exists
-    - `cp -n`: Do not overwrite the file, if it already exists
-    - `cp -v`: Verbose mode
+    - `cp -r <src> <dest>`: Copy the source directory recursively.
+    - `cp -b <src> <dest>`: Create backups for destination files (adds `~`).
+    - `cp -f <src> <dest>`: Force replace the file, if it already exists.
+    - `cp -n <src> <dest>`: Do not overwrite the file, if it already exists.
+    - `cp -v <src> <dest>`: Verbose mode (show files as they are copied).
+    - `cp -vni <src> <dest>`: Verbose, prompt before overwrite, do not overwrite if exists.
 - `mv`:  Move or rename files and directories.
-    - `mv -f source destination`: Overwrite if destination file already exists
-    - `mv -v source destination`: Verbose mode
+    - `mv <src> <dest>`: Move or rename file/directory.
+    - `mv -f <src> <dest>`: Overwrite if destination file already exists.
+    - `mv -v <src> <dest>`: Verbose mode.
+    - `mv -n <src> <dest>`: Do not overwrite existing files.
+    - `mv -i <src> <dest>`: Prompt before overwrite.
 - `mkdir`:  Create new directories.
-    - `mkdir -p /path/to/your/file.txt`: Create interim directories if they don't exist
+    - `mkdir <dir>`: Create new directory.
+    - `mkdir -p /path/to/your/dir`: Create parent directories as needed.
+    - `mkdir -pv path/to/your/dir`: Create parent directories and show what was created.
 - `cat`:  Concatenate and display file contents.
-    - `cat -n test1.txt`: Show line numbers
-    - `cat test1.txt test2.txt`: Display contents of multiple files sequentially
-    - `cat test1.txt > test2.txt`: Replace contents of test2.txt with test1.txt
-    - `cat test1.txt >> test2.txt`: Append contents of test1.txt to test2.txt
-    - `tac test1.txt`: Display in reverse order
+    - `cat -n <file>`: Show line numbers.
+    - `cat file1 file2`: Display contents of multiple files sequentially.
+    - `cat file1 > file2`: Replace contents of file2 with file1.
+    - `cat file1 >> file2`: Append contents of file1 to file2.
+    - `tac file`: Display in reverse order (last line first).
+    - `cat -A file`: Show hidden characters (tabs, EOL).
 - `pwd`:  Print the current working directory.
-    - `echo "$OLDPWD"`: Display previous working directory
+    - `pwd`: Print current directory.
+    - `echo "$PWD"`: Print current directory (alternative).
+    - `echo "$OLDPWD"`: Print previous working directory.
 - `cd`:  Change the directory.
-    - `cd`: Home Directory
-    - `cd -`: Switch to previous directory
+    - `cd`: Home Directory.
+    - `cd -`: Switch to previous directory.
+    - `cd ..`: Go up one directory.
+    - `cd ~user`: Go to another user's home directory.
 - `rm`:  Remove files or directories.
-    - `rm -f`: Force delete
-    - `rm -r`: Delete recursively
+    - `rm <file>`: Remove a file.
+    - `rm -f <file>`: Force delete (no prompt).
+    - `rm -r <dir>`: Delete recursively (for directories).
+    - `rm -rf <dir>`: Force, recursively delete directory and contents.
+    - `rm -i <file>`: Prompt before delete.
 - `ln`:  Create hard and symbolic links.
-    - `ln file.txt link.txt`: Creates a hard link - link.txt that points to file.txt
-    - `ln -s file.txt link.txt`: Creates a symbolic link - link.txt that points to file.
-- `lsns`:  List namespace details.
+    - `ln file link`: Creates a hard link (`link` points to `file`).
+    - `ln -s file link`: Creates a symbolic (soft) link (`link` points to `file`).
+- `lsns`:  List Linux namespaces.
+    - `lsns`: Show all Linux namespaces (net, user, mount, etc.) with PIDs.
 
 ## Viewing and Manipulating Files
-- `less/more`:  View file content page by page.
-    - `less -N /var/log/dmesg`: Show line numbers
-    - `less -X /var/log/dmesg`: Keep content on screen after quitting.
-    - `less -F /var/log/dmesg`: Monitor the file in real time
-    - Press `v` while viewing file to transfer the file to text editor
-- `tail/head`:  Display the last or first lines of a file.
-    - `tail -n /var/log/dmesg`: Show line numbers
-    - `tail -20 /var/log/dmesg`: Display last 20 lines
-    - `tail -f /var/log/dmesg`: Monitor the file in real time
+- `less` / `more`:  View file content page by page.
+    - `less <file>`: View file with scroll/search.
+    - `more <file>`: Simpler pager.
+    - `less -N <file>`: Show line numbers.
+    - `less -X <file>`: Keep content on screen after quitting.
+    - `less -F <file>`: Exit if file fits on one screen.
+    - `less +F <file>`: Follow a growing log (like tail -f).
+- `tail` / `head`:  Display the last or first lines of a file.
+    - `tail -n 20 <file>`: Show last 20 lines.
+    - `tail -f <file>`: Monitor the file in real time.
+    - `head -n 20 <file>`: Show first 20 lines.
+    - `tail -fn 50 <file>`: Follow last 50 lines updating live.
 - `diff`:  Compare two files line by line.
-    - `diff -c f1.txt f2.txt`: Display context format
-    - `diff -u f1.txt f2.txt`: Display compact format
-    - `diff -i f1.txt f2.txt`: Ignore case
+    - `diff -c file1 file2`: Context format (shows several lines of context).
+    - `diff -u file1 file2`: Unified format (compact, preferred for patches).
+    - `diff -i file1 file2`: Ignore case differences.
+    - `diff -r dir1 dir2`: Compare directories recursively.
 - `cmp`:  Compare two files byte by byte.
-    - `cmp -s f1.txt f2.txt`: Supress cmp command's output
-- `grep/egrep/pgrep`:  Search for patterns in files or processes.
-    - `grep -i "foo" ./*.txt`: Case insensitive
-    - `grep -w "foo" ./*.log`: Check for full words, not sub-strings
-    - `grep -e '^[a-zA-Z]' -e'foo$' test.txt`: Search using regular expressions
-    - `grep -E '^[a-z]|AB CD' test.txt`: Search using extended regular expressions
-    - `grep -A 5 "foo" ./*.c`: Display 5 lines after match
-    - `grep -B 3 "bar" ./*.c`: Display 3 lines before match
-    - `grep -C 2 "foo" ./*.c`: Display 2 lines around match
-    - `grep -r "foo" ./*`: Search recursively
-    - `grep -v -e "^foo" -e "foo$" ./*.txt`: Display lines that do not match the given patterns
-    - `grep -c "foo" ./*.log`: Count number of matches
-    - `grep -l "bar" ./*.py`: Display the file names only
-    - `grep -n "foo" ./*.php`: Show line number
+    - `cmp file1 file2`: Output first difference, if any.
+    - `cmp -s file1 file2`: Suppress output; use exit code only (0 if same).
+- `grep` / `egrep` / `pgrep`:  Search for patterns in files or processes.
+    - `grep -i "foo" *.txt`: Case insensitive search.
+    - `grep -w "foo" *.log`: Match whole words only.
+    - `grep -e '^[a-zA-Z]' -e 'foo$' file`: Multiple regexes.
+    - `grep -E '^[a-z]|AB CD' file`: Use extended regex (same as `egrep`).
+    - `grep -A 5 "foo" *.c`: Show 5 lines after match.
+    - `grep -B 3 "bar" *.c`: Show 3 lines before match.
+    - `grep -C 2 "foo" *.c`: Show 2 lines around match.
+    - `grep -r "foo" .`: Search recursively from current directory.
+    - `grep -v -e "^foo" -e "foo$" *.txt`: Show lines not matching patterns.
+    - `grep -c "foo" *.log`: Count matches per file.
+    - `grep -l "bar" *.py`: Show filenames only if match.
+    - `grep -n "foo" *.php`: Show line number for matches.
+    - `pgrep <pattern>`: Find process IDs by name.
 - `find`:  Search for files and directories.
+    - `find . -name "*.sh"`: Find all `.sh` files in current directory and subdirs.
+    - `find /var -type d -name "log*"`: Find directories starting with `log` in /var.
+    - `find . -size +100M`: Find files larger than 100MB.
+    - `find . -mtime -7`: Find files modified in last 7 days.
+    - `find . -user <username>`: Find files owned by user.
+    - `find . -exec grep -l "pattern" {} +`: Find files containing "pattern".
+    - `find . -print0 | xargs -0 <cmd>`: Safe handling for filenames with spaces.
 - `sed`:  Stream editor for modifying files.
+    - `sed 's/foo/bar/g' file`: Replace all "foo" with "bar" in file (output to stdout).
+    - `sed -i 's/foo/bar/g' file`: Replace in-place.
+    - `sed -n '5,10p' file`: Print lines 5 to 10.
+    - `sed -e 's/old/new/g' -e 's/foo/bar/g' file`: Multiple expressions.
+    - `sed -r 's/[0-9]+/num/g' file`: Extended regex.
 - `awk`:  Pattern scanning and processing language.
+    - `awk '{print $1}' file`: Print first column of each line.
+    - `awk -F: '{print $1, $3}' /etc/passwd`: Custom delimiter (colon).
+    - `awk '/pattern/ {print $0}' file`: Print lines matching pattern.
+    - `awk '{sum+=$1} END {print sum}' file`: Sum first column.
 - `locate`:  Find files by name quickly.
+    - `locate <filename>`: Search index for files matching name.
+    - `locate "*.conf"`: Find all config files.
+    - `sudo updatedb`: Update the index.
 - `wname`:  Show information about window names.
+    - `wname`: Show X11 window names (requires x11-utils or similar).
 
 ## System Tools
 - `alias`:  Create command shortcuts.
+    - `alias ll='ls -lh'`: Example alias for listing files.
+    - `unalias ll`: Remove alias.
 - `tmux`:  Terminal multiplexer.
+    - `tmux`: Start new session.
+    - `tmux new -s <name>`: New session with name.
+    - `tmux attach -t <name>`: Attach to session.
+    - `tmux ls`: List sessions.
+    - `tmux kill-session -t <name>`: Kill session.
 - `screen`:  Full-screen window manager for terminals.
+    - `screen`: Start new screen session.
+    - `screen -ls`: List sessions.
+    - `screen -r <pid/session>`: Reattach to a session.
+    - `Ctrl+a d`: Detach from session.
 - `whereis`:  Locate command binary, source, and manual.
+    - `whereis ls`: Locate binary, source, and man pages for ls.
 - `which`:  Find the location of a command.
+    - `which python3`: Show path to python3 binary.
 - `mount`:  Mount file systems.
+    - `mount /dev/sdb1 /mnt`: Mount device to /mnt.
+    - `umount /mnt`: Unmount.
+    - `mount -a`: Mount all entries from /etc/fstab.
 - `lsb_release`:  Display Linux distribution information.
+    - `lsb_release -a`: Show all distribution info.
+    - `lsb_release -d`: Description only.
 - `watch`:  Run a command repeatedly at intervals.
-- `cron`:  Schedule jobs to run at specified times
+    - `watch -n 2 'command'`: Run command every 2 seconds.
+    - `watch -d -n 1 df -h`: Highlight changes, every 1 second.
+- `cron`:  Schedule jobs to run at specified times.
+    - `crontab -e`: Edit user cron jobs.
+    - `crontab -l`: List current jobs.
+    - `crontab -r`: Remove all jobs.
 - `export`:  Set environment variables.
+    - `export VAR=value`: Set variable for current session.
+    - `export PATH=$PATH:/new/path`: Add to PATH.
 
 ## User Management
 - `useradd/usermod`:  Add or modify user accounts.
+    - `useradd <username>`: Add new user.
+    - `usermod -aG sudo <username>`: Add user to group.
+    - `usermod -l newname oldname`: Change login name.
+    - `usermod -d /home/newdir username`: Change home dir.
 - `passwd`:  Change user passwords.
+    - `passwd`: Change own password.
+    - `sudo passwd <user>`: Change other user's password.
 - `chmod`:  Modify file permissions.
+    - `chmod 755 file`: Set rwxr-xr-x permissions.
+    - `chmod -R 755 dir`: Recursive permission change.
+    - `chmod +x file`: Make file executable.
 - `chown`:  Change file ownership.
+    - `chown user:group file`: Change owner and group.
+    - `chown -R user:group dir`: Recursive change.
 
 ## System Monitoring & Troubleshooting
 - `top/htop`:  Monitor system processes and resource usage.
-    - `htop -u ram`: Display processes based on username
-    - `htop -d 15`: Delay between screen updates to 1.5 sec
-    - `htop -p 123,456`: Monitor certain Process IDs
-    - `htop -s PERCENT_MEM`: Sort by memory usage
+    - `htop -u ram`: Display processes based on username.
+    - `htop -d 15`: Delay between screen updates to 1.5 sec.
+    - `htop -p 123,456`: Monitor certain Process IDs.
+    - `htop -s PERCENT_MEM`: Sort by memory usage.
+    - `top -u user`: Filter top by user.
+    - `top -o %MEM`: Sort top by memory usage.
+    - `top -p 12345`: Show only given PID in top.
 - `ps`:  View currently running processes.
-    - `ps -A` | `ps -e`:  View all running processes
-    - `ps -ef`| `ps -eF`: View full format listing
-    - `ps -aux`: Display processes in BSD format
-    - `ps -e --forest`: Display process hierarchy
-    - `ps -e -o pid,uname,pmem`: Display selected list of columns
-    - `ps -e -o etime`: Display elapsed time
-    - `ps -u ram`: Filter based on user
-    - `ps -L 426`: View all threads of a process id
-    - `ps -U root -u root`: Show all processes running as root
-    - `ps -C process_name`: Search based on process name
-    - `ps -fG groupID`|`ps -fG group_name`: List all processes of a group id 
-    - `ps -T`: View terminal related processes
+    - `ps -A` / `ps -e`: View all running processes.
+    - `ps -ef` / `ps -eF`: Full format listing (more columns).
+    - `ps aux`: BSD format process list.
+    - `ps -e --forest`: Display process hierarchy tree.
+    - `ps -e -o pid,uname,pmem`: Select columns to display.
+    - `ps -e -o etime`: Display elapsed time for each process.
+    - `ps -u ram`: Show processes for user "ram".
+    - `ps -L 426`: View all threads of process ID 426.
+    - `ps -U root -u root`: Show all processes running as root.
+    - `ps -C process_name`: Search based on process name.
+    - `ps -fG groupID` / `ps -fG group_name`: List all processes of a group id.
+    - `ps -T`: View terminal-related processes.
 - `kill/killall`:  Terminate processes.
-    - `kill 257`: Kill process ID 257
-    - `kill -s 9 257`: Sends SIGTERM to process 257 instead of TERM to force kill.
-    - `kill -l`: Lists all available SIGNAL names that can be send instead of TERM
-- `systemctl`:  Manage system services.
-    - `systemctl start smb`: Start a service
-    - `systemctl stop smb`: Stop a service
-    - `systemctl enable smb`: Start automatically at boot
-    - `systemctl status smb`: View status of service
-    - `systemctl mask smb`: Prevent a service from being started
-    - `systemctl list-dependencies smb`: List all dependencies
-    - `systemctl set-default gud`: Change the default system target
-- `service`:  Start, stop, or restart services.
-    - `service smb start`: Start a service
-    - `service smb stop`: Stop a service
-    - `service smb status`: View status of service
-- `df`: Report file system space usage
-    - `df -m /boot`: Display info about /boot in 1M-bytes
-    - `df -h`: Display in human readable output
-    - `df -T`: Includes file system types
-    - `df -a`: Show all mount points
-    - `df -i`: Show inodes info
-- `du`:  Disk Usage Summary
-    - `du -h /var`: Show disk usage of every file in /var in human-readable format
-    - `du -sh /var`: Show disk usage of /var dir
-    - `du -a /var`: Show disk usage of every file and dir in /var
-    - `du -BK /var`: Show disk usage in Kilobytes `-BM` `-BG`
-    - `du --max-depth=1 /var`: Size of sub-directories in current location
-    - `du -h --exclude="*.log" /var`: Exclude .log files from size calculation
-    - `du --total /var`: Show grand total of all dish usage at the end
+    - `kill 257`: Kill process ID 257.
+    - `kill -9 257`: Force kill process 257 (SIGKILL).
+    - `kill -l`: List all signal names.
+    - `killall firefox`: Kill all processes named "firefox".
+    - `pkill pattern`: Kill processes matching pattern.
+- `systemctl`:  Manage systemd system services.
+    - `systemctl start smb`: Start a service.
+    - `systemctl stop smb`: Stop a service.
+    - `systemctl restart smb`: Restart a service.
+    - `systemctl enable smb`: Enable service at boot.
+    - `systemctl disable smb`: Disable service at boot.
+    - `systemctl status smb`: View status of service.
+    - `systemctl mask smb`: Prevent a service from being started.
+    - `systemctl list-dependencies smb`: List all dependencies for service.
+    - `systemctl set-default graphical.target`: Change default boot target.
+    - `systemctl is-active smb`: Check if service is running.
+    - `systemctl list-units --type=service`: List active services.
+- `service`:  Start, stop, or restart services (SysVinit/upstart).
+    - `service smb start`: Start a service.
+    - `service smb stop`: Stop a service.
+    - `service smb restart`: Restart a service.
+    - `service smb status`: View status of service.
+    - `service --status-all`: List all services and status.
+- `df`:  Report file system space usage.
+    - `df -m /boot`: Display info about /boot in MB.
+    - `df -h`: Display in human readable output.
+    - `df -T`: Show filesystem types.
+    - `df -a`: Show all mount points (including dummy).
+    - `df -i`: Show inode info.
+- `du`:  Disk usage summary.
+    - `du -h /var`: Show disk usage of every file/dir in /var in human-readable format.
+    - `du -sh /var`: Show summary size of /var.
+    - `du -a /var`: Show usage including all files.
+    - `du -BK /var`: Show disk usage in Kilobytes (`-BM`, `-BG` for MB/GB).
+    - `du --max-depth=1 /var`: Size of each sub-directory in /var.
+    - `du -h --exclude="*.log" /var`: Exclude .log files from size calculation.
+    - `du --total /var`: Show grand total at the end.
 - `free`:  Show memory usage.
-    - `free -h`: Display in human readable format
-    - `free -m`: Display memory size in megabytes `-g` `-k`
-    - `free -s 5 -c 10`: Display memory info every 5 seconds for 10 times
-    - `free -l`: Show low and high information
+    - `free -h`: Human readable.
+    - `free -m`: Show memory in MB.
+    - `free -g`: Show memory in GB.
+    - `free -s 5 -c 10`: Show memory every 5s, 10 times.
+    - `free -l`: Show low and high memory info.
 - `dmesg`:  Display kernel logs.
-    - `dmesg -T`: Display time in human-readable format
-    - `dmesg -f syslog`: To follow updates in real-time
-    - `dmesg -l warn,notice`: Filter based on log levels
-    - `dmesg -L`: Display output of particular facility
-    - `dmesg -L`: Adds color to the output
-- `journalctl`:  View system logs.
-    - `journalctl -b`: Boot messages
-    - `journalctl -r`: Show in reverse chronological order
-    - `journalctl --since "1 hour ago"`: Time range
-    - `journalctl -u nginx.service`: By service
-    - `journalctl -f`: In realtime
-    - `journalctl -u nginx.service -f`: In realtime for a particular service
-    - `journalctl -o verbose`: Verbose mode
-    - `journalctl -o json-pretty`: Display in JSON format
-    - `journalctl -p "emerg"`: By priority level
-    - `journalctl _UID=108`: By user id 
+    - `dmesg -T`: Show human-readable timestamps.
+    - `dmesg -w`: Follow logs as they are written (like tail -f).
+    - `dmesg -l warn,notice`: Filter by log level.
+    - `dmesg -L`: Colorize output (kernel 5.10+).
+- `journalctl`:  View systemd logs.
+    - `journalctl -b`: Show logs since last boot.
+    - `journalctl -r`: Show in reverse time order.
+    - `journalctl --since "1 hour ago"`: Show logs from last hour.
+    - `journalctl -u nginx.service`: Logs by service.
+    - `journalctl -f`: Follow logs in real time.
+    - `journalctl -o verbose`: Verbose log output.
+    - `journalctl -o json-pretty`: JSON formatted log output.
+    - `journalctl -p "emerg"`: By priority level.
+    - `journalctl _UID=108`: By user id.
 - `uptime`:  Show system uptime.
-    - `uptime -s`: Show when the system was booted
-    - `uptime -p`: Show in pretty format
-- `vmstat`:  Show Virtual memory statistics, system processes, paging, interrupts, I/O.
-    - `vmstat -a`: Show active and inactive memory
-    - `vmstat -s`: Show Memory statistics
-    - `vmstat -f`: No of forks since boot
-    - `vmstat -d`: Display disk stats
-    - `vmstat -p vda1`: Show partition stats
-    - `vmstat -S k`: Change units to kib
-    - `vmstat -m`: Show slab statistics
-- `rsync`:  Copy and Synchronize files between remotely
-    - `rsync -zvh backup.tar.gz /tmp/backups/`: backup.tar will be copied and synced to /tmp/backups dir in verbose mode with compression during transfer (z)
-    - `rsync -avzh /root/rpmpkgs /tmp/backups/`: Transfer/sync all the files from /root/rpmpkgs to /tmp/backups
-    - `rsync -avzh /root/rpmpkgs root@10.0.0.1:~/rpms/`: Copy all files in a dir to a remote server
-    - `rsync -avzh root@10.0.0.1:/rpms /root/rpmpkgs`: Copy rpms fir from remote to /root/rpmpkgs
-    - `rsync -e ssh root@10.0.0.1:/rpms /root/rpmpkgs`: Rsync these locations using SSH
-    - `rsync -avzhe ssh --progress /root/rpmpkgs root@10.0.0.1:/rpms`: Show progress while synchronizing
-    - `rsync -avz --include='*.txt' /root/rpmpkgs /tmp/backups`:  Include only txt files
-    - `rsync -avz --exclude='*.txt' /root/rpmpkgs /tmp/backups`:  Exclude only txt files
-    - `rsync -avz --max-size='200k' /root/rpmpkgs /tmp/backups`:  File transfer limit
-    - `rsync -avz --bwlimit='100' /root/rpmpkgs /tmp/backups`:  Bandwidth limit
-- `strace`:  Trace system calls made by a process.
-    - `strace ls`: Trace execution of `ls`
-    - `strace -e open ls`: Display only a specific system call
-    - `strace -o output.txt ls`: Save the output to a file
-    - `strace -p 257`: Trace a running linux process
-    - `strace -t ls`: Print timestamp for each output line
-    - `strace -c ls`: General statistics report
-- `modinfo`: Display information about kernel module
-- `insmod`: Insert a module into kernel
+    - `uptime`: Basic uptime info.
+    - `uptime -s`: Show when system was booted.
+    - `uptime -p`: Pretty format.
+- `vmstat`:  Show virtual memory, processes, I/O, system stats.
+    - `vmstat -a`: Show active/inactive memory.
+    - `vmstat -s`: Memory stats in summary.
+    - `vmstat -f`: Number of forks since boot.
+    - `vmstat -d`: Disk stats.
+    - `vmstat -p vda1`: Partition stats.
+    - `vmstat -S k`: Show in kilobytes.
+    - `vmstat -m`: Slab statistics.
+- `rsync`:  Copy and synchronize files locally and remotely.
+    - `rsync -zvh backup.tar.gz /tmp/backups/`: Copy with compression and verbosity.
+    - `rsync -avzh /root/rpmpkgs /tmp/backups/`: Archive mode, compress, verbose.
+    - `rsync -avzh /root/rpmpkgs root@10.0.0.1:~/rpms/`: Copy to remote host via SSH.
+    - `rsync -avzh root@10.0.0.1:/rpms /root/rpmpkgs`: Copy from remote host.
+    - `rsync -e ssh root@10.0.0.1:/rpms /root/rpmpkgs`: Specify SSH as transport.
+    - `rsync -avzhe ssh --progress /root/rpmpkgs root@10.0.0.1:/rpms`: Show progress.
+    - `rsync -avz --include='*.txt' /root/rpmpkgs /tmp/backups`: Include only txt files.
+    - `rsync -avz --exclude='*.txt' /root/rpmpkgs /tmp/backups`: Exclude txt files.
+    - `rsync -avz --max-size='200k' /root/rpmpkgs /tmp/backups`: File transfer size limit.
+    - `rsync -avz --bwlimit=100 /root/rpmpkgs /tmp/backups`: Bandwidth limit (KB/s).
+- `strace`:  Trace system calls and signals.
+    - `strace ls`: Trace system calls during `ls`.
+    - `strace -e open ls`: Show only "open" syscalls.
+    - `strace -o output.txt ls`: Save trace to file.
+    - `strace -p 257`: Trace running process by PID.
+    - `strace -t ls`: Show timestamps for each line.
+    - `strace -c ls`: Show summary statistics.
+- `modinfo`:  Display information about kernel modules.
+    - `modinfo <module>`: Show info for module.
+- `insmod`:  Insert a module into the kernel.
+    - `insmod <module.ko>`: Insert module file.
 - `lsmod`:  Show loaded kernel modules.
+    - `lsmod`: List modules currently loaded.
 - `lspci`:  List PCI devices.
-    - `lspci -mm`: Machine readable format
-    - `lspci -vv`: Detailed Format
-    - `lspci -s 00:01.0`: Show detailed information of a device
-    - `lspci -nn`: Show vendor and device code for each PCI device
-    - `lspci -k`: Shows kernel modules in use for each PCI device
-- `lshw`:  Display detailed hardware information.
-    - `lshw -short`: Short version
-    - `lshw -businfo`: To show SCSI, USB, IDE, PCI info
-- `lsof`:  List open files and processes using these files
-    - `lsof -b`: Hide kernel function related files
-    - `lsof /etc`: Show open files in a particular filesystem
-    - `lsof -u root`: Show files accessed by a user
-    - `lsof -p 257`: Show files opened by a process id
-    - `lsof -i`: Show files accessed by network connections
-    - `lsof -i 4`: Show files with IP version 4 `lsof -i 6`
-    - `lsof -i tcp`: Show files that use TCP connection `lsof -i udp`
-    - `lsof -i :3306`: Show opened files based on port number 
-    - `lsof -i :80-1024`: Show opened files based on port range
-    - `lsof -t /usr/bin/df`: Show processes holding /usr/bin/df file 
-- `lsblk`: List all block devices and partitions
-    - `lsblk -a`: Display all block devices, including empty ones
-    - `lsblk -m`: Display owner, group and mode
+    - `lspci -mm`: Machine readable format.
+    - `lspci -vv`: Very verbose.
+    - `lspci -s 00:01.0`: Info for specific device.
+    - `lspci -nn`: Show vendor/device codes.
+    - `lspci -k`: Show kernel drivers used.
+- `lshw`:  Detailed hardware info.
+    - `lshw -short`: Short summary.
+    - `lshw -businfo`: Show bus info (SCSI, USB, PCI).
+- `lsof`:  List open files and processes.
+    - `lsof`: List all open files.
+    - `lsof /etc`: Open files in /etc.
+    - `lsof -u root`: Files opened by user root.
+    - `lsof -p 257`: Files opened by PID 257.
+    - `lsof -i`: Files opened by network sockets.
+    - `lsof -i 4`: IPv4 sockets.
+    - `lsof -i 6`: IPv6 sockets.
+    - `lsof -i tcp`: TCP connections.
+    - `lsof -i udp`: UDP connections.
+    - `lsof -i :3306`: By port number.
+    - `lsof -i :80-1024`: By port range.
+    - `lsof -t /usr/bin/df`: PIDs holding file.
+- `lsblk`:  List block devices and partitions.
+    - `lsblk`: Basic list.
+    - `lsblk -a`: Include empty devices.
+    - `lsblk -m`: Show owner, group, mode.
 - `dd`:  Copy and convert data at a low level.
-    - `dd if=/tmp/ubuntu.iso of=/dev/sdX bs=4M status=progress`: Create a bootable usb of ubuntu iso in /tmp with 4M block size and display progress in real-time
-    - `sudo dd if=/dev/sdX | gzip > backup.img.gz`: Create Zipped disk image
-    - `sudo dd if=/dev/sdX | openssl enc -aes-256-cbc -out backup.img.enc`: Create encrypted disk image
-    - `dd if=/dev/nvme0n1 of=/var/backup.img bs=4M status=progress`: Create a full disk backup
-    - `dd if=/var/backup.img of=/dev/nvme01n1 bs=4M status=progress`:  Restore disk image
-    - `dd if=/dev/zero of=/dev/sdX bs=1M status=progress`: Wipe Disk
-    - `dd if=/dev/zero of=tempfile bs=1M count=1024 conv=fdatasync status=progress`: Test Disk write performance
-    - `sudo dd if=/dev/sda of=/dev/null bs=1M status=progress`: Test Disk Read performance
-    - `sudo dd if=/dev/sdX of=mbr_backup.bin bs=512 count=1`: Create Master Boot Record (contains bootloader)
-    - `sudo dd if=mbr_backup.bin of=/dev/sdX bs=512 count=1`: Restore Master Boot Record
-    - `dd if=/dev/sda of=/dev/sdb bs=64k conv=noerror,sync status=progress`: Clone sda to sdb; prevent minor read errors and fill unreadable blocks with zeroes to maintain alignment
-    - `dd if=/dev/zero of=/swapfile bs=1M count 2048`: Create a 2GB swap files to be used as additional virtual memory
-        - `mkswap /swapfile && sudo swapon /swapfile`: Activating the swapfile created above  
+    - `dd if=/tmp/ubuntu.iso of=/dev/sdX bs=4M status=progress`: Make bootable USB.
+    - `sudo dd if=/dev/sdX | gzip > backup.img.gz`: Create compressed disk image.
+    - `sudo dd if=/dev/sdX | openssl enc -aes-256-cbc -out backup.img.enc`: Encrypted image.
+    - `dd if=/dev/nvme0n1 of=/var/backup.img bs=4M status=progress`: Full disk backup.
+    - `dd if=/var/backup.img of=/dev/nvme0n1 bs=4M status=progress`: Restore disk image.
+    - `dd if=/dev/zero of=/dev/sdX bs=1M status=progress`: Wipe disk.
+    - `dd if=/dev/zero of=tempfile bs=1M count=1024 conv=fdatasync status=progress`: Disk write performance.
+    - `sudo dd if=/dev/sda of=/dev/null bs=1M status=progress`: Disk read performance.
+    - `sudo dd if=/dev/sdX of=mbr_backup.bin bs=512 count=1`: Backup MBR.
+    - `sudo dd if=mbr_backup.bin of=/dev/sdX bs=512 count=1`: Restore MBR.
+    - `dd if=/dev/sda of=/dev/sdb bs=64k conv=noerror,sync status=progress`: Clone disks.
+    - `dd if=/dev/zero of=/swapfile bs=1M count=2048`: Create 2GB swap file.
+    - `mkswap /swapfile && sudo swapon /swapfile`: Activate swapfile.
 
 ## Networking
 - `ssh`:  Secure shell for remote access.
-- `ssh-keygen`:  Generate SSH key pairs.
+    - `ssh user@host`: Connect to host as user.
+    - `ssh -i ~/.ssh/keyfile user@host`: Use custom identity file.
+    - `ssh -L 8080:localhost:80 user@host`: Forward local port 8080 to host's port 80.
+    - `ssh -N -f -L 2222:localhost:22 user@host`: Background SSH tunnel.
+- `ssh-keygen`:  Generate/manage SSH key pairs.
+    - `ssh-keygen -t rsa -b 4096 -C "email@example.com"`: Generate RSA key.
+    - `ssh-keygen -lf ~/.ssh/id_rsa.pub`: Show key fingerprint.
+    - `ssh-keygen -y -f ~/.ssh/id_rsa`: Extract public key from private.
 - `scp`:  Securely copy files between systems.
+    - `scp file user@host:/path/`: Copy file to remote.
+    - `scp -r dir user@host:/path/`: Copy directory recursively.
+    - `scp user@host:/file ./`: Copy file from remote.
+    - `scp -P 2222 file user@host:/path/`: Use custom SSH port.
 - `curl`:  Transfer data from or to a server.
+    - `curl -O http://url/file`: Download file.
+    - `curl -L http://url`: Follow redirects.
+    - `curl -I http://url`: Fetch headers only.
+    - `curl -u user:pass http://url`: HTTP authentication.
+    - `curl -X POST -d "param=value" http://url`: POST data.
 - `wget`:  Download files from the internet.
+    - `wget http://url/file`: Download.
+    - `wget -c http://url/file`: Continue incomplete download.
+    - `wget -r http://url/`: Download recursively.
+    - `wget --no-check-certificate https://url/`: Ignore SSL errors.
 - `ftp/sftp`:  File transfer protocol commands.
-- `ifconfig/ip`:  Configure network interfaces.
+    - `ftp host`: Start FTP session.
+    - `sftp user@host`: Secure FTP session.
+    - `sftp -i keyfile user@host`: Use custom identity file.
+- `ifconfig`:  Configure network interfaces (legacy).
+    - `ifconfig`: Show interfaces.
+    - `ifconfig eth0 up/down`: Enable/Disable interface.
+- `ip`:  Modern network interface management.
+    - `ip a`: Show all interfaces and IPs.
+    - `ip link set eth0 up/down`: Enable/Disable interface.
+    - `ip route`: Show routing table.
+    - `ip addr add 192.168.1.10/24 dev eth0`: Add IP to interface.
 - `dig/nslookup`:  Query DNS records.
-    - `dig @8.8.8.8 google.com +short`: Short output
+    - `dig google.com`: Lookup domain.
+    - `dig @8.8.8.8 google.com +short`: Use custom DNS, short output.
+    - `nslookup google.com`: Lookup domain.
 - `ping`:  Test network connectivity.
+    - `ping 8.8.8.8`: Ping IP address.
+    - `ping -c 4 google.com`: Send 4 ping packets.
 - `traceroute`:  Trace network routes.
-- `iptables/ufw/firewall-cmd`:  Configure firewall rules.
+    - `traceroute google.com`: Trace route to domain.
+    - `traceroute -I google.com`: Use ICMP instead of UDP.
+- `iptables/ufw/firewall-cmd`:  Firewall configuration.
+    - `iptables -L`: List rules.
+    - `iptables -A INPUT -p tcp --dport 22 -j ACCEPT`: Allow SSH.
+    - `ufw enable`: Enable uncomplicated firewall.
+    - `ufw allow 80/tcp`: Allow HTTP through firewall.
+    - `firewall-cmd --list-all`: Show firewalld status.
+    - `firewall-cmd --add-port=8080/tcp`: Open port 8080.
 - `netstat/ss`:  Display network statistics.
-    - `netstat -a`: List all ports and connections
-    - `netstat -at`: List all TCP ports
-    - `netstat -au`: List all UDP ports
-    - `netstat -l`: List only listening ports
-    - `netstat -s`: Display statistics
-    - `netstat -i`: To see packet statistics and MTU
-    - `netstat -lp`: Display listening programs
-    - `netstat -r`: Display kernel routing table
-- `nmap`:  Scan networks and detect open ports.
-- `ethtool`:  Get or modify network driver settings.
-    - `ethtool eth0`: Particular device
-    - `ethtool -s eth0 speed 100 autoneg off`: Change NIC parameters
-    - `ethtool -i eth0`: Display ethernet driver settings
-    - `ethtool -a eth0`: Display rx/tx queues 
-    - `ethtool -S eth0`: Display network statistics
+    - `netstat -a`: List all ports and connections.
+    - `netstat -at`: List TCP ports.
+    - `netstat -au`: List UDP ports.
+    - `netstat -l`: Only listening ports.
+    - `netstat -s`: Protocol statistics.
+    - `netstat -i`: Packet statistics and MTU.
+    - `netstat -lp`: Listening programs with PID.
+    - `netstat -r`: Routing table.
+    - `ss -tuln`: List TCP/UDP listening ports (modern replacement).
+    - `ss -p`: Show process using socket.
+- `nmap`:  Network scanner and port detection.
+    - `nmap -sS 192.168.1.0/24`: Stealth scan subnet.
+    - `nmap -p 80,443 host`: Scan specific ports.
+    - `nmap -A host`: OS and version detection.
+- `ethtool`:  Network driver and hardware settings.
+    - `ethtool eth0`: Show info for device.
+    - `ethtool -s eth0 speed 100 autoneg off`: Set speed.
+    - `ethtool -i eth0`: Show driver info.
+    - `ethtool -a eth0`: Show pause parameters.
+    - `ethtool -S eth0`: Show statistics.
 
 ## Package Management
 - `apt`:
-    - `apt update`: Download package information
-    - `apt upgrade`: Upgrade all installed packages and security updates
-    - `apt --upgradable`: List packages that can be upgraded
-    - `apt full-upgrade`: Perform full system upgrade
-    - `apt install nginx`: Install new package
-    - `apt remove nginx`: Remove a package
-    - `apt purge nginx`: Remove both package and config files
-    - `apt autoremove`: Removes automatically installed packages that are no longer needed due to dependency changes or package removal.
-    - `apt --purge autoremove`: Purge installed packages that are no longer needed
-    - `apt search nginx*`: Search installed packages
-    - `apt show nginx`: Show info about packages
-    - `apt list --installed`: List all installed packages
-    - `apt depends nginx`: List all dependencies of a package
-    - `apt reinstall nginx`: Reinstall a package
+    - `apt update`: Download package information.
+    - `apt upgrade`: Upgrade all installed packages and security updates.
+    - `apt --upgradable`: List packages that can be upgraded.
+    - `apt full-upgrade`: Perform full system upgrade.
+    - `apt install nginx`: Install new package.
+    - `apt remove nginx`: Remove a package.
+    - `apt purge nginx`: Remove both package and config files.
+    - `apt autoremove`: Remove automatically installed packages no longer needed.
+    - `apt --purge autoremove`: Purge installed packages that are no longer needed.
+    - `apt search nginx*`: Search installed packages.
+    - `apt show nginx`: Show info about packages.
+    - `apt list --installed`: List all installed packages.
+    - `apt depends nginx`: List all dependencies of a package.
+    - `apt reinstall nginx`: Reinstall a package.
 - `yum`:
-    - `yum install firefox`: Install a package
-    - `yum remove firefox`: Remove a package
-    - `yum update firefox`: Update a package
-    - `yum search firefox`: Search for a package
-    - `yum info firefox`: Get info about a package
-    - `yum check-update`: Check for available updates
-    - `yum update`: Update system
-    - `yum repolist`: List enabled yum repositories
-    - `yum --enablerepo=epel install phpmyadmin`: Install a package from specific repository
-    - `yum provides /etc/passwd`: Find which package this file belongs to
-    - `yum list installed`: List installed packages
-    - `yum clean all`: Clean yum cache
+    - `yum install firefox`: Install a package.
+    - `yum remove firefox`: Remove a package.
+    - `yum update firefox`: Update a package.
+    - `yum search firefox`: Search for a package.
+    - `yum info firefox`: Get info about a package.
+    - `yum check-update`: Check for available updates.
+    - `yum update`: Update system.
+    - `yum repolist`: List enabled yum repositories.
+    - `yum --enablerepo=epel install phpmyadmin`: Install a package from specific repository.
+    - `yum provides /etc/passwd`: Find which package this file belongs to.
+    - `yum list installed`: List installed packages.
+    - `yum clean all`: Clean yum cache.
 - `rpm`: 
-    - `rpm -ivh firefox.rpm`: Install the package
-    - `rpm -Uvh firefox.rpm`: Upgrade the package
-    - `rpm -ev firefox`: Erase/Remove an installed package
-    - `rpm -ev --nodeps firefox`: Erase/Remove without checking for dependencies
-    - `rpm -qa`: Display or list all installed packages
-    - `rpm -qi firefox`: Display information about an installed package
-    - `rpm -qf /etc/passwd`: Find out what package a file belongs to
-    - `rpm -qc firefox`: Display list of configuration files for a package
-    - `rpm -qpR firefox.rpm`: Find all dependencies of a rpm file
-    - `rpm -qpR firefox`: Find all dependencies of a package
+    - `rpm -ivh firefox.rpm`: Install the package.
+    - `rpm -Uvh firefox.rpm`: Upgrade the package.
+    - `rpm -ev firefox`: Erase/Remove an installed package.
+    - `rpm -ev --nodeps firefox`: Erase/Remove without checking for dependencies.
+    - `rpm -qa`: Display or list all installed packages.
+    - `rpm -qi firefox`: Display information about an installed package.
+    - `rpm -qf /etc/passwd`: Find out what package a file belongs to.
+    - `rpm -qc firefox`: Display list of configuration files for a package.
+    - `rpm -qpR firefox.rpm`: Find all dependencies of a rpm file.
+    - `rpm -qpR firefox`: Find all dependencies of a package.
 - `pacman`:
-    - `pacman -Syu`: Update existing packages and install latest package information
-    - `pacman -S htop`:  Install htop tool
-    - `pacman -Ss htop`: Search for a package
-    - `pacman -R htop`: Remove a package
+    - `pacman -Syu`: Update existing packages and install latest package information.
+    - `pacman -S htop`:  Install htop tool.
+    - `pacman -Ss htop`: Search for a package.
+    - `pacman -R htop`: Remove a package.
 - `dnf`:  Package managers for different Linux distributions.
+    - `dnf install <pkg>`: Install a package.
+    - `dnf remove <pkg>`: Remove a package.
+    - `dnf update`: Update all packages.
+    - `dnf search <pkg>`: Search for a package.
 - `dpkg`:
-    - `dpkg -i apache2.deb` : Install a package
-    - `dpkg -l`: List installed packages
-    - `dpkg -l apache2`: Check if a package is installed or not
-    - `dpkg -r apache2`: Remove/Uninstall a package 
-    - `dpkg -p apache2`: Purge (Uninstall and remove config) a package 
+    - `dpkg -i apache2.deb`: Install a package.
+    - `dpkg -l`: List installed packages.
+    - `dpkg -l apache2`: Check if a package is installed or not.
+    - `dpkg -r apache2`: Remove/Uninstall a package.
+    - `dpkg -p apache2`: Purge (Uninstall and remove config) a package.
     - `dpkg -c apache2`: View contents of a deb package.
-    - `dpkg -L apache2`: List files installed by deb package
-    - `dpkg -R apache2 tomcat`: Install multiple deb packages
-    - `dpkg --unpack apache2.deb`: Extract contents of .deb package
-    - `dpkg --configure apache2`: Configure an unpacked package
+    - `dpkg -L apache2`: List files installed by deb package.
+    - `dpkg -R apache2 tomcat`: Install multiple deb packages.
+    - `dpkg --unpack apache2.deb`: Extract contents of .deb package.
+    - `dpkg --configure apache2`: Configure an unpacked package.
 
 ## Compression and Archiving
 - `tar/zip/gzip`:  File compression utilities.
+    - `tar -czvf file.tar.gz dir/`: Compress directory to tar.gz.
+    - `tar -xzvf file.tar.gz`: Extract tar.gz file.
+    - `zip -r file.zip dir/`: Compress directory to zip.
+    - `unzip file.zip`: Extract zip file.
+    - `gzip file`: Compress file to .gz.
+    - `gunzip file.gz`: Decompress .gz file.
 
 ## Performance Testing
 - `iperf/jperf`:  Network performance measurement.
+    - `iperf -s`: Start iperf server.
+    - `iperf -c <host>`: Run iperf client to host.
+    - `iperf -t 60 -c <host>`: Test bandwidth for 60 seconds.
 - `perf`:  Performance analysis tool.
+    - `perf top`: Real-time system profiling.
+    - `perf record ./a.out`: Profile a process.
+    - `perf report`: Show profiling report.
 
-## System Paths and Logs
-### `/proc/`
+## Core Paths & Diagnostic Files
 
-- **buddyinfo:**
-Info about free memory in the system, specifically how many contiguous blocks (or "buddies") of memory are available in different sizes. 
+#### `/proc/cpuinfo`: Detailed CPU info per core (model, features, etc.)
+- **Key fields:** `model name`, `cpu MHz`, `flags`, `processor`
+    ```sh
+    cat /proc/cpuinfo
+    processor   : 0
+    vendor_id   : GenuineIntel
+    model name  : Intel(R) Core(TM) i7-8850H CPU @ 2.60GHz
+    cpu MHz     : 2600.000
+    flags       : fpu vme de pse tsc msr pae mce cx8 ...
+    ```
+---
+#### `/proc/meminfo`: System RAM/swap usage and memory statistics.
+- **Key fields:** `MemTotal`, `MemFree`, `MemAvailable`, `Buffers`, `Cached`, `SwapTotal`, `SwapFree`
+    ```sh
+    cat /proc/meminfo
+    MemTotal:       32616656 kB
+    MemFree:        12345678 kB
+    MemAvailable:   23456789 kB
+    Buffers:          123456 kB
+    Cached:          2345678 kB
+    SwapTotal:      16777212 kB
+    SwapFree:       16777212 kB
+    ```
+---
+#### `/proc/uptime`: System uptime and idle time, in seconds.
+    ```sh
+    cat /proc/uptime
+    84212.38 62300.77
+    ```
+---
+#### `/proc/loadavg`: System load averages (1, 5, 15 min), running/total processes, last PID.
+    ```sh
+    cat /proc/loadavg
+    1.02 0.78 0.67 3/456 12567
+    ```
+---
+#### `/proc/stat`: System stats since boot (CPU, context switches, boot time, etc.)
+- **Key:** `cpu`, `intr`, `ctxt`, `btime`, `processes`
+    ```sh
+    head /proc/stat
+    cpu  12345 67 8901 2345678 0 0 0 0 0 0
+    cpu0 1234 5 678 123456 0 0 0 0 0 0
+    intr 123456789 0 0 0 ...
+    ctxt 1234567
+    btime 1660000000
+    processes 23456
+    ```
+---
+#### `/proc/interrupts`: Interrupt counts per IRQ per CPU.
+    ```sh
+    head /proc/interrupts
+               CPU0       CPU1
+      0:      12345      12340   IO-APIC   2-edge      timer
+      1:          2          0   IO-APIC   1-edge      i8042
+    ```
+---
+#### `/proc/partitions`: List of block devices and their partition sizes.
+    ```sh
+    cat /proc/partitions
+    major minor  #blocks  name
+      8        0 488386584 sda
+      8        1    8388608 sda1
+      8        2 479997952 sda2
+    ```
+---
+#### `/proc/buddyinfo`: Free memory "buddies" per zone/node (memory fragmentation).
+    ```sh
+    cat /proc/buddyinfo
+    Node 0, zone   Normal  1234 567 89 ... 
+    ```
+---
+#### `/proc/cmdline`: Kernel boot parameters.
+    ```sh
+    cat /proc/cmdline
+    BOOT_IMAGE=/vmlinuz root=/dev/sda1 ro quiet splash
+    ```
+---
+#### `/proc/swaps`: Active swap devices and usage.
+    ```sh
+    cat /proc/swaps
+    Filename                                Type            Size    Used    Priority
+    /swapfile                               file            2097148 0       -2
+    ```
+---
+#### `/proc/version`: Kernel version and build info.
+    ```sh
+    cat /proc/version
+    Linux version 5.15.0-105-generic (buildd@lcy02-amd64-056) ...
+    ```
+---
+#### `/proc/filesystems`: Supported filesystem types in kernel.
+    ```sh
+    cat /proc/filesystems
+    nodev   sysfs
+    nodev   proc
+    nodev   devtmpfs
+    ext4
+    vfat
+    ```
+---
+#### `/proc/net/dev`: Network interface stats (RX/TX bytes, packets, errors).
+    ```sh
+    cat /proc/net/dev
+    Inter-|   Receive                                                |  Transmit
+     face |bytes    packets errs drop fifo frame compressed multicast|bytes    packets errs drop fifo colls carrier compressed
+        lo: 2872661   17846    0    0    0     0          0         0   2872661   17846    0    0    0     0       0          0
+      eth0: 128728532 121125    0    0    0     0          0         0  10758243   96080    0    0    0     0       0          0
+    ```
+---
+#### `/proc/diskstats`: Block device I/O statistics.
+    ```sh
+    cat /proc/diskstats
+    8       0 sda 158631 18245 3532456 128831 269315 12865 2093842 103882 0 97382 232713
+    ```
+---
+#### `/proc/mounts`: All currently mounted filesystems.
+    ```sh
+    cat /proc/mounts
+    /dev/sda1 / ext4 rw,relatime 0 0
+    proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+    ```
+---
 
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s1-proc-topfiles#s2-proc-buddyinfo
+#### `/sys/class/net/eth0/operstate`: Network interface status ("up" or "down").
+    ```sh
+    cat /sys/class/net/eth0/operstate
+    up
+    ```
+---
+#### `/sys/block/sda/size`: Size of block device in 512-byte sectors.
+    ```sh
+    cat /sys/block/sda/size
+    1953525168
+    ```
+---
+#### `/sys/kernel/debug/`: Kernel debugfs (mount with `mount -t debugfs none /sys/kernel/debug`).
+    ```sh
+    ls /sys/kernel/debug/
+    ```
+---
 
-```bash
-ubuntu:~# cat /proc/buddyinfo
-Node 0, zone      DMA      0      0      0      0      0      0      0      0      1      2      2
-Node 0, zone    DMA32      1      3      0      2      2      1      1      4      3      5    679
-Node 0, zone   Normal  13491  12179   5979   6621   3739    967    144     49     11      6   1549
-ubuntu:~# 
-```
+#### `/var/log/syslog` or `/var/log/messages`: System log (general messages, syslog).
+    ```sh
+    tail -n 10 /var/log/syslog
+    Jun 26 09:10:01 ubuntu CRON[12345]: (root) CMD (some job)
+    Jun 26 09:10:01 ubuntu kernel: [123456.789] Some kernel message here
+    ```
+---
+#### `/var/log/kern.log`: Kernel messages.
+    ```sh
+    tail -n 5 /var/log/kern.log
+    Jun 26 09:10:01 ubuntu kernel: [123456.789] Some kernel message here
+    ```
+---
+#### `/var/log/auth.log`: Authentication and sudo logs.
+    ```sh
+    tail -n 3 /var/log/auth.log
+    Jun 26 09:10:01 ubuntu sudo:   alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/bin/ls
+    ```
+---
+#### `/var/log/dmesg`: Boot-time kernel ring buffer messages.
+    ```sh
+    head /var/log/dmesg
+    [    0.000000] Linux version 5.15.0-105-generic ...
+    ```
+---
 
-- **cgroups** displays information about control groups (cgroups) configured on the system.
+#### `/etc/fstab`: Filesystem mount configuration.
+    ```sh
+    cat /etc/fstab
+    UUID=1234-abcd / ext4 errors=remount-ro 0 1
+    /swapfile none swap sw 0 0
+    ```
+---
+#### `/etc/passwd`: User account info.
+    ```sh
+    head -n 2 /etc/passwd
+    root:x:0:0:root:/root:/bin/bash
+    alice:x:1000:1000:Alice:/home/alice:/bin/bash
+    ```
+---
+#### `/etc/hostname`: System hostname.
+    ```sh
+    cat /etc/hostname
+    myubuntu
+    ```
+---
 
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/resource_management_guide/ch01#sec-How_Control_Groups_Are_Organized
-```bash
-ubuntu:~# cat /proc/cgroups
-#subsys_name    hierarchy       num_cgroups     enabled
-cpuset  0       878     1
-cpu     0       878     1
-cpuacct 0       878     1
-blkio   0       878     1
-memory  0       878     1
-devices 0       878     1
-freezer 0       878     1
-net_cls 0       878     1
-perf_event      0       878     1
-net_prio        0       878     1
-hugetlb 0       878     1
-pids    0       878     1
-rdma    0       878     1
-misc    0       878     1
-ubuntu:~#
-//
-```
-To look into specific cgroup usage in the system:
-```bash
-ubuntu:~# cat /sys/fs/cgroup/memory.stat 
-```
+#### `/usr/bin/`, `/usr/local/bin/`: User commands and locally installed binaries.
+    ```sh
+    ls /usr/bin
+    ls /usr/local/bin
+    ```
+---
 
-- **cmdline** displays the kernel command line arguments passed to the Linux kernel at boot time.
+#### `/dev/`: Device files (disks, ttys, random, etc)
+    ```sh
+    ls -l /dev/sda /dev/null /dev/tty /dev/pts/
+    ```
+---
 
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-cmdline#s2-proc-cmdline
+#### `/tmp/`: Temporary files, cleared on reboot.
+    ```sh
+    ls /tmp
+    ```
+---
 
-```bash
-ubuntu:~# cat /proc/cmdline
-BOOT_IMAGE=(hd0,msdos1)/vmlinuz-5.14.0-503.22.1.el9_5.x86_64 root=/dev/mapper/rhel-root ro crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M resume=/dev/mapper/rhel-swap rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet net.ifnames=0 biosdevname=0 console=ttyS0,38400n8 console=tty0
-ubuntu:~#
-```
+#### `/run/`: Volatile runtime info (PIDs, sockets, etc.)
+    ```sh
+    ls /run
+    ```
+---
 
-- **consoles** displays information about the system's console devices that are available for logging and displaying kernel messages.
+#### `/boot/`: Kernel, initrd, and bootloader files.
+    ```sh
+    ls /boot
+    vmlinuz-5.15.0-105-generic  initrd.img-5.15.0-105-generic  grub/
+    ```
+---
 
-```bash
-ubuntu:~# cat /proc/consoles
-tty0                 -WU (EC  p  )    4:1
-ttyS0                -W- (E  Np a)    4:64
-ubuntu:~#
-```
-4:1 → tty0 is associated with major device number 4 and minor number 1.
+#### `/home/`: User home directories.
+    ```sh
+    ls /home
+    alice  bob
+    ```
+---
 
-- **cpuinfo** displays detailed information about the CPU(s) in the system.
+#### `/opt/`: Optional/commercial/large third-party software.
+    ```sh
+    ls /opt
+    google  VirtualBox
+    ```
+---
 
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-cpuinfo
-
-```bash
-ubuntu:~# cat /proc/cpuinfo
-processor       : 0
-vendor_id       : GenuineIntel
-cpu family      : 6
-model           : 61
-model name      : Intel Core Processor (Broadwell, IBRS)
-stepping        : 2
-microcode       : 0x1
-cpu MHz         : 2199.998
-cache size      : 16384 KB
-physical id     : 0
-siblings        : 1
-core id         : 0
-cpu cores       : 1
-apicid          : 0
-initial apicid  : 0
-fpu             : yes
-fpu_exception   : yes
-cpuid level     : 13
-wp              : yes
-flags           : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ss syscall nx pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology cpuid tsc_known_freq pni pclmulqdq vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault pti ssbd ibrs ibpb stibp tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm rdseed adx smap xsaveopt arat vnmi umip md_clear arch_capabilities
-vmx flags       : vnmi preemption_timer posted_intr invvpid ept_x_only ept_ad ept_1gb flexpriority apicv tsc_offset vtpr mtf vapic ept vpid unrestricted_guest vapic_reg vid shadow_vmcs pml
-bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds swapgs taa srbds mmio_unknown bhi
-bogomips        : 4399.99
-clflush size    : 64
-cache_alignment : 64
-address sizes   : 40 bits physical, 48 bits virtual
-power management:
-
-ubuntu:~#
-```
-
-- **devices**
-The file /proc/bus/pci/devices is part of the procfs virtual filesystem and contains details about all PCI devices in the system.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-devices
-
-```bash
-ubuntu:~# cat /proc/devices
-0009    80867010        0                    1f0                     3f6                     170                     376                    c121                       0                       0                       8                        0                    8                       0                      10                       0                       0        ata_piix
-ubuntu:~#
-```
-
-- **diskstats** displays disk I/O statistics for all block devices in the system.
-
-https://www.kernel.org/doc/Documentation/ABI/testing/procfs-diskstats
-```bash
-ubuntu:~# cat /proc/diskstats 
- 252       0 vda 112431 164 5524022 124561 298591 62555 17081416 1038176 0 296326 1186204 0 0 0 0 74546 23467
- 252       1 vda1 365 0 86486 492 60 4 5208 133 0 422 625 0 0 0 0 0 0
- 252       2 vda2 111720 164 5422840 123889 298515 62551 17076208 1038040 0 341717 1161930 0 0 0 0 0 0       
- 253       0 dm-0 111621 0 5397024 123834 357592 0 17076208 1259669 0 1297536 1383503 0 0 0 0 0 0
- 253       1 dm-1 98 0 4440 44 0 0 0 0 0 28 44 0 0 0 0 0 0
-   7       0 loop0 493 0 3826 42 0 0 0 0 0 29 42 0 0 0 0 0 0
-   7       1 loop1 303 0 3268 31 0 0 0 0 0 33 31 0 0 0 0 0 0
-ubuntu:~#
-```
-
-- **dma** displays the DMA (Direct Memory Access) channels currently being used by the system.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-dma
-
-```bash
-ubuntu:~# cat /proc/dma
- 4: cascade
-ubuntu:~#
-## Indicates that channel no 4 is used for cascading DMA controllers.
-```
-
-- **dynamic_debug** allows you to dynamically enable/disable kernel debug-print code to obtain additional kernel information. If /proc/dynamic_debug/control exists, your kernel has dynamic debug. 
-
-https://docs.kernel.org/admin-guide/dynamic-debug-howto.html
-
-```bash
-ubuntu:~# head /proc/dynamic_debug/control
-# filename:lineno [module]function flags format
-init/main.c:1102 [main]initcall_blacklist =p "blacklisting initcall %s\n"
-init/main.c:1144 [main]initcall_blacklisted =p "initcall %s blacklisted\n"
-init/main.c:1344 [main]run_init_process =p "  with arguments:\n"
-init/main.c:1346 [main]run_init_process =p "    %s\n"
-init/main.c:1347 [main]run_init_process =p "  with environment:\n"
-init/main.c:1349 [main]run_init_process =p "    %s\n"
-init/initramfs.c:500 [initramfs]unpack_to_rootfs =_ "Detected %s compressed data\n"
-arch/x86/events/amd/ibs.c:1370 [ibs]setup_ibs_ctl =_ "Failed to setup IBS LVT offset, IBSCTL = 0x%08x\n"     
-arch/x86/events/amd/ibs.c:1377 [ibs]setup_ibs_ctl =_ "No CPU node configured for IBS\n"
-ubuntu:~#
-```
-- **filesystems**: displays a list of the file system types currently supported by the kernel.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-filesystems
-```bash
-ubuntu:~# head /proc/filesystems 
-nodev   sysfs
-nodev   tmpfs
-nodev   bdev
-nodev   proc
-nodev   cgroup
-nodev   cgroup2
-nodev   cpuset
-nodev   devtmpfs
-nodev   configfs
-nodev   debugfs
-ubuntu:~#
-```
-
-- **interrupts**: records the no of interrupts per IRQ. 
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-interrupts
-```bash
-ubuntu:~# head /proc/interrupts
-           CPU0       CPU1       CPU2       CPU3       CPU4       CPU5       CPU6       CPU7
-  0:         24          0          0          0          0          0          0          0   IO-APIC   2-edge      timer
-  1:          0          0          0          0          9          0          0          0   IO-APIC   1-edge      i8042
-  4:          0          0          0          0          0          0        441          0   IO-APIC   4-edge      ttyS0
-  8:          0          0          0          0          0          1          0          0   IO-APIC   8-edge      rtc0
-  9:          0          0          0          0          0          0          0          0   IO-APIC   9-fasteoi   acpi
- 11:          0          0         12          0          0          0          0     636377   IO-APIC  11-fasteoi   uhci_hcd:usb1, virtio2
- 12:          0          0          0         15          0          0          0          0   IO-APIC  12-edge      i8042
- 14:          0          0          0          0          0          0          0          0   IO-APIC  14-edge      ata_piix
- 15:          0          0          0          0          0          0          0          0   IO-APIC  15-edge      ata_piix
-ubuntu:~#
-```
-
-- **iomem**: current map of system's memory for each physical device.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-iomem
-```bash
-ubuntu:~# head /proc/iomem
-00000000-00000fff : Reserved
-00001000-0009fbff : System RAM
-0009fc00-0009ffff : Reserved
-000a0000-000bffff : PCI Bus 0000:00
-000c0000-000c99ff : Video ROM
-000ca000-000cadff : Adapter ROM
-000cb000-000cbdff : Adapter ROM
-000cc000-000ce3ff : Adapter ROM
-000f0000-000fffff : Reserved
-  000f0000-000fffff : System ROM
-ubuntu:~#
-```
-
-- **meminfo**:  reports valuable information about the system's RAM usage.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-meminfo#s2-proc-meminfo
-
-```bash
-ubuntu:~# head /proc/meminfo
-MemTotal:       16112680 kB
-MemFree:         9770876 kB
-MemAvailable:   13297556 kB
-Buffers:            6184 kB
-Cached:          3711428 kB
-SwapCached:            0 kB
-Active:          2427732 kB
-Inactive:        2651532 kB
-Active(anon):    1582668 kB
-Inactive(anon):        0 kB
-ubuntu:~#
-```
-
-- **mounts**:  list of all mounts in use by the system
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-mounts#s2-proc-mounts
-
-```bash
-ubuntu:~# head /proc/mounts
-rootfs / rootfs rw 0 0
-/proc /proc proc rw,nodiratime 0 0 none
-/dev ramfs rw 0 0
-/dev/mapper/VolGroup00-LogVol00 / ext3 rw 0 0
-none /dev ramfs rw 0 0
-/proc /proc proc rw,nodiratime 0 0
-/sys /sys sysfs rw 0 0
-none /dev/pts devpts rw 0 0
-usbdevfs /proc/bus/usb usbdevfs rw 0 0
-/dev/hda1 /boot ext3 rw 0 0
-none /dev/shm tmpfs rw 0 0
-none /proc/sys/fs/binfmt_misc binfmt_misc rw 0 0
-sunrpc /var/lib/nfs/rpc_pipefs rpc_pipefs rw 0 0
-ubuntu:~#
-```
-
-- **stat**:  keeps track of a variety of different statistics about the system since it was last restarted.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-stat#s2-proc-stat
-
-```bash
-ubuntu:~# cat /proc/stat
-cpu  259246 7001 60190 34250993 137517 772 0
-cpu0 259246 7001 60190 34250993 137517 772 0
-intr 354133732 347209999 2272 0 4 4 0 0 3 1 1249247 0 0 80143 0 422626 5169433
-ctxt 12547729
-btime 1093631447
-processes 130523
-procs_running 1
-procs_blocked 0
-preempt 5651840
-cpu  209841 1554 21720 118519346 72939 154 27168
-cpu0 42536 798 4841 14790880 14778 124 3117
-cpu1 24184 569 3875 14794524 30209 29 3130
-cpu2 28616 11 2182 14818198 4020 1 3493
-cpu3 35350 6 2942 14811519 3045 0 3659
-cpu4 18209 135 2263 14820076 12465 0 3373
-cpu5 20795 35 1866 14825701 4508 0 3615
-cpu6 21607 0 2201 14827053 2325 0 3334
-cpu7 18544 0 1550 14831395 1589 0 3447
-intr 15239682 14857833 6 0 6 6 0 5 0 1 0 0 0 29 0 2 0 0 0 0 0 0 0 94982 0 286812
-ctxt 4209609
-btime 1078711415
-processes 21905
-procs_running 1
-procs_blocked 0
-ubuntu:~#
-```
-- **swaps**: measures swap space and its utilization.
-
-https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/6/html/deployment_guide/s2-proc-swaps#s2-proc-swaps
-```bash
-ubuntu:~# cat /proc/swaps
-Filename                                Type            Size            Used            Priority
-/dev/dm-1                               partition       16773116        0               -2
-ubuntu:~#
-```
-
-### `/var/log`:  System logs directory.
-### `/etc/`:  Configuration files.
-### `/usr/local/bin`:  User-installed binaries.
-### `/usr/bin`:  Standard binaries.
-### `/sys/fs/`: 
+#### `/root/`: Root user's home directory.
+    ```sh
+    ls /root
+    .bashrc  .ssh/
+    ```
+---
