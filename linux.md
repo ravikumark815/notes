@@ -150,6 +150,8 @@
 - `export`:  Set environment variables.
     - `export VAR=value`: Set variable for current session.
     - `export PATH=$PATH:/new/path`: Add to PATH.
+- `tty`: Get the name of your current terminal session
+    - `ls /dev/pts`: List of open terminals
 
 ## User Management
 - `useradd/usermod`:  Add or modify user accounts.
@@ -177,6 +179,7 @@
     - `top -u user`: Filter top by user.
     - `top -o %MEM`: Sort top by memory usage.
     - `top -p 12345`: Show only given PID in top.
+- `btop`: Better than top/htop with awesome interface.
 - `ps`:  View currently running processes.
     - `ps -A` / `ps -e`: View all running processes.
     - `ps -ef` / `ps -eF`: Full format listing (more columns).
@@ -261,6 +264,7 @@
     - `vmstat -p vda1`: Partition stats.
     - `vmstat -S k`: Show in kilobytes.
     - `vmstat -m`: Slab statistics.
+- `dstat`: Combines `vmstat`, `iostat`, `netstat`, and `ifstat`.
 - `rsync`:  Copy and synchronize files locally and remotely.
     - `rsync -zvh backup.tar.gz /tmp/backups/`: Copy with compression and verbosity.
     - `rsync -avzh /root/rpmpkgs /tmp/backups/`: Archive mode, compress, verbose.
@@ -402,6 +406,7 @@
     - `ethtool -i eth0`: Show driver info.
     - `ethtool -a eth0`: Show pause parameters.
     - `ethtool -S eth0`: Show statistics.
+- `nethogs`: Bandwidth usage per process
 
 ## Package Management
 - `apt`:
