@@ -33,20 +33,22 @@
 
 ## Data Types
 
-| Name             | Type       | Description                                          | Examples                        |
-| :--------------- | :--------- | :--------------------------------------------------- | :------------------------------ |
-| Integer          | `int`      | Whole numbers                                        | `3`, `300`, `-200`            |
-| Floating point   | `float`    | Decimal numbers                                      | `2.3`, `4.6`, `100.0`           |
-| String           | `str`      | Ordered sequence of characters                       | `"hello"`, `'John'`             |
-| List             | `list`     | Ordered, mutable sequence of objects                 | `[10, "hello", 200.3]`          |
-| Dictionary       | `dict`     | Unordered collection of key-value pairs            | `{"k1": "v1", "k2": 10}`        |
-| Tuple            | `tuple`    | Ordered, immutable sequence of objects               | `(10, "hello", 2.3)`            |
-| Set              | `set`      | Unordered collection of unique objects               | `{"a", "b"}`                    |
-| Boolean          | `bool`     | Logical values representing True or False           | `True`, `False`                 |
-| NoneType         | `NoneType` | Represents the absence of a value or a null value   | `None`                          |
-| Complex Number   | `complex`  | Numbers with a real and an imaginary part          | `3+5j`, `2.5-1.2j`            |
-| Bytes            | `bytes`    | Immutable sequence of single byte values (0-255)     | `b'hello'`, `bytes([65, 66])`   |
-| Bytearray        | `bytearray`| Mutable sequence of single byte values (0-255)     | `bytearray(b'hello')`, `bytearray([65, 66])` |
+| Name             | Type       | Description                                          | Examples                                     |
+| :--------------- | :--------- | :--------------------------------------------------- | :--------------------------------------------|
+| Integer          | `int`      | Whole numbers                                        | `3`, `300`, `-200`                           |
+| Floating point   | `float`    | Decimal numbers                                      | `2.3`, `4.6`, `100.0`                        |
+| String           | `str`      | Ordered sequence of characters                       | `"hello"`, `'John'`                          |
+| List             | `list`     | Ordered, mutable sequence of objects                 | `[10, "hello", 200.3]`                       |
+| Dictionary       | `dict`     | Unordered collection of key-value pairs              | `{"k1": "v1", "k2": 10}`                     |
+| Tuple            | `tuple`    | Ordered, immutable sequence of objects               | `(10, "hello", 2.3)`                         |
+| Set              | `set`      | Unordered collection of unique objects               | `{"a", "b"}`                                 |
+| Frozenset        | `frozenset`| Immutable version of a set                           | `frozenset({"a", "b"})`                      |
+| Boolean          | `bool`     | Logical values representing True or False            | `True`, `False`                              |
+| NoneType         | `NoneType` | Represents the absence of a value or a null value    | `None`                                       |
+| Complex Number   | `complex`  | Numbers with a real and an imaginary part            | `3+5j`, `2.5-1.2j`                           |
+| Bytes            | `bytes`    | Immutable sequence of single byte values (0-255)     | `b'hello'`, `bytes([65, 66])`                |
+| Bytearray        | `bytearray`| Mutable sequence of single byte values (0-255)       | `bytearray(b'hello')`, `bytearray([65, 66])` |
+| Range            | `range`    | Immutable sequence of numbers, often used for looping| `range(5)`, `range(1, 10, 2)`                |
 
 ## Variables, Assignment & Naming
 
@@ -64,9 +66,22 @@ x, y = y, x  # swap
 
 ```python
 name = input("Enter your name: ")
+age_str = input("Enter your age: ")
+age_int = int(age_str) # Converting input string to an integer
+
+# Basic Output
 print("Hello,", name)
-print(f"Hello, {name}!")   # f-strings (Py3.6+)
+print(f"Hello, {name}!") # f-strings (Py3.6+)
 print("Sum:", 2 + 2, sep=" | ", end=" :) \n")
+
+# Controlling Output
+print("Line 1", end=" ") # Prevent newline, useful for printing on the same line
+print("Line 2")
+print("Item1", "Item2", "Item3", sep=", ") # Custom separator between arguments
+
+# Printing to Standard Error (for error messages)
+import sys
+print("This is an error message.", file=sys.stderr)
 ```
 
 ## Operators
@@ -79,7 +94,7 @@ print("Sum:", 2 + 2, sep=" | ", end=" :) \n")
 | Membership | `in`, `not in`                                          |
 | Identity   | `is`, `is not`                                          |
 | Bitwise    | `&`, `|`, `^`, `~`, `<<`, `>>`                          |
-| Assignment | `=`, `+=`, `-=`, `*=`, `/=`, etc.                       |
+| Assignment | `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `//=`, `**=`         |
 
 ## Control Flow
 
@@ -98,31 +113,155 @@ for i in range(3):
 while x > 0:
     x -= 1
 
+# Loop Constructs
+for i in range(3):
+    print(i)
+
+while x > 0:
+    x -= 1
+
 # Loop with else
 for item in [1, 2, 3]:
     print(item)
 else:
-    print("Loop ended")
+    print("Loop ended")  # This runs if the loop completes without a 'break'
+
+# Loop Control Statements
+for i in range(5):
+    if i == 2:
+        continue # Skips current iteration
+    if i == 4:
+        break    # Exits loop entirely
+    print(i)
+
+# Structural Pattern Matching (Python 3.10+)
+status_code = 200
+match status_code:
+    case 200:
+        print("OK")
+    case 404:
+        print("Not Found")
+    case 500:
+        print("Server Error")
+    case _:
+        print("Unknown Status")
 ```
 
 ## Functions
 
 ```python
 def add(a, b=0):
-    """Adds two numbers"""
     return a + b
 
 def multi_return():
-    return 1, 2, 3
+    return 1, 2, 3 # packed into a tuple
 
+# Arbitrary Arguments (*args and **kwargs)
 def var_args(*args, **kwargs):
-    print(args, kwargs)
+    print(f"Positional arguments (args): {args}") # tuple
+    print(f"Keyword arguments (kwargs): {kwargs}") # dictionary
 
 # Lambda
 square = lambda x: x * x
+print(f"Lambda square(5): {square(5)}")
+
+def greet(name: str) -> str:
+    # Adds type hints for parameters and return value.
+    return f"Hello, {name}!"
+
+# Nested Functions
+def outer_function(msg):
+    def inner_function():
+        print(msg)
+    return inner_function
+
+# Generators (using 'yield') - for lazy evaluation/memory efficiency
+def fibonacci_sequence(n):
+    a, b = 0, 1
+    count = 0
+    while count < n:
+        yield a # Pauses execution and returns 'a', resumes from here next time
+        a, b = b, a + b
+        count += 1
+
+# Function Attributes (rarely used, but possible)
+def count_calls():
+    # counter counts the number of times the function is called
+    count_calls.counter += 1
+    print(f"Function called {count_calls.counter} times.")
 
 # Call
-print(add(3, 4))
+print(f"add(3, 4): {add(3, 4)}")
+print(f"add(5): {add(5)}") # Using default argument
+x, y, z = multi_return() # Unpacking multiple return values
+print(f"multi_return unpacked: x={x}, y={y}, z={z}")
+```
+
+## Generators
+
+- Functions that can be paused and resumed, producing a sequence of values lazily.
+- They use the `yield` keyword instead of `return`.
+- When to use?
+    1. Memory efficiency: When dealing with very large datasets or infinite sequences, generators produce values one at a time, keeping only the current state in memory.
+    2. Performance: Avoids computing all results upfront if only a few are needed.
+    3. Readability: Can make code cleaner for sequence generation.
+
+```python
+def count_up_to(n):
+    # A simple generator that yields numbers from 0 up to (but not including) n."""
+    i = 0
+    while i < n:
+        yield i # Pauses here, returns 'i', and remembers its state for the next call
+        i += 1
+
+my_generator = count_up_to(5) # This creates a generator object, doesn't run the code yet
+
+print(f"Type of my_generator: {type(my_generator)}") # Output: <class 'generator'>
+
+# Iterating over the generator (each next() call resumes from the last yield)
+print(next(my_generator)) # Output: 0
+print(next(my_generator)) # Output: 1
+
+for num in my_generator: # Continues from where it left off (2, 3, 4)
+    print(num)
+```
+
+## Decorators
+
+- A design pattern that allows you to add new functionality to an existing function or method without modifying its structure. They are essentially "wrappers" that execute code before and/or after the wrapped function.
+- How do they work? A decorator is a function that takes another function as an argument, extends its behavior, and returns a new (or modified) function.
+- Key points:
+    - Functions are First-Class Objects: They can be passed as arguments and returned from other functions.
+    - Closure: The `wrapper` function "remembers" the `func` from its enclosing scope.
+    - `@syntax`: Just a cleaner way to apply decorators.
+    - Use Cases: Logging, timing, authentication, caching, validation, framework routing.
+
+```python
+# Simple Logging Decorator
+def log_function_call(func):
+    """
+    A decorator that logs when the decorated function is called
+    and what its return value is.
+    """
+    def wrapper(*args, **kwargs):
+        print(f"--- Calling function: {func.__name__} ---")
+        result = func(*args, **kwargs) # Execute the original function
+        print(f"--- Function {func.__name__} finished. Result: {result} ---")
+        return result
+    return wrapper
+
+@log_function_call # This is equivalent to: `add_numbers = log_function_call(add_numbers)`
+def add_numbers(a, b):
+    print("Inside add_numbers function.")
+    return a + b
+
+sum_result = add_numbers(10, 5)
+print(f"Sum result outside decorator: {sum_result}")
+
+# # --- Calling function: add_numbers ---
+# Inside add_numbers function.
+# --- Function add_numbers finished. Result: 15 ---
+# Sum result outside decorator: 15
 ```
 
 ## Comprehensions
