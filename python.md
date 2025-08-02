@@ -264,54 +264,6 @@ print(f"Sum result outside decorator: {sum_result}")
 # Sum result outside decorator: 15
 ```
 
-## Comprehensions
-
-### **List Comprehensions**
-
-| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
-| :--------- | :------ | :------------------ | :------------------ | :----- |
-| **Basic** | Creates a new list by transforming items from an iterable. | `[expr for item in iterable]` | `squares = [x*x for x in range(5)]` | `[0, 1, 4, 9, 16]` |
-| **With Conditional Filtering** | Creates a list including only items that satisfy a condition. | `[expr for item in iterable if condition]` | `evens = [x for x in range(10) if x % 2 == 0]` | `[0, 2, 4, 6, 8]` |
-| **Nested Loops (Flattening/Combinations)** | Simulates nested loops to process elements from multiple iterables or flatten nested lists. | `[expr for item1 in iterable1 for item2 in iterable2]` | `coords = [(x, y) for x in range(2) for y in range(3)]` | `[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]` |
-| **Nested with Conditions** | Combines nested iteration with conditional filtering on the inner loop. | `[expr for outer_item in outer_iterable for inner_item in inner_iterable if inner_condition]` | `matrix = [[1, 2], [3, 4]]; evens = [num for row in matrix for num in row if num % 2 == 0]` | `[2, 4]` |
-| **Conditional Expression (if-else in expr)** | Applies different expressions based on a condition for each item. | `[expr_if_true if condition else expr_if_false for item in iterable]` | `parity_labels = ["Even" if x % 2 == 0 else "Odd" for x in range(5)]` | `['Even', 'Odd', 'Even', 'Odd', 'Even']` |
-| **Using `zip()`** | Iterates over multiple iterables in parallel. | `[expr for item1, item2 in zip(iterable1, iterable2)]` | `l1 = [1, 2]; l2 = ['a', 'b']; combined = [f"{x}-{y}" for x, y in zip(l1, l2)]` | `['1-a', '2-b']` |
-| **Using `enumerate()`** | Accesses both the index and value of items in an iterable. | `[expr for idx, item in enumerate(iterable)]` | `indexed_items = [f"Idx {i}: {val}" for i, val in enumerate(['A', 'B'])]` | `['Idx 0: A', 'Idx 1: B']` |
-
-### **Dictionary Comprehensions**
-
-| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
-| :--------- | :------ | :------------------ | :------------------ | :----- |
-| **Basic** | Creates a new dictionary by defining key-value pairs from an iterable. | `{key_expr: value_expr for item in iterable}` | `dict_comp = {x: x*x for x in range(3)}` | `{0: 0, 1: 1, 2: 4}` |
-| **With Conditional Filtering** | Creates a dictionary including only key-value pairs that satisfy a condition. | `{key_expr: value_expr for item in iterable if condition}` | `even_squares = {x: x*x for x in range(5) if x % 2 == 0}` | `{0: 0, 2: 4, 4: 16}` |
-| **Swapping Keys and Values** | Creates a new dictionary by swapping the keys and values of an existing dictionary. | `{value: key for key, value in original_dict.items()}` | `original = {'a': 1, 'b': 2}; swapped = {v: k for k, v in original.items()}` | `{1: 'a', 2: 'b'}` |
-| **Filtering a Dictionary** | Creates a new dictionary containing only specific items from an existing one based on a condition. | `{k: v for k, v in original_dict.items() if condition_on_k_or_v}` | `grades = {'A': 85, 'B': 92}; passed = {n: s for n, s in grades.items() if s >= 90}` | `{'B': 92}` |
-
-### **Set Comprehensions**
-
-| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
-| :--------- | :------ | :------------------ | :------------------ | :----- |
-| **Basic** | Creates a new set, automatically ensuring unique elements, by transforming items from an iterable. | `{expr for item in iterable}` | `set_comp = {c for c in "hello"}` | `{'h', 'e', 'l', 'o'}` (order varies) |
-| **With Conditional Filtering** | Creates a set including only unique items that satisfy a condition. | `{expr for item in iterable if condition}` | `unique_evens = {x for x in range(10) if x % 2 == 0 and x > 5}` | `{6, 8}` (order varies) |
-
-### **Generator Expressions**
-
-| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
-| :--------- | :------ | :------------------ | :------------------ | :----- |
-| **Basic (Lazy Evaluation)** | Creates an *iterator* (a generator object) that yields values one by one on demand, rather than building the full sequence in memory. Ideal for large datasets. | `(expr for item in iterable if condition)` | `gen_exp = (x*x for x in range(3))` | `<generator object <genexpr> at 0x...>` |
-| **Consumption (e.g., with `list()`, `next()`)** | Shows how to consume the values yielded by a generator expression. | `list(gen_expr_obj)` / `next(gen_expr_obj)` | `gen = (x for x in range(3)); first = next(gen); rest = list(gen)` | `first: 0, rest: [1, 2]` |
-| **Direct Consumption (e.g., with `sum`, `max`)** | Can be passed directly to functions that consume iterators without explicit list conversion, maximizing memory efficiency. | `sum(expr for item in iterable)` | `total_sum_squares = sum(x*x for x in range(4))` | `14` |
-
-### Important Considerations / Tricks
-
-- Readability vs. Complexity: While powerful, overly complex comprehensions (e.g., deeply nested ones with multiple conditions) can reduce readability. Sometimes, traditional loops are clearer.
-
-- Side Effects: Avoid putting expressions with side effects (e.g., print statements, modifying external variables) directly into comprehensions, as it can make code harder to debug and understand.
-
-- Scope: The loop variable (e.g., 'x' in `[x for x in range(5)]`) is local to the comprehension in Python 3. It does not "leak" into the surrounding scope.
-
-- Performance: Comprehensions are generally faster than explicit loops for equivalent operations because they are optimized at the C level.
-
 ## Strings
 
 | Concept | Description | Example/Syntax |
@@ -371,60 +323,58 @@ print(f"Name: {name}, Age: {age}") # Name: Alice, Age: 30
 print(f"Calculation: {2 * 3.5}") # Calculation: 7.0
 ```
 
-### String Methods Reference
-
-| Method | Description | Example | Output |
-| :----- | :---------- | :------ | :------ |
-| `len(s)` | Returns the length (number of characters) of the string. | `len("python")` | `6` |
-| `s[index]` | Accesses character at a specific index (0-based). Supports negative indexing from end. | `"python"[0]` | `'p'` |
-| `s[-1]` | Accesses the last character. | `"python"[-1]` | `'n'` |
-| `s[start:end]` | Slices string from `start` up to (but not including) `end`. | `"python"[1:4]` | `'yth'` |
-| `s[start:end:step]` | Slices with a step. Negative step reverses. | `"python"[::2]` | `'pto'` |
-| `s[::-1]` | Reverses the string. | `"hello"[::-1]` | `'olleh'` |
-| `s1 + s2` | Concatenates two strings. | `"Hello" + "World"` | `'HelloWorld'` |
-| `s * n` | Repeats the string `n` times. | `"abc" * 2` | `'abcabc'` |
-| `s.upper()` | Converts all characters to uppercase. | `"Hello".upper()` | `'HELLO'` |
-| `s.lower()` | Converts all characters to lowercase. | `"WORLD".lower()` | `'world'` |
-| `s.capitalize()` | Converts the first character to uppercase and the rest to lowercase. | `"hello world".capitalize()` | `'Hello world'` |
-| `s.title()` | Converts the first character of each word to uppercase, and the rest to lowercase. | `"hello world".title()` | `'Hello World'` |
-| `s.swapcase()` | Swaps case of all characters (upper to lower, lower to upper). | `"PyThOn".swapcase()` | `'pYtHoN'` |
-| `s.strip([chars])` | Removes leading and trailing whitespace or specified characters. | ` "  hi  ".strip()` | `'hi'` |
-| | | `",ab,c,".strip(',')` | `'ab,c'` |
-| `s.lstrip([chars])` | Removes leading whitespace or specified characters. | ` "  hi  ".lstrip()` | `'hi  '` |
-| `s.rstrip([chars])` | Removes trailing whitespace or specified characters. | ` "  hi  ".rstrip()` | `'  hi'` |
-| `s.count(substring)` | Returns the number of non-overlapping occurrences of a substring. | `"banana".count("na")` | `2` |
-| `s.find(substring[, start[, end]])` | Returns the lowest index where substring is found, or -1 if not found. | `"apple".find("pl")` | `1` |
-| | | `"apple".find("z")` | `-1` |
-| `s.index(substring[, start[, end]])` | Like `find()`, but raises `ValueError` if substring is not found. | `"apple".index("pp")` | `1` |
-| | | ` "apple".index("z")` | `ValueError` |
-| `s.rfind(substring[, start[, end]])` | Returns the highest index where substring is found, or -1. | `"banana".rfind("na")` | `4` |
-| `s.rindex(substring[, start[, end]])` | Like `rfind()`, but raises `ValueError` if not found. | `"banana".rindex("an")` | `3` |
-| `s.replace(old, new[, count])` | Returns a copy of the string with all occurrences of `old` replaced by `new`. `count` limits replacements. | `"hihi".replace("h","y")` | `'yiyi'` |
-| | | `"hihi".replace("h","y",1)` | `'yihi'` |
-| `s.split(delimiter[, maxsplit])` | Splits the string by `delimiter` into a list of substrings. If `delimiter` is not given, splits by whitespace. | `"a,b,c".split(",")` | `['a', 'b', 'c']` |
-| | | `"a b c".split()` | `['a', 'b', 'c']` |
-| | | `"a,b,c".split(",", 1)` | `['a', 'b,c']` |
-| `s.rsplit(delimiter[, maxsplit])` | Splits from the right. | `"a,b,c".rsplit(",", 1)` | `['a,b', 'c']` |
-| `s.partition(separator)` | Splits the string into a 3-tuple: (before, separator, after). | `"name=Alice".partition("=")` | `('name', '=', 'Alice')` |
-| `s.rpartition(separator)` | Splits from the right into a 3-tuple. | `"a.b.c".rpartition(".")` | `('a.b', '.', 'c')` |
-| `s.splitlines([keepends])` | Splits the string into a list of lines at line breaks. | `"a\nbc\n".splitlines()` | `['a', 'bc']` |
-| `s.startswith(prefix[, start[, end]])` | Checks if string starts with `prefix`. | `"hello".startswith("he")` | `True` |
-| `s.endswith(suffix[, start[, end]])` | Checks if string ends with `suffix`. | `"hello".endswith("lo")` | `True` |
-| `s.isalpha()` | Returns `True` if all characters are alphabetic and string is not empty. | `"abc".isalpha()` | `True` |
-| | | `"a1c".isalpha()` | `False` |
-| `s.isdigit()` | Returns `True` if all characters are digits and string is not empty. | `"123".isdigit()` | `True` |
-| | | `"1a3".isdigit()` | `False` |
-| `s.isalnum()` | Returns `True` if all characters are alphanumeric (letters or numbers) and not empty. | `"abc12".isalnum()` | `True` |
-| `s.isspace()` | Returns `True` if all characters are whitespace and string is not empty. | `"   ".isspace()` | `True` |
-| `s.islower()` | Returns `True` if all cased characters are lowercase and there is at least one cased character. | `"hello".islower()` | `True` |
-| `s.isupper()` | Returns `True` if all cased characters are uppercase and there is at least one cased character. | `"HELLO".isupper()` | `True` |
-| `s.istitle()` | Returns `True` if string is titlecased (first letter of each word uppercase, others lowercase). | `"Hello World".istitle()` | `True` |
-| `s.join(iterable)` | Concatenates elements of an iterable (e.g., list of strings) with the string as a separator. | `",".join(["a", "b", "c"])` | `'a,b,c'` |
-| `s.ljust(width[, fillchar])` | Returns a left-justified string of given `width`. | `"hi".ljust(5, '-')` | `'hi---'` |
-| `s.rjust(width[, fillchar])` | Returns a right-justified string of given `width`. | `"hi".rjust(5, '*')` | `'***hi'` |
-| `s.center(width[, fillchar])` | Returns a center-justified string of given `width`. | `"hi".center(5, '=')` | `'=hi=='` |
-| `s.zfill(width)` | Pads numeric string with zeros on the left to fill `width`. | `"25".zfill(4)` | `'0025'` |
-| | | `"-25".zfill(5)` | `'-0025'` |
+| Method                                | Description                                                                                          | Example                               | Output              |
+| :----------------------------------- | :--------------------------------------------------------------------------------------------------- | :------------------------------------ | :------------------ |
+| `len(s)`          | Returns the length (number of characters) of the string.                                             | `len("python")`                       | `6`                 |
+| `s[index]`        | Accesses character at a specific index (0-based). Supports negative indexing from end.               | `"python"[0]`                         | `'p'`               |
+| `s[-1]`           | Accesses the last character.                                                                         | `"python"[-1]`                        | `'n'`               |
+| `s[start:end]`    | Slices string from `start` up to (but not including) `end`.                                          | `"python"[1:4]`                       | `'yth'`             |
+| `s[start:end:step]`| Slices with a step. Negative step reverses.                                                         | `"python"[::2]`                       | `'pto'`             |
+| `s[::-1]`         | Reverses the string.                                                                                 | `"hello"[::-1]`                       | `'olleh'`           |
+| `s1 + s2`         | Concatenates two strings.                                                                            | `"Hello" + "World"`                   | `'HelloWorld'`      |
+| `s * n`           | Repeats the string `n` times.                                                                        | `"abc" * 2`                           | `'abcabc'`          |
+| `s.upper()`       | Converts all characters to uppercase.                                                                | `"Hello".upper()`                     | `'HELLO'`           |
+| `s.lower()`       | Converts all characters to lowercase.                                                                | `"WORLD".lower()`                     | `'world'`           |
+| `s.capitalize()`  | Converts the first character to uppercase and the rest to lowercase.                                 | `"hello world".capitalize()`          | `'Hello world'`     |
+| `s.title()`       | Converts the first character of each word to uppercase, and the rest to lowercase.                   | `"hello world".title()`               | `'Hello World'`     |
+| `s.swapcase()`    | Swaps case of all characters (upper to lower, lower to upper).                                       | `"PyThOn".swapcase()`                 | `'pYtHoN'`          |
+| `s.strip([chars])`| Removes leading and trailing whitespace or specified characters.                                     | `"  hi  ".strip()`                    | `'hi'`              |
+|                   |                                                                                                      | `",ab,c,".strip(',')`                 | `'ab,c'`            |
+| `s.lstrip([chars])`| Removes leading whitespace or specified characters.                                                 | `"  hi  ".lstrip()`                   | `'hi  '`            |
+| `s.rstrip([chars])`| Removes trailing whitespace or specified characters.                                                | `"  hi  ".rstrip()`                   | `'  hi'`            |
+| `s.count(substring)`| Returns the number of non-overlapping occurrences of a substring.                                  | `"banana".count("na")`                | `2`                 |
+| `s.find(substring[, start[, end]])` | Returns the lowest index where substring is found, or -1 if not found.             | `"apple".find("pl")`                  | `1`                 |
+|                   |                                                                                                      | `"apple".find("z")`                   | `-1`                |
+| `s.index(substring[, start[, end]])`| Like `find()`, but raises `ValueError` if substring is not found.                  | `"apple".index("pp")`                 | `1`                 |
+|                   |                                                                                                      | `"apple".index("z")`                  | `ValueError`        |
+| `s.rfind(substring[, start[, end]])` | Returns the highest index where substring is found, or -1.                        | `"banana".rfind("na")`                | `4`                 |
+| `s.rindex(substring[, start[, end]])`| Like `rfind()`, but raises `ValueError` if not found.                             | `"banana".rindex("an")`               | `3`                 |
+| `s.replace(old, new[, count])`| Returns a copy of the string with all occurrences of `old` replaced by `new`. `count` limits replacements. | `"hihi".replace("h","y")` | `'yiyi'`      |
+|                                     |                                                                                    | `"hihi".replace("h","y",1)`           | `'yihi'`            |
+| `s.split(delimiter[, maxsplit])`| Splits the string by `delimiter` into a list of substrings. Default `delimiter` is whitespace | `"a,b,c".split(",")`           | `['a', 'b', 'c']`|
+|                                     |                                                                                    | `"a b c".split()`                     | `['a', 'b', 'c']`   |
+|                                     |                                                                                    | `"a,b,c".split(",", 1)`               | `['a', 'b,c']`      |
+| `s.rsplit(delimiter[, maxsplit])`   | Splits from the right.                                                             | `"a,b,c".rsplit(",", 1)`              | `['a,b', 'c']`      |
+| `s.partition(separator)`            | Splits the string into a 3-tuple: (before, separator, after).                      | `"name=Alice".partition("=")`         | `('name', '=', 'Alice')`|
+| `s.rpartition(separator)`           | Splits from the right into a 3-tuple.                                              | `"a.b.c".rpartition(".")`             | `('a.b', '.', 'c')` |
+| `s.splitlines([keepends])`          | Splits the string into a list of lines at line breaks.                             | `"a\nbc\n".splitlines()`              | `['a', 'bc']`       |
+| `s.startswith(prefix[, start[, end]])`| Checks if string starts with `prefix`.                                           | `"hello".startswith("he")`            | `True`              |
+| `s.endswith(suffix[, start[, end]])`| Checks if string ends with `suffix`.                                               | `"hello".endswith("lo")`              | `True`              |
+| `s.isalpha()`                       | Returns `True` if all characters are alphabetic and string is not empty.           | `"abc".isalpha()`                     | `True`              |
+|                                     |                                                                                    | `"a1c".isalpha()`                     | `False`             |
+| `s.isdigit()`                       | Returns `True` if all characters are digits and string is not empty.               | `"123".isdigit()`                     | `True`              |
+|                                     |                                                                                    | `"1a3".isdigit()`                     | `False`             |
+| `s.isalnum()`                       | Returns `True` if all characters are alphanumeric and not empty.                   | `"abc12".isalnum()`                   | `True`              |
+| `s.isspace()`                       | Returns `True` if all characters are whitespace and string is not empty.           | `"   ".isspace()`                     | `True`              |
+| `s.islower()`                       | Returns `True` if all cased characters are lowercase                               | `"hello".islower()`                   | `True`              |
+| `s.isupper()`                       | Returns `True` if all cased characters are uppercase                               | `"HELLO".isupper()`                   | `True`              |
+| `s.istitle()`                       | Returns `True` if string is titlecased (first letter of each word uppercase)       | `"Hello World".istitle()`             | `True`              |
+| `s.join(iterable)`                  | Concatenates elements of an iterable with the string as separator                  | `",".join(["a", "b", "c"])`           | `'a,b,c'`           |
+| `s.ljust(width[, fillchar])`        | Returns a left-justified string of given `width`.                                  | `"hi".ljust(5, '-')`                  | `'hi---'`           |
+| `s.rjust(width[, fillchar])`        | Returns a right-justified string of given `width`.                                 | `"hi".rjust(5, '*')`                  | `'***hi'`           |
+| `s.center(width[, fillchar])`       | Returns a center-justified string of given `width`.                                | `"hi".center(5, '=')`                 | `'=hi=='`           |
+| `s.zfill(width)`                    | Pads numeric string with zeros on the left to fill `width`.                        | `"25".zfill(4)`                       | `'0025'`            |
+|                                     |                                                                                    | `"-25".zfill(5)`                      | `'-0025'`           |
 
 ### String Formatting
 
@@ -439,25 +389,68 @@ print(f"Calculation: {2 * 3.5}") # Calculation: 7.0
 ## Lists
 
 ```python
-lst = [1, 2, "a"]
-lst.append(4)
-lst.insert(1, "b")
-lst.remove("a")
-item = lst.pop()
-lst[0] = 99
-print(lst[:2], lst[::-1])
+# Initial list
+my_list = [1, 2, "a", "b", 4]
+print(f"Original list: {my_list}")
+
+# --- Methods in action ---
+# Adding elements
+my_list.append(5)
+my_list.extend([6, 7])
+
+# Inserting at a specific position
+my_list.insert(2, "new")
+
+# Removing elements
+my_list.remove("a")
+popped_item = my_list.pop(1) # pop() removes item at index 1
+
+print(f"After modifications: {my_list}")
+print(f"Item popped: {popped_item}")
+
+# Sorting and reversing
+numbers = [3, 1, 4, 1, 5, 9]
+numbers.sort()
+print(f"Sorted list: {numbers}")
+
+reversed_numbers = sorted(numbers, reverse=True) # returns a new, reversed list
+print(f"New reversed list: {reversed_numbers}")
+
+# --- Tricks and Slicing ---
+print(f"Slice from index 2 to 4: {my_list[2:5]}")
+print(f"Reversed list using a slice: {my_list[::-1]}")
+
+# List comprehension
+squares = [x**2 for x in range(5)]
+print(f"List comprehension for squares: {squares}")
 ```
 
-| Method         | Description                  |
-|----------------|-----------------------------|
-| `append(x)`    | Add to end                  |
-| `insert(i,x)`  | Insert at index             |
-| `remove(x)`    | Remove first occurrence     |
-| `pop([i])`     | Remove & return (default last)|
-| `sort()`       | Sort in-place               |
-| `reverse()`    | Reverse in-place            |
-| `extend(iter)` | Extend list                 |
-| `count(x)`     | Count occurrences           |
+| Category             | Method / Trick       | Description                                                                                  | Example                                 |
+| :------------------- | :------------------- | :------------------------------------------------------------------------------------------- | :-------------------------------------- |
+| **Adding Items**     | `append(x)`          | Adds a single item `x` to the end of the list.                                               | `my_list.append(8)`                     |
+|                      | `extend(iterable)`   | Adds all items from an iterable (like another list) to the end.                              | `my_list.extend([9, 10])`               |
+|                      | `insert(i, x)`       | Inserts item `x` at a specified index `i`.                                                   | `my_list.insert(0, "start")`            |
+| **Removing Items**   | `remove(x)`          | Removes the **first occurrence** of item `x`. Raises a `ValueError` if not found.            | `my_list.remove('b')`                   |
+|                      | `pop([i])`           | Removes and returns the item at a specific index `i`. If `i` is not specified, it removes and returns the **last item**. | `item = my_list.pop(0)`|
+|                      | `del` statement      | Deletes an item at a specific index or a slice.                                              | `del my_list[2]` or `del my_list[1:3]`  |
+| **Sorting & Reversing** | `sort(reverse=False)` | Sorts the list **in-place**. Use `reverse=True` for descending order.                    | `numbers.sort()`                        |
+|                      | `sorted(iterable)`   | Returns a **new sorted list**, leaving the original unchanged.                               | `new_list = sorted(my_list)`            |
+|                      | `reverse()`          | Reverses the list **in-place**.                                                              | `my_list.reverse()`                     |
+| **Slicing Techniques** | `list[start:stop]`  | Extracts a sublist from `start` up to (but not including) `stop`.                           | `my_list[1:4]` -> `[2, 'new', 'b']`     |
+|                      | `list[start:]`       | Extracts a sublist from `start` to the end of the list.                                      | `my_list[2:]` -> `['new', 'b', 4]`      |
+|                      | `list[:stop]`        | Extracts a sublist from the beginning up to `stop`.                                          | `my_list[:3]` -> `[1, 2, 'new']`        |
+|                      | `list[:]`            | Creates a **shallow copy** of the entire list.                                               | `new_list = my_list[:]`                 |
+|                      | `list[::step]`       | Extracts a sublist using a step size.                                                        | `my_list[::2]` -> `[1, 'new', 4]`       |
+|                      | `list[::-1]`         | A common trick to create a **new reversed copy** of a list.                                  | `reversed_copy = my_list[::-1]`         |
+|                      | Negative Indices     | Uses negative numbers to count from the end of the list. `-1` is the last item, `-2` is the second to last. | `my_list[-1]` -> `4`, `my_list[:-1]` -> `[1, 2, 'new', 'b']` |
+| **Searching & Counting** | `count(x)`        | Returns the number of times `x` appears in the list.                                        | `my_list.count(1)`                      |
+|                      | `index(x)`           | Returns the index of the **first occurrence** of item `x`.                                   | `my_list.index('new')`                  |
+|                      | `x in my_list`       | An efficient way to check for item membership, returning `True` or `False`.                  | `if 'a' in my_list:`                    |
+| **Other Techniques** | `copy()` method      | Also creates a shallow copy. More explicit than slicing.                                     | `new_list = my_list.copy()`             |
+|                      | List Comprehension   | A concise way to create a new list by iterating over an existing one.                        | `doubled = [n*2 for n in numbers]`      |
+|                      | `list()`             | The constructor to create an empty list or convert another iterable to a list.               | `new_list = list(range(5))`             |
+|                      | Concatenation        | Using the `+` operator creates a new list from two or more lists.                            | `combined = my_list + [8, 9]`           |
+
 
 ## Tuples
 
@@ -504,6 +497,55 @@ print(1 in s, 99 not in s)
 | `pop()`        | Remove & return elem        |
 | `union(other)` | Union                       |
 | `intersection(other)` | Intersection         |
+
+## Comprehensions
+
+### **List Comprehensions**
+
+| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
+| :--------- | :------ | :------------------ | :------------------ | :----- |
+| **Basic** | Creates a new list by transforming items from an iterable. | `[expr for item in iterable]` | `squares = [x*x for x in range(5)]` | `[0, 1, 4, 9, 16]` |
+| **With Conditional Filtering** | Creates a list including only items that satisfy a condition. | `[expr for item in iterable if condition]` | `evens = [x for x in range(10) if x % 2 == 0]` | `[0, 2, 4, 6, 8]` |
+| **Nested Loops (Flattening/Combinations)** | Simulates nested loops to process elements from multiple iterables or flatten nested lists. | `[expr for item1 in iterable1 for item2 in iterable2]` | `coords = [(x, y) for x in range(2) for y in range(3)]` | `[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]` |
+| **Nested with Conditions** | Combines nested iteration with conditional filtering on the inner loop. | `[expr for outer_item in outer_iterable for inner_item in inner_iterable if inner_condition]` | `matrix = [[1, 2], [3, 4]]; evens = [num for row in matrix for num in row if num % 2 == 0]` | `[2, 4]` |
+| **Conditional Expression (if-else in expr)** | Applies different expressions based on a condition for each item. | `[expr_if_true if condition else expr_if_false for item in iterable]` | `parity_labels = ["Even" if x % 2 == 0 else "Odd" for x in range(5)]` | `['Even', 'Odd', 'Even', 'Odd', 'Even']` |
+| **Using `zip()`** | Iterates over multiple iterables in parallel. | `[expr for item1, item2 in zip(iterable1, iterable2)]` | `l1 = [1, 2]; l2 = ['a', 'b']; combined = [f"{x}-{y}" for x, y in zip(l1, l2)]` | `['1-a', '2-b']` |
+| **Using `enumerate()`** | Accesses both the index and value of items in an iterable. | `[expr for idx, item in enumerate(iterable)]` | `indexed_items = [f"Idx {i}: {val}" for i, val in enumerate(['A', 'B'])]` | `['Idx 0: A', 'Idx 1: B']` |
+
+### **Dictionary Comprehensions**
+
+| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
+| :--------- | :------ | :------------------ | :------------------ | :----- |
+| **Basic** | Creates a new dictionary by defining key-value pairs from an iterable. | `{key_expr: value_expr for item in iterable}` | `dict_comp = {x: x*x for x in range(3)}` | `{0: 0, 1: 1, 2: 4}` |
+| **With Conditional Filtering** | Creates a dictionary including only key-value pairs that satisfy a condition. | `{key_expr: value_expr for item in iterable if condition}` | `even_squares = {x: x*x for x in range(5) if x % 2 == 0}` | `{0: 0, 2: 4, 4: 16}` |
+| **Swapping Keys and Values** | Creates a new dictionary by swapping the keys and values of an existing dictionary. | `{value: key for key, value in original_dict.items()}` | `original = {'a': 1, 'b': 2}; swapped = {v: k for k, v in original.items()}` | `{1: 'a', 2: 'b'}` |
+| **Filtering a Dictionary** | Creates a new dictionary containing only specific items from an existing one based on a condition. | `{k: v for k, v in original_dict.items() if condition_on_k_or_v}` | `grades = {'A': 85, 'B': 92}; passed = {n: s for n, s in grades.items() if s >= 90}` | `{'B': 92}` |
+
+### **Set Comprehensions**
+
+| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
+| :--------- | :------ | :------------------ | :------------------ | :----- |
+| **Basic** | Creates a new set, automatically ensuring unique elements, by transforming items from an iterable. | `{expr for item in iterable}` | `set_comp = {c for c in "hello"}` | `{'h', 'e', 'l', 'o'}` (order varies) |
+| **With Conditional Filtering** | Creates a set including only unique items that satisfy a condition. | `{expr for item in iterable if condition}` | `unique_evens = {x for x in range(10) if x % 2 == 0 and x > 5}` | `{6, 8}` (order varies) |
+
+### **Generator Expressions**
+
+| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
+| :--------- | :------ | :------------------ | :------------------ | :----- |
+| **Basic (Lazy Evaluation)** | Creates an *iterator* (a generator object) that yields values one by one on demand, rather than building the full sequence in memory. Ideal for large datasets. | `(expr for item in iterable if condition)` | `gen_exp = (x*x for x in range(3))` | `<generator object <genexpr> at 0x...>` |
+| **Consumption (e.g., with `list()`, `next()`)** | Shows how to consume the values yielded by a generator expression. | `list(gen_expr_obj)` / `next(gen_expr_obj)` | `gen = (x for x in range(3)); first = next(gen); rest = list(gen)` | `first: 0, rest: [1, 2]` |
+| **Direct Consumption (e.g., with `sum`, `max`)** | Can be passed directly to functions that consume iterators without explicit list conversion, maximizing memory efficiency. | `sum(expr for item in iterable)` | `total_sum_squares = sum(x*x for x in range(4))` | `14` |
+
+### Important Considerations / Tricks
+
+- Readability vs. Complexity: While powerful, overly complex comprehensions (e.g., deeply nested ones with multiple conditions) can reduce readability. Sometimes, traditional loops are clearer.
+
+- Side Effects: Avoid putting expressions with side effects (e.g., print statements, modifying external variables) directly into comprehensions, as it can make code harder to debug and understand.
+
+- Scope: The loop variable (e.g., 'x' in `[x for x in range(5)]`) is local to the comprehension in Python 3. It does not "leak" into the surrounding scope.
+
+- Performance: Comprehensions are generally faster than explicit loops for equivalent operations because they are optimized at the C level.
+
 
 ## None & Booleans
 
