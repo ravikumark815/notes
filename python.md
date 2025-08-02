@@ -12,12 +12,29 @@
 - [Operators](#operators)
 - [Control Flow](#control-flow)
 - [Functions](#functions)
+- [Generators](#generators)
+- [Decorators](#decorators)
 - [Comprehensions](#comprehensions)
 - [Strings](#strings)
 - [Lists](#lists)
 - [Tuples](#tuples)
 - [Dictionaries](#dictionaries)
 - [Sets](#sets)
+- [Frozen Sets](#frozen-sets)
+- [Bytearray](#bytearray)
+- [Collections Module](#collections-module)
+  - [OrderedDict](#ordereddict)
+  - [DefaultDict](#defaultdict)
+  - [ChainMap](#chainmap)
+  - [Deque](#deque)
+  - [UserDict, UserList, UserString](#userdict-userlist-userstring)
+- [Data Structures](#data-structures)
+  - [Stack](#stack)
+  - [Queue](#queue)
+  - [Priority Queue](#priority-queue)
+  - [Linked List](#linked-list)
+  - [Binary Tree](#binary-tree)
+  - [Graph](#graph)
 - [None & Booleans](#none--booleans)
 - [Type Conversion](#type-conversion)
 - [Exception Handling](#exception-handling)
@@ -30,18 +47,6 @@
 - [Handy Tricks](#handy-tricks)
 - [What's New (3.x Highlights)](#whats-new-3x-highlights)
 - [Further Resources](#further-resources)
-
-## Modules & Imports
-
-```python
-import math
-from collections import Counter
-from os.path import join as pathjoin
-
-print(math.sqrt(16))
-print(Counter("hello"))
-print(pathjoin("a", "b.txt"))
-```
 
 ## Data Types
 
@@ -343,8 +348,8 @@ print(f"Name: {name}, Age: {age}") # Name: Alice, Age: 30
 print(f"Calculation: {2 * 3.5}") # Calculation: 7.0
 ```
 
-| Method                                | Description                                                                                          | Example                               | Output              |
-| :----------------------------------- | :--------------------------------------------------------------------------------------------------- | :------------------------------------ | :------------------ |
+| Method            | Description                                                                                          | Example                               | Output              |
+| :---------------- | :--------------------------------------------------------------------------------------------------- | :------------------------------------ | :------------------ |
 | `len(s)`          | Returns the length (number of characters) of the string.                                             | `len("python")`                       | `6`                 |
 | `s[index]`        | Accesses character at a specific index (0-based). Supports negative indexing from end.               | `"python"[0]`                         | `'p'`               |
 | `s[-1]`           | Accesses the last character.                                                                         | `"python"[-1]`                        | `'n'`               |
@@ -583,7 +588,7 @@ s.remove(2)
 print(1 in s, 99 not in s)
 ```
 
-### Common Set Operations
+### Set Operations
 
 | Method / Syntax                    | Purpose / Description                                                      | Example / Output                          |
 |-----------------------------------|----------------------------------------------------------------------------|-------------------------------------------|
@@ -608,12 +613,1139 @@ print(1 in s, 99 not in s)
 | `s.issuperset(t)` or `s >= t`          | Returns `True` if all `t` elements are in `s`.                            | `{1, 2, 3} >= {2}` → `True`          |
 | `set(iterable)`                        | Converts iterable to set (removes duplicates).                            | `set("aabc")` → `{'a', 'b', 'c'}`    |
 
-### **Set Comprehensions**
+### Set Comprehensions
 
 | Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
 | :--------- | :------ | :------------------ | :------------------ | :----- |
 | **Basic** | Creates a new set, automatically ensuring unique elements, by transforming items from an iterable. | `{expr for item in iterable}` | `set_comp = {c for c in "hello"}` | `{'h', 'e', 'l', 'o'}` (order varies) |
 | **With Conditional Filtering** | Creates a set including only unique items that satisfy a condition. | `{expr for item in iterable if condition}` | `unique_evens = {x for x in range(10) if x % 2 == 0 and x > 5}` | `{6, 8}` (order varies) |
+
+## Frozen Sets
+
+- Frozen sets are **immutable** versions of sets. Once created, you cannot add, remove, or modify elements. 
+- Hashable: They are hashable and can be used as dictionary keys or elements in other sets.
+- Automatically removes duplicates like regular sets
+- Unordered: Elements have no defined order
+
+### Operations
+
+| Operation | Method/Syntax | Description | Example | Output |
+|:----------|:--------------|:------------|:--------|:-------|
+| **Creation**    | `frozenset(iterable)` | Create from any iterable | `frozenset([1, 2, 3])` | `frozenset({1, 2, 3})` |
+| **Empty**       | `frozenset()`         | Create empty frozen set  | `frozenset()`          | `frozenset()` |
+| **Length**      | `len(fs)`             | Number of elements       | `len(frozenset([1, 2, 3]))` | `3` |
+| **Membership**  | `x in fs`             | Check if element exists  | `2 in frozenset([1, 2, 3])` | `True` |
+| **Union**       | `fs1 \| fs2` or `fs1.union(fs2)`       | Combine frozen sets | `frozenset([1, 2]) \| frozenset([2, 3])` | `frozenset({1, 2, 3})` |
+| **Intersection**| `fs1 & fs2` or `fs1.intersection(fs2)` | Common elements     | `frozenset([1, 2]) & frozenset([2, 3])`  | `frozenset({2})`       |
+| **Difference**  | `fs1 - fs2` or `fs1.difference(fs2)`   | Elements in fs1 but not fs2 | `frozenset([1, 2, 3]) - frozenset([2])` | `frozenset({1, 3})` |
+| **Symmetric Difference** | `fs1 ^ fs2` or `fs1.symmetric_difference(fs2)` | Elements in either but not both | `frozenset([1, 2]) ^ frozenset([2, 3])`  | `frozenset({1, 3})` |
+
+### Use Cases
+
+```python
+# As dictionary keys (sets can't be used as keys because they're mutable)
+cache = {
+    frozenset(['apple', 'banana']): 'fruit_combo_1',
+    frozenset(['carrot', 'broccoli']): 'veggie_combo_1'
+}
+
+# As elements in sets
+set_of_sets = {
+    frozenset([1, 2]),
+    frozenset([3, 4]),
+    frozenset([1, 2])  # Duplicate, will be ignored
+}
+print(f"Set of frozen sets: {set_of_sets}")
+
+# Immutable configuration
+ALLOWED_PERMISSIONS = frozenset(['read', 'write', 'execute'])
+
+# Converting between set and frozenset
+regular_set = {1, 2, 3}
+frozen_version = frozenset(regular_set)
+back_to_set = set(frozen_version)
+
+print(f"Original: {regular_set}")
+print(f"Frozen: {frozen_version}")
+print(f"Back to set: {back_to_set}")
+```
+
+## Bytearray
+
+- Bytearray is a **mutable** sequence of bytes (integers from 0-255).
+- **Mutable** : Can be modified after creation `ba[0] = 65`
+- **Byte Values** : Each element is an integer 0-255 `bytearray([65, 66, 67])`
+- **Sequence** : Supports indexing, slicing, iteration `ba[1:3]`, `for b in ba`
+
+### Creation Methods
+
+| Method | Description | Example | Output |
+|:-------|:------------|:--------|:-------|
+| **From List** | Create from list of integers | `bytearray([65, 66, 67])` | `bytearray(b'ABC')` |
+| **From String** | Create from string with encoding | `bytearray('hello', 'utf-8')` | `bytearray(b'hello')` |
+| **From Bytes** | Create from bytes object | `bytearray(b'hello')` | `bytearray(b'hello')` |
+| **With Size** | Create with specific size (zeros) | `bytearray(5)` | `bytearray(b'\x00\x00\x00\x00\x00')` |
+| **Empty** | Create empty bytearray | `bytearray()` | `bytearray(b'')` |
+
+### Common Operations
+
+| Operation | Method/Syntax | Description | Example | Output |
+|:----------|:--------------|:------------|:--------|:-------|
+| **Length** | `len(ba)` | Number of bytes | `len(bytearray(b'hello'))` | `5` |
+| **Indexing** | `ba[i]` | Get byte at index | `bytearray(b'ABC')[0]` | `65` |
+| **Slicing** | `ba[start:end]` | Get slice | `bytearray(b'hello')[1:4]` | `bytearray(b'ell')` |
+| **Modify Element** | `ba[i] = value` | Set byte at index | `ba[0] = 72` | Changes first byte |
+| **Append** | `ba.append(byte)` | Add single byte | `ba.append(33)` | Adds `!` (ASCII 33) |
+| **Extend** | `ba.extend(iterable)` | Add multiple bytes | `ba.extend([65, 66])` | Adds `AB` |
+| **Insert** | `ba.insert(i, byte)` | Insert byte at position | `ba.insert(0, 72)` | Insert `H` at start |
+| **Remove** | `ba.remove(byte)` | Remove first occurrence | `ba.remove(65)` | Remove first `A` |
+| **Pop** | `ba.pop([i])` | Remove and return byte | `ba.pop()` | Remove last byte |
+| **Clear** | `ba.clear()` | Remove all bytes | `ba.clear()` | Empty bytearray |
+
+### String-like Methods
+
+| Method | Description | Example | Output |
+|:-------|:------------|:--------|:-------|
+| **decode()** | Convert to string | `bytearray(b'hello').decode('utf-8')` | `'hello'` |
+| **find()** | Find substring | `bytearray(b'hello').find(b'll')` | `2` |
+| **replace()** | Replace bytes | `bytearray(b'hello').replace(b'll', b'xx')` | `bytearray(b'hexxo')` |
+| **split()** | Split on delimiter | `bytearray(b'a,b,c').split(b',')` | `[bytearray(b'a'), bytearray(b'b'), bytearray(b'c')]` |
+| **join()** | Join with separator | `bytearray(b',').join([bytearray(b'a'), bytearray(b'b')])` | `bytearray(b'a,b')` |
+
+### Practical Examples
+
+```python
+# Creating and modifying bytearrays
+ba = bytearray(b'Hello')
+print(f"Original: {ba}")  # bytearray(b'Hello')
+
+# Modify individual bytes
+ba[0] = ord('h')  # Change 'H' to 'h'
+print(f"After modification: {ba}")  # bytearray(b'hello')
+
+# Append and extend
+ba.append(ord('!'))  # Add exclamation mark
+ba.extend(b' World')  # Add more text
+print(f"After append/extend: {ba}")  # bytearray(b'hello! World')
+
+# Working with binary data
+data = bytearray(10)  # 10 zero bytes
+data[0:4] = b'HEAD'   # Set header
+data[4] = 0xFF        # Set a flag byte
+data[5:] = b'12345'   # Set remaining data
+print(f"Binary data: {data}")
+
+# Converting between types
+text = "Hello, 世界"
+ba = bytearray(text, 'utf-8')
+print(f"UTF-8 bytes: {ba}")
+decoded = ba.decode('utf-8')
+print(f"Decoded back: {decoded}")
+
+# File-like operations
+buffer = bytearray()
+buffer.extend(b'Line 1\n')
+buffer.extend(b'Line 2\n')
+print(f"Buffer contents:\n{buffer.decode()}")
+```
+---
+
+## Collections Module
+
+The `collections` module provides specialized container datatypes that extend Python's built-in containers (dict, list, set, tuple).
+
+```python
+from collections import OrderedDict, defaultdict, ChainMap, deque, Counter
+from collections import UserDict, UserList, UserString
+```
+
+## OrderedDict
+
+An `OrderedDict` is a dictionary that **remembers the order** in which keys were inserted. In Python 3.7+, regular dicts maintain insertion order, but `OrderedDict` provides additional methods and guarantees.
+
+- **Insertion Order** : Maintains key insertion order. `OrderedDict([('a', 1), ('b', 2)])`
+- **Equality** : Order matters in comparisons. `OrderedDict([('a',1), ('b',2)]) != OrderedDict([('b',2), ('a',1)])`
+
+### Common Operations
+
+| Operation | Method | Description | Example |
+|:----------|:-------|:------------|:--------|
+| **Create** | `OrderedDict()` | Create empty or from pairs | `OrderedDict([('x', 1), ('y', 2)])` |
+| **Move Key** | `move_to_end(key, last=True)` | Move key to end (or beginning) | `od.move_to_end('x', last=False)` |
+| **Pop Item** | `popitem(last=True)` | Remove from end (or beginning) | `od.popitem(last=False)` |
+| **Reverse** | `reversed(od)` | Iterate in reverse order | `list(reversed(od))` |
+
+```python
+from collections import OrderedDict
+
+# Creating OrderedDict
+od = OrderedDict([('apple', 1), ('banana', 2), ('cherry', 3)])
+print(f"Original: {od}")
+
+# Moving elements
+od.move_to_end('apple')  # Move to end
+print(f"After move_to_end: {od}")
+
+od.move_to_end('cherry', last=False)  # Move to beginning
+print(f"After move to beginning: {od}")
+
+# Popping from different ends
+last_item = od.popitem()  # Remove from end
+first_item = od.popitem(last=False)  # Remove from beginning
+print(f"Popped last: {last_item}, first: {first_item}")
+print(f"Remaining: {od}")
+```
+
+## DefaultDict
+
+A `defaultdict` is a dictionary that **automatically creates missing values** using a factory function when a key is accessed but doesn't exist.
+
+### Key Features
+
+| Feature | Description | Example |
+|:--------|:------------|:--------|
+| **Auto-creation** | Missing keys get default values | `dd['missing_key']` creates entry |
+| **Factory Function** | Callable that provides default values | `int`, `list`, `set`, custom functions |
+| **No KeyError** | Never raises KeyError for missing keys | Safe to access any key |
+
+### Common Factory Functions
+
+| Factory | Default Value | Use Case | Example |
+|:--------|:--------------|:---------|:--------|
+| `int` | `0` | Counters, accumulators | `defaultdict(int)` |
+| `list` | `[]` | Grouping items | `defaultdict(list)` |
+| `set` | `set()` | Collecting unique items | `defaultdict(set)` |
+| `str` | `''` | String building | `defaultdict(str)` |
+| `lambda: 'N/A'` | `'N/A'` | Custom defaults | `defaultdict(lambda: 'N/A')` |
+
+```python
+from collections import defaultdict
+
+# Counter example
+counter = defaultdict(int)
+text = "hello world"
+for char in text:
+    counter[char] += 1  # No need to check if key exists
+print(f"Character count: {dict(counter)}")
+
+# Grouping example
+groups = defaultdict(list)
+data = [('fruit', 'apple'), ('veggie', 'carrot'), ('fruit', 'banana')]
+for category, item in data:
+    groups[category].append(item)
+print(f"Groups: {dict(groups)}")
+
+# Set example for unique items
+unique_groups = defaultdict(set)
+data = [('A', 1), ('B', 2), ('A', 1), ('A', 3)]
+for key, value in data:
+    unique_groups[key].add(value)
+print(f"Unique groups: {dict(unique_groups)}")
+```
+
+## ChainMap
+
+A `ChainMap` groups multiple dictionaries into a **single, updateable view**. It searches through the underlying mappings in order until a key is found.
+
+### Key Features
+
+| Feature | Description | Example |
+|:--------|:------------|:--------|
+| **Multiple Dicts** | Combines multiple mappings | `ChainMap(dict1, dict2, dict3)` |
+| **Search Order** | Searches dicts in order | First dict has priority |
+| **Updates** | Modifications go to first dict | `cm['key'] = value` |
+| **Context Management** | Can push/pop contexts | `cm.new_child()`, `cm.parents` |
+
+### Common Operations
+
+| Operation | Method | Description | Example |
+|:----------|:-------|:------------|:--------|
+| **Create** | `ChainMap(*dicts)` | Combine dictionaries | `ChainMap(d1, d2, d3)` |
+| **New Context** | `new_child(m=None)` | Add new dict to front | `cm.new_child({'temp': 1})` |
+| **Remove Context** | `parents` | All but first dict | `cm.parents` |
+| **Update** | `cm[key] = value` | Modify first dict only | Updates go to first mapping |
+
+```python
+from collections import ChainMap
+
+# Configuration example - command line overrides defaults
+defaults = {'color': 'blue', 'size': 'medium', 'debug': False}
+user_config = {'color': 'red', 'size': 'large'}
+command_line = {'debug': True}
+
+# Chain them (command_line has highest priority)
+config = ChainMap(command_line, user_config, defaults)
+print(f"Final config: {dict(config)}")
+print(f"Color: {config['color']}")  # 'red' from user_config
+print(f"Debug: {config['debug']}")  # True from command_line
+print(f"Size: {config['size']}")    # 'large' from user_config
+
+# Adding temporary context
+with_temp = config.new_child({'temp_setting': 'test'})
+print(f"With temp: {dict(with_temp)}")
+
+# Modifications go to first dict
+config['new_setting'] = 'value'
+print(f"Command line dict: {command_line}")  # Contains new_setting
+```
+
+## Deque
+
+A `deque` (double-ended queue) is a **list-like container** with fast appends and pops from **both ends**. It's implemented as a doubly-linked list.
+
+### Key Features
+
+| Feature | Description | Performance |
+|:--------|:------------|:------------|
+| **Double-ended** | Fast operations at both ends | O(1) append/pop |
+| **Thread-safe** | Atomic operations | Safe for concurrent access |
+| **Memory Efficient** | No need to shift elements | Better than list for queues |
+| **Bounded** | Optional maximum length | Automatic eviction |
+
+### Common Operations
+
+| Operation | Method | Description | Performance | Example |
+|:----------|:-------|:------------|:------------|:--------|
+| **Append Right** | `append(x)` | Add to right end | O(1) | `dq.append(1)` |
+| **Append Left** | `appendleft(x)` | Add to left end | O(1) | `dq.appendleft(0)` |
+| **Pop Right** | `pop()` | Remove from right | O(1) | `dq.pop()` |
+| **Pop Left** | `popleft()` | Remove from left | O(1) | `dq.popleft()` |
+| **Extend Right** | `extend(iterable)` | Add multiple to right | O(k) | `dq.extend([1,2,3])` |
+| **Extend Left** | `extendleft(iterable)` | Add multiple to left | O(k) | `dq.extendleft([1,2,3])` |
+| **Rotate** | `rotate(n=1)` | Rotate n steps right | O(k) | `dq.rotate(2)` |
+
+```python
+from collections import deque
+
+# Basic usage
+dq = deque([1, 2, 3])
+print(f"Initial: {dq}")
+
+# Adding to both ends
+dq.append(4)        # Add to right
+dq.appendleft(0)    # Add to left
+print(f"After appends: {dq}")
+
+# Removing from both ends
+right = dq.pop()      # Remove from right
+left = dq.popleft()   # Remove from left
+print(f"Removed right: {right}, left: {left}")
+print(f"Remaining: {dq}")
+
+# Rotation
+dq.extend([4, 5, 6])
+print(f"Before rotation: {dq}")
+dq.rotate(2)  # Rotate 2 steps to the right
+print(f"After rotate(2): {dq}")
+dq.rotate(-1)  # Rotate 1 step to the left
+print(f"After rotate(-1): {dq}")
+
+# Bounded deque (useful for keeping last N items)
+bounded = deque(maxlen=3)
+for i in range(6):
+    bounded.append(i)
+    print(f"Added {i}: {bounded}")
+```
+
+## UserDict, UserList, UserString
+
+These are **wrapper classes** that make it easier to create custom dictionary, list, and string-like classes by subclassing.
+
+### UserDict Example
+
+```python
+from collections import UserDict
+
+class CaseInsensitiveDict(UserDict):
+    """Dictionary that treats keys case-insensitively"""
+    
+    def __setitem__(self, key, value):
+        if isinstance(key, str):
+            key = key.lower()
+        super().__setitem__(key, value)
+    
+    def __getitem__(self, key):
+        if isinstance(key, str):
+            key = key.lower()
+        return super().__getitem__(key)
+    
+    def __contains__(self, key):
+        if isinstance(key, str):
+            key = key.lower()
+        return super().__contains__(key)
+
+# Usage
+ci_dict = CaseInsensitiveDict()
+ci_dict['Name'] = 'Alice'
+ci_dict['AGE'] = 30
+
+print(ci_dict['name'])  # 'Alice'
+print(ci_dict['age'])   # 30
+print('NAME' in ci_dict)  # True
+```
+
+### UserList Example
+
+```python
+from collections import UserList
+
+class LoggingList(UserList):
+    """List that logs all modifications"""
+    
+    def append(self, item):
+        print(f"Appending {item}")
+        super().append(item)
+    
+    def remove(self, item):
+        print(f"Removing {item}")
+        super().remove(item)
+    
+    def __setitem__(self, index, value):
+        print(f"Setting index {index} to {value}")
+        super().__setitem__(index, value)
+
+# Usage
+log_list = LoggingList([1, 2, 3])
+log_list.append(4)      # Logs: Appending 4
+log_list[0] = 10        # Logs: Setting index 0 to 10
+log_list.remove(2)      # Logs: Removing 2
+```
+
+### UserString Example
+
+```python
+from collections import UserString
+
+class ReversibleString(UserString):
+    """String that can be easily reversed"""
+    
+    def reverse(self):
+        """Return a new reversed string"""
+        return ReversibleString(self.data[::-1])
+    
+    def is_palindrome(self):
+        """Check if string is a palindrome"""
+        clean = ''.join(c.lower() for c in self.data if c.isalnum())
+        return clean == clean[::-1]
+
+# Usage
+rs = ReversibleString("Hello World")
+print(f"Original: {rs}")
+print(f"Reversed: {rs.reverse()}")
+
+palindrome = ReversibleString("A man a plan a canal Panama")
+print(f"Is palindrome: {palindrome.is_palindrome()}")
+```
+
+---
+
+## Data Structures
+
+This section covers common data structures that can be implemented in Python, along with their operations and use cases.
+
+## Stack
+
+A **Last-In-First-Out (LIFO)** data structure. Elements are added and removed from the same end (top).
+
+### Operations
+
+| Operation | List Method | Deque Method | Time Complexity | Description |
+|:----------|:------------|:-------------|:----------------|:------------|
+| **Push** | `append(x)` | `append(x)` | O(1) | Add element to top |
+| **Pop** | `pop()` | `pop()` | O(1) | Remove and return top element |
+| **Peek/Top** | `stack[-1]` | `stack[-1]` | O(1) | View top element without removing |
+| **Is Empty** | `len(stack) == 0` | `len(stack) == 0` | O(1) | Check if stack is empty |
+| **Size** | `len(stack)` | `len(stack)` | O(1) | Get number of elements |
+
+```python
+from collections import deque
+
+# Stack using list
+stack_list = []
+stack_list.append(1)    # Push
+stack_list.append(2)    # Push
+stack_list.append(3)    # Push
+print(f"Stack: {stack_list}")
+top = stack_list.pop()  # Pop
+print(f"Popped: {top}, Stack: {stack_list}")
+
+# Stack using deque (recommended for large stacks)
+stack_deque = deque()
+stack_deque.append('a')  # Push
+stack_deque.append('b')  # Push
+stack_deque.append('c')  # Push
+print(f"Stack: {list(stack_deque)}")
+top = stack_deque.pop()  # Pop
+print(f"Popped: {top}, Stack: {list(stack_deque)}")
+
+# Stack class implementation
+class Stack:
+    def __init__(self):
+        self._items = deque()
+    
+    def push(self, item):
+        self._items.append(item)
+    
+    def pop(self):
+        if self.is_empty():
+            raise IndexError("pop from empty stack")
+        return self._items.pop()
+    
+    def peek(self):
+        if self.is_empty():
+            raise IndexError("peek from empty stack")
+        return self._items[-1]
+    
+    def is_empty(self):
+        return len(self._items) == 0
+    
+    def size(self):
+        return len(self._items)
+
+# Usage
+stack = Stack()
+stack.push(10)
+stack.push(20)
+print(f"Top: {stack.peek()}")  # 20
+print(f"Size: {stack.size()}")  # 2
+```
+
+## Queue
+
+A **First-In-First-Out (FIFO)** data structure. Elements are added at one end (rear) and removed from the other end (front).
+
+### Operations
+
+| Operation | Deque Method | Time Complexity | Description |
+|:----------|:-------------|:----------------|:------------|
+| **Enqueue** | `append(x)` | O(1) | Add element to rear |
+| **Dequeue** | `popleft()` | O(1) | Remove and return front element |
+| **Front** | `queue[0]` | O(1) | View front element |
+| **Rear** | `queue[-1]` | O(1) | View rear element |
+| **Is Empty** | `len(queue) == 0` | O(1) | Check if queue is empty |
+| **Size** | `len(queue)` | O(1) | Get number of elements |
+
+```python
+from collections import deque
+import queue
+
+# Queue using deque (recommended)
+q = deque()
+q.append(1)      # Enqueue
+q.append(2)      # Enqueue
+q.append(3)      # Enqueue
+print(f"Queue: {list(q)}")
+front = q.popleft()  # Dequeue
+print(f"Dequeued: {front}, Queue: {list(q)}")
+
+# Thread-safe queue
+thread_queue = queue.Queue()
+thread_queue.put('a')    # Enqueue
+thread_queue.put('b')    # Enqueue
+item = thread_queue.get()  # Dequeue (blocks if empty)
+print(f"Dequeued from thread queue: {item}")
+
+# Queue class implementation
+class Queue:
+    def __init__(self):
+        self._items = deque()
+    
+    def enqueue(self, item):
+        self._items.append(item)
+    
+    def dequeue(self):
+        if self.is_empty():
+            raise IndexError("dequeue from empty queue")
+        return self._items.popleft()
+    
+    def front(self):
+        if self.is_empty():
+            raise IndexError("front from empty queue")
+        return self._items[0]
+    
+    def rear(self):
+        if self.is_empty():
+            raise IndexError("rear from empty queue")
+        return self._items[-1]
+    
+    def is_empty(self):
+        return len(self._items) == 0
+    
+    def size(self):
+        return len(self._items)
+
+# Usage
+my_queue = Queue()
+my_queue.enqueue('first')
+my_queue.enqueue('second')
+print(f"Front: {my_queue.front()}")  # 'first'
+print(f"Size: {my_queue.size()}")    # 2
+```
+
+## Priority Queue / Heap
+
+A queue where elements are served based on **priority** rather than insertion order. Higher priority elements are dequeued first.
+
+### Operations
+
+| Operation | heapq Method | Time Complexity | Description |
+|:----------|:-------------|:----------------|:------------|
+| **Insert** | `heappush(heap, item)` | O(log n) | Add element with priority |
+| **Extract Min** | `heappop(heap)` | O(log n) | Remove and return highest priority |
+| **Peek Min** | `heap[0]` | O(1) | View highest priority element |
+| **Heapify** | `heapify(list)` | O(n) | Convert list to heap |
+
+```python
+import heapq
+import queue
+
+# Priority Queue using heapq (min-heap)
+pq = []
+heapq.heappush(pq, (3, 'task3'))  # (priority, item)
+heapq.heappush(pq, (1, 'task1'))  # Lower number = higher priority
+heapq.heappush(pq, (2, 'task2'))
+
+print(f"Priority Queue: {pq}")
+while pq:
+    priority, task = heapq.heappop(pq)
+    print(f"Processing: {task} (priority: {priority})")
+
+# For max-heap, negate priorities
+max_pq = []
+heapq.heappush(max_pq, (-3, 'high'))
+heapq.heappush(max_pq, (-1, 'low'))
+heapq.heappush(max_pq, (-2, 'medium'))
+
+while max_pq:
+    neg_priority, item = heapq.heappop(max_pq)
+    print(f"Max heap: {item} (priority: {-neg_priority})")
+
+# Thread-safe Priority Queue
+thread_pq = queue.PriorityQueue()
+thread_pq.put((2, 'second'))
+thread_pq.put((1, 'first'))
+thread_pq.put((3, 'third'))
+
+while not thread_pq.empty():
+    priority, item = thread_pq.get()
+    print(f"Thread PQ: {item} (priority: {priority})")
+
+# Priority Queue class
+class PriorityQueue:
+    def __init__(self):
+        self._heap = []
+        self._index = 0  # For stable sorting
+    
+    def put(self, priority, item):
+        # Use index for stable sorting when priorities are equal
+        heapq.heappush(self._heap, (priority, self._index, item))
+        self._index += 1
+    
+    def get(self):
+        if self.empty():
+            raise IndexError("get from empty priority queue")
+        priority, index, item = heapq.heappop(self._heap)
+        return priority, item
+    
+    def peek(self):
+        if self.empty():
+            raise IndexError("peek from empty priority queue")
+        priority, index, item = self._heap[0]
+        return priority, item
+    
+    def empty(self):
+        return len(self._heap) == 0
+    
+    def size(self):
+        return len(self._heap)
+
+# Usage
+pq = PriorityQueue()
+pq.put(3, 'Low priority task')
+pq.put(1, 'High priority task')
+pq.put(2, 'Medium priority task')
+
+while not pq.empty():
+    priority, task = pq.get()
+    print(f"Executing: {task} (priority: {priority})")
+```
+
+## Linked List
+
+A linear data structure where elements (nodes) are stored in sequence, with each node containing data and a reference to the next node.
+
+```python
+class ListNode:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+        self.size = 0
+    
+    def append(self, data):
+        """Add element to end of list"""
+        new_node = ListNode(data)
+        if not self.head:
+            self.head = self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+        self.size += 1
+    
+    def prepend(self, data):
+        """Add element to beginning of list"""
+        new_node = ListNode(data)
+        new_node.next = self.head
+        self.head = new_node
+        if not self.tail:
+            self.tail = new_node
+        self.size += 1
+    
+    def insert(self, index, data):
+        """Insert element at specific index"""
+        if index < 0 or index > self.size:
+            raise IndexError("Index out of range")
+        
+        if index == 0:
+            self.prepend(data)
+            return
+        if index == self.size:
+            self.append(data)
+            return
+        
+        new_node = ListNode(data)
+        current = self.head
+        for _ in range(index - 1):
+            current = current.next
+        
+        new_node.next = current.next
+        current.next = new_node
+        self.size += 1
+    
+    def delete(self, data):
+        """Delete first occurrence of data"""
+        if not self.head:
+            raise ValueError("List is empty")
+        
+        if self.head.data == data:
+            self.head = self.head.next
+            if not self.head:
+                self.tail = None
+            self.size -= 1
+            return
+        
+        current = self.head
+        while current.next and current.next.data != data:
+            current = current.next
+        
+        if current.next:
+            if current.next == self.tail:
+                self.tail = current
+            current.next = current.next.next
+            self.size -= 1
+        else:
+            raise ValueError(f"Data {data} not found")
+    
+    def find(self, data):
+        """Find index of data"""
+        current = self.head
+        index = 0
+        while current:
+            if current.data == data:
+                return index
+            current = current.next
+            index += 1
+        return -1
+    
+    def to_list(self):
+        """Convert to Python list"""
+        result = []
+        current = self.head
+        while current:
+            result.append(current.data)
+            current = current.next
+        return result
+    
+    def __len__(self):
+        return self.size
+    
+    def __str__(self):
+        return str(self.to_list())
+
+# Usage
+ll = LinkedList()
+ll.append(1)
+ll.append(2)
+ll.append(3)
+ll.prepend(0)
+print(f"Linked List: {ll}")  # [0, 1, 2, 3]
+
+ll.insert(2, 1.5)
+print(f"After insert: {ll}")  # [0, 1, 1.5, 2, 3]
+
+ll.delete(1.5)
+print(f"After delete: {ll}")  # [0, 1, 2, 3]
+
+print(f"Find 2: index {ll.find(2)}")  # Find 2: index 2
+print(f"Length: {len(ll)}")  # Length: 4
+```
+
+## Binary Tree
+
+### Traversals
+
+| Traversal | Order | Use Case |
+|:----------|:------|:---------|
+| **Inorder** | Left → Root → Right | Get sorted order in BST |
+| **Preorder** | Root → Left → Right | Copy tree, prefix expressions |
+| **Postorder** | Left → Right → Root | Delete tree, postfix expressions |
+| **Level Order** | Level by level (BFS) | Print tree levels |
+
+```python
+from collections import deque
+
+class TreeNode:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
+    
+    def insert(self, data):
+        """Insert into BST"""
+        if not self.root:
+            self.root = TreeNode(data)
+        else:
+            self._insert_recursive(self.root, data)
+    
+    def _insert_recursive(self, node, data):
+        if data < node.data:
+            if node.left is None:
+                node.left = TreeNode(data)
+            else:
+                self._insert_recursive(node.left, data)
+        else:
+            if node.right is None:
+                node.right = TreeNode(data)
+            else:
+                self._insert_recursive(node.right, data)
+    
+    def inorder_traversal(self, node=None):
+        """Left → Root → Right"""
+        if node is None:
+            node = self.root
+        
+        result = []
+        if node:
+            result.extend(self.inorder_traversal(node.left))
+            result.append(node.data)
+            result.extend(self.inorder_traversal(node.right))
+        return result
+    
+    def preorder_traversal(self, node=None):
+        """Root → Left → Right"""
+        if node is None:
+            node = self.root
+        
+        result = []
+        if node:
+            result.append(node.data)
+            result.extend(self.preorder_traversal(node.left))
+            result.extend(self.preorder_traversal(node.right))
+        return result
+    
+    def postorder_traversal(self, node=None):
+        """Left → Right → Root"""
+        if node is None:
+            node = self.root
+        
+        result = []
+        if node:
+            result.extend(self.postorder_traversal(node.left))
+            result.extend(self.postorder_traversal(node.right))
+            result.append(node.data)
+        return result
+    
+    def level_order_traversal(self):
+        """Level by level (BFS)"""
+        if not self.root:
+            return []
+        
+        result = []
+        queue = deque([self.root])
+        
+        while queue:
+            node = queue.popleft()
+            result.append(node.data)
+            
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        
+        return result
+    
+    def search(self, data):
+        """Search in BST"""
+        return self._search_recursive(self.root, data)
+    
+    def _search_recursive(self, node, data):
+        if not node or node.data == data:
+            return node is not None
+        
+        if data < node.data:
+            return self._search_recursive(node.left, data)
+        else:
+            return self._search_recursive(node.right, data)
+    
+    def height(self, node=None):
+        """Calculate tree height"""
+        if node is None:
+            node = self.root
+        
+        if not node:
+            return -1
+        
+        left_height = self.height(node.left)
+        right_height = self.height(node.right)
+        
+        return 1 + max(left_height, right_height)
+
+# Usage
+bt = BinaryTree()
+values = [50, 30, 70, 20, 40, 60, 80]
+for val in values:
+    bt.insert(val)
+
+print(f"Inorder (sorted): {bt.inorder_traversal()}")
+print(f"Preorder: {bt.preorder_traversal()}")
+print(f"Postorder: {bt.postorder_traversal()}")
+print(f"Level order: {bt.level_order_traversal()}")
+print(f"Height: {bt.height()}")
+print(f"Search 40: {bt.search(40)}")
+print(f"Search 90: {bt.search(90)}")
+```
+
+## Graph
+
+A collection of vertices (nodes) connected by edges. Can be directed or undirected, weighted or unweighted.
+
+### Representations
+
+| Method | Space | Edge Lookup | Add Vertex | Add Edge | Best For |
+|:-------|:------|:------------|:-----------|:---------|:---------|
+| **Adjacency List** | O(V + E) | O(degree) | O(1) | O(1) | Sparse graphs |
+| **Adjacency Matrix** | O(V²) | O(1) | O(V²) | O(1) | Dense graphs |
+
+### Common Algorithms
+
+| Algorithm | Purpose | Time Complexity | Use Case |
+|:----------|:--------|:----------------|:---------|
+| **DFS** | Depth-first traversal | O(V + E) | Path finding, cycle detection |
+| **BFS** | Breadth-first traversal | O(V + E) | Shortest path (unweighted) |
+| **Dijkstra** | Shortest path (weighted) | O((V + E) log V) | GPS navigation |
+| **Topological Sort** | Order vertices | O(V + E) | Task scheduling |
+
+```python
+from collections import defaultdict, deque
+
+class Graph:
+    def __init__(self, directed=False):
+        self.graph = defaultdict(list)
+        self.directed = directed
+    
+    def add_edge(self, u, v, weight=1):
+        """Add edge between vertices u and v"""
+        self.graph[u].append((v, weight))
+        if not self.directed:
+            self.graph[v].append((u, weight))
+    
+    def add_vertex(self, vertex):
+        """Add vertex to graph"""
+        if vertex not in self.graph:
+            self.graph[vertex] = []
+    
+    def get_vertices(self):
+        """Get all vertices"""
+        return list(self.graph.keys())
+    
+    def get_edges(self):
+        """Get all edges"""
+        edges = []
+        for u in self.graph:
+            for v, weight in self.graph[u]:
+                if self.directed or u <= v:  # Avoid duplicates in undirected
+                    edges.append((u, v, weight))
+        return edges
+    
+    def dfs(self, start, visited=None):
+        """Depth-First Search"""
+        if visited is None:
+            visited = set()
+        
+        result = []
+        if start not in visited:
+            visited.add(start)
+            result.append(start)
+            
+            for neighbor, _ in self.graph[start]:
+                result.extend(self.dfs(neighbor, visited))
+        
+        return result
+    
+    def dfs_iterative(self, start):
+        """Iterative DFS using stack"""
+        visited = set()
+        stack = [start]
+        result = []
+        
+        while stack:
+            vertex = stack.pop()
+            if vertex not in visited:
+                visited.add(vertex)
+                result.append(vertex)
+                
+                # Add neighbors to stack (reverse order for consistent traversal)
+                for neighbor, _ in reversed(self.graph[vertex]):
+                    if neighbor not in visited:
+                        stack.append(neighbor)
+        
+        return result
+    
+    def bfs(self, start):
+        """Breadth-First Search"""
+        visited = set()
+        queue = deque([start])
+        result = []
+        
+        visited.add(start)
+        
+        while queue:
+            vertex = queue.popleft()
+            result.append(vertex)
+            
+            for neighbor, _ in self.graph[vertex]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+        
+        return result
+    
+    def shortest_path_bfs(self, start, end):
+        """Find shortest path using BFS (unweighted)"""
+        if start == end:
+            return [start]
+        
+        visited = set()
+        queue = deque([(start, [start])])
+        visited.add(start)
+        
+        while queue:
+            vertex, path = queue.popleft()
+            
+            for neighbor, _ in self.graph[vertex]:
+                if neighbor not in visited:
+                    new_path = path + [neighbor]
+                    if neighbor == end:
+                        return new_path
+                    
+                    visited.add(neighbor)
+                    queue.append((neighbor, new_path))
+        
+        return None  # No path found
+    
+    def has_cycle(self):
+        """Detect cycle in graph"""
+        if not self.directed:
+            return self._has_cycle_undirected()
+        else:
+            return self._has_cycle_directed()
+    
+    def _has_cycle_undirected(self):
+        """Detect cycle in undirected graph"""
+        visited = set()
+        
+        def dfs_cycle(vertex, parent):
+            visited.add(vertex)
+            for neighbor, _ in self.graph[vertex]:
+                if neighbor not in visited:
+                    if dfs_cycle(neighbor, vertex):
+                        return True
+                elif neighbor != parent:
+                    return True
+            return False
+        
+        for vertex in self.graph:
+            if vertex not in visited:
+                if dfs_cycle(vertex, None):
+                    return True
+        return False
+    
+    def _has_cycle_directed(self):
+        """Detect cycle in directed graph using DFS"""
+        WHITE, GRAY, BLACK = 0, 1, 2
+        color = defaultdict(int)
+        
+        def dfs_cycle(vertex):
+            color[vertex] = GRAY
+            for neighbor, _ in self.graph[vertex]:
+                if color[neighbor] == GRAY:
+                    return True
+                if color[neighbor] == WHITE and dfs_cycle(neighbor):
+                    return True
+            color[vertex] = BLACK
+            return False
+        
+        for vertex in self.graph:
+            if color[vertex] == WHITE:
+                if dfs_cycle(vertex):
+                    return True
+        return False
+
+# Usage Examples
+print("=== Undirected Graph ===")
+g = Graph(directed=False)
+g.add_edge('A', 'B')
+g.add_edge('A', 'C')
+g.add_edge('B', 'D')
+g.add_edge('C', 'D')
+g.add_edge('D', 'E')
+
+print(f"Vertices: {g.get_vertices()}")
+print(f"Edges: {g.get_edges()}")
+print(f"DFS from A: {g.dfs('A')}")
+print(f"BFS from A: {g.bfs('A')}")
+print(f"Shortest path A to E: {g.shortest_path_bfs('A', 'E')}")
+print(f"Has cycle: {g.has_cycle()}")
+
+print("\n=== Directed Graph ===")
+dg = Graph(directed=True)
+dg.add_edge('X', 'Y')
+dg.add_edge('Y', 'Z')
+dg.add_edge('Z', 'X')  # Creates cycle
+
+print(f"DFS from X: {dg.dfs('X')}")
+print(f"BFS from X: {dg.bfs('X')}")
+print(f"Has cycle: {dg.has_cycle()}")
+```
+
+### Summary
+
+| Data Structure | Best For | Time Complexity (Average) | Space Complexity |
+|:---------------|:---------|:---------------------------|:-----------------|
+| **Stack** | LIFO operations, undo functionality | Push/Pop: O(1) | O(n) |
+| **Queue** | FIFO operations, task scheduling | Enqueue/Dequeue: O(1) | O(n) |
+| **Priority Queue** | Priority-based processing | Insert/Extract: O(log n) | O(n) |
+| **Linked List** | Dynamic size, frequent insertions | Insert/Delete: O(1) at known position | O(n) |
+| **Binary Tree** | Hierarchical data, searching | Search/Insert: O(log n) balanced | O(n) |
+| **Graph** | Relationships, networks | DFS/BFS: O(V + E) | O(V + E) |
 
 ## None & Booleans
 
@@ -694,6 +1826,177 @@ with open("out.txt") as f:
 | `f.tell()`          | Current file pointer position          |
 | `f.close()`         | Closes the file (auto-handled with `with`) |
 
+## Modules & Imports
+
+Python's module system allows you to organize code into reusable files and packages.
+
+### Basic Import Syntax
+
+| Syntax | Description | Example | Usage |
+|:-------|:------------|:--------|:------|
+| `import module` | Import entire module | `import math` | `math.sqrt(16)` |
+| `from module import item` | Import specific item | `from math import sqrt` | `sqrt(16)` |
+| `from module import *` | Import all public items | `from math import *` | `sqrt(16)` (not recommended) |
+| `import module as alias` | Import with alias | `import numpy as np` | `np.array([1, 2, 3])` |
+| `from module import item as alias` | Import item with alias | `from os.path import join as pathjoin` | `pathjoin("a", "b.txt")` |
+
+### Common Import Patterns
+
+```python
+# Standard library imports
+import os
+import sys
+from collections import defaultdict, Counter
+from pathlib import Path
+
+# Third-party imports
+import requests
+import pandas as pd
+import numpy as np
+
+# Local imports
+from mypackage import mymodule
+from .relative_module import function
+from ..parent_package import another_module
+```
+
+### Module Search Path
+
+| Location | Description | Example |
+|:---------|:------------|:--------|
+| **Current Directory** | Where the script is running | `./mymodule.py` |
+| **PYTHONPATH** | Environment variable paths | `/usr/local/lib/python3.x` |
+| **Standard Library** | Built-in Python modules | `math`, `os`, `sys` |
+| **Site-packages** | Third-party installed packages | `requests`, `numpy` |
+
+```python
+import sys
+print("Python path:")
+for path in sys.path:
+    print(f"  {path}")
+```
+
+### Creating Modules
+
+```python
+"""A simple math module"""
+
+PI = 3.14159
+
+def area_circle(radius):
+    """Calculate area of a circle"""
+    return PI * radius ** 2
+
+def area_rectangle(length, width):
+    """Calculate area of a rectangle"""
+    return length * width
+
+class Calculator:
+    def add(self, a, b):
+        return a + b
+    
+    def multiply(self, a, b):
+        return a * b
+
+# This runs only when module is executed directly
+if __name__ == "__main__":
+    print("Testing mymath module")
+    print(f"Circle area (r=5): {area_circle(5)}")
+```
+
+### Using the Module
+```python
+import mymath
+from mymath import area_circle, Calculator
+
+# Using imported module
+print(f"PI value: {mymath.PI}")
+print(f"Circle area: {area_circle(3)}")
+
+# Using imported class
+calc = Calculator()
+print(f"Addition: {calc.add(5, 3)}")
+```
+
+## Packages
+
+A package is a directory containing multiple modules with an `__init__.py` file.
+
+### Package Structure
+```
+mypackage/
+    __init__.py
+    module1.py
+    module2.py
+    subpackage/
+        __init__.py
+        submodule.py
+```
+
+### Package __init__.py
+```python
+"""MyPackage - A sample package"""
+
+# Import commonly used items to package level
+from .module1 import important_function
+from .module2 import ImportantClass
+
+# Define what gets imported with "from mypackage import *"
+__all__ = ['important_function', 'ImportantClass', 'module1']
+
+# Package-level constants
+VERSION = "1.0.0"
+```
+
+### Using Packages
+```python
+# Import entire package
+import mypackage
+
+# Import specific modules
+from mypackage import module1
+from mypackage.subpackage import submodule
+
+# Import specific items
+from mypackage import important_function, ImportantClass
+
+# Relative imports (within package)
+from . import sibling_module
+from ..parent_package import parent_module
+```
+
+## Advanced Import Concepts
+
+### Conditional Imports
+```python
+try:
+    import numpy as np
+    HAS_NUMPY = True
+except ImportError:
+    HAS_NUMPY = False
+    print("NumPy not available")
+
+# Use different implementations based on availability
+if HAS_NUMPY:
+    def fast_calculation(data):
+        return np.mean(data)
+else:
+    def fast_calculation(data):
+        return sum(data) / len(data)
+```
+
+### Dynamic Imports
+```python
+import importlib
+
+# Import module by name
+module_name = "math"
+math_module = importlib.import_module(module_name)
+print(math_module.sqrt(16))
+
+# Reload a module (useful in development)
+importlib.reload(math_module)
+```
 
 ## Classes & OOP
 
@@ -823,6 +2126,348 @@ pip install requests
 pip freeze > requirements.txt
 ```
 - Use [pip](https://pip.pypa.io/) to install packages from PyPI.
+
+## Handy Tricks
+
+Collection of useful Python tricks, idioms, and lesser-known features that can make your code more elegant and efficient.
+
+### Variable and Assignment Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **Multiple Assignment** | `a, b, c = 1, 2, 3` | Assign multiple variables at once |
+| **Swapping Variables** | `a, b = b, a` | Swap without temporary variable |
+| **Unpacking with Star** | `first, *middle, last = [1,2,3,4,5]` | Collect middle elements |
+| **Chained Assignment** | `a = b = c = 0` | Assign same value to multiple variables |
+| **Conditional Assignment** | `x = a if condition else b` | Ternary operator |
+
+```python
+# Multiple assignment and unpacking
+data = [1, 2, 3, 4, 5]
+first, *middle, last = data
+print(f"First: {first}, Middle: {middle}, Last: {last}")
+
+# Swapping without temp variable
+a, b = 10, 20
+a, b = b, a
+print(f"a: {a}, b: {b}")  # a: 20, b: 10
+
+# Unpacking in loops
+pairs = [(1, 'a'), (2, 'b'), (3, 'c')]
+for num, letter in pairs:
+    print(f"{num}: {letter}")
+```
+
+### String Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **String Multiplication** | `'=' * 50` | Repeat string n times |
+| **String Formatting** | `f"{value:>10}"` | Right-align in 10 characters |
+| **String Checking** | `'abc'.isalpha()` | Check if all alphabetic |
+| **String Translation** | `str.maketrans('abc', '123')` | Character mapping |
+| **String Padding** | `'42'.zfill(5)` | Zero-pad to width |
+
+```python
+# String formatting tricks
+name = "Python"
+version = 3.9
+print(f"{name:>10} {version:<5.1f}")  # Right and left align
+
+# String multiplication for separators
+print("=" * 50)
+print("TITLE".center(50))
+print("=" * 50)
+
+# Check string properties
+text = "Hello123"
+print(f"Alphanumeric: {text.isalnum()}")
+print(f"Has digits: {any(c.isdigit() for c in text)}")
+```
+
+### List and Sequence Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **List Flattening** | `[item for sublist in lists for item in sublist]` | Flatten nested lists |
+| **Remove Duplicates** | `list(dict.fromkeys(items))` | Preserve order while removing duplicates |
+| **List Rotation** | `items[n:] + items[:n]` | Rotate list by n positions |
+| **Chunking** | `[lst[i:i+n] for i in range(0, len(lst), n)]` | Split list into chunks |
+| **Zip Transpose** | `list(zip(*matrix))` | Transpose 2D list |
+
+```python
+# Flatten nested lists
+nested = [[1, 2], [3, 4], [5, 6]]
+flattened = [item for sublist in nested for item in sublist]
+print(f"Flattened: {flattened}")
+
+# Remove duplicates preserving order
+items = [1, 2, 2, 3, 1, 4]
+unique = list(dict.fromkeys(items))
+print(f"Unique: {unique}")
+
+# Chunk list
+data = list(range(10))
+chunks = [data[i:i+3] for i in range(0, len(data), 3)]
+print(f"Chunks: {chunks}")
+
+# Transpose matrix
+matrix = [[1, 2, 3], [4, 5, 6]]
+transposed = list(zip(*matrix))
+print(f"Transposed: {transposed}")
+```
+
+### Dictionary Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **Dictionary Merge** | `{**dict1, **dict2}` | Merge dictionaries (Python 3.5+) |
+| **Dictionary Inversion** | `{v: k for k, v in d.items()}` | Swap keys and values |
+| **Get with Default** | `d.get(key, default)` | Safe key access |
+| **Dictionary Sorting** | `dict(sorted(d.items()))` | Sort by keys |
+| **Counter from Iterable** | `Counter(items)` | Count occurrences |
+
+```python
+from collections import Counter
+
+# Dictionary merging
+dict1 = {'a': 1, 'b': 2}
+dict2 = {'c': 3, 'd': 4}
+merged = {**dict1, **dict2}
+print(f"Merged: {merged}")
+
+# Dictionary inversion
+original = {'a': 1, 'b': 2, 'c': 3}
+inverted = {v: k for k, v in original.items()}
+print(f"Inverted: {inverted}")
+
+# Counting with Counter
+text = "hello world"
+counts = Counter(text)
+print(f"Character counts: {counts}")
+print(f"Most common: {counts.most_common(3)}")
+```
+
+### Function and Control Flow Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **Default Arguments** | `def func(x, items=None): items = items or []` | Mutable default handling |
+| **Function Caching** | `@functools.lru_cache(maxsize=128)` | Cache function results |
+| **Enumerate with Start** | `enumerate(items, start=1)` | Start counting from specific number |
+| **Zip with Fillvalue** | `itertools.zip_longest(a, b, fillvalue=0)` | Zip unequal length iterables |
+| **Any/All Shortcuts** | `any(condition for item in items)` | Short-circuit evaluation |
+
+```python
+import functools
+from itertools import zip_longest
+
+# Function with mutable default argument (correct way)
+def add_item(item, target_list=None):
+    if target_list is None:
+        target_list = []
+    target_list.append(item)
+    return target_list
+
+# Caching expensive function calls
+@functools.lru_cache(maxsize=128)
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+print(f"Fibonacci(10): {fibonacci(10)}")
+
+# Any/All for quick checks
+numbers = [2, 4, 6, 8, 10]
+print(f"All even: {all(n % 2 == 0 for n in numbers)}")
+print(f"Any > 5: {any(n > 5 for n in numbers)}")
+```
+
+### File and Path Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **Path Joining** | `Path('folder') / 'file.txt'` | OS-independent path joining |
+| **File Reading** | `Path('file.txt').read_text()` | Read entire file |
+| **File Writing** | `Path('file.txt').write_text(content)` | Write entire file |
+| **File Existence** | `Path('file.txt').exists()` | Check if file exists |
+| **Temporary Files** | `with tempfile.NamedTemporaryFile() as f:` | Auto-cleanup temp files |
+
+```python
+from pathlib import Path
+import tempfile
+
+# Modern path handling
+data_dir = Path('data')
+config_file = data_dir / 'config.json'
+print(f"Config path: {config_file}")
+
+# Quick file operations
+if config_file.exists():
+    content = config_file.read_text()
+    print(f"Config content: {content[:50]}...")
+
+# Temporary file handling
+with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+    f.write("Temporary content")
+    temp_path = f.name
+print(f"Temporary file: {temp_path}")
+```
+
+### Iteration and Generator Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **Infinite Iterator** | `itertools.count(start=0, step=1)` | Infinite counting |
+| **Cycle Iterator** | `itertools.cycle([1, 2, 3])` | Repeat sequence infinitely |
+| **Chain Iterators** | `itertools.chain(iter1, iter2)` | Combine multiple iterators |
+| **Groupby** | `itertools.groupby(data, key=func)` | Group consecutive elements |
+| **Pairwise** | `zip(items, items[1:])` | Get consecutive pairs |
+
+```python
+import itertools
+
+# Infinite iterators (be careful with these!)
+counter = itertools.count(1, 2)  # 1, 3, 5, 7, ...
+print(f"First 5 odd numbers: {[next(counter) for _ in range(5)]}")
+
+# Cycle through options
+colors = itertools.cycle(['red', 'green', 'blue'])
+print(f"Next 7 colors: {[next(colors) for _ in range(7)]}")
+
+# Group consecutive elements
+data = [1, 1, 2, 2, 2, 3, 1, 1]
+grouped = [(k, len(list(g))) for k, g in itertools.groupby(data)]
+print(f"Grouped: {grouped}")
+
+# Pairwise iteration
+items = [1, 2, 3, 4, 5]
+pairs = list(zip(items, items[1:]))
+print(f"Consecutive pairs: {pairs}")
+```
+
+### Class and Object Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **Slots** | `__slots__ = ['x', 'y']` | Memory-efficient attributes |
+| **Property Decorator** | `@property` | Getter/setter methods |
+| **Class Method** | `@classmethod` | Alternative constructors |
+| **Static Method** | `@staticmethod` | Utility methods |
+| **Context Manager** | `__enter__` and `__exit__` | Custom with statements |
+
+```python
+# Memory-efficient class with slots
+class Point:
+    __slots__ = ['x', 'y']
+    
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    @classmethod
+    def from_string(cls, coord_str):
+        x, y = map(float, coord_str.split(','))
+        return cls(x, y)
+    
+    @staticmethod
+    def distance(p1, p2):
+        return ((p1.x - p2.x)**2 + (p1.y - p2.y)**2)**0.5
+
+# Usage
+p1 = Point(0, 0)
+p2 = Point.from_string("3,4")
+print(f"Distance: {Point.distance(p1, p2)}")
+
+# Custom context manager
+class Timer:
+    def __enter__(self):
+        import time
+        self.start = time.time()
+        return self
+    
+    def __exit__(self, *args):
+        import time
+        print(f"Elapsed: {time.time() - self.start:.2f}s")
+
+# Usage
+with Timer():
+    sum(range(1000000))
+```
+
+### Debugging and Development Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **Pretty Printing** | `import pprint; pprint.pprint(data)` | Formatted output |
+| **Variable Inspection** | `vars(obj)` or `obj.__dict__` | Object attributes |
+| **Function Signature** | `inspect.signature(func)` | Function parameters |
+| **Source Code** | `inspect.getsource(func)` | View function source |
+| **Breakpoint** | `breakpoint()` | Python 3.7+ debugger |
+
+```python
+import pprint
+import inspect
+
+# Pretty printing complex data
+complex_data = {
+    'users': [
+        {'name': 'Alice', 'age': 30, 'skills': ['Python', 'SQL']},
+        {'name': 'Bob', 'age': 25, 'skills': ['JavaScript', 'React']}
+    ]
+}
+pprint.pprint(complex_data, width=50)
+
+# Function introspection
+def example_func(a, b=10, *args, **kwargs):
+    return a + b
+
+print(f"Signature: {inspect.signature(example_func)}")
+print(f"Parameters: {list(inspect.signature(example_func).parameters.keys())}")
+
+# Quick debugging (Python 3.7+)
+def debug_example():
+    x = 42
+    # breakpoint()  # Uncomment to enter debugger
+    return x * 2
+```
+
+### Performance and Memory Tricks
+
+| Trick | Code | Description |
+|:------|:-----|:------------|
+| **List vs Generator** | `(x for x in items)` vs `[x for x in items]` | Memory efficiency |
+| **String Joining** | `''.join(strings)` | Faster than concatenation |
+| **Set Membership** | `item in set_obj` | O(1) vs O(n) for lists |
+| **Local Variable** | Assign global functions to local variables | Faster access |
+| **Slots** | `__slots__` | Reduce memory usage |
+
+```python
+import sys
+
+# Memory comparison: list vs generator
+list_comp = [x**2 for x in range(1000)]
+gen_comp = (x**2 for x in range(1000))
+
+print(f"List size: {sys.getsizeof(list_comp)} bytes")
+print(f"Generator size: {sys.getsizeof(gen_comp)} bytes")
+
+# Efficient string building
+words = ['Python', 'is', 'awesome']
+# Slow: result = ''; for word in words: result += word + ' '
+# Fast:
+result = ' '.join(words)
+print(f"Joined: {result}")
+
+# Set membership for fast lookups
+large_list = list(range(10000))
+large_set = set(large_list)
+
+# This is much faster for membership testing
+print(f"9999 in set: {9999 in large_set}")  # O(1)
+# print(f"9999 in list: {9999 in large_list}")  # O(n)
+```
 
 ## Further Resources
 
