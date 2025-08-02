@@ -31,6 +31,18 @@
 - [What's New (3.x Highlights)](#whats-new-3x-highlights)
 - [Further Resources](#further-resources)
 
+## Modules & Imports
+
+```python
+import math
+from collections import Counter
+from os.path import join as pathjoin
+
+print(math.sqrt(16))
+print(Counter("hello"))
+print(pathjoin("a", "b.txt"))
+```
+
 ## Data Types
 
 | Name             | Type       | Description                                          | Examples                                     |
@@ -646,6 +658,10 @@ finally:
 
 ## File I/O
 
+- **Use `with open(...)`**: ensures file is properly closed.
+- Files are read/written as **text by default** (`"t"`), use `"b"` for binary.
+- `strip()` is commonly used to remove newline characters while reading.
+
 ```python
 with open("out.txt", "w") as f:
     f.write("Hi!\n")
@@ -654,17 +670,30 @@ with open("out.txt") as f:
         print(line.strip())
 ```
 
-## Modules & Imports
+### File Modes
 
-```python
-import math
-from collections import Counter
-from os.path import join as pathjoin
+| Mode | Description                          |
+|------|--------------------------------------|
+| `"r"`  | Read (default). Fails if file doesn't exist. |
+| `"w"`  | Write. Creates file or truncates existing.   |
+| `"a"`  | Append. Creates file if not exists.           |
+| `"x"`  | Create. Fails if file exists.                |
+| `"b"`  | Binary mode (add to other modes, e.g. `"rb"`) |
+| `"t"`  | Text mode (default, can combine with others) |
 
-print(math.sqrt(16))
-print(Counter("hello"))
-print(pathjoin("a", "b.txt"))
-```
+### File Methods
+
+| Method              | Description                            |
+|---------------------|----------------------------------------|
+| `f.read()`          | Read entire file as a string           |
+| `f.readline()`      | Read one line                          |
+| `f.readlines()`     | Read all lines as a list               |
+| `f.write(s)`        | Write string `s` to file               |
+| `f.writelines(lines)`| Write list of strings                 |
+| `f.seek(pos)`       | Move file pointer to position `pos`    |
+| `f.tell()`          | Current file pointer position          |
+| `f.close()`         | Closes the file (auto-handled with `with`) |
+
 
 ## Classes & OOP
 
@@ -679,10 +708,89 @@ d = Dog("Buddy")
 d.speak()
 ```
 
-- All methods have `self` as first parameter.
-- Inherit: `class Poodle(Dog): ...`
-- `super().__init__()` to call base class constructor.
-- Dunder methods: `__str__`, `__repr__`, `__len__`, etc. for customizing behavior.
+- All methods must include `self` as the first parameter.
+- Inheritance: `class Poodle(Dog): ...`
+- Use `super().__init__()` to call base class constructor.
+- Dunder (double underscore) methods can override default behavior.
+- Properties:
+    - Use a leading underscore (e.g. `_radius`) for the internal variable to avoid recursion.
+    - Properties provide **controlled access** to internal attributes.
+    - Helps avoid breaking external code when internals change.
+
+### Class Terminology
+
+| Term                 | Description |
+|----------------------|-------------|
+| `class`              | Defines a class |
+| `object`             | An instance of a class |
+| `self`               | Refers to the current instance |
+| `__init__`           | Constructor (called on creation) |
+| `super()`            | Access parent methods/constructor |
+
+### Common Dunder Methods
+
+| Method          | Purpose                         | Example Output |
+|------------------|----------------------------------|----------------|
+| `__str__`        | User-friendly string (`str(obj)`) | `"Dog: Buddy"` |
+| `__repr__`       | Developer representation (`repr(obj)`) | `"Dog('Buddy')"` |
+| `__len__`        | Called by `len(obj)`             | `len(obj)` |
+| `__eq__`         | Equality operator `==`           | `obj1 == obj2` |
+| `__lt__`, `__gt__`, etc. | Comparison operators `<`, `>` |  |
+| `__getitem__`    | Enable bracket access `obj[i]`   |  |
+| `__call__`       | Make object callable `obj()`     |  |
+
+### Class Features
+
+| Feature           | Description |
+|-------------------|-------------|
+| Instance Variable | `self.name = value` (per object) |
+| Class Variable    | Shared across all instances |
+| Method            | Regular function with `self` |
+| Class Method      | Uses `@classmethod`, takes `cls` |
+| Static Method     | Uses `@staticmethod`, no `self` or `cls` |
+
+```python
+class MyClass:
+    class_var = 0
+    def __init__(self, x):
+        self.x = x
+    @classmethod
+    def cls_method(cls): ...
+    @staticmethod
+    def stat_method(): ...
+```
+### Property Decorators
+
+Used to define **getter**, **setter**, and **deleter** methods while accessing them like attributes.
+
+```python
+class Circle:
+    def __init__(self, radius):
+        self._radius = radius
+
+    @property
+    def radius(self):
+        return self._radius
+
+    @radius.setter
+    def radius(self, value):
+        if value < 0:
+            raise ValueError("Radius must be positive")
+        self._radius = value
+
+    @radius.deleter
+    def radius(self):
+        del self._radius
+```
+
+### Property Decorators Summary
+
+| Decorator        | Purpose                          | Usage                        |
+|------------------|----------------------------------|------------------------------|
+| `@property`      | Getter — makes method act like attribute | `obj.name` calls `get_name()` |
+| `@x.setter`      | Setter for `x` property          | `obj.name = "value"`         |
+| `@x.deleter`     | Deleter for `x` property         | `del obj.name`               |
+
 
 ## Common Built-in Functions
 
@@ -715,46 +823,6 @@ pip install requests
 pip freeze > requirements.txt
 ```
 - Use [pip](https://pip.pypa.io/) to install packages from PyPI.
-
-## Handy Tricks
-
-| Trick                         | Example / Code Snippet                                  | Output/Explanation                                           |
-|-------------------------------|--------------------------------------------------------|-------------------------------------------------------------|
-| Swap two variables            | `a, b = b, a`                                          | Swaps values of `a` and `b`                                 |
-| Multiple assignment           | `x, y, z = 1, 2, 3`                                    | Assigns 1→x, 2→y, 3→z                                       |
-| Unpack with *rest             | `a, *rest = [1, 2, 3, 4]`                              | `a=1`, `rest=[2,3,4]`                                       |
-| Ternary (inline if-else)      | `x = "yes" if cond else "no"`                          | Assigns `"yes"` if `cond` is True, else `"no"`              |
-| Enumerate with index          | `for idx, val in enumerate(['a','b']):`                | idx=0,val='a'; idx=1,val='b'                                |
-| List flattening               | `[y for x in [[1,2],[3]] for y in x]`                  | `[1,2,3]`                                                   |
-| Dict invert                   | `{v: k for k, v in d.items()}`                         | Swaps keys and values                                       |
-| Chained comparison            | `1 < x < 10`                                           | True if `x` in (1,10)                                       |
-| Input as int                  | `n = int(input())`                                     | Reads integer from input                                    |
-| Slicing with step             | `s[::2]`                                               | Every second character                                      |
-| Reverse string/list           | `s[::-1]`                                              | Reverses `s`                                                |
-| FizzBuzz one-liner            | `["FizzBuzz" if i%15==0 else "Fizz" if i%3==0 else "Buzz" if i%5==0 else i for i in range(1,16)]` | FizzBuzz logic in a list                                    |
-| Repeat string/list            | `['a'] * 4`                                            | `['a', 'a', 'a', 'a']`                                      |
-| Merge two dicts (3.5+)        | `{**d1, **d2}`                                         | Merges dictionaries d1 and d2                               |
-| Counter for frequencies       | `from collections import Counter; Counter("hello")`    | `{'l':2,'h':1,'e':1,'o':1}`                                 |
-| Most common in list           | `max(lst, key=lst.count)`                              | Most frequent element in lst                                |
-| Sort by key in dict           | `sorted(d.items(), key=lambda x:x[1])`                 | Sort dict by values                                         |
-| Get unique & sorted           | `sorted(set([3,1,2,3]))`                               | `[1,2,3]`                                                   |
-| All combinations (itertools)  | `from itertools import permutations; list(permutations([1,2,3]))` | All permutations of list                                    |
-| Transpose matrix              | `list(zip(*matrix))`                                   | Transposes 2D matrix/list                                   |
-| Read entire file as string    | `with open('f.txt') as f: data = f.read()`             | Reads all file content at once                              |
-| Print without newline         | `print('hi', end='')`                                  | Prints "hi" without newline                                 |
-| Ignore value (dummy var)      | `_, y = (1, 2)`                                        | Common idiom for unused vars                                |
-
-**Example: Dict Invert and Flatten**
-
-```python
-d = {'a': 1, 'b': 2}
-inv = {v: k for k, v in d.items()}
-print(inv)  # {1: 'a', 2: 'b'}
-
-lst = [[1,2],[3,4]]
-flat = [item for sub in lst for item in sub]
-print(flat)  # [1,2,3,4]
-```
 
 ## Further Resources
 
