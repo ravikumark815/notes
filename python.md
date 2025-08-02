@@ -454,14 +454,58 @@ print(f"List comprehension for squares: {squares}")
 
 ## Tuples
 
-- Immutable, can unpack
+- Immutable sequences (cannot be modified after creation)  
+- Useful for fixed collections of items  
+- Support indexing, slicing, iteration  
+- Can be nested, contain any data type  
+- Allow unpacking  
 
 ```python
 t = (1, "a", 3.5)
 x, y, z = t
 ```
 
+### Tricks & Tips
+
+| Task                      | Code Example                             | Output / Notes                          |
+|---------------------------|------------------------------------------|------------------------------------------|
+| Length                   | `len(t)`                                 | `3`                                      |
+| Indexing                 | `t[0]`, `t[-1]`                           | `1`, `3.5`                               |
+| Slicing                  | `t[1:3]`                                  | `('a', 3.5)`                             |
+| Concatenation            | `t + (4, 5)`                              | `(1, 'a', 3.5, 4, 5)`                    |
+| Repetition               | `t * 2`                                   | `(1, 'a', 3.5, 1, 'a', 3.5)`             |
+| Membership test          | `3.5 in t`                                | `True`                                   |
+| Single-element tuple     | `(42,)`                                   | Comma required to make it a tuple        |
+| Not a tuple              | `(42)`                                    | Just an `int`, not a tuple               |
+| Tuple packing            | `pair = a, b`                             | No parentheses needed                    |
+| Tuple unpacking          | `x, y = pair`                             | Works with any iterable of same length   |
+| Swapping values          | `a, b = b, a`                             | Clean swap without temp variable         |
+| Nested unpacking         | `x, (y, z) = (1, (2, 3))`                 | Supports deep patterns                   |
+| Looping with unpacking   | `for x, y in [(1, 'a'), (2, 'b')]`        | Unpacks per item                         |
+| Return multiple values   | `return a, b`                             | Returned as tuple                        |
+| Unpack returned values   | `x, y = func()`                           | Matches return tuple                     |
+| Convert to tuple         | `tuple("abc")`                            | `('a', 'b', 'c')`                         |
+
+### Named Tuples
+
+| Task                    | Code Example                                       | Output / Notes                          |
+|-------------------------|----------------------------------------------------|------------------------------------------|
+| Define namedtuple       | `Point = namedtuple("Point", "x y")`              | From `collections` module                |
+| Create                  | `p = Point(3, 4)`                                  | `p` is like a lightweight class          |
+| Access fields           | `p.x`, `p.y`                                       | Attribute-style access                   |
+
+```python
+from collections import namedtuple
+Point = namedtuple("Point", "x y")
+p = Point(3, 4)
+print(p.x, p.y)
+```
+
 ## Dictionaries
+
+- Unordered collection of key-value pairs  
+- Keys must be hashable (immutable), values can be any type  
+- Fast lookups, insertions, deletions  
 
 ```python
 d = {"a": 1, "b": 2}
@@ -471,14 +515,57 @@ for k, v in d.items():
     print(k, v)
 ```
 
-| Method         | Description                  |
-|----------------|-----------------------------|
-| `keys()`       | Keys view                   |
-| `values()`     | Values view                 |
-| `items()`      | (key, value) pairs          |
-| `get(k, [d])`  | Value or default            |
-| `pop(k)`       | Remove and return value     |
-| `update(d2)`   | Update with another dict    |
+### Methods & Tricks
+
+| Task                        | Code Example      | Output / Notes                 |
+|-----------------------------|-------------------| -------------------------------|
+| Access value            | `d["a"]`              | Raises `KeyError` if key not found|
+| Safe access with default| `d.get("a", 0)`       | Returns `0` if `"a"` not in `d`|
+| Insert/update value     | `d["x"] = 5`          | Adds or replaces key `"x"`     |
+| Delete key              | `del d["a"]`          | Removes key `"a"`              |
+| Remove + return value   | `d.pop("b")`          | Removes key `"b"` and returns its value|
+| Remove last item (3.7+) | `d.popitem()`         | Removes and returns `(key, value)`|
+| Clear all               | `d.clear()`           | Empties the dictionary|
+| Merge/update            | `d.update({"b": 20})` | Updates or adds keys from another dict|
+| Create from keys        | `dict.fromkeys(["a", "b"], 0)` | `{"a": 0, "b": 0}` |
+
+### Views
+
+| View Type      | Code Example      | Output / Notes                            |
+|----------------|-------------------|-------------------------------------------|
+| Keys           | `d.keys()`        | Returns view of keys                      |
+| Values         | `d.values()`      | View of all values                        |
+| Items          | `d.items()`       | View of key-value pairs                   |
+| Check key      | `"a" in d`        | `True` if `"a"` is in the dictionary      |
+
+### Looping Patterns
+
+| Pattern          | Code                      | Notes                       |
+|------------------|---------------------------| ----------------------------|
+| Loop over keys   | `for k in d:`             | Same as `for k in d.keys()` |
+| Loop over values | `for v in d.values():`    |                             |
+| Loop over items  | `for k, v in d.items():`  | Tuple unpacking             |
+
+
+### Dictionary Comprehensions
+
+| Trick/Type | Purpose | Expression/Syntax | Example | Output |
+|:-----------|:--------|:------------------|:--------|:-------|
+| **Basic**                | Creates a dictionary by defining key-value pairs from an iterable | `{key: value for item in iterable}`                   | `{x: x*x for x in range(3)}` | `{0: 0, 1: 1, 2: 4}` |
+| **With Condition**       | Filters items based on a condition.                               | `{k: v for k, v in d.items() if condition}`           | `{x: x*x for x in range(5) if x % 2 == 0}`        | `{0: 0, 2: 4, 4: 16}`|
+| **Swap Keys and Values** | Inverts a dictionary.                                             | `{v: k for k, v in d.items()}`                        | `{'a': 1, 'b': 2} → {1: 'a', 2: 'b'}`              | `{1: 'a', 2: 'b'}`|
+| **Filter Dictionary**    | Filters a dictionary based on keys or values.                     | `{k: v for k, v in d.items() if condition_on_k_or_v}` | `grades = {'A': 85, 'B': 92}; {k: v for k, v in grades.items() if v >= 90}` | `{'B': 92}`|
+
+
+
+### Common Patterns
+
+| Task                      | Code Example                      | Notes                                 |
+|---------------------------|-----------------------------------|----------------------------------------|
+| Count with `dict`         | `d.get(k, 0) + 1`                 | Useful in loops                        |
+| Use `defaultdict`         | `from collections import defaultdict`<br>`d = defaultdict(int)`<br>`d[k] += 1` | Auto-initialized dict                 |
+| Use `Counter`             | `from collections import Counter`<br>`Counter("banana")` | Frequency count                       |
+
 
 ## Sets
 
@@ -511,15 +598,6 @@ print(1 in s, 99 not in s)
 | **Conditional Expression (if-else in expr)** | Applies different expressions based on a condition for each item. | `[expr_if_true if condition else expr_if_false for item in iterable]` | `parity_labels = ["Even" if x % 2 == 0 else "Odd" for x in range(5)]` | `['Even', 'Odd', 'Even', 'Odd', 'Even']` |
 | **Using `zip()`** | Iterates over multiple iterables in parallel. | `[expr for item1, item2 in zip(iterable1, iterable2)]` | `l1 = [1, 2]; l2 = ['a', 'b']; combined = [f"{x}-{y}" for x, y in zip(l1, l2)]` | `['1-a', '2-b']` |
 | **Using `enumerate()`** | Accesses both the index and value of items in an iterable. | `[expr for idx, item in enumerate(iterable)]` | `indexed_items = [f"Idx {i}: {val}" for i, val in enumerate(['A', 'B'])]` | `['Idx 0: A', 'Idx 1: B']` |
-
-### **Dictionary Comprehensions**
-
-| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
-| :--------- | :------ | :------------------ | :------------------ | :----- |
-| **Basic** | Creates a new dictionary by defining key-value pairs from an iterable. | `{key_expr: value_expr for item in iterable}` | `dict_comp = {x: x*x for x in range(3)}` | `{0: 0, 1: 1, 2: 4}` |
-| **With Conditional Filtering** | Creates a dictionary including only key-value pairs that satisfy a condition. | `{key_expr: value_expr for item in iterable if condition}` | `even_squares = {x: x*x for x in range(5) if x % 2 == 0}` | `{0: 0, 2: 4, 4: 16}` |
-| **Swapping Keys and Values** | Creates a new dictionary by swapping the keys and values of an existing dictionary. | `{value: key for key, value in original_dict.items()}` | `original = {'a': 1, 'b': 2}; swapped = {v: k for k, v in original.items()}` | `{1: 'a', 2: 'b'}` |
-| **Filtering a Dictionary** | Creates a new dictionary containing only specific items from an existing one based on a condition. | `{k: v for k, v in original_dict.items() if condition_on_k_or_v}` | `grades = {'A': 85, 'B': 92}; passed = {n: s for n, s in grades.items() if s >= 90}` | `{'B': 92}` |
 
 ### **Set Comprehensions**
 
