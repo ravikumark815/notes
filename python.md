@@ -226,6 +226,14 @@ for num in my_generator: # Continues from where it left off (2, 3, 4)
     print(num)
 ```
 
+### **Generator Expressions**
+
+| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
+| :--------- | :------ | :------------------ | :------------------ | :----- |
+| **Basic (Lazy Evaluation)** | Creates an *iterator* (a generator object) that yields values one by one on demand, rather than building the full sequence in memory. Ideal for large datasets. | `(expr for item in iterable if condition)` | `gen_exp = (x*x for x in range(3))` | `<generator object <genexpr> at 0x...>` |
+| **Consumption (e.g., with `list()`, `next()`)** | Shows how to consume the values yielded by a generator expression. | `list(gen_expr_obj)` / `next(gen_expr_obj)` | `gen = (x for x in range(3)); first = next(gen); rest = list(gen)` | `first: 0, rest: [1, 2]` |
+| **Direct Consumption (e.g., with `sum`, `max`)** | Can be passed directly to functions that consume iterators without explicit list conversion, maximizing memory efficiency. | `sum(expr for item in iterable)` | `total_sum_squares = sum(x*x for x in range(4))` | `14` |
+
 ## Decorators
 
 - A design pattern that allows you to add new functionality to an existing function or method without modifying its structure. They are essentially "wrappers" that execute code before and/or after the wrapped function.
@@ -420,9 +428,6 @@ print(f"New reversed list: {reversed_numbers}")
 print(f"Slice from index 2 to 4: {my_list[2:5]}")
 print(f"Reversed list using a slice: {my_list[::-1]}")
 
-# List comprehension
-squares = [x**2 for x in range(5)]
-print(f"List comprehension for squares: {squares}")
 ```
 
 | Category             | Method / Trick       | Description                                                                                  | Example                                 |
@@ -451,6 +456,17 @@ print(f"List comprehension for squares: {squares}")
 |                      | `list()`             | The constructor to create an empty list or convert another iterable to a list.               | `new_list = list(range(5))`             |
 |                      | Concatenation        | Using the `+` operator creates a new list from two or more lists.                            | `combined = my_list + [8, 9]`           |
 
+### **List Comprehensions**
+
+| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
+| :--------- | :------ | :------------------ | :------------------ | :----- |
+| **Basic** | Creates a new list by transforming items from an iterable. | `[expr for item in iterable]` | `squares = [x*x for x in range(5)]` | `[0, 1, 4, 9, 16]` |
+| **With Conditional Filtering** | Creates a list including only items that satisfy a condition. | `[expr for item in iterable if condition]` | `evens = [x for x in range(10) if x % 2 == 0]` | `[0, 2, 4, 6, 8]` |
+| **Nested Loops (Flattening/Combinations)** | Simulates nested loops to process elements from multiple iterables or flatten nested lists. | `[expr for item1 in iterable1 for item2 in iterable2]` | `coords = [(x, y) for x in range(2) for y in range(3)]` | `[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]` |
+| **Nested with Conditions** | Combines nested iteration with conditional filtering on the inner loop. | `[expr for outer_item in outer_iterable for inner_item in inner_iterable if inner_condition]` | `matrix = [[1, 2], [3, 4]]; evens = [num for row in matrix for num in row if num % 2 == 0]` | `[2, 4]` |
+| **Conditional Expression (if-else in expr)** | Applies different expressions based on a condition for each item. | `[expr_if_true if condition else expr_if_false for item in iterable]` | `parity_labels = ["Even" if x % 2 == 0 else "Odd" for x in range(5)]` | `['Even', 'Odd', 'Even', 'Odd', 'Even']` |
+| **Using `zip()`** | Iterates over multiple iterables in parallel. | `[expr for item1, item2 in zip(iterable1, iterable2)]` | `l1 = [1, 2]; l2 = ['a', 'b']; combined = [f"{x}-{y}" for x, y in zip(l1, l2)]` | `['1-a', '2-b']` |
+| **Using `enumerate()`** | Accesses both the index and value of items in an iterable. | `[expr for idx, item in enumerate(iterable)]` | `indexed_items = [f"Idx {i}: {val}" for i, val in enumerate(['A', 'B'])]` | `['Idx 0: A', 'Idx 1: B']` |
 
 ## Tuples
 
@@ -515,37 +531,27 @@ for k, v in d.items():
     print(k, v)
 ```
 
-### Methods & Tricks
 
-| Task                        | Code Example      | Output / Notes                 |
-|-----------------------------|-------------------| -------------------------------|
-| Access value            | `d["a"]`              | Raises `KeyError` if key not found|
-| Safe access with default| `d.get("a", 0)`       | Returns `0` if `"a"` not in `d`|
-| Insert/update value     | `d["x"] = 5`          | Adds or replaces key `"x"`     |
-| Delete key              | `del d["a"]`          | Removes key `"a"`              |
-| Remove + return value   | `d.pop("b")`          | Removes key `"b"` and returns its value|
-| Remove last item (3.7+) | `d.popitem()`         | Removes and returns `(key, value)`|
-| Clear all               | `d.clear()`           | Empties the dictionary|
-| Merge/update            | `d.update({"b": 20})` | Updates or adds keys from another dict|
-| Create from keys        | `dict.fromkeys(["a", "b"], 0)` | `{"a": 0, "b": 0}` |
+### Common Dictionary Operations
 
-### Views
-
-| View Type      | Code Example      | Output / Notes                            |
-|----------------|-------------------|-------------------------------------------|
-| Keys           | `d.keys()`        | Returns view of keys                      |
-| Values         | `d.values()`      | View of all values                        |
-| Items          | `d.items()`       | View of key-value pairs                   |
-| Check key      | `"a" in d`        | `True` if `"a"` is in the dictionary      |
-
-### Looping Patterns
-
-| Pattern          | Code                      | Notes                       |
-|------------------|---------------------------| ----------------------------|
-| Loop over keys   | `for k in d:`             | Same as `for k in d.keys()` |
-| Loop over values | `for v in d.values():`    |                             |
-| Loop over items  | `for k, v in d.items():`  | Tuple unpacking             |
-
+| Method / Syntax     | Purpose / Description                                           | Example / Output                       |
+|:--------------------|:----------------------------------------------------------------|:---------------------------------------|
+| `d[k]`              | Access value for key `k`. Raises `KeyError` if `k` not found.   | `d["b"]` → `2`                         |
+| `d.get(k, default)` | Returns value for `k`, or `default` if not found.               | `d.get("x", 0)` → `0`                  |
+| `d[k] = v`          | Insert/Update: Set value `v` for key `k`. Adds or updates.      | `d["z"] = 100`                         |
+| `del d[k]`          | Removes key `k` and its value. Raises `KeyError` if not found.  | `del d["a"]`                           |
+| `d.pop(k)`          | Removes and returns value for key `k`.                          | `d.pop("b")` → `2`                     |
+| `d.popitem()`       | Removes and returns **last** inserted key-value pair (as tuple) | `k, v = d.popitem()`                   |
+| `d.clear()`         | Removes all key-value pairs.| `d.clear()`                       |                                        |
+| `k in d`            | Checks if key `k` exists.                                       | `'a' in d` → `True`                    |
+| `d.keys()`          | Returns a view of all keys.                                     | `for k in d.keys()`                    |
+| `d.values()`        | Returns a view of all values.                                   | `for v in d.values()`                  |
+| `d.items()`         | Returns a view of `(key, value)` pairs.                         | `for k, v in d.items()`                |
+| `d.update(d2)`      | Merges `d2` into `d`. Overwrites existing keys.                 | `d.update({'x': 9})`                   |
+| `dict()` constructor| Create a dict from key-value pairs or keyword args.             | `dict([('a', 1)])` or `dict(a=1, b=2)` |
+| `len(d)`            | Number of key-value pairs in dict.                              | `len(d)` → `2`                         |
+| `sorted(d)`         | Sorted list of dict’s keys.                                     | `sorted(d)` → `['a', 'b']`             |
+| `copy()`            | Returns a **shallow copy**.                                     | `d2 = d.copy()`                        |
 
 ### Dictionary Comprehensions
 
@@ -556,17 +562,6 @@ for k, v in d.items():
 | **Swap Keys and Values** | Inverts a dictionary.                                             | `{v: k for k, v in d.items()}`                        | `{'a': 1, 'b': 2} → {1: 'a', 2: 'b'}`              | `{1: 'a', 2: 'b'}`|
 | **Filter Dictionary**    | Filters a dictionary based on keys or values.                     | `{k: v for k, v in d.items() if condition_on_k_or_v}` | `grades = {'A': 85, 'B': 92}; {k: v for k, v in grades.items() if v >= 90}` | `{'B': 92}`|
 
-
-
-### Common Patterns
-
-| Task                      | Code Example                      | Notes                                 |
-|---------------------------|-----------------------------------|----------------------------------------|
-| Count with `dict`         | `d.get(k, 0) + 1`                 | Useful in loops                        |
-| Use `defaultdict`         | `from collections import defaultdict`<br>`d = defaultdict(int)`<br>`d[k] += 1` | Auto-initialized dict                 |
-| Use `Counter`             | `from collections import Counter`<br>`Counter("banana")` | Frequency count                       |
-
-
 ## Sets
 
 ```python
@@ -576,28 +571,30 @@ s.remove(2)
 print(1 in s, 99 not in s)
 ```
 
-| Method         | Description                  |
-|----------------|-----------------------------|
-| `add(x)`       | Add x                       |
-| `remove(x)`    | Remove x                    |
-| `discard(x)`   | Remove if exists            |
-| `pop()`        | Remove & return elem        |
-| `union(other)` | Union                       |
-| `intersection(other)` | Intersection         |
+### Common Set Operations
 
-## Comprehensions
+| Method / Syntax                    | Purpose / Description                                                      | Example / Output                          |
+|-----------------------------------|----------------------------------------------------------------------------|-------------------------------------------|
+| `s.add(x)`                        | Adds element `x` to the set.                                               | `s.add(5)`                                 |
+| `s.remove(x)`                     | Removes element `x`. Raises `KeyError` if not found.                       | `s.remove(3)`                              |
+| `s.discard(x)`                    | Removes element `x` if present. No error if not found.                     | `s.discard(99)`                            |
+| `s.pop()`                         | Removes and returns an arbitrary element. Raises `KeyError` if empty.     | `x = s.pop()`                              |
+| `s.clear()`                       | Removes all elements.                                                      | `s.clear()`                                |
+| `x in s` / `x not in s`           | Membership check. Returns `True` or `False`.                              | `2 in s` → `True`                           |
+| `len(s)`                          | Number of elements in the set.                                             | `len(s)` → `3`                              |
 
-### **List Comprehensions**
+### Set Algebra
 
-| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
-| :--------- | :------ | :------------------ | :------------------ | :----- |
-| **Basic** | Creates a new list by transforming items from an iterable. | `[expr for item in iterable]` | `squares = [x*x for x in range(5)]` | `[0, 1, 4, 9, 16]` |
-| **With Conditional Filtering** | Creates a list including only items that satisfy a condition. | `[expr for item in iterable if condition]` | `evens = [x for x in range(10) if x % 2 == 0]` | `[0, 2, 4, 6, 8]` |
-| **Nested Loops (Flattening/Combinations)** | Simulates nested loops to process elements from multiple iterables or flatten nested lists. | `[expr for item1 in iterable1 for item2 in iterable2]` | `coords = [(x, y) for x in range(2) for y in range(3)]` | `[(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2)]` |
-| **Nested with Conditions** | Combines nested iteration with conditional filtering on the inner loop. | `[expr for outer_item in outer_iterable for inner_item in inner_iterable if inner_condition]` | `matrix = [[1, 2], [3, 4]]; evens = [num for row in matrix for num in row if num % 2 == 0]` | `[2, 4]` |
-| **Conditional Expression (if-else in expr)** | Applies different expressions based on a condition for each item. | `[expr_if_true if condition else expr_if_false for item in iterable]` | `parity_labels = ["Even" if x % 2 == 0 else "Odd" for x in range(5)]` | `['Even', 'Odd', 'Even', 'Odd', 'Even']` |
-| **Using `zip()`** | Iterates over multiple iterables in parallel. | `[expr for item1, item2 in zip(iterable1, iterable2)]` | `l1 = [1, 2]; l2 = ['a', 'b']; combined = [f"{x}-{y}" for x, y in zip(l1, l2)]` | `['1-a', '2-b']` |
-| **Using `enumerate()`** | Accesses both the index and value of items in an iterable. | `[expr for idx, item in enumerate(iterable)]` | `indexed_items = [f"Idx {i}: {val}" for i, val in enumerate(['A', 'B'])]` | `['Idx 0: A', 'Idx 1: B']` |
+| Method / Operator                      | Purpose / Description                                                     | Example / Output                     |
+|----------------------------------------|---------------------------------------------------------------------------|--------------------------------------|
+| `s.union(t)` or `s \| t`               | Returns a new set with elements from both `s` and `t`.                    | `{1, 2}.union({2, 3})` → `{1, 2, 3}` |
+| `s.intersection(t)` or `s & t`         | Elements common to both `s` and `t`.                                      | `{1, 2} & {2, 3}` → `{2}`            |
+| `s.difference(t)` or `s - t`           | Elements in `s` but not in `t`.                                           | `{1, 2} - {2, 3}` → `{1}`            |
+| `s.symmetric_difference(t)` or `s ^ t` | Elements in either `s` or `t` but not both | `{1, 2} ^ {2, 3}` → `{1, 3}` |                                      |
+| `s.isdisjoint(t)`                      | Returns `True` if `s` and `t` have no elements in common                  | `{1, 2}.isdisjoint({3, 4})` → `True` |
+| `s.issubset(t)` or `s <= t`            | Returns `True` if all `s` elements are in `t`                             | `{1, 2} <= {1, 2, 3}` → `True`       |
+| `s.issuperset(t)` or `s >= t`          | Returns `True` if all `t` elements are in `s`.                            | `{1, 2, 3} >= {2}` → `True`          |
+| `set(iterable)`                        | Converts iterable to set (removes duplicates).                            | `set("aabc")` → `{'a', 'b', 'c'}`    |
 
 ### **Set Comprehensions**
 
@@ -605,25 +602,6 @@ print(1 in s, 99 not in s)
 | :--------- | :------ | :------------------ | :------------------ | :----- |
 | **Basic** | Creates a new set, automatically ensuring unique elements, by transforming items from an iterable. | `{expr for item in iterable}` | `set_comp = {c for c in "hello"}` | `{'h', 'e', 'l', 'o'}` (order varies) |
 | **With Conditional Filtering** | Creates a set including only unique items that satisfy a condition. | `{expr for item in iterable if condition}` | `unique_evens = {x for x in range(10) if x % 2 == 0 and x > 5}` | `{6, 8}` (order varies) |
-
-### **Generator Expressions**
-
-| Trick/Type | Purpose | Expression / Syntax | Example with Output | Output |
-| :--------- | :------ | :------------------ | :------------------ | :----- |
-| **Basic (Lazy Evaluation)** | Creates an *iterator* (a generator object) that yields values one by one on demand, rather than building the full sequence in memory. Ideal for large datasets. | `(expr for item in iterable if condition)` | `gen_exp = (x*x for x in range(3))` | `<generator object <genexpr> at 0x...>` |
-| **Consumption (e.g., with `list()`, `next()`)** | Shows how to consume the values yielded by a generator expression. | `list(gen_expr_obj)` / `next(gen_expr_obj)` | `gen = (x for x in range(3)); first = next(gen); rest = list(gen)` | `first: 0, rest: [1, 2]` |
-| **Direct Consumption (e.g., with `sum`, `max`)** | Can be passed directly to functions that consume iterators without explicit list conversion, maximizing memory efficiency. | `sum(expr for item in iterable)` | `total_sum_squares = sum(x*x for x in range(4))` | `14` |
-
-### Important Considerations / Tricks
-
-- Readability vs. Complexity: While powerful, overly complex comprehensions (e.g., deeply nested ones with multiple conditions) can reduce readability. Sometimes, traditional loops are clearer.
-
-- Side Effects: Avoid putting expressions with side effects (e.g., print statements, modifying external variables) directly into comprehensions, as it can make code harder to debug and understand.
-
-- Scope: The loop variable (e.g., 'x' in `[x for x in range(5)]`) is local to the comprehension in Python 3. It does not "leak" into the surrounding scope.
-
-- Performance: Comprehensions are generally faster than explicit loops for equivalent operations because they are optimized at the C level.
-
 
 ## None & Booleans
 
@@ -653,6 +631,18 @@ else:
 finally:
     print("Always runs")
 ```
+
+### Common Exceptions
+
+| Exception             | Raised When...                              |
+|-----------------------|---------------------------------------------|
+| `ZeroDivisionError`   | Division by zero                            |
+| `TypeError`           | Wrong type used                             |
+| `ValueError`          | Invalid value for a type                    |
+| `KeyError`            | Missing key in dictionary                   |
+| `IndexError`          | Index out of bounds                         |
+| `AttributeError`      | Invalid attribute access                    |
+| `ImportError`         | Failed import                               |
 
 ## File I/O
 
