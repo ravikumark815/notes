@@ -41,6 +41,10 @@
 - [File I/O](#file-io)
 - [Modules & Imports](#modules--imports)
 - [Classes & OOP](#classes--oop)
+- [Concurrency & Async Programming](#concurrency--async-programming)
+  - [Threading](#threading)
+  - [Multiprocessing](#multiprocessing)
+  - [Asyncio](#asyncio)
 - [Common Built-in Functions](#common-built-in-functions)
 - [Common Libraries & Modules](#common-libraries--modules)
 - [Virtual Environments & Pip](#virtual-environments--pip)
@@ -2094,8 +2098,294 @@ class Circle:
 | `@x.setter`      | Setter for `x` property          | `obj.name = "value"`         |
 | `@x.deleter`     | Deleter for `x` property         | `del obj.name`               |
 
+## Concurrency & Async Programming
 
-## Common Built-in Functions
+Python offers three main approaches to concurrency, each suited for different types of tasks:
+
+| Model | Best For | Execution | GIL Impact | Use Cases |
+|-------|----------|-----------|------------|-----------|
+| **Threading** | I/O-bound tasks | Multiple threads, single process | Limited by GIL for CPU tasks | File I/O, network requests, UI responsiveness |
+| **Multiprocessing** | CPU-bound tasks | Multiple processes | Bypasses GIL completely | Mathematical computations, data processing |
+| **Asyncio** | I/O-bound tasks | Single thread, event loop | No GIL issues | Network servers, web scraping, concurrent I/O |
+
+### Threading
+
+- Uses multiple threads within a single process
+- Good for I/O-bound tasks but limited by GIL for CPU-bound work
+- Threads share memory space (can lead to race conditions)
+
+```python
+import threading
+import time
+import requests
+
+def fetch_url(url):
+    response = requests.get(url)
+    print(f"Status: {response.status_code} for {url}")
+
+# Sequential approach
+start = time.time()
+urls = ["https://httpbin.org/delay/1"] * 3
+for url in urls:
+    fetch_url(url)
+print(f"Sequential: {time.time() - start:.2f}s")
+
+# Threading approach
+start = time.time()
+threads = []
+for url in urls:
+    thread = threading.Thread(target=fetch_url, args=(url,))
+    threads.append(thread)
+    thread.start()
+
+for thread in threads:
+    thread.join()  # Wait for all threads to complete
+print(f"Threading: {time.time() - start:.2f}s")
+
+# Thread-safe operations with Lock
+import threading
+
+counter = 0
+lock = threading.Lock()
+
+def increment():
+    global counter
+    for _ in range(100000):
+        with lock:  # Ensures thread-safe access
+            counter += 1
+
+threads = [threading.Thread(target=increment) for _ in range(2)]
+for t in threads:
+    t.start()
+for t in threads:
+    t.join()
+print(f"Counter: {counter}")  # Should be 200000
+```
+
+### Multiprocessing
+
+- Creates separate processes, each with its own Python interpreter
+- True parallelism for CPU-bound tasks
+- Processes don't share memory (communication via IPC)
+
+```python
+import multiprocessing
+import time
+
+def cpu_bound_task(n):
+    # Simulate CPU-intensive work
+    result = sum(i * i for i in range(n))
+    return result
+
+# Sequential approach
+start = time.time()
+results = [cpu_bound_task(1000000) for _ in range(4)]
+print(f"Sequential: {time.time() - start:.2f}s")
+
+# Multiprocessing approach
+start = time.time()
+with multiprocessing.Pool() as pool:
+    results = pool.map(cpu_bound_task, [1000000] * 4)
+print(f"Multiprocessing: {time.time() - start:.2f}s")
+
+# Process communication with Queue
+def worker(queue, name):
+    while True:
+        item = queue.get()
+        if item is None:
+            break
+        print(f"Worker {name} processing {item}")
+        time.sleep(1)
+
+if __name__ == "__main__":
+    queue = multiprocessing.Queue()
+    processes = []
+    
+    # Start worker processes
+    for i in range(2):
+        p = multiprocessing.Process(target=worker, args=(queue, f"P{i}"))
+        p.start()
+        processes.append(p)
+    
+    # Add work to queue
+    for i in range(5):
+        queue.put(f"task-{i}")
+    
+    # Signal workers to stop
+    for _ in processes:
+        queue.put(None)
+    
+    # Wait for processes to finish
+    for p in processes:
+        p.join()
+```
+
+### Asyncio
+
+- Single-threaded concurrency using an event loop
+- Cooperative multitasking with `async`/`await`
+- Excellent for I/O-bound tasks with many concurrent operations
+
+```python
+import asyncio
+import aiohttp
+import time
+
+# Basic async function
+async def say_hello(name, delay):
+    await asyncio.sleep(delay)
+    print(f"Hello, {name}!")
+
+# Running async functions
+async def main():
+    # Sequential execution
+    await say_hello("Alice", 1)
+    await say_hello("Bob", 1)
+    
+    # Concurrent execution
+    await asyncio.gather(
+        say_hello("Charlie", 1),
+        say_hello("Diana", 1),
+        say_hello("Eve", 1)
+    )
+
+# asyncio.run(main())
+
+# Async HTTP requests
+async def fetch_url_async(session, url):
+    async with session.get(url) as response:
+        return await response.text()
+
+async def fetch_multiple_urls():
+    urls = ["https://httpbin.org/delay/1"] * 3
+    
+    async with aiohttp.ClientSession() as session:
+        start = time.time()
+        # Concurrent requests
+        tasks = [fetch_url_async(session, url) for url in urls]
+        results = await asyncio.gather(*tasks)
+        print(f"Async requests: {time.time() - start:.2f}s")
+
+# asyncio.run(fetch_multiple_urls())
+
+# Async generators and iteration
+async def async_range(n):
+    for i in range(n):
+        await asyncio.sleep(0.1)  # Simulate async work
+        yield i
+
+async def consume_async_generator():
+    async for value in async_range(5):
+        print(f"Got: {value}")
+
+# Producer-Consumer pattern with asyncio.Queue
+async def producer(queue, name):
+    for i in range(3):
+        await asyncio.sleep(1)
+        await queue.put(f"{name}-item-{i}")
+    await queue.put(None)  # Sentinel value
+
+async def consumer(queue, name):
+    while True:
+        item = await queue.get()
+        if item is None:
+            queue.task_done()
+            break
+        print(f"Consumer {name} got: {item}")
+        queue.task_done()
+
+async def producer_consumer_example():
+    queue = asyncio.Queue()
+    
+    # Start producer and consumers
+    await asyncio.gather(
+        producer(queue, "P1"),
+        consumer(queue, "C1"),
+        consumer(queue, "C2")
+    )
+
+# Context managers and async with
+async def async_context_example():
+    async with aiohttp.ClientSession() as session:
+        async with session.get("https://httpbin.org/json") as response:
+            data = await response.json()
+            print(data)
+
+# Error handling in async code
+async def might_fail(should_fail=False):
+    await asyncio.sleep(1)
+    if should_fail:
+        raise ValueError("Something went wrong!")
+    return "Success!"
+
+async def handle_async_errors():
+    tasks = [
+        might_fail(False),
+        might_fail(True),
+        might_fail(False)
+    ]
+    
+    results = await asyncio.gather(*tasks, return_exceptions=True)
+    
+    for i, result in enumerate(results):
+        if isinstance(result, Exception):
+            print(f"Task {i} failed: {result}")
+        else:
+            print(f"Task {i} succeeded: {result}")
+```
+
+#### Key Asyncio Concepts
+
+| Concept | Description | Example |
+|---------|-------------|---------|
+| **Coroutine** | Function defined with `async def` | `async def my_func():` |
+| **Awaitable** | Object that can be used with `await` | `await some_coroutine()` |
+| **Event Loop** | Manages and executes async tasks | `asyncio.run(main())` |
+| **Task** | Wrapped coroutine for concurrent execution | `asyncio.create_task(coro)` |
+| **Future** | Placeholder for a result that will be available later | `asyncio.Future()` |
+
+
+#### Common Asyncio Patterns
+
+```python
+# 1. Fire and forget
+async def fire_and_forget():
+    task = asyncio.create_task(some_background_work())
+    # Don't await - runs in background
+    return "Started background task"
+
+# 2. Timeout handling
+async def with_timeout():
+    try:
+        result = await asyncio.wait_for(slow_operation(), timeout=5.0)
+        return result
+    except asyncio.TimeoutError:
+        return "Operation timed out"
+
+# 3. Semaphore for limiting concurrency
+async def limited_concurrency():
+    semaphore = asyncio.Semaphore(3)  # Max 3 concurrent operations
+    
+    async def limited_task(n):
+        async with semaphore:
+            await asyncio.sleep(1)
+            return f"Task {n} completed"
+    
+    tasks = [limited_task(i) for i in range(10)]
+    results = await asyncio.gather(*tasks)
+    return results
+
+# 4. Async comprehensions (Python 3.6+)
+async def async_comprehension():
+    # Async list comprehension
+    results = [await fetch_data(i) async for i in async_range(5)]
+    
+    # Async generator expression
+    squared = (x**2 async for x in async_range(5) if x % 2 == 0)
+    return results, squared
+```
+
+## Common Built-in Functions in Python
 
 | Function     | Description                        |
 |--------------|------------------------------------|
