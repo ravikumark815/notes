@@ -48,6 +48,83 @@
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/topologies.png)
 
+```
+Network Topologies:
+
+1. BUS TOPOLOGY:
+   ┌────┐    ┌────┐    ┌────┐    ┌────┐    ┌────┐
+   │ PC │    │ PC │    │ PC │    │ PC │    │ PC │
+   │ A  │    │ B  │    │ C  │    │ D  │    │ E  │
+   └─┬──┘    └─┬──┘    └─┬──┘    └─┬──┘    └─┬──┘
+     │         │         │         │         │
+   ──┴─────────┴─────────┴─────────┴─────────┴──
+              Single Backbone Cable
+   Pros: Simple, cost-effective
+   Cons: Single point of failure, collision domain
+
+2. STAR TOPOLOGY:
+                    ┌────────┐
+                    │ Switch │
+                    │   or   │
+                    │  Hub   │
+                    └───┬────┘
+           ┌────────────┼────────────┐
+           │            │            │
+       ┌───▼──┐    ┌───▼──┐    ┌───▼──┐
+       │ PC A │    │ PC B │    │ PC C │
+       └──────┘    └──────┘    └──────┘
+   Pros: Easy to manage, fault isolation
+   Cons: Central device failure affects all
+
+3. RING TOPOLOGY:
+       ┌────┐         ┌────┐
+       │ PC │◄────────┤ PC │
+       │ A  │         │ B  │
+       └─┬──┘         └──▲─┘
+         │               │
+         ▼               │
+       ┌────┐         ┌────┐
+       │ PC │────────►│ PC │
+       │ D  │         │ C  │
+       └────┘         └────┘
+   Pros: Equal access, no collisions
+   Cons: Single break affects entire network
+
+4. MESH TOPOLOGY:
+       ┌────┐ ◄──────► ┌────┐
+       │ PC │ ◄──┐  ┌─► │ PC │
+       │ A  │    │  │  │ B  │
+       └─┬──┘    │  │  └─▲──┘
+         │       │  │    │
+         ▼       │  │    │
+       ┌────┐    │  │  ┌────┐
+       │ PC │ ◄──┘  └─► │ PC │
+       │ D  │ ◄──────► │ C  │
+       └────┘         └────┘
+   Pros: High redundancy, fault tolerance
+   Cons: Expensive, complex management
+
+5. HYBRID TOPOLOGY:
+                ┌─────────┐
+                │ Router  │
+                └────┬────┘
+                     │
+        ┌────────────┼────────────┐
+        │                         │
+   ┌────▼────┐               ┌────▼────┐
+   │ Switch  │               │ Switch  │
+   │ (Star)  │               │ (Star)  │
+   └────┬────┘               └────┬────┘
+        │                         │
+   ┌────┼────┐               ┌────┼────┐
+   │    │    │               │    │    │
+ ┌─▼─┐┌─▼─┐┌─▼─┐           ┌─▼─┐┌─▼─┐┌─▼─┐
+ │PC1││PC2││PC3│           │PC4││PC5││PC6│
+ └───┘└───┘└───┘           └───┘└───┘└───┘
+   Pros: Combines benefits of multiple topologies
+   Cons: Complex design and troubleshooting
+```
+
 ### Signaling:
 - **Baseband Signaling:** Can only transmit a single signal at any given time. 
 - **Broadband Signaling:** Can transmit multiple signals at any given time. 
@@ -104,18 +181,89 @@ Direct Attachment Cable (DAC) Copper Twinax:
 > **Medium Dependent Interface (MDI):** It is a type of ethernet port connection that uses twisted-pair cabling to link two network devices. MDIX (MDI Crossover) is a version of MDI that enables connection between like devices.
 
 ### Data flow Types:
-- **Simplex Mode:** Communication is unidirectional.
-- **Half-Duplex Mode:** Each station can both transmit and receive, but not at the same time.
-- **Full-Duplex Mode:** Both stations can transmit and receive simultaneously.
- 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/data-flow.png)
+
+```
+1. SIMPLEX (One-way communication):
+   ┌─────────┐                    ┌─────────┐
+   │ Sender  │ ──────────────────►│Receiver │
+   │ (Radio) │    Data Flow       │ (Radio) │
+   └─────────┘                    └─────────┘
+   Examples: Radio broadcast, TV transmission
+
+2. HALF-DUPLEX (Two-way, but not simultaneous):
+   ┌─────────┐                    ┌─────────┐
+   │Station A│ ──────────────────►│Station B│
+   │         │    Data Flow       │         │
+   └─────────┘                    └─────────┘
+   
+   ┌─────────┐                    ┌─────────┐
+   │Station A│ ◄──────────────────│Station B│
+   │         │    Data Flow       │         │
+   └─────────┘                    └─────────┘
+   Examples: Walkie-talkie, Hub-based Ethernet
+
+3. FULL-DUPLEX (Two-way simultaneous):
+   ┌─────────┐                    ┌─────────┐
+   │Station A│ ──────────────────►│Station B│
+   │         │ ◄──────────────────│         │
+   └─────────┘  Simultaneous      └─────────┘
+                Data Flow
+   Examples: Telephone, Switch-based Ethernet
+```
 
 ### Communication Types:
 - **Unicast:** Communication from one point to another point
 - **Broadcast:** Communication from one point to all other points
 - **Multicast:** Communication from one/more points to a set of other points
-- **Anycast:** It is a network addressing and routing methodology in which a single destination IP address is shared by nodes in multiple locations.
+- **Anycast:** Communication from one to nearest. It is a network addressing and routing methodology in which a single destination IP address is shared by nodes in multiple locations.
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/communication-types.png)
+
+```
+1. UNICAST (One-to-One):
+   ┌─────────┐                    ┌─────────┐
+   │ Source  │ ──────────────────►│ Dest    │
+   │192.168.1│    Single Path     │192.168.2│
+   └─────────┘                    └─────────┘
+   Example: Web browsing, email, file transfer
+
+2. BROADCAST (One-to-All):
+   ┌─────────┐
+   │ Source  │ ────────┐
+   │192.168.1│         │
+   └─────────┘         │
+                       ▼
+   ┌─────────┐    ┌─────────┐    ┌─────────┐
+   │ Dest 1  │    │ Dest 2  │    │ Dest 3  │
+   │192.168.2│    │192.168.3│    │192.168.4│
+   └─────────┘    └─────────┘    └─────────┘
+   Example: ARP requests, DHCP discover
+
+3. MULTICAST (One-to-Many):
+   ┌─────────┐
+   │ Source  │ ────────┐
+   │192.168.1│         │
+   └─────────┘         │
+                       ▼
+   ┌─────────┐    ┌─────────┐    ┌─────────-┐
+   │ Member 1│    │ Member 2│    │Non-Member│
+   │224.1.1.1│    │224.1.1.1│    │  (No Rx) │
+   └─────────┘    └─────────┘    └─────────-┘
+   Example: Video streaming, IPTV, routing protocols
+
+4. ANYCAST (One-to-Nearest):
+   ┌─────────┐
+   │ Client  │ ────────┐
+   │192.168.1│         │
+   └─────────┘         │
+                       ▼
+   ┌─────────┐    ┌─────────┐    ┌────────-─┐
+   │Server 1 │    │Server 2 │    │Server 3  │
+   │8.8.8.8  │    │8.8.8.8  │    │8.8.8.8   │
+   │(Closest)│    │ (Far)   │    │(Farthest)│
+   └─────────┘    └─────────┘    └─────────-┘
+   Example: DNS root servers, CDN services
+```
 
 ### Network Domain:
 - **Broadcast Domain:** A broadcast domain is a logical division of a computer network, in which all nodes can reach each other by broadcast at the data link layer.
@@ -490,6 +638,35 @@ Layers and Protocol Data Units (PDUs):
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/3-way.png)
 
+```
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │   Server    │
+│             │                                    │             │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. SYN                                           │
+       │ SYN=1, Seq=A (Random: 1000)                      │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │ LISTEN → SYN_RCVD
+       │ 2. SYN-ACK                                       │
+       │ SYN=1, ACK=1, Seq=B (Random: 2000), Ack=A+1      │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+SYN_SENT → ESTABLISHED                                    │
+       │ 3. ACK                                           │
+       │ ACK=1, Seq=A+1 (1001), Ack=B+1 (2001)            │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │ SYN_RCVD → ESTABLISHED
+       │ 4. Data Transfer                                 │
+       │ ◄──────────────────────────────────────────────  │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+
+TCP States:
+Client: CLOSED → SYN_SENT → ESTABLISHED
+Server: CLOSED → LISTEN → SYN_RCVD → ESTABLISHED
+```
+
 - `SYN`: Client sends a TCP segment with SYN=1 Sequence_No=A (Random)
 - `SYN-ACK`: Server responds: SYN=1 ACK=1 Sequence_Mo=B (Random) Ack_No=A+1
 - `ACK`: Client sends: ACK=1 Sequence_No=A+1 Ack No=B+1
@@ -497,6 +674,42 @@ Layers and Protocol Data Units (PDUs):
 *3. TCP Connection Termination [4-Way Handshake]*
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
+
+```
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │   Server    │
+│ (Initiator) │                                    │ (Responder) │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. FIN                                           │
+       │ FIN=1, Seq=X                                     │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │ ESTABLISHED → CLOSE_WAIT
+ESTABLISHED → FIN_WAIT_1                                  │
+       │ 2. ACK                                           │
+       │ ACK=1, Ack=X+1                                   │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+FIN_WAIT_1 → FIN_WAIT_2                                   │
+       │                                                  │ (Server can still send data)
+       │ 3. FIN                                           │
+       │ FIN=1, Seq=Y                                     │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │ CLOSE_WAIT → LAST_ACK
+FIN_WAIT_2 → TIME_WAIT                                    │
+       │ 4. ACK                                           │
+       │ ACK=1, Ack=Y+1                                   │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │ LAST_ACK → CLOSED
+       │ (2MSL Timer: 2 × Maximum Segment Lifetime)       │
+TIME_WAIT → CLOSED                                        │
+
+TCP States During Termination:
+Initiator: ESTABLISHED → FIN_WAIT_1 → FIN_WAIT_2 → TIME_WAIT → CLOSED
+Responder: ESTABLISHED → CLOSE_WAIT → LAST_ACK → CLOSED
+
+Why 4-Way? TCP is full-duplex, each direction must be closed separately.
+```
 
 - `FIN`: Initiator sends a TCP segment with FIN=1 FIN_WAIT_1 timer started
 - `ACK`: Responder to Initiator: ACK=1 CLOSE_WAIT timer started
@@ -554,8 +767,57 @@ Maximum Transaction Unit: 1500B
 
 ### Dynamic Host Configuration Protocol [DHCP]
 - Used to manage IP allocation in a network
-- Packet Flow:
+- **DHCP DORA Process:**
     ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/dhcp-dora.png)
+
+```
+DHCP DORA Process (Discover, Offer, Request, Acknowledge):
+
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │ DHCP Server │
+│ (No IP yet) │                                    │192.168.1.1  │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. DHCP DISCOVER (Broadcast)                     │
+       │ Src: 0.0.0.0:68  Dst: 255.255.255.255:67         │
+       │ MAC: Client MAC, Transaction ID: 0x12345678      │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 2. DHCP OFFER (Broadcast)                        │
+       │ Src: 192.168.1.1:67  Dst: 255.255.255.255:68     │
+       │ Offered IP: 192.168.1.100                        │
+       │ Subnet: 255.255.255.0, Gateway: 192.168.1.1      │
+       │ DNS: 8.8.8.8, Lease: 24 hours                    │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 3. DHCP REQUEST (Broadcast)                      │
+       │ Src: 0.0.0.0:68  Dst: 255.255.255.255:67         │
+       │ Requested IP: 192.168.1.100                      │
+       │ Server ID: 192.168.1.1                           │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 4. DHCP ACK (Unicast)                            │
+       │ Src: 192.168.1.1:67  Dst: 192.168.1.100:68       │
+       │ Confirmed IP: 192.168.1.100                      │
+       │ Lease confirmed for 24 hours                     │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+   ┌───▼────┐
+   │ Client │ Now has IP: 192.168.1.100
+   │ Config │ Subnet: 255.255.255.0
+   │        │ Gateway: 192.168.1.1
+   │        │ DNS: 8.8.8.8
+   └────────┘
+
+Message Types:
+• DISCOVER: Client broadcasts to find DHCP servers
+• OFFER: Server offers IP configuration to client  
+• REQUEST: Client requests specific IP from chosen server
+• ACK: Server confirms IP lease to client
+• NACK: Server denies IP request
+• RELEASE: Client releases IP back to server
+• RENEW: Client renews existing lease
+```
     
     - `DISCOVER` [Broadcast]: The client sends a DISCOVER in broadcast to all servers in the subnet.
     - `OFFER` [Broadcast]: Every server in the subnet sends an OFFER with the offered configuration to the client. 
@@ -584,8 +846,16 @@ Maximum Transaction Unit: 1500B
     - `DHCP option 121`: classless static route table composed of multiple network and subnet mask.
 
 ### Domain Name Server [DNS]:
-- DNS is a protocol that is used to convert easily readable names for communicating over the network, instead of remembering IP Address.
-- Port: `53 UDP`
+- DNS is a hierarchical distributed naming system that translates human-readable domain names to IP addresses
+- Port: `53 UDP` (primary), `53 TCP` (zone transfers, large responses)
+- **DNS Hierarchy**: Root (.) → TLD (.com, .org) → Second-level (google.com) → Subdomain (www.google.com)
+
+- **DNS Components:**
+    - **DNS Resolver**: Client-side component that initiates queries
+    - **Recursive Resolver**: ISP/organization DNS server that performs full resolution
+    - **Root Name Servers**: 13 logical servers (A-M) that know TLD servers
+    - **TLD Servers**: Manage top-level domains (.com, .org, .net, country codes)
+    - **Authoritative Servers**: Hold actual DNS records for domains
 - DNS Lookup:
     - Local DNS Resolver/Cache
     - Root DNS server
@@ -679,3 +949,750 @@ Maximum Transaction Unit: 1500B
     - The SSL session starts with encrypted communication using session keys.
 
 ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/SSL-handshake.png)
+
+### HyperText Transfer Protocol [HTTP]
+- Application layer protocol for distributed, collaborative, hypermedia information systems
+- Port: `80 TCP`
+- Stateless protocol: Each request is independent, no session state maintained
+- Request-Response model: Client sends request, server sends response
+
+- **HTTP Methods:**
+    |Method|Purpose|Idempotent|Safe|
+    |---|---|---|---|
+    |GET|Retrieve data|Yes|Yes|
+    |POST|Submit data|No|No|
+    |PUT|Update/Create resource|Yes|No|
+    |DELETE|Remove resource|Yes|No|
+    |HEAD|Get headers only|Yes|Yes|
+    |OPTIONS|Get allowed methods|Yes|Yes|
+    |PATCH|Partial update|No|No|
+
+- **HTTP Status Codes:**
+    |Code Range|Category|Common Examples|
+    |---|---|---|
+    |1xx|Informational|100 Continue, 101 Switching Protocols|
+    |2xx|Success|200 OK, 201 Created, 204 No Content|
+    |3xx|Redirection|301 Moved Permanently, 302 Found, 304 Not Modified|
+    |4xx|Client Error|400 Bad Request, 401 Unauthorized, 404 Not Found|
+    |5xx|Server Error|500 Internal Server Error, 502 Bad Gateway, 503 Service Unavailable|
+
+- **HTTP Headers:**
+    - `Content-Type`: MIME type of request/response body
+    - `Content-Length`: Size of request/response body in bytes
+    - `User-Agent`: Client application information
+    - `Accept`: Media types client can process
+    - `Authorization`: Authentication credentials
+    - `Cache-Control`: Caching directives
+    - `Cookie`: Client-stored data sent to server
+    - `Set-Cookie`: Server instruction to store data on client
+
+- **HTTP Versions:**
+    - `HTTP/1.0`: Basic functionality, connection per request
+    - `HTTP/1.1`: Persistent connections, chunked encoding, host header
+    - `HTTP/2`: Multiplexing, server push, header compression
+    - `HTTP/3`: QUIC transport, improved performance over UDP
+
+- **HTTP Request/Response Flow:**
+```
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │   Server    │
+│ (Browser)   │                                    │ (Web Server)│
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. HTTP Request                                  │
+       │ GET /index.html HTTP/1.1                         │
+       │ Host: www.example.com                            │
+       │ User-Agent: Mozilla/5.0                          │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 2. HTTP Response                                 │
+       │ HTTP/1.1 200 OK                                  │
+       │ Content-Type: text/html                          │
+       │ Content-Length: 1234                             │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 3. HTML Content                                  │
+       │ <html><body>...</body></html>                    │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+```
+
+### HyperText Transfer Protocol Secure [HTTPS]
+- HTTP over TLS/SSL encryption
+- Port: `443 TCP`
+- Provides: Confidentiality, Integrity, Authentication
+
+- **HTTPS Handshake Process:**
+    1. **TCP Handshake**: Establish TCP connection on port 443
+    2. **TLS Handshake**: 
+        - Client Hello (supported cipher suites, TLS version)
+        - Server Hello (chosen cipher suite, certificate)
+        - Certificate verification by client
+        - Key exchange (pre-master secret)
+        - Session key derivation
+        - Finished messages
+    3. **Encrypted HTTP Communication**: All HTTP traffic encrypted with session keys
+
+- **Certificate Validation:**
+    - Certificate Authority (CA) signature verification
+    - Certificate validity period check
+    - Domain name matching
+    - Certificate chain validation
+    - Certificate Revocation List (CRL) or OCSP check
+
+- **Security Benefits:**
+    - **Confidentiality**: Data encrypted in transit
+    - **Integrity**: Data tampering detection
+    - **Authentication**: Server identity verification
+    - **Non-repudiation**: Digital signatures prevent denial
+
+- **HTTPS Connection Flow:**
+```
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │   Server    │
+│ (Browser)   │                                    │ (Web Server)│
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. TCP Handshake (Port 443)                      │
+       │ ──────────────────────────────────────────────►  │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 2. TLS Handshake                                 │
+       │ Client Hello (cipher suites, TLS version)        │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ Server Hello + Certificate                       │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 3. Certificate Verification                      │
+       │ (Check CA, validity, domain)                     │
+       │                                                  │
+       │ 4. Key Exchange                                  │
+       │ Pre-master secret (encrypted with server pubkey) │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 5. Session Keys Derived                          │
+       │ Both sides generate session keys                 │
+       │                                                  │
+       │ 6. Encrypted HTTP Communication                  │
+       │ 🔒 GET /secure-page HTTP/1.1 🔒                 │
+       │ ──────────────────────────────────────────────►  │
+       │ 🔒 HTTP/1.1 200 OK + Encrypted Content 🔒       │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+```
+
+### Simple Mail Transfer Protocol [SMTP]
+- Protocol for sending email messages between servers
+- Ports: `25 TCP` (plain), `587 TCP` (TLS), `465 TCP` (SSL)
+- Store-and-forward mechanism
+- Text-based protocol with command-response structure
+
+- **SMTP Commands:**
+    |Command|Purpose|Example|
+    |---|---|---|
+    |HELO/EHLO|Identify client to server|EHLO mail.example.com|
+    |MAIL FROM|Specify sender|MAIL FROM:<sender@example.com>|
+    |RCPT TO|Specify recipient|RCPT TO:<recipient@example.com>|
+    |DATA|Begin message content|DATA|
+    |QUIT|End session|QUIT|
+    |RSET|Reset session|RSET|
+    |VRFY|Verify email address|VRFY user@example.com|
+
+- **SMTP Response Codes:**
+    |Code|Category|Meaning|
+    |---|---|---|
+    |2xx|Success|Command completed successfully|
+    |3xx|Intermediate|More information needed|
+    |4xx|Transient Error|Temporary failure, retry later|
+    |5xx|Permanent Error|Command failed, don't retry|
+
+- **Email Flow:**
+    1. **Mail User Agent (MUA)** → **Mail Transfer Agent (MTA)**
+    2. **MTA** → **Mail Transfer Agent** (recipient's server)
+    3. **MTA** → **Mail Delivery Agent (MDA)**
+    4. **MDA** stores in mailbox
+    5. **Mail User Agent** retrieves via POP3/IMAP
+
+- **SMTP Email Delivery Process:**
+```
+┌─────────────┐    SMTP     ┌─────────────┐    SMTP     ┌─────────────┐
+│   Sender    │   Port 25   │   Sender    │   Port 25   │ Recipient   │
+│     MUA     │   587/465   │     MTA     │             │     MTA     │
+│ (Outlook)   │ ──────────► │ (mail.com)  │ ──────────► │ (gmail.com) │
+└─────────────┘             └─────────────┘             └──────┬──────┘
+                                                               │
+                            ┌─────────────┐                    │ Local
+                            │ Recipient   │                    │ Delivery
+                            │     MDA     │ ◄─────────────────-┘
+                            │ (Mailbox)   │
+                            └──────┬──────┘
+                                   │
+                            ┌──────▼──────┐
+                            │ Recipient   │  POP3/IMAP
+                            │     MUA     │  Port 110/993
+                            │ (Gmail App) │
+                            └─────────────┘
+
+SMTP Commands Flow:
+Client                          Server
+  │                               │
+  │ EHLO client.example.com       │
+  │ ────────────────────────────► │
+  │ 250 Hello client.example.com  │
+  │ ◄──────────────────────────── │
+  │                               │
+  │ MAIL FROM:<sender@example.com>│
+  │ ────────────────────────────► │
+  │ 250 OK                        │
+  │ ◄──────────────────────────── │
+  │                               │
+  │ RCPT TO:<recipient@gmail.com> │
+  │ ────────────────────────────► │
+  │ 250 OK                        │
+  │ ◄──────────────────────────── │
+  │                               │
+  │ DATA                          │
+  │ ────────────────────────────► │
+  │ 354 Start mail input          │
+  │ ◄──────────────────────────── │
+  │                               │
+  │ Subject: Hello World          │
+  │ From: sender@example.com      │
+  │ To: recipient@gmail.com       │
+  │                               │
+  │ Hello, this is a test email.  │
+  │ .                             │
+  │ ────────────────────────────► │
+  │ 250 Message accepted          │
+  │ ◄──────────────────────────── │
+  │                               │
+  │ QUIT                          │
+  │ ────────────────────────────► │
+  │ 221 Bye                       │
+  │ ◄──────────────────────────── │
+```
+
+- **SMTP Authentication (SMTP-AUTH):**
+    - LOGIN: Base64 encoded username/password
+    - PLAIN: Base64 encoded null-separated credentials
+    - CRAM-MD5: Challenge-response authentication
+    - OAUTH2: Token-based authentication
+
+### File Transfer Protocol [FTP]
+- Protocol for transferring files between client and server
+- Ports: `21 TCP` (control), `20 TCP` (data)
+- Two separate connections: Control and Data
+- Text-based command protocol
+
+- **FTP Connection Modes:**
+    - **Active Mode:**
+        - Client connects to server port 21 (control)
+        - Server connects back to client for data transfer
+        - Firewall issues: Server initiates data connection
+    - **Passive Mode:**
+        - Client connects to server port 21 (control)
+        - Client initiates data connection to server
+        - Firewall-friendly: Client initiates both connections
+
+- **FTP Active vs Passive Mode:**
+```
+ACTIVE MODE:
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │ FTP Server  │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. Control Connection (Port 21)                  │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 2. PORT command (client IP:port)                 │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 3. Data Connection (Port 20 → Client Port)       │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 4. File Transfer                                 │
+       │ ◄──────────────────────────────────────────────  │
+
+PASSIVE MODE:
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │ FTP Server  │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. Control Connection (Port 21)                  │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 2. PASV command                                  │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 3. Server responds with IP:port                  │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 4. Data Connection (Client → Server Port)        │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 5. File Transfer                                 │
+       │ ──────────────────────────────────────────────►  │
+
+Firewall Considerations:
+Active Mode:  ❌ Server initiates connection to client (blocked by firewall)
+Passive Mode: ✅ Client initiates both connections (firewall-friendly)
+```
+
+- **FTP Commands:**
+    |Command|Purpose|Example|
+    |---|---|---|
+    |USER|Specify username|USER anonymous|
+    |PASS|Specify password|PASS guest@example.com|
+    |PWD|Print working directory|PWD|
+    |CWD|Change working directory|CWD /pub|
+    |LIST|List directory contents|LIST|
+    |RETR|Download file|RETR filename.txt|
+    |STOR|Upload file|STOR filename.txt|
+    |DELE|Delete file|DELE filename.txt|
+    |MKD|Make directory|MKD newfolder|
+    |RMD|Remove directory|RMD oldfolder|
+    |QUIT|End session|QUIT|
+
+- **FTP Response Codes:**
+    |Code|Category|Examples|
+    |---|---|---|
+    |1xx|Positive Preliminary|150 File status okay|
+    |2xx|Positive Completion|200 Command okay, 226 Transfer complete|
+    |3xx|Positive Intermediate|331 User name okay, need password|
+    |4xx|Transient Negative|425 Can't open data connection|
+    |5xx|Permanent Negative|550 File not found|
+
+- **Secure FTP Alternatives:**
+    - **FTPS**: FTP over SSL/TLS (ports 990, 21)
+    - **SFTP**: SSH File Transfer Protocol (port 22)
+    - **SCP**: Secure Copy Protocol (port 22)
+
+### Simple Network Management Protocol [SNMP]
+- Protocol for network monitoring and management
+- Ports: `161 UDP` (agent), `162 UDP` (manager/traps)
+- Manager-Agent architecture
+- Used for collecting statistics, configuring devices, monitoring network health
+
+- **SNMP Components:**
+    - **SNMP Manager**: Monitoring system that queries agents
+    - **SNMP Agent**: Software on managed devices
+    - **Management Information Base (MIB)**: Database of manageable objects
+    - **Object Identifier (OID)**: Unique identifier for each managed object
+
+- **SNMP Architecture:**
+```
+┌─────────────────────────────────────────────────────┐
+│                    SNMP Manager                     │
+│                 (Network Monitoring)                │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  │
+│  │   Nagios    │  │    PRTG     │  │ SolarWinds  │  │
+│  └─────────────┘  └─────────────┘  └─────────────┘  │
+└─────────────────────┬───────────────────────────────┘
+                      │ Port 162 (Traps)
+                      │ Port 161 (Queries)
+        ┌─────────────┼─────────────┐
+        │             │             │
+        ▼             ▼             ▼
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│SNMP Agent   │ │SNMP Agent   │ │SNMP Agent   │
+│   Router    │ │   Switch    │ │   Server    │
+│             │ │             │ │             │
+│ ┌─────────┐ │ │ ┌─────────┐ │ │ ┌─────────┐ │
+│ │   MIB   │ │ │ │   MIB   │ │ │ │   MIB   │ │
+│ │Database │ │ │ │Database │ │ │ │Database │ │
+│ └─────────┘ │ │ └─────────┘ │ │ └─────────┘ │
+└─────────────┘ └─────────────┘ └─────────────┘
+
+SNMP Operations Flow:
+Manager                                Agent
+   │                                     │
+   │ GET Request (OID: 1.3.6.1.2.1.1.1.0)|
+   │ ──────────────────────────────────► │
+   │                                     │ Query MIB
+   │                                     │ for sysDescr
+   │ GET Response (Cisco IOS Router)     │
+   │ ◄────────────────────────────────── │
+   │                                     │
+   │ SET Request (OID + New Value)       │
+   │ ──────────────────────────────────► │
+   │                                     │ Update MIB
+   │ SET Response (Success/Error)        │ Object
+   │ ◄────────────────────────────────── │
+   │                                     │
+   │                                     │ Event Occurs
+   │ TRAP Notification (Unsolicited)     │ (Link Down)
+   │ ◄────────────────────────────────── │
+   │                                     │
+```
+
+- **SNMP Operations:**
+    |Operation|Direction|Purpose|
+    |---|---|---|
+    |GET|Manager → Agent|Retrieve single value|
+    |GET-NEXT|Manager → Agent|Retrieve next value in MIB tree|
+    |GET-BULK|Manager → Agent|Retrieve multiple values (v2c/v3)|
+    |SET|Manager → Agent|Modify agent configuration|
+    |TRAP|Agent → Manager|Unsolicited notification|
+    |INFORM|Agent → Manager|Acknowledged notification (v2c/v3)|
+
+- **SNMP Versions:**
+    - **SNMPv1**: 
+        - Basic functionality
+        - Community strings for authentication
+        - No encryption
+        - Security: Community string in plain text
+    - **SNMPv2c**: 
+        - Improved error handling
+        - Bulk operations (GET-BULK)
+        - Community strings for authentication
+        - No encryption
+    - **SNMPv3**: 
+        - User-based security model
+        - Authentication (MD5, SHA)
+        - Encryption (DES, AES)
+        - Access control
+
+- **Common MIB Objects:**
+    |OID|Object|Description|
+    |---|---|---|
+    |1.3.6.1.2.1.1.1.0|sysDescr|System description|
+    |1.3.6.1.2.1.1.3.0|sysUpTime|System uptime|
+    |1.3.6.1.2.1.2.2.1.10|ifInOctets|Interface input bytes|
+    |1.3.6.1.2.1.2.2.1.16|ifOutOctets|Interface output bytes|
+    |1.3.6.1.2.1.25.1.1.0|hrSystemUptime|Host resources uptime|
+
+### Network Flow Monitoring [NetFlow]
+- Cisco proprietary protocol for network traffic analysis (now industry standard)
+- Ports: `2055 UDP` (v5), `9995 UDP` (v9), `4739 UDP` (IPFIX)
+- Flow-based monitoring: Groups packets with common characteristics into flows
+- Used for bandwidth monitoring, security analysis, capacity planning, billing
+
+- **Flow Definition:**
+    - **Traditional 5-tuple:**
+        - Source IP Address
+        - Destination IP Address  
+        - Source Port
+        - Destination Port
+        - Protocol (TCP/UDP/ICMP)
+    - **Extended 7-tuple (NetFlow v5+):**
+        - Type of Service (ToS) byte
+        - Input Interface index
+    - **Advanced Flow Keys (v9/IPFIX):**
+        - VLAN ID, MPLS labels, BGP AS numbers
+        - Application ID, User ID, URL categories
+
+- **NetFlow Versions Comparison:**
+
+    |Feature|NetFlow v5|NetFlow v9|IPFIX|sFlow|
+    |---|---|---|---|---|
+    |**Format**|Fixed|Template-based|Template-based|Sampling-based|
+    |**IPv6 Support**|❌|✅|✅|✅|
+    |**Flexible Fields**|❌|✅|✅|✅|
+    |**Vendor**|Cisco|Cisco|IETF Standard|InMon|
+    |**Port**|2055|9995|4739|6343|
+    |**Security**|Basic|Enhanced|Advanced|Basic|
+    |**Scalability**|Medium|High|Very High|Very High|
+
+- **NetFlow v5 Record Structure:**
+    - **Header**: Version, count, uptime, timestamp, sequence
+    - **Flow Records**: Up to 30 flows per packet
+    - **Fixed Fields**: 48 bytes per flow record
+    - **Limitations**: IPv4 only, no VLAN support, fixed format
+
+- **NetFlow v9 Template System:**
+    - **Template Flowset**: Defines record format (Template ID + Field definitions)
+    - **Data Flowset**: Contains actual flow data matching template
+    - **Options Template**: Metadata about exporter (sampling rate, interface names)
+    - **Flexible Export**: Custom fields, variable record length
+
+- **IPFIX Enhancements:**
+    - **Information Elements**: Standardized field definitions (IANA registry)
+    - **Enterprise Elements**: Vendor-specific extensions
+    - **Transport Protocols**: UDP, TCP, SCTP support
+    - **Security**: TLS/DTLS encryption, authentication
+    - **Reliability**: Message sequence numbers, template withdrawal
+
+- **NetFlow Components:**
+    - **Flow Exporter**: Router/switch generating flow records
+    - **Flow Collector**: Server receiving and storing flow data
+    - **Flow Analyzer**: Application analyzing collected data
+
+- **NetFlow Architecture:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Network Traffic                          │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                Flow Exporters                               │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │   Router    │  │   Switch    │  │  Firewall   │         │
+│  │             │  │             │  │             │         │
+│  │ NetFlow     │  │ NetFlow     │  │ NetFlow     │         │
+│  │ Enabled     │  │ Enabled     │  │ Enabled     │         │
+│  └─────────────┘  └─────────────┘  └─────────────┘         │
+└─────────────────────┬───────────────────────────────────────┘
+                      │ UDP 2055/9995
+                      │ Flow Records
+┌─────────────────────▼───────────────────────────────────────┐
+│                Flow Collector                               │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │              Flow Database                          │    │
+│  │  ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐    │    │
+│  │  │ Flow 1  │ │ Flow 2  │ │ Flow 3  │ │ Flow N  │    │    │
+│  │  └─────────┘ └─────────┘ └─────────┘ └─────────┘    │    │
+│  └─────────────────────────────────────────────────────┘    │
+└─────────────────────┬───────────────────────────────────────┘
+                      │
+┌─────────────────────▼───────────────────────────────────────┐
+│                Flow Analyzers                               │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
+│  │  Bandwidth  │  │  Security   │  │  Capacity   │          │
+│  │ Monitoring  │  │  Analysis   │  │  Planning   │          │
+│  └─────────────┘  └─────────────┘  └─────────────┘          │
+└─────────────────────────────────────────────────────────────┘
+
+Flow Record Structure:
+┌─────────────────────────────────────────────────────────────┐
+│                    Flow Record                              │
+├─────────────────────────────────────────────────────────────┤
+│ Source IP: 192.168.1.100    │ Dest IP: 10.0.0.50            │
+│ Source Port: 443            │ Dest Port: 52341              │
+│ Protocol: TCP (6)           │ ToS: 0x00                     │
+│ Input Interface: Gi0/1      │ Output Interface: Gi0/2       │
+│ Packet Count: 1,250         │ Byte Count: 1,875,000         │
+│ Start Time: 14:30:15        │ End Time: 14:35:22            │
+│ TCP Flags: 0x18 (PSH,ACK)   │ Next Hop: 10.0.0.1            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+- **Flow Record Fields:**
+    |Field|Description|
+    |---|---|
+    |Src/Dst IP|Source and destination IP addresses|
+    |Src/Dst Port|Source and destination port numbers|
+    |Protocol|IP protocol number (6=TCP, 17=UDP)|
+    |ToS|Type of Service byte|
+    |Input/Output Interface|Router interface indices|
+    |Packet Count|Number of packets in flow|
+    |Byte Count|Number of bytes in flow|
+    |Start/End Time|Flow start and end timestamps|
+    |TCP Flags|TCP control bits|
+    |Next Hop IP|Next hop router IP address|
+
+- **Flow Cache and Export Process:**
+    1. **Packet Inspection**: Router examines packet headers
+    2. **Flow Classification**: Packets grouped by flow key
+    3. **Flow Cache**: Active flows stored in memory
+    4. **Flow Aging**: Flows expire based on:
+        - **Active Timer**: Long-lived flows (default 30 minutes)
+        - **Inactive Timer**: Idle flows (default 15 seconds)
+        - **TCP Flags**: FIN/RST packets trigger immediate export
+        - **Cache Full**: Oldest flows exported when cache fills
+    5. **Flow Export**: Records sent to collector via UDP
+
+- **NetFlow Configuration Examples:**
+    ```
+    Cisco Router Configuration:
+    ip flow-export destination 192.168.1.100 2055
+    ip flow-export source FastEthernet0/0
+    ip flow-export version 5
+    ip flow-cache timeout active 30
+    ip flow-cache timeout inactive 15
+    
+    interface FastEthernet0/1
+     ip flow ingress
+     ip flow egress
+    ```
+
+- **Flow Sampling Techniques:**
+    - **Deterministic Sampling**: Every Nth packet (1:100, 1:1000)
+    - **Random Sampling**: Probabilistic packet selection
+    - **Hash-based Sampling**: Consistent sampling based on packet hash
+    - **Adaptive Sampling**: Dynamic rate based on traffic load
+    - **sFlow**: Statistical sampling of packets and counters
+
+- **NetFlow vs sFlow vs IPFIX:**
+
+    |Aspect|NetFlow|sFlow|IPFIX|
+    |---|---|---|---|
+    |**Method**|Flow-based caching|Statistical sampling|Flow-based + templates|
+    |**CPU Impact**|Medium|Low|Medium-High|
+    |**Memory Usage**|High (flow cache)|Low|Medium|
+    |**Accuracy**|High|Medium (sampled)|High|
+    |**Scalability**|Medium|Very High|High|
+    |**Real-time**|Near real-time|Real-time|Near real-time|
+    |**Vendor Support**|Cisco+Others|Multi-vendor|Multi-vendor|
+
+- **Advanced NetFlow Features:**
+    - **Flexible NetFlow (FNF)**: User-defined flow keys and fields
+    - **Performance Monitor**: Application-aware flow monitoring
+    - **NetFlow Lite**: Simplified flow export for small devices
+    - **Ingress/Egress Monitoring**: Bidirectional flow tracking
+    - **MPLS-aware NetFlow**: Label-based flow classification
+    - **BGP Next-hop**: AS path and community information
+
+- **Flow Analysis and Visualization:**
+    - **Top Talkers**: Highest bandwidth consumers
+    - **Traffic Matrix**: Source-destination communication patterns
+    - **Protocol Distribution**: Application usage breakdown
+    - **Anomaly Detection**: Unusual traffic patterns
+    - **Security Events**: DDoS, port scans, data exfiltration
+    - **QoS Monitoring**: Per-class traffic analysis
+
+- **NetFlow Collectors and Tools:**
+    - **Open Source**: nfcapd, SiLK, ntopng, ElasticFlow
+    - **Commercial**: SolarWinds NTA, Plixer Scrutinizer, ManageEngine
+    - **Cloud-based**: AWS VPC Flow Logs, Azure Network Watcher
+    - **Big Data**: Splunk, ELK Stack integration
+
+- **Use Cases and Applications:**
+    - **Bandwidth Monitoring**: 
+        - Track traffic patterns and utilization
+        - Identify bandwidth hogs and peak usage times
+        - Capacity planning and trend analysis
+    - **Security Analysis**: 
+        - DDoS attack detection and mitigation
+        - Botnet and malware communication detection
+        - Data exfiltration and insider threat monitoring
+        - Network forensics and incident response
+    - **Performance Monitoring**:
+        - Application response time analysis
+        - Network latency and jitter measurement
+        - Quality of Service (QoS) validation
+    - **Compliance and Billing**:
+        - Usage-based charging for service providers
+        - Regulatory compliance reporting
+        - SLA monitoring and verification
+    - **Network Optimization**:
+        - Traffic engineering and path optimization
+        - Load balancing effectiveness
+        - Peering and transit cost optimization
+
+- **NetFlow Troubleshooting:**
+    - **Common Issues**:
+        - Flow cache overflow (increase cache size)
+        - Export packet loss (check network connectivity)
+        - Template timeout (verify template refresh)
+        - Clock synchronization (NTP configuration)
+    - **Debugging Commands**:
+        ```
+        show ip flow export
+        show ip flow interface
+        show ip cache flow
+        debug ip flow export
+        ```
+
+### Telnet [Terminal Network]
+- Protocol for remote terminal access
+- Port: `23 TCP`
+- Plain text communication (no encryption)
+- Virtual terminal emulation
+- **Security Risk**: All data including passwords transmitted in clear text
+
+- **Telnet Characteristics:**
+    - **Connection-oriented**: Uses TCP for reliable communication
+    - **Interactive**: Real-time character-by-character transmission
+    - **Platform-independent**: Works across different operating systems
+    - **Simple**: Minimal protocol overhead
+
+- **Telnet Commands (IAC - Interpret As Command):**
+    |Command|Code|Purpose|
+    |---|---|---|
+    |SE|240|End of subnegotiation|
+    |NOP|241|No operation|
+    |DM|242|Data mark|
+    |BRK|243|Break|
+    |IP|244|Interrupt process|
+    |AO|245|Abort output|
+    |AYT|246|Are you there|
+    |EC|247|Erase character|
+    |EL|248|Erase line|
+    |GA|249|Go ahead|
+    |SB|250|Begin subnegotiation|
+    |WILL|251|Will perform option|
+    |WONT|252|Won't perform option|
+    |DO|253|Do perform option|
+    |DONT|254|Don't perform option|
+    |IAC|255|Interpret as command|
+
+- **Security Issues:**
+    - **No Encryption**: All data transmitted in plain text
+    - **Password Exposure**: Login credentials visible to network sniffers
+    - **Session Hijacking**: Unencrypted sessions can be intercepted
+    - **Man-in-the-Middle**: No authentication of remote host
+
+- **Modern Secure Alternatives:**
+    - **SSH (Secure Shell)**: 
+        - Port 22 TCP
+        - Encrypted communication
+        - Strong authentication
+        - Key-based authentication
+    - **HTTPS**: Web-based management interfaces
+    - **VPN**: Encrypted tunnel for remote access
+
+- **Telnet vs SSH Comparison:**
+```
+TELNET (Insecure):
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │   Server    │
+│             │                                    │             │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. TCP Connection (Port 23)                      │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 2. Login Prompt                                  │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 3. Username: admin (PLAIN TEXT)                  │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 4. Password: secret123 (PLAIN TEXT)              │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 5. Commands & Responses (PLAIN TEXT)             │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+    🔓 All data visible to network sniffers! 🔓
+
+SSH (Secure):
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │   Server    │
+│             │                                    │             │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. TCP Connection (Port 22)                      │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 2. SSH Handshake & Key Exchange                  │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 3. Server Authentication (Host Key)              │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+       │ 4. Client Authentication                         │
+       │ 🔒 Encrypted Username/Password 🔒               │
+       │ 🔒 OR Public Key Authentication 🔒              │
+       │ ──────────────────────────────────────────────►  │
+       │                                                  │
+       │ 5. Encrypted Session                             │
+       │ 🔒 All commands & responses encrypted 🔒        │
+       │ ◄──────────────────────────────────────────────  │
+       │                                                  │
+    🔐 All data encrypted and authenticated! 🔐
+
+Security Comparison:
+┌─────────────────┬─────────────┬─────────────┐
+│    Feature      │   Telnet    │     SSH     │
+├─────────────────┼─────────────┼─────────────┤
+│ Encryption      │     ❌      │     ✅     │
+│ Authentication  │   Basic     │   Strong    │
+│ Data Integrity  │     ❌      │     ✅     │
+│ Port Forwarding │     ❌      │     ✅     │
+│ File Transfer   │     ❌      │ ✅ (SCP/SFTP)│
+│ Key-based Auth  │     ❌      │     ✅      │
+│ Session Security│     ❌      │     ✅      │
+└─────────────────┴─────────────┴─────────────┘
+```
