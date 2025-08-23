@@ -455,6 +455,7 @@ Layers and Protocol Data Units (PDUs):
 -  Router then performs an AND operation on the IP address with subnet mask, and if the network ID is known in routing table, it forwards to the respective interface. 
 -  MAC addresses change from hop to hop and not IP addresses in a packet flow unless a NAT is used.
 
+<br>&nbsp;
 ## Layer 2
 **Ethernet:**
 
@@ -511,6 +512,7 @@ Layers and Protocol Data Units (PDUs):
         - Request sent to VTP server to ask for VTP summary/subset advertisement.
 - VTP Pruning: On enablement, a switch discards broadcast packets from another VLAN.
 
+<br>&nbsp;
 ## Layer 3
 **Internet Protocol [IP]:**
 
@@ -592,6 +594,7 @@ Layers and Protocol Data Units (PDUs):
 - Extended Header: Indicates problem in IP message. Byte locations are identified by the pointer which causes the problem message and receiving devices looks here for any problem. 
 - Data/Payload: 576 Bytes in IPv4 and 1280 Bytes in IPv6
 
+<br>&nbsp;
 ## Layer 4
 
 **Transmission Control Protocol [TCP]:**
