@@ -123,7 +123,7 @@
 - **Twisted-pair Cabling:** Has four pair of wires.  It comes in two versions, UTP (Unshielded Twisted-Pair) and STP (Shielded Twisted-Pair). Uses 8P8C/RJ45 Connector
 - **Fiber-optic Cabling:** Uses optical fibers to transmit data in the form of light signals. There are two types of fiber-optic cables - Single-mode fiber (SMF) and Multi-mode fiber (MMF). Uses ST/SC Connectors
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/cables.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/cables.png)
 
 ### Ethernet Standards:
 - **10Base-T (IEEE 802.3):** 10 Mbps with category 3 unshielded twisted pair (UTP) wiring, up to 100 meters long.
@@ -164,14 +164,12 @@ Direct Attachment Cable (DAC) Copper Twinax:
 - **Straight-through Cable:** On a straight through cable, the wired pins match. Straight through cable use one wiring standard: both ends use T568A wiring standard or both ends use T568B wiring standard. 
 - **Crossover Cable:** Crossover cable uses two different wiring standards: one end uses the T568A wiring standard, and the other end uses the T568B wiring standard. Pin1->Pin3 and Pin2->Pin6
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/straight-through.png)
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/crossover.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/straight-through.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/crossover.png)
 
 > **Medium Dependent Interface (MDI):** It is a type of ethernet port connection that uses twisted-pair cabling to link two network devices. MDIX (MDI Crossover) is a version of MDI that enables connection between like devices.
 
 ### Data flow Types:
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/data-flow.png)
-
 ```
 1. SIMPLEX (One-way communication):
    ┌─────────┐                    ┌─────────┐
@@ -206,7 +204,7 @@ Direct Attachment Cable (DAC) Copper Twinax:
 - **Broadcast:** Communication from one point to all other points
 - **Multicast:** Communication from one/more points to a set of other points
 - **Anycast:** Communication from one to nearest. It is a network addressing and routing methodology in which a single destination IP address is shared by nodes in multiple locations.
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/communication-types.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/communication-types.png)
 
 ```
 1. UNICAST (One-to-One):
@@ -258,7 +256,7 @@ Direct Attachment Cable (DAC) Copper Twinax:
 - **Broadcast Domain:** A broadcast domain is a logical division of a computer network, in which all nodes can reach each other by broadcast at the data link layer.
 - **Collision Domain:** A collision domain is a network segment connected by a shared medium where simultaneous data transmissions collide with one another. 
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/network-domains.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/network-domains.png)
 
 > **54321 Rule:**
 - 5 - the number of network segments
@@ -303,7 +301,7 @@ Layers and Protocol Data Units (PDUs):
 2.	**Distribution Layer:** This layer includes LAN-based routers and layer 3 switches. This layer ensures that packets are properly routed between subnets and VLANs in your enterprise. This layer is also called the Workgroup layer.
 3.	**Access Layer:** This layer includes hubs and switches. This layer is also called the desktop layer because it focuses on connecting client nodes, such as workstations to the network. This layer ensures that packets are delivered to end user computers.
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/cisco-3-layer.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/cisco-3-layer.png)
 
 ### Math Review:
 **Binary:**
@@ -399,7 +397,7 @@ Layers and Protocol Data Units (PDUs):
 -  MAC addresses are unique to avoid collisions and conflicts.
 -  Broadcast MAC address: FF:FF:FF:FF:FF:FF
 -  OUI bits can be used to represent nature of communication as shown below:
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/mac.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/mac.png)
 
 ### Carrier Sense Multiple Access/Collision Detection (CSMA/CD):
 -  Used to find if any other device sending traffic in a bus topology to avoid collisions in a CD. 
@@ -408,7 +406,7 @@ Layers and Protocol Data Units (PDUs):
 
 ### Data Flow in Hub, Bridge, Switch, Router:
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/data-flow-topo.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/data-flow-topo.png)
 
 > Hub 
 -  Physical Layer Device
@@ -461,7 +459,7 @@ Layers and Protocol Data Units (PDUs):
 **Ethernet:**
 
 *1. Header:*
-<br>![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ethernet-header.png)
+<br>![](https://github.com/ravikumark815/notes/blob/main/images/ethernet-header.png)
 
 - *Preamble:* Pattern of alternative 0s and 1s to allow sender and receiver to establish bit synchronization.
 - *Start Frame Delimiter (SFD):* 1 Byte field that is always set to 10101011 to indicate that the upcoming bits are starting of the frame which destination address.
@@ -517,7 +515,7 @@ Layers and Protocol Data Units (PDUs):
 **Internet Protocol [IP]:**
 
 *1. Header:*
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/ip-header.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/ip-header.png)
 - `Version` (4 bits): IP Version = 4
 - `IHL` (4 bits): Internet Header length. (20 bytes - 60 bytes)
 - `DSCP/ToS`: Differentiated Services Code Point/Type of Service: Sets precedence for each packet. Ex. VoIP
@@ -578,7 +576,7 @@ Layers and Protocol Data Units (PDUs):
 - Smurf Attack: Attacker sends an ICMP packet with spoofed source IP address. 
 - Traceroute: Utility to know the route between two devices. 
 - Header:
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/icmp-header.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/icmp-header.png)
 
     |   |   |
     |---|---|
@@ -600,7 +598,7 @@ Layers and Protocol Data Units (PDUs):
 
 *1. Header:*
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/tcp-header.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/tcp-header.png)
 - `Source Port` (16 bits)
 - `Destination Port` (16 bits)
 - `Sequence No` (32 bits): Is SYN is set, this is the initial sequence no. Else, it is the accumulated sequence number. 
@@ -625,7 +623,7 @@ Layers and Protocol Data Units (PDUs):
 
 *2. TCP Connection Establishment [3-Way Handshake]*
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/3-way.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/3-way.png)
 
 ```
 ┌─────────────┐                                    ┌─────────────┐
@@ -662,7 +660,7 @@ Server: CLOSED → LISTEN → SYN_RCVD → ESTABLISHED
 
 *3. TCP Connection Termination [4-Way Handshake]*
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/4-way.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/4-way.png)
 
 ```
 ┌─────────────┐                                    ┌─────────────┐
@@ -750,14 +748,14 @@ Maximum Transaction Unit: 1500B
 
 *1.Header*
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/udp-header.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/udp-header.png)
 
 ## Layer 7
 
 ### Dynamic Host Configuration Protocol [DHCP]
 - Used to manage IP allocation in a network
 - **DHCP DORA Process:**
-    ![](https://github.com/ravikumark815/networking/blob/main/Notes-images/dhcp-dora.png)
+    ![](https://github.com/ravikumark815/notes/blob/main/images/dhcp-dora.png)
 
 ```
 DHCP DORA Process (Discover, Offer, Request, Acknowledge):
@@ -873,7 +871,7 @@ Message Types:
     - `Iterative Query`: Iterative Query is the query in which DNS Client wants the best answer possible from the DNS Server.
     - `Non-Recursive Query`: Non-Recursive Query is the query that occurs when a DNS Resolver queries a DNS Server for some record that has access to it because of the record that exists in its cache.
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/dns-query.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/dns-query.png)
 
 ### Internet Protocol Security [IPsec]
 - Security:
@@ -898,9 +896,9 @@ Message Types:
     - Main Mode:
     - Aggressive Mode:
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/IKE-phase1-main.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/IKE-phase1-main.png)
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/IKE-phase2-quick.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/IKE-phase2-quick.png)
 
 ### Secure Sockets Layer [SSL] / Transport Level Security [TLS]:
 1. Client Hello
@@ -937,7 +935,7 @@ Message Types:
         - Handshake is complete
     - The SSL session starts with encrypted communication using session keys.
 
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/SSL-handshake.png)
+![](https://github.com/ravikumark815/notes/blob/main/images/SSL-handshake.png)
 
 ### HyperText Transfer Protocol [HTTP]
 - Application layer protocol for distributed, collaborative, hypermedia information systems
