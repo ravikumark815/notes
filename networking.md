@@ -39,18 +39,7 @@
 - Personal Area Network (PAN) 
 
 ### Types of Networks based on Topology:
-- Mesh Topology
-- Ring Topology
-- Bus Topology
-- Star Topology
-- Hybrid Topology
-- Point to Point Topology
-
-![](https://github.com/ravikumark815/networking/blob/main/Notes-images/topologies.png)
-
 ```
-Network Topologies:
-
 1. BUS TOPOLOGY:
    ┌────┐    ┌────┐    ┌────┐    ┌────┐    ┌────┐
    │ PC │    │ PC │    │ PC │    │ PC │    │ PC │
@@ -92,15 +81,15 @@ Network Topologies:
 
 4. MESH TOPOLOGY:
        ┌────┐ ◄──────► ┌────┐
-       │ PC │ ◄──┐  ┌─► │ PC │
+       │ PC │ ◄──┐  ┌─►│ PC │
        │ A  │    │  │  │ B  │
        └─┬──┘    │  │  └─▲──┘
          │       │  │    │
          ▼       │  │    │
        ┌────┐    │  │  ┌────┐
-       │ PC │ ◄──┘  └─► │ PC │
+       │ PC │ ◄──┘  └─►│ PC │
        │ D  │ ◄──────► │ C  │
-       └────┘         └────┘
+       └────┘          └────┘
    Pros: High redundancy, fault tolerance
    Cons: Expensive, complex management
 
