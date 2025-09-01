@@ -1,5 +1,105 @@
 # Networking Notes
-### Terminology:
+
+## 📋 Table of Contents
+
+### 🔧 **Fundamentals**
+- [Terminology](#terminology)
+- [Networking Devices](#networking-devices)
+- [Network Types by Area](#types-of-networks-based-on-area)
+- [Network Topologies](#types-of-networks-based-on-topology)
+- [Signaling](#signaling)
+- [Cable Types & Standards](#cable-types)
+- [Data Flow & Communication Types](#data-flow-types)
+- [Network Domains](#network-domains)
+- [OSI & TCP/IP Models](#layered-models)
+
+### 📊 **Layer 1 - Physical Layer**
+- [Physical Media](#cable-types)
+- [Ethernet Standards](#ethernet-standards)
+- [Cable Categories](#cable-categories)
+- [Signaling Methods](#signaling)
+
+### 🔗 **Layer 2 - Data Link Layer**
+- [Ethernet Protocol](#ethernet-protocol)
+- [MAC Addressing](#mac-address)
+- [CSMA/CD](#carrier-sense-multiple-accesscollision-detection-csmacd)
+- [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
+- [Link Aggregation (LACP)](#link-aggregation-lacp)
+- [L2 Discovery Protocols](#l2-discovery-protocols)
+- [VLAN & Trunking](#vlan--trunking)
+- [802.1X Authentication](#8021x-authentication)
+
+### 🌐 **Layer 3 - Network Layer**
+- [IPv4 Protocol](#ipv4-protocol)
+- [IPv6 Protocol](#ipv6-protocol)
+- [ICMP Protocol](#icmp-protocol)
+- [ARP Protocol](#arp-protocol)
+- [Routing Protocols](#routing-protocols)
+  - [RIP (Routing Information Protocol)](#rip-routing-information-protocol)
+  - [EIGRP (Enhanced Interior Gateway Routing Protocol)](#eigrp-enhanced-interior-gateway-routing-protocol)
+  - [OSPF (Open Shortest Path First)](#ospf-open-shortest-path-first)
+  - [BGP (Border Gateway Protocol)](#bgp-border-gateway-protocol)
+  - [IS-IS (Intermediate System to Intermediate System)](#is-is-intermediate-system-to-intermediate-system)
+- [High Availability Protocols](#high-availability-protocols)
+  - [HSRP (Hot Standby Router Protocol)](#hsrp-hot-standby-router-protocol)
+  - [VRRP (Virtual Router Redundancy Protocol)](#vrrp-virtual-router-redundancy-protocol)
+  - [GLBP (Gateway Load Balancing Protocol)](#glbp-gateway-load-balancing-protocol)
+- [Network Address Translation (NAT)](#network-address-translation-nat)
+- [Policy Based Routing (PBR)](#policy-based-routing-pbr)
+- [Quality of Service (QoS)](#quality-of-service-qos)
+- [SD-WAN](#sd-wan-software-defined-wide-area-network)
+
+### 🚚 **Layer 4 - Transport Layer**
+- [TCP Protocol](#tcp-protocol)
+- [UDP Protocol](#udp-protocol)
+
+### 🔐 **Layer 5-6 - Session & Presentation**
+- [SSL/TLS](#ssltls-protocols)
+- [IPsec](#internet-protocol-security-ipsec)
+
+### 📱 **Layer 7 - Application Layer**
+- [HTTP/HTTPS](#http-hypertext-transfer-protocol)
+- [DNS](#domain-name-server-dns)
+- [DHCP](#dynamic-host-configuration-protocol-dhcp)
+- [SMTP/POP3/IMAP](#email-protocols)
+- [FTP/SFTP](#file-transfer-protocols)
+- [SNMP](#simple-network-management-protocol-snmp)
+- [NetFlow/sFlow](#network-flow-monitoring-netflow)
+- [Telnet/SSH](#remote-access-protocols)
+- [LDAP](#lightweight-directory-access-protocol-ldap)
+- [RADIUS](#radius-remote-authentication-dial-in-user-service)
+- [Single Sign-On (SSO)](#single-sign-on-sso)
+- [OCSP](#online-certificate-status-protocol-ocsp)
+- [VoIP Protocols](#voip-protocols)
+  - [SIP (Session Initiation Protocol)](#sip-session-initiation-protocol)
+  - [H.323](#h323-protocol)
+  - [RTP (Real-time Transport Protocol)](#rtp-real-time-transport-protocol)
+- [Remote Desktop Protocols](#remote-desktop-protocols)
+  - [RDP (Remote Desktop Protocol)](#rdp-remote-desktop-protocol)
+  - [VNC](#vnc-virtual-network-computing)
+
+### 📡 **Wireless Technologies**
+- [WLAN Protocols](#wlan-protocols)
+- [Wi-Fi Standards](#wi-fi-standards)
+- [Wireless Security](#wireless-security)
+
+### 🛡️ **Network Security**
+- [Firewalls & Access Control](#firewalls--access-control)
+- [Email Security](#email-security)
+- [Network Monitoring & Analysis](#network-monitoring--analysis)
+- [Security Protocols](#security-protocols)
+
+### 🔧 **Network Services & Management**
+- [Dynamic DNS](#dynamic-dns)
+- [Network Time Protocol (NTP)](#network-time-protocol-ntp)
+- [Syslog](#syslog-protocol)
+- [Network Troubleshooting](#network-troubleshooting)
+
+---
+
+## 🔧 Fundamentals
+
+### Terminology
 - **Network:** A computer network is a digital telecommunications network for sharing resources between nodes, which are computing devices that use a common telecommunications technology
 - **Client:** A client is a piece of computer hardware or software that accesses a service available by a server
 - **Server:** A server is a computer program or device that provides functionality for other programs or devices called clients
@@ -26,7 +126,7 @@
 - **Email Security Appliance:** The Email Security Appliance is an email security gateway product. It is designed to detect and block a wide variety of email-borne threats, such as malware, spam, and phishing attempts.
 - **Load Balancer:** A load balancer is a device that acts as a reverse proxy and distributes network or application traffic across several servers.
 
-### Types of Networks based on Area:
+### Types of Networks based on Area
 - **WAN:** A Wide Area Network is a telecommunications network that extends over a large geographical area for the primary purpose of computer networking.
 - **LAN:** A Local Area Network is a computer network that interconnects computers within a limited area such as a residence, school and so on
 - **MAN:** Metropolitan Area Network
@@ -38,7 +138,7 @@
 - Virtual Private Network (VPN)
 - Personal Area Network (PAN) 
 
-### Types of Networks based on Topology:
+### Types of Networks based on Topology
 ```
 1. BUS TOPOLOGY:
    ┌────┐    ┌────┐    ┌────┐    ┌────┐    ┌────┐
@@ -114,18 +214,18 @@
    Cons: Complex design and troubleshooting
 ```
 
-### Signaling:
+### Signaling
 - **Baseband Signaling:** Can only transmit a single signal at any given time. 
 - **Broadband Signaling:** Can transmit multiple signals at any given time. 
  
-### Cable Types:
+### Cable Types
 - **Coaxial Cabling:** Coaxial cable has an inner conductor that runs down the middle of the cable. This type of cabling comes in two types, thinnet and thicknet. Max Transmission Speed of 10 Mbps
 - **Twisted-pair Cabling:** Has four pair of wires.  It comes in two versions, UTP (Unshielded Twisted-Pair) and STP (Shielded Twisted-Pair). Uses 8P8C/RJ45 Connector
 - **Fiber-optic Cabling:** Uses optical fibers to transmit data in the form of light signals. There are two types of fiber-optic cables - Single-mode fiber (SMF) and Multi-mode fiber (MMF). Uses ST/SC Connectors
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/cables.png)
 
-### Ethernet Standards:
+### Ethernet Standards
 - **10Base-T (IEEE 802.3):** 10 Mbps with category 3 unshielded twisted pair (UTP) wiring, up to 100 meters long.
 - **100Base-TX (IEEE 802.3u):** known as Fast Ethernet, uses category 5, 5E, or 6 UTP wiring, up to 100 meters long.
 - **100Base-FX (IEEE 802.3u):** a version of Fast Ethernet that uses multi-mode optical fiber. Up to 412 meters long.
@@ -135,7 +235,7 @@
 - **1000Base-LX (IEEE 802.3z):** 1 Gigabit Ethernet running over single-mode fiber.
 - **10GBase-T (802.3.an):** 10 Gbps connections over category 5e, 6, and 7 UTP cables.
 
-### Cable Categories:
+### Cable Categories
 Higher Categories have more twists, are less susceptible to EMIs, more stringent specifications for cross talk and system noise.
 - **CAT1:** was previously used for telephones and modems.
 - **CAT2:** was used for telephone and data networks up to 4Mbps.
@@ -153,14 +253,14 @@ Higher Categories have more twists, are less susceptible to EMIs, more stringent
 
 *CAT1-CAT5 are now obsolete*
 
-### Other Cables:
+### Other Cables
 Direct Attachment Cable (DAC) Copper Twinax:
 - Comes in various lengths with SFPs at each end.
 - SFP: Hot pluggable transceiver. 
 - SFPs supports various connectors and data rates up to 10Gbps. 
 - Roll over cable: Special cable used in Cisco environment to connect a com port to console port.
 
-### Ethernet Cable Forms:
+### Ethernet Cable Forms
 - **Straight-through Cable:** On a straight through cable, the wired pins match. Straight through cable use one wiring standard: both ends use T568A wiring standard or both ends use T568B wiring standard. 
 - **Crossover Cable:** Crossover cable uses two different wiring standards: one end uses the T568A wiring standard, and the other end uses the T568B wiring standard. Pin1->Pin3 and Pin2->Pin6
 
@@ -169,7 +269,7 @@ Direct Attachment Cable (DAC) Copper Twinax:
 
 > **Medium Dependent Interface (MDI):** It is a type of ethernet port connection that uses twisted-pair cabling to link two network devices. MDIX (MDI Crossover) is a version of MDI that enables connection between like devices.
 
-### Data flow Types:
+### Data flow Types
 ```
 1. SIMPLEX (One-way communication):
    ┌─────────┐                    ┌─────────┐
@@ -199,7 +299,7 @@ Direct Attachment Cable (DAC) Copper Twinax:
    Examples: Telephone, Switch-based Ethernet
 ```
 
-### Communication Types:
+### Communication Types
 - **Unicast:** Communication from one point to another point
 - **Broadcast:** Communication from one point to all other points
 - **Multicast:** Communication from one/more points to a set of other points
@@ -252,7 +352,7 @@ Direct Attachment Cable (DAC) Copper Twinax:
    Example: DNS root servers, CDN services
 ```
 
-### Network Domain:
+### Network Domains
 - **Broadcast Domain:** A broadcast domain is a logical division of a computer network, in which all nodes can reach each other by broadcast at the data link layer.
 - **Collision Domain:** A collision domain is a network segment connected by a shared medium where simultaneous data transmissions collide with one another. 
 
@@ -265,7 +365,7 @@ Direct Attachment Cable (DAC) Copper Twinax:
 - 2 - the number of segments that do not have active devices attached
 - 1 - the number of collision domains
 
-### Layered Models: 
+### Layered Models
 Layers and Protocol Data Units (PDUs):
 
 **OSI Model:**
@@ -457,10 +557,35 @@ Layers and Protocol Data Units (PDUs):
 
 <br>&nbsp;
 ## Layer 2
-**Ethernet:**
+### Ethernet Protocol
 
-*1. Header:*
-<br>![](https://github.com/ravikumark815/notes/blob/main/images/ethernet-header.png)
+*1. Header Structure:*
+
+```
+Ethernet II Frame Format (64-1518 bytes):
+┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+│  Preamble   │     SFD     │ Destination │   Source    │  EtherType  │             │             │     FCS     │
+│   (7 bytes) │  (1 byte)   │ MAC Address │ MAC Address │  (2 bytes)  │   Payload   │   Padding   │  (4 bytes)  │
+│             │             │  (6 bytes)  │  (6 bytes)  │             │ (46-1500 B) │ (if needed) │             │
+└─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘
+│◄─────────────────────── 64 to 1518 bytes total ──────────────────────►│
+
+802.1Q VLAN Tagged Frame:
+┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+│  Preamble   │     SFD     │ Destination │   Source    │  802.1Q Tag │  EtherType  │             │             │     FCS     │
+│   (7 bytes) │  (1 byte)   │ MAC Address │ MAC Address │  (4 bytes)  │  (2 bytes)  │   Payload   │   Padding   │  (4 bytes)  │
+│             │             │  (6 bytes)  │  (6 bytes)  │             │             │ (42-1500 B) │ (if needed) │             │
+└─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘
+
+802.1Q Tag Breakdown (4 bytes):
+┌─────────────┬─────────────┬─────────────┬─────────────┐
+│    TPID     │    PCP      │    DEI      │   VLAN ID   │
+│  (16 bits)  │  (3 bits)   │  (1 bit)    │  (12 bits)  │
+│   0x8100    │  Priority   │ Drop Elig.  │   0-4095    │
+└─────────────┴─────────────┴─────────────┴─────────────┘
+```
+
+![](https://github.com/ravikumark815/notes/blob/main/images/ethernet-header.png)
 
 - *Preamble:* Pattern of alternative 0s and 1s to allow sender and receiver to establish bit synchronization.
 - *Start Frame Delimiter (SFD):* 1 Byte field that is always set to 10101011 to indicate that the upcoming bits are starting of the frame which destination address.
@@ -512,11 +637,266 @@ Layers and Protocol Data Units (PDUs):
         - Request sent to VTP server to ask for VTP summary/subset advertisement.
 - VTP Pruning: On enablement, a switch discards broadcast packets from another VLAN.
 
+### 802.1Q VLAN Tagging
+- **Purpose**: IEEE standard for VLAN tagging on Ethernet frames
+- **Tag Size**: 4 bytes inserted after source MAC address
+- **VLAN Range**: 1-4094 (0 and 4095 reserved)
+- **Native VLAN**: Untagged traffic on trunk ports (default VLAN 1)
+
+```
+802.1Q Tag Structure (4 bytes):
+┌─────────────────────┬─────────┬─────┬─────────────────────┐
+│        TPID         │   PCP   │ DEI │      VLAN ID        │
+│   (16 bits)         │(3 bits) │(1bit│     (12 bits)       │
+│      0x8100         │Priority │Drop │     1-4094          │
+└─────────────────────┴─────────┴─────┴─────────────────────┘
+
+TPID (Tag Protocol Identifier):
+• 0x8100: Standard 802.1Q
+• 0x88A8: 802.1ad (QinQ/Provider Bridging)
+• 0x9100: Legacy QinQ
+
+PCP (Priority Code Point) - 3 bits:
+┌─────┬─────────────────────────────────────┐
+│ PCP │            Traffic Type             │
+├─────┼─────────────────────────────────────┤
+│  0  │ Best Effort (Default)               │
+│  1  │ Background                          │
+│  2  │ Excellent Effort                    │
+│  3  │ Critical Applications               │
+│  4  │ Video (< 100ms latency)             │
+│  5  │ Voice (< 10ms latency)              │
+│  6  │ Internetwork Control                │
+│  7  │ Network Control                     │
+└─────┴─────────────────────────────────────┘
+
+DEI (Drop Eligible Indicator):
+• 0: Frame eligible to be dropped in case of congestion
+• 1: Frame not eligible to be dropped
+```
+
+- **VLAN Types:**
+    - **Data VLAN**: Regular user traffic
+    - **Voice VLAN**: VoIP traffic (often VLAN 100-199)
+    - **Management VLAN**: Network device management
+    - **Native VLAN**: Untagged traffic on trunk
+    - **Default VLAN**: VLAN 1 (cannot be deleted)
+
+- **Port Types:**
+    - **Access Port**: Single VLAN, untagged traffic
+    - **Trunk Port**: Multiple VLANs, tagged traffic
+    - **Hybrid Port**: Mix of tagged and untagged VLANs
+
+```
+VLAN Configuration Example:
+Switch(config)# vlan 10
+Switch(config-vlan)# name SALES
+Switch(config-vlan)# vlan 20
+Switch(config-vlan)# name ENGINEERING
+
+Access Port:
+Switch(config)# interface fa0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+
+Trunk Port:
+Switch(config)# interface fa0/24
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk allowed vlan 10,20,30
+Switch(config-if)# switchport trunk native vlan 99
+```
+
+### Spanning Tree Protocol (STP)
+- **Purpose**: Prevents loops in Layer 2 switched networks
+- **Standard**: IEEE 802.1D (Original STP), 802.1w (RSTP), 802.1s (MSTP)
+- **Port States**: Blocking → Listening → Learning → Forwarding → Disabled
+- **BPDU**: Bridge Protocol Data Units used for STP communication
+- **Root Bridge**: Switch with lowest Bridge ID (Priority + MAC address)
+- **Port Roles**: Root Port, Designated Port, Blocked Port
+- **Convergence Time**: Original STP (30-50 seconds), RSTP (1-6 seconds)
+
+```
+STP Network Example:
+                ┌─────────────┐
+                │   Switch A  │ ← Root Bridge
+                │ Priority: 0 │   (Lowest Priority)
+                └──────┬──────┘
+                       │
+        ┌──────────────┼──────────────┐
+        │                             │
+   ┌────▼────┐                   ┌────▼────┐
+   │Switch B │                   │Switch C │
+   │Priority:│                   │Priority:│
+   │ 32768   │                   │ 32768   │
+   └────┬────┘                   └────┬────┘
+        │                             │
+        └─────────────┬───────────────┘
+                      │ ← This link BLOCKED
+                      │   to prevent loop
+                ┌─────▼─────┐
+                │ Switch D  │
+                │Priority:  │
+                │  32768    │
+                └───────────┘
+
+Port States:
+• Blocking: Receives BPDUs, blocks data traffic
+• Listening: Processes BPDUs, prepares to forward
+• Learning: Builds MAC address table
+• Forwarding: Normal operation, forwards traffic
+• Disabled: Port administratively shut down
+```
+
+- **STP Variants:**
+    - **STP (802.1D)**: Original, slow convergence (30-50 seconds)
+    - **RSTP (802.1w)**: Rapid convergence (1-6 seconds), backward compatible
+    - **MSTP (802.1s)**: Multiple spanning trees, VLAN-aware
+    - **PVST+**: Cisco proprietary, per-VLAN spanning tree
+    - **Rapid PVST+**: Cisco rapid per-VLAN spanning tree
+
+### Link Aggregation (LACP)
+- **Purpose**: Combines multiple physical links into single logical link
+- **Standards**: IEEE 802.3ad (LACP), 802.1AX (Link Aggregation)
+- **Benefits**: Increased bandwidth, redundancy, load distribution
+- **Modes**: Active/Active, Active/Passive, On (static)
+- **Load Balancing**: Source MAC, Destination MAC, Source+Dest IP, Port-based
+
+```
+Link Aggregation Example:
+┌─────────────┐                    ┌─────────────┐
+│   Switch A  │                    │   Switch B  │
+│             │ ── Port 1/1 ────── │             │
+│             │ ── Port 1/2 ────── │             │ 
+│             │ ── Port 1/3 ────── │             │
+│             │ ── Port 1/4 ────── │             │
+└─────────────┘                    └─────────────┘
+      │                                    │
+      └────── EtherChannel/Port-Channel ───┘
+              (Logical 4Gbps Link)
+
+LACP Modes:
+• Active: Initiates LACP negotiation
+• Passive: Responds to LACP negotiation
+• On: Static bundling (no LACP protocol)
+```
+
+### L2 Discovery Protocols
+- **CDP (Cisco Discovery Protocol)**:
+    - Cisco proprietary, Layer 2 protocol
+    - Discovers directly connected Cisco devices
+    - Shares device info: hostname, IP, platform, capabilities
+    - Multicast address: 01:00:0C:CC:CC:CC
+    - Default timer: 60 seconds, holdtime: 180 seconds
+
+- **LLDP (Link Layer Discovery Protocol)**:
+    - IEEE 802.1AB standard, vendor-neutral
+    - Discovers directly connected devices regardless of vendor
+    - TLV (Type-Length-Value) format for information exchange
+    - Multicast address: 01:80:C2:00:00:0E
+    - Default timer: 30 seconds, holdtime: 120 seconds
+
+```
+Discovery Protocol Comparison:
+┌─────────────────┬─────────────┬─────────────┐
+│    Feature      │     CDP     │    LLDP     │
+├─────────────────┼─────────────┼─────────────┤
+│ Standard        │ Cisco Prop. │ IEEE 802.1AB│
+│ Vendor Support  │ Cisco Only  │ Multi-vendor│
+│ Default Timer   │ 60 seconds  │ 30 seconds  │
+│ Hold Time       │ 180 seconds │ 120 seconds │
+│ Power Info      │     ✅      │     ✅     │
+│ VLAN Info       │     ✅      │     ✅     │
+│ Security        │   Limited   │   Enhanced  │
+└─────────────────┴─────────────┴─────────────┘
+```
+
+### 802.1X Authentication
+- **Purpose**: Port-based network access control
+- **Components**: Supplicant (client), Authenticator (switch), Authentication Server (RADIUS)
+- **EAP Methods**: EAP-MD5, EAP-TLS, EAP-TTLS, PEAP, EAP-FAST
+- **Port States**: Unauthorized, Authorized, Force-Authorized, Force-Unauthorized
+
+```
+802.1X Authentication Flow:
+┌─────────────┐                ┌─────────────┐                ┌─────────────┐
+│ Supplicant  │                │Authenticator│                │   RADIUS    │
+│  (Client)   │                │  (Switch)   │                │   Server    │
+└──────┬──────┘                └──────┬──────┘                └──────┬──────┘
+       │                              │                              │
+       │ 1. EAP-Start                 │                              │
+       │ ───────────────────────────► │                              │
+       │                              │                              │
+       │ 2. EAP-Request Identity      │                              │
+       │ ◄─────────────────────────── │                              │
+       │                              │                              │
+       │ 3. EAP-Response Identity     │                              │
+       │ ───────────────────────────► │ 4. RADIUS Access-Request     │
+       │                              │ ───────────────────────────► │
+       │                              │                              │
+       │                              │ 5. RADIUS Access-Challenge   │
+       │ 6. EAP-Request               │ ◄─────────────────────────── │
+       │ ◄─────────────────────────── │                              │
+       │                              │                              │
+       │ 7. EAP-Response              │                              │
+       │ ───────────────────────────► │ 8. RADIUS Access-Request     │
+       │                              │ ───────────────────────────► │
+       │                              │                              │
+       │                              │ 9. RADIUS Access-Accept      │
+       │ 10. EAP-Success              │ ◄─────────────────────────── │
+       │ ◄─────────────────────────── │                              │
+       │                              │                              │
+       │ 11. Port Authorized          │                              │
+       │ ◄══════════════════════════► │                              │
+
+Port States:
+• Unauthorized: Only 802.1X traffic allowed
+• Authorized: Full network access granted
+• Force-Authorized: Bypass 802.1X (always allow)
+• Force-Unauthorized: Block all traffic
+```
+
 <br>&nbsp;
 ## Layer 3
-**Internet Protocol [IP]:**
+### IPv4 Protocol
 
-*1. Header:*
+*1. Header Structure:*
+
+```
+IPv4 Header (20-60 bytes):
+┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+│   Version   │     IHL     │   DSCP/ToS  │     ECN     │                Total Length               │
+│   (4 bits)  │  (4 bits)   │  (6 bits)   │  (2 bits)   │                (16 bits)                 │
+├─────────────┴─────────────┼─────────────┴─────────────┼─────────────┬─────────────┬─────────────┤
+│        Identification     │     Flags   │                Fragment Offset                │
+│         (16 bits)         │   (3 bits)  │                (13 bits)                     │
+├─────────────┬─────────────┼─────────────┴─────────────┴─────────────┴─────────────────┤
+│     TTL     │  Protocol   │                Header Checksum                            │
+│  (8 bits)   │  (8 bits)   │                (16 bits)                                  │
+├─────────────┴─────────────┼─────────────────────────────────────────────────────────┤
+│                           Source IP Address                                          │
+│                           (32 bits)                                                  │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                        Destination IP Address                                        │
+│                           (32 bits)                                                  │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                    Options (0-320 bits, if IHL > 5)                                  │
+│                         + Padding to 32-bit boundary                                 │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+Field Details:
+• Version: 4 (for IPv4)
+• IHL: Internet Header Length (5-15, multiply by 4 for bytes)
+• DSCP: Differentiated Services Code Point (QoS marking)
+• ECN: Explicit Congestion Notification
+• Total Length: Header + Data (max 65,535 bytes)
+• Identification: Unique identifier for fragmented packets
+• Flags: Reserved(0), Don't Fragment(DF), More Fragments(MF)
+• Fragment Offset: Position of fragment in original datagram
+• TTL: Time To Live (hop count, decremented by each router)
+• Protocol: Next layer protocol (1=ICMP, 6=TCP, 17=UDP, 89=OSPF)
+• Header Checksum: Error detection for header only
+```
+
 ![](https://github.com/ravikumark815/notes/blob/main/images/ip-header.png)
 - `Version` (4 bits): IP Version = 4
 - `IHL` (4 bits): Internet Header length. (20 bytes - 60 bytes)
@@ -594,12 +974,1173 @@ Layers and Protocol Data Units (PDUs):
 - Extended Header: Indicates problem in IP message. Byte locations are identified by the pointer which causes the problem message and receiving devices looks here for any problem. 
 - Data/Payload: 576 Bytes in IPv4 and 1280 Bytes in IPv6
 
+### IPv6 Protocol
+- **Purpose**: Next generation Internet Protocol with 128-bit addressing
+- **Address Space**: 2^128 addresses (340 undecillion addresses)
+- **Header Size**: Fixed 40 bytes (vs IPv4's variable 20-60 bytes)
+- **Features**: Built-in security, auto-configuration, improved QoS, no fragmentation by routers
+
+```
+IPv6 Header Structure (40 bytes fixed):
+┌─────────────────────────────────────────────────────────────┐
+│ Version │Traffic Class│        Flow Label                   │
+│ (4 bits)│  (8 bits)   │        (20 bits)                    │
+├─────────────────────────────────────────────────────────────┤
+│        Payload Length         │  Next Header  │ Hop Limit   │
+│         (16 bits)             │   (8 bits)    │  (8 bits)   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│                Source Address (128 bits)                    │
+│                                                             │
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│              Destination Address (128 bits)                 │
+│                                                             │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+- **IPv6 Address Types:**
+    - **Unicast**: One-to-one communication
+        - Global Unicast: 2000::/3 (Internet routable)
+        - Link-Local: FE80::/10 (Local network only)
+        - Unique Local: FC00::/7 (Private addressing)
+    - **Multicast**: One-to-many communication (FF00::/8)
+    - **Anycast**: One-to-nearest communication
+
+- **IPv6 Address Format:**
+    - **Full**: 2001:0DB8:0000:0000:0000:0000:0000:0001
+    - **Compressed**: 2001:DB8::1 (leading zeros and consecutive zeros omitted)
+    - **Mixed**: 2001:DB8::192.168.1.1 (IPv4-mapped)
+
+- **IPv6 vs IPv4 Comparison:**
+
+    |Feature|IPv4|IPv6|
+    |---|---|---|
+    |**Address Length**|32 bits|128 bits|
+    |**Header Size**|20-60 bytes|40 bytes (fixed)|
+    |**Fragmentation**|Routers & hosts|Hosts only|
+    |**Checksum**|Header checksum|No checksum|
+    |**Auto-config**|DHCP required|SLAAC built-in|
+    |**Security**|Optional (IPsec)|Built-in (IPsec)|
+    |**QoS**|ToS field|Traffic Class + Flow Label|
+    |**Broadcast**|Yes|No (multicast only)|
+
+### ARP Protocol
+- **Purpose**: Maps IP addresses to MAC addresses in IPv4 networks
+- **Operation**: Broadcast ARP request, unicast ARP reply
+- **Cache**: Stores IP-to-MAC mappings to reduce network traffic
+- **Types**: ARP Request, ARP Reply, Gratuitous ARP, Proxy ARP
+
+```
+ARP Process Example:
+┌─────────────┐                                    ┌─────────────┐
+│   Host A    │                                    │   Host B    │
+│192.168.1.10 │                                    │192.168.1.20 │
+│AA:BB:CC:DD  │                                    │11:22:33:44  │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. ARP Request (Broadcast)                       │
+       │ Who has 192.168.1.20? Tell 192.168.1.10        │
+       │ Src MAC: AA:BB:CC:DD  Dst MAC: FF:FF:FF:FF:FF:FF│
+       │ ──────────────────────────────────────────────► │
+       │                                                  │
+       │ 2. ARP Reply (Unicast)                           │
+       │ 192.168.1.20 is at 11:22:33:44                  │
+       │ Src MAC: 11:22:33:44  Dst MAC: AA:BB:CC:DD      │
+       │ ◄────────────────────────────────────────────── │
+       │                                                  │
+   ┌───▼────┐                                        ┌───▼────┐
+   │ARP Cache│                                       │ARP Cache│
+   │192.168.1│                                       │192.168.1│
+   │.20 →    │                                       │.10 →    │
+   │11:22:33:│                                       │AA:BB:CC:│
+   │44       │                                       │DD       │
+   └────────┘                                        └────────┘
+
+ARP Message Types:
+• ARP Request: Broadcast to find MAC address
+• ARP Reply: Unicast response with MAC address
+• Gratuitous ARP: Announces own IP/MAC mapping
+• Proxy ARP: Router responds on behalf of another device
+```
+
+### ARP Flavours and Variants
+
+#### 1. Standard ARP (Address Resolution Protocol)
+- **RFC 826**: Original ARP specification
+- **Operation**: Broadcast request, unicast reply
+- **Scope**: Local network segment only
+
+#### 2. Gratuitous ARP (GARP)
+- **Purpose**: Announce IP/MAC mapping without being asked
+- **Uses**: 
+    - Detect IP conflicts
+    - Update ARP caches after IP change
+    - High availability failover
+    - Network troubleshooting
+
+```
+Gratuitous ARP Example:
+┌─────────────┐                                    ┌─────────────┐
+│   Host A    │                                    │   Host B    │
+│192.168.1.10 │                                    │192.168.1.20 │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ Gratuitous ARP (Broadcast)                       │
+       │ Who has 192.168.1.10? Tell 192.168.1.10         │
+       │ (Announcing own IP/MAC mapping)                  │
+       │ ──────────────────────────────────────────────► │
+       │                                                  │
+       │ Updates ARP cache with Host A's mapping          │
+       │ ◄────────────────────────────────────────────── │
+```
+
+#### 3. Proxy ARP
+- **Purpose**: Router responds to ARP requests on behalf of other devices
+- **Use Cases**: 
+    - Subnet extension
+    - Mobile IP
+    - Network address translation
+    - Connecting different network segments
+
+```
+Proxy ARP Example:
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Host A    │    │   Router    │    │   Host B    │
+│192.168.1.10 │    │192.168.1.1  │    │192.168.2.20 │
+│             │    │192.168.2.1  │    │             │
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │
+       │ ARP: Who has     │                  │
+       │ 192.168.2.20?    │                  │
+       │ ────────────────► │                  │
+       │                  │ Router responds  │
+       │ ARP Reply:       │ with its own MAC │
+       │ 192.168.2.20 is  │ (proxy response) │
+       │ at Router-MAC    │                  │
+       │ ◄──────────────── │                  │
+```
+
+#### 4. Reverse ARP (RARP)
+- **RFC 903**: Obsolete protocol
+- **Purpose**: Map MAC address to IP address
+- **Replaced by**: DHCP and BOOTP
+- **Use Case**: Diskless workstations needing IP addresses
+
+#### 5. Inverse ARP (InARP)
+- **RFC 2390**: Used in Frame Relay networks
+- **Purpose**: Discover IP address of remote end of virtual circuit
+- **Operation**: Uses known DLCI to find remote IP
+
+#### 6. IPv6 Neighbor Discovery (ND)
+- **RFC 4861**: IPv6 replacement for ARP
+- **Messages**: 
+    - Neighbor Solicitation (NS) - like ARP request
+    - Neighbor Advertisement (NA) - like ARP reply
+    - Router Solicitation (RS)
+    - Router Advertisement (RA)
+    - Redirect
+
+```
+IPv6 Neighbor Discovery:
+┌─────────────┐                                    ┌─────────────┐
+│   Host A    │                                    │   Host B    │
+│2001:db8::10 │                                    │2001:db8::20 │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ Neighbor Solicitation (Multicast)                │
+       │ Target: 2001:db8::20                             │
+       │ To: ff02::1:ff00:20 (solicited-node multicast)  │
+       │ ──────────────────────────────────────────────► │
+       │                                                  │
+       │ Neighbor Advertisement (Unicast)                 │
+       │ Target: 2001:db8::20, MAC: 11:22:33:44:55:66    │
+       │ ◄────────────────────────────────────────────── │
+```
+
+#### 7. ARP Security Issues and Mitigations
+
+**Common Attacks:**
+- **ARP Spoofing/Poisoning**: Attacker sends fake ARP replies
+- **ARP Cache Poisoning**: Corrupting ARP tables
+- **Man-in-the-Middle**: Intercepting traffic via ARP spoofing
+- **ARP Flooding**: Overwhelming switch MAC table
+
+**Mitigation Techniques:**
+```
+1. Static ARP Entries:
+   arp -s 192.168.1.20 11:22:33:44:55:66
+
+2. Dynamic ARP Inspection (DAI):
+   Switch(config)# ip arp inspection vlan 10
+   Switch(config)# ip arp inspection validate src-mac dst-mac ip
+
+3. Port Security:
+   Switch(config-if)# switchport port-security
+   Switch(config-if)# switchport port-security mac-address sticky
+
+4. ARP Monitoring Tools:
+   - arpwatch: Monitor ARP activity
+   - arping: Send ARP requests
+   - arp-scan: Discover hosts on network
+```
+
+**ARP Table Management:**
+```
+Windows:
+arp -a                    # View ARP table
+arp -d *                  # Clear ARP table
+arp -s IP MAC             # Add static entry
+
+Linux:
+arp -a                    # View ARP table
+ip neigh show             # View neighbor table
+ip neigh flush all        # Clear neighbor table
+ip neigh add IP lladdr MAC dev eth0  # Add static entry
+
+Cisco:
+show arp                  # View ARP table
+clear arp                 # Clear ARP table
+arp IP MAC arpa           # Add static entry
+```
+
+### Routing Protocols
+
+#### RIP (Routing Information Protocol)
+- **Type**: Distance Vector routing protocol
+- **Metric**: Hop count (maximum 15 hops, 16 = unreachable)
+- **Updates**: Periodic (every 30 seconds) and triggered
+- **Versions**: RIPv1 (classful), RIPv2 (classless), RIPng (IPv6)
+- **Algorithm**: Bellman-Ford algorithm
+
+```
+RIP Operation Example:
+┌────────────-─┐   ┌────────────-─┐   ┌─────────────-┐
+│   Router A   │   │   Router B   │   │   Router C   │
+│192.168.1.0/24│   │192.168.2.0/24│   │192.168.3.0/24│
+└──────┬──────-┘   └──────┬──────-┘   └──────┬──────-┘
+       │                  │                  │
+       └──────────────────┼──────────────────┘
+                          │
+                  ┌───────▼──----┐
+                  │    Network   │
+                  │192.168.4.0/24│
+                  └───────────---┘
+
+RIP Routing Table:
+
+Router A's Routing Table:
+┌─────────────────┬──────────┬─────────┬─────────┐
+│   Destination   │   Mask   │Next Hop │Hop Count│
+├─────────────────┼──────────┼─────────┼─────────┤
+│ 192.168.1.0     │ /24      │ Direct  │    0    │
+│ 192.168.2.0     │ /24      │Router B │    1    │
+│ 192.168.3.0     │ /24      │Router B │    2    │
+│ 192.168.4.0     │ /24      │Router B │    1    │
+└─────────────────┴──────────┴─────────┴─────────┘
+```
+
+#### EIGRP (Enhanced Interior Gateway Routing Protocol)
+- **Type**: Advanced Distance Vector (Hybrid) protocol
+- **Vendor**: Cisco proprietary (now open standard)
+- **Metric**: Composite metric (bandwidth, delay, reliability, load, MTU)
+- **Algorithm**: DUAL (Diffusing Update Algorithm)
+- **Features**: Fast convergence, loop-free, VLSM support, load balancing
+
+```
+EIGRP Metric Calculation:
+Metric = [K1×Bandwidth + (K2×Bandwidth)/(256-Load) + K3×Delay] × [K5/(Reliability+K4)]
+
+Default K values: K1=1, K2=0, K3=1, K4=0, K5=0
+Simplified: Metric = Bandwidth + Delay
+
+EIGRP Neighbor States:
+┌─────────────┐    ┌─────────────┐
+│   Router A  │    │   Router B  │
+└──────┬──────┘    └──────┬──────┘
+       │                  │
+       │ 1. Hello Packets │
+       │ ◄──────────────► │
+       │                  │
+       │ 2. Update Packets│
+       │ ◄──────────────► │
+       │                  │
+       │ 3. ACK Packets   │
+       │ ◄──────────────► │
+
+Neighbor States: Down → Pending → Up
+```
+
+#### OSPF (Open Shortest Path First)
+- **Type**: Link State routing protocol
+- **Standard**: RFC 2328 (OSPFv2), RFC 5340 (OSPFv3)
+- **Metric**: Cost based on bandwidth (10^8/bandwidth)
+- **Algorithm**: Dijkstra's Shortest Path First
+- **Areas**: Hierarchical design with Area 0 (backbone)
+
+```
+OSPF Area Design:
+                    ┌─────────────┐
+                    │   Area 0    │
+                    │ (Backbone)  │
+                    │             │
+                    └──────┬──────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   ┌────▼────┐        ┌────▼────┐        ┌────▼────┐
+   │ Area 1  │        │ Area 2  │        │ Area 3  │
+   │(Standard│        │(Standard│        │ (Stub)  │
+   │  Area)  │        │  Area)  │        │  Area)  │
+   └─────────┘        └─────────┘        └─────────┘
+
+OSPF LSA Types:
+• Type 1: Router LSA (within area)
+• Type 2: Network LSA (DR generated)
+• Type 3: Summary LSA (inter-area routes)
+• Type 4: ASBR Summary LSA
+• Type 5: External LSA (external routes)
+```
+
+#### BGP (Border Gateway Protocol)
+- **Type**: Path Vector routing protocol
+- **Purpose**: Inter-domain routing (between Autonomous Systems)
+- **Version**: BGP-4 (RFC 4271)
+- **Port**: TCP 179
+- **Characteristics**: Policy-based, scalable, loop-free
+
+**BGP Session Types:**
+- **eBGP (External BGP)**: Between different ASes (TTL=1, AD=20)
+- **iBGP (Internal BGP)**: Within same AS (TTL=255, AD=200)
+
+**BGP Message Types:**
+1. **OPEN**: Establish BGP session
+2. **UPDATE**: Advertise/withdraw routes
+3. **NOTIFICATION**: Error conditions
+4. **KEEPALIVE**: Maintain session
+
+```
+BGP Session Establishment:
+┌─────────────┐                                    ┌─────────────┐
+│   Router A  │                                    │   Router B  │
+│   AS 100    │                                    │   AS 200    │
+└──────┬──────┘                                    └──────┬──────┘
+       │                                                  │
+       │ 1. TCP Connection (Port 179)                     │
+       │ ──────────────────────────────────────────────► │
+       │                                                  │
+       │ 2. OPEN Message                                  │
+       │ (AS Number, BGP Version, Hold Time)              │
+       │ ──────────────────────────────────────────────► │
+       │                                                  │
+       │ 3. OPEN Message                                  │
+       │ ◄────────────────────────────────────────────── │
+       │                                                  │
+       │ 4. KEEPALIVE                                     │
+       │ ◄──────────────────────────────────────────────► │
+       │                                                  │
+       │ 5. UPDATE Messages (Route Exchange)              │
+       │ ◄══════════════════════════════════════════════► │
+
+BGP States:
+Idle → Connect → Active → OpenSent → OpenConfirm → Established
+```
+
+**BGP Attributes (Path Selection):**
+
+```
+┌─────────────────────┬─────────────┬─────────────────────────────────┐
+│     Attribute       │    Type     │           Description           │
+├─────────────────────┼─────────────┼─────────────────────────────────┤
+│ AS_PATH             │Well-known   │ List of ASes route traversed    │
+│ NEXT_HOP            │Well-known   │ Next hop IP address             │
+│ ORIGIN              │Well-known   │ How route originated (IGP/EGP)  │
+│ LOCAL_PREF          │Well-known   │ Local preference (iBGP only)    │
+│ ATOMIC_AGGREGATE    │Well-known   │ Route aggregation indicator     │
+│ AGGREGATOR          │Optional     │ AS and Router ID of aggregator  │
+│ MED                 │Optional     │ Multi-Exit Discriminator        │
+│ COMMUNITY           │Optional     │ Route tagging/policy            │
+│ ORIGINATOR_ID       │Optional     │ Route reflector originator      │
+│ CLUSTER_LIST        │Optional     │ Route reflector cluster list    │
+└─────────────────────┴─────────────┴─────────────────────────────────┘
+```
+
+**BGP Path Selection Algorithm (Detailed):**
+1. **Weight** (Cisco proprietary, 0-65535, higher better)
+2. **Local Preference** (0-4294967295, higher better, iBGP only)
+3. **Locally Originated** (network/redistribute > aggregate > received)
+4. **AS_PATH Length** (shorter better)
+5. **Origin Code** (IGP < EGP < Incomplete)
+6. **MED** (Multi-Exit Discriminator, lower better, same AS only)
+7. **Path Type** (eBGP > iBGP)
+8. **IGP Metric** to next hop (lower better)
+9. **Age** (oldest route preferred)
+10. **Router ID** (lower better)
+11. **Cluster Length** (shorter better)
+12. **Neighbor Address** (lower better)
+
+**BGP Communities:**
+- **Standard Communities**: 32-bit values (AS:Value format)
+    - **Well-known**: 0:0 (no-export), 0:1 (no-advertise), 0:2 (no-export-subconfed)
+- **Extended Communities**: 64-bit values
+- **Large Communities**: 96-bit values (RFC 8092)
+
+```
+BGP Community Examples:
+router bgp 100
+ neighbor 10.1.1.2 send-community
+ network 192.168.1.0 mask 255.255.255.0
+ 
+route-map SET_COMMUNITY permit 10
+ set community 100:200
+ set local-preference 150
+```
+
+**BGP Route Reflectors:**
+- **Problem**: iBGP full mesh requirement (n*(n-1)/2 sessions)
+- **Solution**: Route Reflector eliminates full mesh
+- **Components**: Route Reflector (RR), Clients, Non-clients
+
+```
+Route Reflector Topology:
+                    ┌─────────────┐
+                    │     RR      │
+                    │ (Reflector) │
+                    └──────┬──────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   ┌────▼────┐        ┌────▼────┐        ┌────▼────┐
+   │Client 1 │        │Client 2 │        │Client 3 │
+   └─────────┘        └─────────┘        └─────────┘
+
+RR Rules:
+• Routes from clients → advertise to all peers
+• Routes from non-clients → advertise to clients only
+• Routes from eBGP → advertise to all peers
+```
+
+**BGP Confederation:**
+- **Alternative** to Route Reflectors
+- **Concept**: Divide large AS into smaller sub-ASes
+- **Benefits**: Reduces iBGP sessions, maintains path information
+
+**BGP Security:**
+- **Route Hijacking**: Unauthorized route advertisements
+- **Path Manipulation**: AS_PATH manipulation
+- **Mitigation**: 
+    - Route filtering
+    - RPKI (Resource Public Key Infrastructure)
+    - BGPsec (Path validation)
+    - Route monitoring systems
+
+#### IS-IS (Intermediate System to Intermediate System)
+- **Type**: Link State routing protocol
+- **Standard**: ISO 10589 (OSI), RFC 1142 (IP)
+- **Levels**: Level 1 (intra-area), Level 2 (inter-area), Level 1-2 (both)
+- **Addressing**: Uses NSAP (Network Service Access Point) addresses
+- **Features**: Fast convergence, scalable, supports IPv4 and IPv6 natively
+
+**IS-IS vs OSPF Comparison:**
+
+```
+┌─────────────────────┬─────────────────┬─────────────────┐
+│      Feature        │      IS-IS      │      OSPF       │
+├─────────────────────┼─────────────────┼─────────────────┤
+│ Protocol Base       │ OSI (Layer 2)   │ IP (Layer 3)    │
+│ Addressing          │ NSAP/NET        │ IP addresses    │
+│ Area Design         │ 2-level         │ Multi-level     │
+│ Backbone            │ Level 2         │ Area 0          │
+│ IPv6 Support        │ Native          │ OSPFv3 needed   │
+│ Metric              │ Narrow/Wide     │ Cost based      │
+│ LSP/LSA Size        │ Up to 1492 bytes│ Limited         │
+│ Convergence         │ Fast            │ Fast            │
+│ Vendor Support      │ Multi-vendor    │ Multi-vendor    │
+└─────────────────────┴─────────────────┴─────────────────┘
+```
+
+**IS-IS Addressing:**
+- **NSAP Address**: 20 bytes total
+    - **Area ID**: Variable length (1-13 bytes)
+    - **System ID**: 6 bytes (like MAC address)
+    - **NSEL**: 1 byte (always 00 for routers)
+
+```
+NSAP Address Format:
+┌─────────────────────┬─────────────────────┬─────────────┐
+│      Area ID        │     System ID       │    NSEL     │
+│   (1-13 bytes)      │     (6 bytes)       │  (1 byte)   │
+│                     │                     │     00      │
+└─────────────────────┴─────────────────────┴─────────────┘
+
+Example: 49.0001.1921.6800.1001.00
+• 49: Private area (like RFC 1918)
+• 0001: Area ID
+• 1921.6800.1001: System ID (192.168.0.16.01)
+• 00: NSEL (Network Service Access Point)
+```
+
+**IS-IS Levels:**
+- **Level 1 (L1)**: Intra-area routing
+    - Maintains detailed topology of local area
+    - Default route to nearest Level 1-2 router
+- **Level 2 (L2)**: Inter-area routing
+    - Maintains area-level topology
+    - Routes between areas
+- **Level 1-2 (L1L2)**: Both levels
+    - Participates in both L1 and L2 routing
+    - Acts as area border router
+
+```
+IS-IS Area Design:
+                    ┌─────────────┐
+                    │   Area 2    │
+                    │             │
+                    │  ┌───────┐  │
+                    │  │  L2   │  │
+                    │  │Router │  │
+                    │  └───┬───┘  │
+                    └──────┼──────┘
+                           │ L2 Adjacency
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   ┌────▼────┐        ┌────▼────┐        ┌────▼────┐
+   │ Area 1  │        │ Area 0  │        │ Area 3  │
+   │         │        │(Backbone│        │         │
+   │ ┌─────┐ │        │ Area)   │        │ ┌─────┐ │
+   │ │ L1  │ │        │ ┌─────┐ │        │ │ L1  │ │
+   │ │Rtr  │ │        │ │L1L2 │ │        │ │Rtr  │ │
+   │ └─────┘ │        │ │Rtr  │ │        │ └─────┘ │
+   └─────────┘        │ └─────┘ │        └─────────┘
+                      └─────────┘
+
+L1 Routers: Intra-area only
+L2 Routers: Inter-area backbone
+L1L2 Routers: Area border routers
+```
+
+**IS-IS PDU Types:**
+1. **Hello PDUs**: Neighbor discovery and adjacency
+    - **L1 LAN Hello**: Level 1 LAN adjacency
+    - **L2 LAN Hello**: Level 2 LAN adjacency
+    - **Point-to-Point Hello**: P2P links
+2. **LSP (Link State PDU)**: Topology information
+    - **L1 LSP**: Level 1 topology
+    - **L2 LSP**: Level 2 topology
+3. **SNP (Sequence Number PDU)**: Database synchronization
+    - **CSNP**: Complete SNP (periodic)
+    - **PSNP**: Partial SNP (acknowledgment)
+
+**IS-IS Metrics:**
+- **Narrow Metrics**: 6-bit (0-63), total path max 1023
+- **Wide Metrics**: 24-bit (0-16777215), supports TE extensions
+- **Default Interface Cost**: 10 (regardless of bandwidth)
+
+```
+IS-IS Configuration Example:
+router isis
+ net 49.0001.1921.6800.1001.00
+ is-type level-2-only
+ metric-style wide
+ 
+interface GigabitEthernet0/0
+ ip router isis
+ isis circuit-type level-2-only
+ isis metric 100
+```
+
+**IS-IS Advantages:**
+- **Protocol Independence**: Runs directly over Layer 2
+- **IPv6 Ready**: Native support without protocol changes
+- **Scalability**: Large LSPs, efficient flooding
+- **Flexibility**: Easy to extend with new TLVs
+- **Stability**: Mature protocol, widely deployed in ISPs
+
+#### GRP (Generic Routing Protocol)
+- **Purpose**: Framework for implementing routing protocols
+- **Type**: Not a specific protocol, but a generic framework/API
+- **Usage**: Used in network simulation and research environments
+- **Implementation**: Provides common routing protocol functions
+
+**GRP Components:**
+- **Route Table Management**: Add, delete, modify routes
+- **Neighbor Discovery**: Find and maintain neighbor relationships
+- **Message Handling**: Send and receive routing updates
+- **Timer Management**: Handle periodic updates and timeouts
+- **Policy Framework**: Apply routing policies and filters
+
+```
+GRP Framework Architecture:
+┌─────────────────────────────────────────────────────────────┐
+│                    GRP Framework                            │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │   Policy    │  │   Timer     │  │  Message    │         │
+│  │  Manager    │  │  Manager    │  │  Handler    │         │
+│  └─────────────┘  └─────────────┘  └─────────────┘         │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │   Route     │  │  Neighbor   │  │  Interface  │         │
+│  │   Table     │  │  Manager    │  │  Manager    │         │
+│  └─────────────┘  └─────────────┘  └─────────────┘         │
+├─────────────────────────────────────────────────────────────┤
+│                 Network Interface                           │
+└─────────────────────────────────────────────────────────────┘
+
+GRP vs Specific Protocols:
+┌─────────────────┬─────────────────┬─────────────────┐
+│    Feature      │      GRP        │ Specific (OSPF) │
+├─────────────────┼─────────────────┼─────────────────┤
+│ Implementation  │ Framework/API   │ Full Protocol   │
+│ Standardization │ Research/Sim    │ RFC Standard    │
+│ Algorithm       │ Pluggable       │ Fixed (SPF)     │
+│ Message Format  │ Generic         │ Protocol-specific│
+│ Deployment      │ Lab/Research    │ Production      │
+└─────────────────┴─────────────────┴─────────────────┘
+```
+
+**GRP Use Cases:**
+- **Protocol Development**: Rapid prototyping of new routing protocols
+- **Network Simulation**: Testing routing behaviors in simulators
+- **Research**: Academic research on routing algorithms
+- **Education**: Teaching routing protocol concepts
+- **Hybrid Protocols**: Combining features from multiple protocols
+
+### High Availability Protocols
+
+#### HSRP (Hot Standby Router Protocol)
+- **Purpose**: First Hop Redundancy Protocol (FHRP)
+- **Vendor**: Cisco proprietary
+- **Virtual IP**: Shared IP address among routers
+- **Priority**: 0-255 (default 100, highest wins)
+- **Preemption**: Higher priority router can take over
+
+```
+HSRP Operation:
+┌─────────────┐              ┌─────────────┐
+│   Router A  │              │   Router B  │
+│Priority: 110│              │Priority: 100│
+│  (Active)   │              │ (Standby)   │
+└──────┬──────┘              └──────┬──────┘
+       │                            │
+       └────────────┬───────────────┘
+                    │
+              ┌─────▼─────┐
+              │   LAN     │
+              │192.168.1.0│
+              │    /24    │
+              └─────┬─────┘
+                    │
+              ┌─────▼─────┐
+              │   Host    │
+              │ Gateway:  │
+              │192.168.1.1│ ← Virtual IP
+              │ (HSRP VIP)│
+              └───────────┘
+
+HSRP States:
+• Initial: Starting state
+• Learn: Learning configuration
+• Listen: Listening for hellos
+• Speak: Participating in election
+• Standby: Backup router
+• Active: Forwarding traffic
+```
+
+#### VRRP (Virtual Router Redundancy Protocol)
+- **Purpose**: Standards-based First Hop Redundancy Protocol
+- **Standard**: RFC 3768 (VRRPv2), RFC 5798 (VRRPv3)
+- **Roles**: Master (active), Backup (standby)
+- **Priority**: 1-254 (default 100, highest wins, 255 = IP owner)
+- **Advertisement**: Master sends advertisements every 1 second
+- **Multicast**: 224.0.0.18 (VRRPv2), FF02::12 (VRRPv3)
+
+```
+VRRP Operation:
+┌─────────────┐              ┌─────────────┐
+│   Router A  │              │   Router B  │
+│Priority: 200│              │Priority: 100│
+│  (Master)   │              │  (Backup)   │
+│VRID: 1      │              │VRID: 1      │
+└──────┬──────┘              └──────┬──────┘
+       │                            │
+       │ VRRP Advertisements        │
+       │ Every 1 second             │
+       │ ──────────────────────────► │
+       │                            │
+       └────────────┬───────────────┘
+                    │
+              ┌─────▼─────┐
+              │   LAN     │
+              │192.168.1.0│
+              │    /24    │
+              └─────┬─────┘
+                    │
+              ┌─────▼─────┐
+              │   Host    │
+              │ Gateway:  │
+              │192.168.1.1│ ← Virtual IP (VIP)
+              │ (VRRP VIP)│
+              └───────────┘
+
+VRRP States:
+• Initialize: Starting state
+• Backup: Listening for advertisements
+• Master: Forwarding traffic, sending advertisements
+
+VRRP Failover Process:
+1. Master stops sending advertisements
+2. Backup waits for Master_Down_Interval
+3. Backup transitions to Master state
+4. New Master sends gratuitous ARP
+5. New Master starts sending advertisements
+```
+
+**VRRP vs HSRP Comparison:**
+
+```
+┌─────────────────────┬─────────────────┬─────────────────┐
+│      Feature        │      VRRP       │      HSRP       │
+├─────────────────────┼─────────────────┼─────────────────┤
+│ Standard            │ RFC 3768/5798   │ Cisco Proprietary│
+│ Multicast Address   │ 224.0.0.18      │ 224.0.0.2       │
+│ Virtual MAC         │ 00:00:5E:00:01:XX│ 00:00:0C:07:AC:XX│
+│ Priority Range      │ 1-254           │ 0-255            │
+│ Default Priority    │ 100             │ 100              │
+│ Advertisement Timer │ 1 second        │ 3 seconds        │
+│ Preemption          │ Enabled default │ Disabled default │
+│ Authentication      │ Simple/MD5      │ Simple/MD5       │
+│ Load Balancing      │ No              │ No               │
+└─────────────────────┴─────────────────┴─────────────────┘
+```
+
+**VRRP Configuration Example:**
+```
+Router A (Master):
+interface GigabitEthernet0/0
+ ip address 192.168.1.2 255.255.255.0
+ vrrp 1 ip 192.168.1.1
+ vrrp 1 priority 200
+ vrrp 1 preempt
+ vrrp 1 authentication md5 key-string MyKey
+
+Router B (Backup):
+interface GigabitEthernet0/0
+ ip address 192.168.1.3 255.255.255.0
+ vrrp 1 ip 192.168.1.1
+ vrrp 1 priority 100
+```
+
+#### GLBP (Gateway Load Balancing Protocol)
+- **Purpose**: Load balancing First Hop Redundancy Protocol
+- **Vendor**: Cisco proprietary
+- **Roles**: AVG (Active Virtual Gateway), AVF (Active Virtual Forwarder)
+- **Load Balancing**: Round-robin, weighted, host-dependent
+- **Virtual MAC**: Up to 4 virtual MAC addresses per group
+
+```
+GLBP Operation:
+┌─────────────┐              ┌─────────────┐
+│   Router A  │              │   Router B  │
+│Priority: 200│              │Priority: 100│
+│   (AVG)     │              │   (AVF)     │
+│Weight: 100  │              │Weight: 50   │
+└──────┬──────┘              └──────┬──────┘
+       │                            │
+       │ GLBP Hello Messages        │
+       │ ◄────────────────────────► │
+       │                            │
+       └────────────┬───────────────┘
+                    │
+              ┌─────▼─────┐
+              │   LAN     │
+              │192.168.1.0│
+              │    /24    │
+              └─────┬─────┘
+                    │
+         ┌──────────┼──────────┐
+         │          │          │
+    ┌────▼────┐┌────▼────┐┌────▼────┐
+    │ Host 1  ││ Host 2  ││ Host 3  │
+    │Gateway: ││Gateway: ││Gateway: │
+    │.1 (MAC1)││.1 (MAC2)││.1 (MAC1)│
+    └─────────┘└─────────┘└─────────┘
+
+GLBP Load Balancing Methods:
+• Round-robin: Distribute equally among forwarders
+• Weighted: Based on configured weights
+• Host-dependent: Same host always uses same forwarder
+
+GLBP States:
+• Disabled: Interface down
+• Initial: Starting state
+• Listen: Listening for hellos
+• Speak: Participating in election
+• Standby: Backup AVG
+• Active: Active AVG or AVF
+```
+
+**GLBP Configuration Example:**
+```
+Router A:
+interface GigabitEthernet0/0
+ ip address 192.168.1.2 255.255.255.0
+ glbp 1 ip 192.168.1.1
+ glbp 1 priority 200
+ glbp 1 preempt
+ glbp 1 load-balancing weighted
+ glbp 1 weighting 100
+
+Router B:
+interface GigabitEthernet0/0
+ ip address 192.168.1.3 255.255.255.0
+ glbp 1 ip 192.168.1.1
+ glbp 1 priority 100
+ glbp 1 weighting 50
+```
+
+**FHRP Comparison Summary:**
+
+```
+┌─────────────────────┬─────────────┬─────────────┬─────────────┐
+│      Feature        │    HSRP     │    VRRP     │    GLBP     │
+├─────────────────────┼─────────────┼─────────────┼─────────────┤
+│ Vendor              │ Cisco       │ Standard    │ Cisco       │
+│ Load Balancing      │ No          │ No          │ Yes         │
+│ Active Routers      │ 1           │ 1           │ Up to 4     │
+│ Virtual MAC         │ 1           │ 1           │ Up to 4     │
+│ Preemption Default  │ Disabled    │ Enabled     │ Enabled     │
+│ Hello Timer         │ 3 seconds   │ 1 second    │ 3 seconds   │
+│ Multicast Address   │ 224.0.0.2   │ 224.0.0.18  │ 224.0.0.102 │
+└─────────────────────┴─────────────┴─────────────┴─────────────┘
+```
+
+### Network Address Translation (NAT)
+- **Purpose**: Translates private IP addresses to public IP addresses
+- **Types**: Static NAT, Dynamic NAT, PAT (Port Address Translation)
+- **Benefits**: IP address conservation, security, flexibility
+
+```
+NAT Translation Example:
+Private Network                    Public Network
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Host A    │    │ NAT Router  │    │   Internet  │
+│192.168.1.10 │    │             │    │             │
+│             │    │Inside: .1.1 │    │             │
+└──────┬──────┘    │Outside:.2.1 │    └─────────────┘
+       │           └──────┬──────┘
+       │                  │
+       │ Src: 192.168.1.10│ Src: 203.0.113.1
+       │ Dst: 8.8.8.8     │ Dst: 8.8.8.8
+       │ ────────────────►│ ────────────────►
+       │                  │
+       │ Src: 8.8.8.8     │ Src: 8.8.8.8
+       │ Dst: 192.168.1.10│ Dst: 203.0.113.1
+       │ ◄────────────────│ ◄────────────────
+
+NAT Translation Table:
+┌─────────────────┬─────────────────┬──────────┐
+│  Inside Local   │ Inside Global   │   Port   │
+├─────────────────┼─────────────────┼──────────┤
+│ 192.168.1.10:80 │ 203.0.113.1:1024│   TCP    │
+│ 192.168.1.11:80 │ 203.0.113.1:1025│   TCP    │
+└─────────────────┴─────────────────┴──────────┘
+```
+
+### Policy Based Routing (PBR)
+- **Purpose**: Route packets based on policies rather than destination
+- **Criteria**: Source IP, destination IP, protocol, port, packet size
+- **Actions**: Set next-hop, set interface, set IP precedence, drop
+- **Use Cases**: Traffic engineering, load balancing, security
+
+### Quality of Service (QoS)
+- **Purpose**: Prioritize network traffic based on application requirements
+- **Models**: Best Effort, Integrated Services (IntServ), Differentiated Services (DiffServ)
+- **Mechanisms**: Classification, marking, queuing, shaping, policing, congestion management
+
+#### QoS Components and Flow
+
+```
+QoS Implementation Flow:
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│Classification│──►│   Marking   │──►│   Queuing   │──►│ Scheduling  │──►│   Shaping/  │
+│             │   │             │   │             │   │             │   │   Policing  │
+└─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘
+      │                   │                   │                   │                   │
+      ▼                   ▼                   ▼                   ▼                   ▼
+ Identify traffic    Set DSCP/CoS     Place in queues   Service queues    Rate limiting
+```
+
+#### 1. Traffic Classification
+**Methods:**
+- **Access Control Lists (ACLs)**: Match based on L3/L4 headers
+- **NBAR (Network-Based Application Recognition)**: Deep packet inspection
+- **Trust Boundaries**: Trust existing markings
+
+```
+Classification Example:
+class-map match-all VOICE
+ match protocol rtp audio
+ match ip dscp ef
+
+class-map match-all VIDEO
+ match protocol http url "*video*"
+ match ip dscp af41
+
+class-map match-any CRITICAL_DATA
+ match access-group 101
+ match protocol tcp port 443
+```
+
+#### 2. Traffic Marking
+**Layer 2 Marking (CoS - Class of Service):**
+- **802.1p**: 3-bit field in 802.1Q header
+- **Values**: 0-7 (7 = highest priority)
+
+**Layer 3 Marking (DSCP - Differentiated Services Code Point):**
+- **ToS Byte**: 8-bit field in IP header
+- **DSCP**: 6 bits (64 possible values)
+- **ECN**: 2 bits (Explicit Congestion Notification)
+
+```
+DSCP Marking Values:
+┌─────────────────┬─────────┬─────────┬─────────────────────────┐
+│   Traffic Type  │  DSCP   │ Binary  │       Description       │
+├─────────────────┼─────────┼─────────┼─────────────────────────┤
+│ Voice           │   EF    │ 101110  │ Expedited Forwarding    │
+│ Video           │  AF41   │ 100010  │ Assured Forwarding 4,1  │
+│ Critical Data   │  AF31   │ 011010  │ Assured Forwarding 3,1  │
+│ Best Effort     │   BE    │ 000000  │ Default/Best Effort     │
+│ Scavenger       │   CS1   │ 001000  │ Class Selector 1        │
+└─────────────────┴─────────┴─────────┴─────────────────────────┘
+
+Assured Forwarding (AF) Classes:
+┌─────────┬─────────┬─────────┬─────────┐
+│  Class  │  Low    │ Medium  │  High   │
+│         │ Drop    │  Drop   │  Drop   │
+├─────────┼─────────┼─────────┼─────────┤
+│ AF1x    │  AF11   │  AF12   │  AF13   │
+│ AF2x    │  AF21   │  AF22   │  AF23   │
+│ AF3x    │  AF31   │  AF32   │  AF33   │
+│ AF4x    │  AF41   │  AF42   │  AF43   │
+└─────────┴─────────┴─────────┴─────────┘
+```
+
+#### 3. Congestion Management (Queuing)
+**Queuing Algorithms:**
+
+**FIFO (First In, First Out):**
+- Simple, no prioritization
+- Single queue, packets processed in order
+
+**Priority Queuing (PQ):**
+- Multiple queues with strict priority
+- Higher priority queues always served first
+- Risk of starvation for lower priority traffic
+
+**Weighted Fair Queuing (WFQ):**
+- Allocates bandwidth based on flow weights
+- Prevents single flow from monopolizing bandwidth
+
+**Class-Based Weighted Fair Queuing (CBWFQ):**
+- Combines classification with WFQ
+- Guarantees minimum bandwidth per class
+
+```
+CBWFQ Configuration:
+policy-map WAN_POLICY
+ class VOICE
+  priority percent 20
+ class VIDEO
+  bandwidth percent 30
+ class CRITICAL_DATA
+  bandwidth percent 25
+ class class-default
+  bandwidth percent 25
+  fair-queue
+```
+
+**Low Latency Queuing (LLQ):**
+- Combines CBWFQ with strict priority queue
+- Priority queue for delay-sensitive traffic
+- Remaining bandwidth shared among other classes
+
+#### 4. Traffic Shaping
+**Purpose**: Smooth traffic flow to match available bandwidth
+**Method**: Buffer excess traffic and release at configured rate
+**Benefits**: Reduces packet loss, smooths bursty traffic
+
+```
+Traffic Shaping Concepts:
+┌─────────────────────────────────────────────────────────────┐
+│                    Token Bucket Algorithm                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│    ┌─────────────┐     Tokens added at CIR rate            │
+│    │   Bucket    │ ◄─────────────────────────────           │
+│    │  (Bc size)  │                                         │
+│    └──────┬──────┘                                         │
+│           │                                                 │
+│           ▼                                                 │
+│    ┌─────────────┐     Packets consume tokens              │
+│    │   Packets   │ ────────────────────────►               │
+│    │             │                                         │
+│    └─────────────┘                                         │
+│                                                             │
+│ CIR: Committed Information Rate                             │
+│ Bc:  Committed Burst Size                                   │
+│ Be:  Excess Burst Size                                      │
+└─────────────────────────────────────────────────────────────┘
+
+Shaping Configuration:
+policy-map SHAPE_POLICY
+ class class-default
+  shape average 1000000  ! 1 Mbps
+  service-policy WAN_POLICY
+```
+
+#### 5. Traffic Policing
+**Purpose**: Enforce traffic rate limits by dropping or remarking excess traffic
+**Method**: Monitor traffic rate and take action on violations
+**Actions**: Drop, remark DSCP, transmit
+
+```
+Policing vs Shaping:
+┌─────────────────┬─────────────────┬─────────────────┐
+│    Feature      │    Policing     │     Shaping     │
+├─────────────────┼─────────────────┼─────────────────┤
+│ Excess Traffic  │ Drop/Remark     │ Buffer/Delay    │
+│ Buffer Usage    │ No buffering    │ Uses buffers    │
+│ Latency         │ No added delay  │ Adds delay      │
+│ Implementation  │ Any interface   │ Outbound only   │
+│ TCP Behavior    │ May cause drops │ TCP-friendly    │
+└─────────────────┴─────────────────┴─────────────────┘
+
+Policing Configuration:
+policy-map POLICE_POLICY
+ class BULK_DATA
+  police cir 500000 bc 10000 be 10000
+   conform-action transmit
+   exceed-action set-dscp-transmit af11
+   violate-action drop
+```
+
+#### 6. Congestion Avoidance
+**Random Early Detection (RED):**
+- Proactively drops packets before queue fills
+- Prevents global TCP synchronization
+- Uses queue depth to determine drop probability
+
+**Weighted RED (WRED):**
+- Applies different drop profiles per traffic class
+- Higher priority traffic has higher drop thresholds
+
+```
+WRED Operation:
+┌─────────────────────────────────────────────────────────────┐
+│                    WRED Drop Profile                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ Drop    ▲                                                   │
+│ Prob.   │     ┌─────────────────────                       │
+│ 100%    │     │                                             │
+│         │    /                                              │
+│         │   /                                               │
+│  50%    │  /                                                │
+│         │ /                                                 │
+│   0%    └─────────────────────────────────────────────►    │
+│         0   Min    Max                            Queue     │
+│             Threshold Threshold                   Depth     │
+│                                                             │
+│ • Below Min: No drops                                       │
+│ • Min-Max: Linear increase in drop probability              │
+│ • Above Max: Drop all packets                               │
+└─────────────────────────────────────────────────────────────┘
+
+WRED Configuration:
+policy-map WRED_POLICY
+ class BULK_DATA
+  bandwidth percent 50
+  random-detect dscp-based
+  random-detect dscp af11 20 40 10
+  random-detect dscp af12 15 30 10
+```
+
+#### 7. QoS Models Comparison
+
+```
+┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
+│     Model       │  Best Effort    │    IntServ      │    DiffServ     │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+│ Complexity      │ Simple          │ Complex         │ Moderate        │
+│ Scalability     │ High            │ Low             │ High            │
+│ State Info      │ None            │ Per-flow        │ Per-class       │
+│ Signaling       │ None            │ RSVP            │ None            │
+│ Granularity     │ None            │ Per-flow        │ Per-class       │
+│ Deployment      │ Universal       │ Limited         │ Widespread      │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────┘
+```
+
+#### 8. QoS Best Practices
+- **Trust Boundaries**: Set at network edge, verify markings
+- **Classification**: Use NBAR for application recognition
+- **Voice Traffic**: Use strict priority queue, limit to 33% of bandwidth
+- **Video Traffic**: Use guaranteed bandwidth, allow bursting
+- **Scavenger Class**: For unwanted traffic (P2P, gaming)
+- **Monitoring**: Use QoS statistics to verify policy effectiveness
+
+### SD-WAN (Software-Defined Wide Area Network)
+- **Purpose**: Centralized control and management of WAN connections
+- **Benefits**: Cost reduction, improved performance, simplified management
+- **Components**: SD-WAN edge devices, controllers, orchestrators
+- **Features**: Dynamic path selection, application-aware routing, centralized policies
+
 <br>&nbsp;
 ## Layer 4
 
-**Transmission Control Protocol [TCP]:**
+### TCP Protocol
 
-*1. Header:*
+*1. Header Structure:*
+
+```
+TCP Header (20-60 bytes):
+┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+│                Source Port                │              Destination Port             │
+│                (16 bits)                  │                (16 bits)                 │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                    Sequence Number                                    │
+│                                     (32 bits)                                        │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                 Acknowledgment Number                                 │
+│                                     (32 bits)                                        │
+├─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┤
+│Data Offset  │  Reserved   │     Flags   │                Window Size                │
+│  (4 bits)   │  (4 bits)   │  (8 bits)   │                (16 bits)                 │
+├─────────────┴─────────────┼─────────────┴─────────────┴─────────────┴─────────────┤
+│           Checksum        │              Urgent Pointer               │
+│          (16 bits)        │               (16 bits)                   │
+├─────────────────────────────────────────────────────────────────────────────────────┤
+│                    Options (0-320 bits, if Data Offset > 5)                         │
+│                         + Padding to 32-bit boundary                                │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+TCP Flags (8 bits):
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│ CWR │ ECE │ URG │ ACK │ PSH │ RST │ SYN │ FIN │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+
+Flag Meanings:
+• CWR: Congestion Window Reduced
+• ECE: ECN-Echo (Explicit Congestion Notification)
+• URG: Urgent pointer field is significant
+• ACK: Acknowledgment field is significant
+• PSH: Push function (deliver data immediately)
+• RST: Reset the connection
+• SYN: Synchronize sequence numbers
+• FIN: No more data from sender
+```
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/tcp-header.png)
 - `Source Port` (16 bits)
@@ -747,11 +2288,82 @@ Maximum Datagram Size: 1480B
 Maximum Transaction Unit: 1500B
 ```
 
-**User Datagram Protocol [UDP]**
+### UDP Protocol
 
-*1.Header*
+*1. Header Structure:*
+
+```
+UDP Header (8 bytes - Fixed Size):
+┌─────────────────────────────────────┬─────────────────────────────────────┐
+│            Source Port              │         Destination Port            │
+│            (16 bits)                │            (16 bits)                │
+├─────────────────────────────────────┼─────────────────────────────────────┤
+│             Length                  │            Checksum                 │
+│            (16 bits)                │            (16 bits)                │
+└─────────────────────────────────────┴─────────────────────────────────────┘
+│◄─────────────────── 8 bytes total ──────────────────────►│
+
+Field Details:
+• Source Port: Sending application port (0-65535)
+• Destination Port: Receiving application port (0-65535)
+• Length: UDP header + data length (minimum 8 bytes)
+• Checksum: Error detection (optional in IPv4, mandatory in IPv6)
+```
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/udp-header.png)
+
+*2. UDP Characteristics:*
+- **Connectionless**: No connection establishment required
+- **Unreliable**: No guarantee of delivery, ordering, or duplicate protection
+- **Fast**: Minimal overhead compared to TCP
+- **Stateless**: Each datagram is independent
+- **No Flow Control**: No mechanism to control data flow rate
+- **No Congestion Control**: No network congestion management
+
+*3. UDP vs TCP Comparison:*
+
+```
+┌─────────────────────┬─────────────────┬─────────────────┐
+│      Feature        │       TCP       │       UDP       │
+├─────────────────────┼─────────────────┼─────────────────┤
+│ Connection          │ Connection-based│ Connectionless  │
+│ Reliability         │ Reliable        │ Unreliable      │
+│ Ordering            │ Ordered         │ No ordering     │
+│ Error Detection     │ Yes + Recovery  │ Detection only  │
+│ Flow Control        │ Yes             │ No              │
+│ Congestion Control  │ Yes             │ No              │
+│ Header Size         │ 20-60 bytes     │ 8 bytes (fixed) │
+│ Speed               │ Slower          │ Faster          │
+│ Use Cases           │ Web, Email, FTP │ DNS, DHCP, VoIP │
+└─────────────────────┴─────────────────┴─────────────────┘
+```
+
+*4. Common UDP Applications:*
+- **DNS (Port 53)**: Domain name resolution
+- **DHCP (Port 67/68)**: IP address assignment
+- **SNMP (Port 161/162)**: Network management
+- **TFTP (Port 69)**: Trivial file transfer
+- **NTP (Port 123)**: Time synchronization
+- **VoIP/RTP**: Real-time audio/video
+- **Online Gaming**: Low-latency gaming protocols
+- **Streaming Media**: Live video/audio streaming
+
+*5. UDP Pseudo Header (for Checksum Calculation):*
+
+```
+IPv4 Pseudo Header:
+┌─────────────────────────────────────────────────────────────┐
+│                    Source IP Address                        │
+│                      (32 bits)                              │
+├─────────────────────────────────────────────────────────────┤
+│                 Destination IP Address                      │
+│                      (32 bits)                              │
+├─────────────────────┬───────────────────┬───────────────────┤
+│      Reserved       │     Protocol      │    UDP Length     │
+│      (8 bits)       │     (8 bits)      │    (16 bits)      │
+│        0x00         │       0x11        │                   │
+└─────────────────────┴───────────────────┴───────────────────┘
+```
 
 ## Layer 7
 
@@ -1258,17 +2870,166 @@ Passive Mode: ✅ Client initiates both connections (firewall-friendly)
     - **SFTP**: SSH File Transfer Protocol (port 22)
     - **SCP**: Secure Copy Protocol (port 22)
 
-### Simple Network Management Protocol [SNMP]
-- Protocol for network monitoring and management
-- Ports: `161 UDP` (agent), `162 UDP` (manager/traps)
-- Manager-Agent architecture
-- Used for collecting statistics, configuring devices, monitoring network health
+### Simple Network Management Protocol (SNMP)
+- **Purpose**: Network monitoring, management, and configuration
+- **Ports**: 161 UDP (agent), 162 UDP (manager/traps)
+- **Architecture**: Manager-Agent model
+- **Versions**: SNMPv1, SNMPv2c, SNMPv3
+- **Transport**: UDP (primarily), TCP (for large data transfers)
 
-- **SNMP Components:**
-    - **SNMP Manager**: Monitoring system that queries agents
-    - **SNMP Agent**: Software on managed devices
-    - **Management Information Base (MIB)**: Database of manageable objects
-    - **Object Identifier (OID)**: Unique identifier for each managed object
+#### SNMP Components:
+- **SNMP Manager (NMS)**: Network Management System that queries agents
+- **SNMP Agent**: Software running on managed devices
+- **Management Information Base (MIB)**: Hierarchical database of manageable objects
+- **Object Identifier (OID)**: Unique dotted decimal identifier for each object
+
+#### SNMP Versions Comparison:
+
+```
+┌─────────────────┬─────────────┬─────────────┬─────────────┐
+│    Feature      │   SNMPv1    │   SNMPv2c   │   SNMPv3    │
+├─────────────────┼─────────────┼─────────────┼─────────────┤
+│ Security        │ Community   │ Community   │ User-based  │
+│ Authentication  │ Plain text  │ Plain text  │ MD5/SHA     │
+│ Encryption      │ None        │ None        │ DES/AES     │
+│ Error Handling  │ Basic       │ Enhanced    │ Enhanced    │
+│ Bulk Operations │ No          │ GetBulk     │ GetBulk     │
+│ 64-bit Counters │ No          │ Yes         │ Yes         │
+│ Inform Messages │ No          │ Yes         │ Yes         │
+└─────────────────┴─────────────┴─────────────┴─────────────┘
+```
+
+#### SNMP Operations:
+1. **GET**: Retrieve single OID value
+2. **GET-NEXT**: Retrieve next OID in MIB tree
+3. **GET-BULK**: Retrieve multiple OIDs (v2c/v3 only)
+4. **SET**: Modify OID value
+5. **TRAP**: Unsolicited notification from agent
+6. **INFORM**: Acknowledged notification (v2c/v3 only)
+
+#### MIB Structure:
+```
+MIB Tree Hierarchy:
+                    root
+                     │
+            ┌────────┼────────┐
+            │        │        │
+          iso(1)   itu-t(0)  joint(2)
+            │
+         org(3)
+            │
+         dod(6)
+            │
+       internet(1)
+            │
+    ┌───────┼───────┐
+    │       │       │
+ mgmt(2) private(4) experimental(3)
+    │       │
+  mib-2(1) enterprise(1)
+    │       │
+┌───┼───┐   └─ cisco(9)
+│   │   │      │
+│   │   │   ┌──┼──┐
+│   │   │   │  │  │
+│   │   │ local(2) temporary(3)
+│   │   │
+│   │ interfaces(2)
+│   │   │
+│   │ ifTable(2)
+│   │   │
+│   │ ifEntry(1)
+│   │   │
+│   │ ifDescr(2)
+│   │
+│ system(1)
+│   │
+│ sysDescr(1) → OID: 1.3.6.1.2.1.1.1.0
+│ sysObjectID(2)
+│ sysUpTime(3)
+│ sysContact(4)
+│ sysName(5)
+│ sysLocation(6)
+```
+
+#### Common MIB Objects:
+
+```
+┌─────────────────────┬─────────────────────────┬─────────────────────────┐
+│        OID          │       Object Name       │      Description        │
+├─────────────────────┼─────────────────────────┼─────────────────────────┤
+│ 1.3.6.1.2.1.1.1.0   │ sysDescr               │ System description      │
+│ 1.3.6.1.2.1.1.3.0   │ sysUpTime              │ System uptime           │
+│ 1.3.6.1.2.1.1.5.0   │ sysName                │ System name             │
+│ 1.3.6.1.2.1.2.1.0   │ ifNumber               │ Number of interfaces    │
+│ 1.3.6.1.2.1.2.2.1.2 │ ifDescr                │ Interface description   │
+│ 1.3.6.1.2.1.2.2.1.8 │ ifOperStatus           │ Interface status        │
+│ 1.3.6.1.2.1.2.2.1.10│ ifInOctets             │ Input bytes counter     │
+│ 1.3.6.1.2.1.2.2.1.16│ ifOutOctets            │ Output bytes counter    │
+│ 1.3.6.1.2.1.4.1.0   │ ipForwarding           │ IP forwarding enabled   │
+│ 1.3.6.1.2.1.6.9.0   │ tcpCurrEstab           │ Current TCP connections │
+└─────────────────────┴─────────────────────────┴─────────────────────────┘
+```
+
+#### SNMP Security (SNMPv3):
+- **User-based Security Model (USM)**
+- **View-based Access Control Model (VACM)**
+
+```
+SNMPv3 Security Levels:
+┌─────────────────┬─────────────────┬─────────────────┐
+│ Security Level  │ Authentication  │   Encryption    │
+├─────────────────┼─────────────────┼─────────────────┤
+│ noAuthNoPriv    │ None            │ None            │
+│ authNoPriv      │ MD5 or SHA      │ None            │
+│ authPriv        │ MD5 or SHA      │ DES or AES      │
+└─────────────────┴─────────────────┴─────────────────┘
+
+SNMPv3 Configuration Example:
+snmp-server group ADMIN v3 priv
+snmp-server user admin ADMIN v3 auth sha MyAuthKey priv aes 128 MyPrivKey
+snmp-server host 192.168.1.100 version 3 priv admin
+```
+
+#### SNMP Traps:
+- **Purpose**: Asynchronous notifications from agents to managers
+- **Types**: Generic traps (standard) and Enterprise-specific traps
+- **Delivery**: Best-effort (UDP), no acknowledgment in v1/v2c
+
+```
+Common SNMP Traps:
+┌─────────────────┬─────────────────────────────────────────┐
+│   Trap Type     │              Description                │
+├─────────────────┼─────────────────────────────────────────┤
+│ coldStart       │ Agent restarted                         │
+│ warmStart       │ Agent reinitialized                     │
+│ linkDown        │ Interface went down                     │
+│ linkUp          │ Interface came up                       │
+│ authFailure     │ Authentication failure                  │
+│ egpNeighborLoss │ EGP neighbor unreachable               │
+│ enterpriseSpec  │ Vendor-specific trap                    │
+└─────────────────┴─────────────────────────────────────────┘
+```
+
+#### SNMP Monitoring Tools:
+- **Commercial**: SolarWinds, PRTG, ManageEngine OpManager
+- **Open Source**: Nagios, Zabbix, LibreNMS, Cacti
+- **Command Line**: snmpwalk, snmpget, snmpset, snmptrap
+
+```
+SNMP Command Examples:
+# Get system description
+snmpget -v2c -c public 192.168.1.1 1.3.6.1.2.1.1.1.0
+
+# Walk interface table
+snmpwalk -v2c -c public 192.168.1.1 1.3.6.1.2.1.2.2.1.2
+
+# Set system contact
+snmpset -v2c -c private 192.168.1.1 1.3.6.1.2.1.1.4.0 s "admin@company.com"
+
+# SNMPv3 with authentication and encryption
+snmpget -v3 -u admin -l authPriv -a SHA -A MyAuthKey -x AES -X MyPrivKey 192.168.1.1 1.3.6.1.2.1.1.1.0
+```
 
 - **SNMP Architecture:**
 ```
@@ -1414,15 +3175,15 @@ Manager                                Agent
 │                    Network Traffic                          │
 └─────────────────────┬───────────────────────────────────────┘
                       │
-┌─────────────────────▼───────────────────────────────────────┐
-│                Flow Exporters                               │
+┌─────────────────────▼──────────────────────────────────────┐
+│                Flow Exporters                              │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
 │  │   Router    │  │   Switch    │  │  Firewall   │         │
 │  │             │  │             │  │             │         │
 │  │ NetFlow     │  │ NetFlow     │  │ NetFlow     │         │
 │  │ Enabled     │  │ Enabled     │  │ Enabled     │         │
 │  └─────────────┘  └─────────────┘  └─────────────┘         │
-└─────────────────────┬───────────────────────────────────────┘
+└─────────────────────┬──────────────────────────────────────┘
                       │ UDP 2055/9995
                       │ Flow Records
 ┌─────────────────────▼───────────────────────────────────────┐
@@ -1453,236 +3214,945 @@ Flow Record Structure:
 │ Input Interface: Gi0/1      │ Output Interface: Gi0/2       │
 │ Packet Count: 1,250         │ Byte Count: 1,875,000         │
 │ Start Time: 14:30:15        │ End Time: 14:35:22            │
-│ TCP Flags: 0x18 (PSH,ACK)   │ Next Hop: 10.0.0.1            │
+│ Flow Duration: 5 min 7 sec  │ TCP Flags: 0x18 (PSH,ACK)    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-- **Flow Record Fields:**
-    |Field|Description|
-    |---|---|
-    |Src/Dst IP|Source and destination IP addresses|
-    |Src/Dst Port|Source and destination port numbers|
-    |Protocol|IP protocol number (6=TCP, 17=UDP)|
-    |ToS|Type of Service byte|
-    |Input/Output Interface|Router interface indices|
-    |Packet Count|Number of packets in flow|
-    |Byte Count|Number of bytes in flow|
-    |Start/End Time|Flow start and end timestamps|
-    |TCP Flags|TCP control bits|
-    |Next Hop IP|Next hop router IP address|
-
-- **Flow Cache and Export Process:**
-    1. **Packet Inspection**: Router examines packet headers
-    2. **Flow Classification**: Packets grouped by flow key
-    3. **Flow Cache**: Active flows stored in memory
-    4. **Flow Aging**: Flows expire based on:
-        - **Active Timer**: Long-lived flows (default 30 minutes)
-        - **Inactive Timer**: Idle flows (default 15 seconds)
-        - **TCP Flags**: FIN/RST packets trigger immediate export
-        - **Cache Full**: Oldest flows exported when cache fills
-    5. **Flow Export**: Records sent to collector via UDP
-
-- **NetFlow Configuration Examples:**
-    ```
-    Cisco Router Configuration:
-    ip flow-export destination 192.168.1.100 2055
-    ip flow-export source FastEthernet0/0
-    ip flow-export version 5
-    ip flow-cache timeout active 30
-    ip flow-cache timeout inactive 15
-    
-    interface FastEthernet0/1
-     ip flow ingress
-     ip flow egress
-    ```
-
-- **Flow Sampling Techniques:**
-    - **Deterministic Sampling**: Every Nth packet (1:100, 1:1000)
-    - **Random Sampling**: Probabilistic packet selection
-    - **Hash-based Sampling**: Consistent sampling based on packet hash
-    - **Adaptive Sampling**: Dynamic rate based on traffic load
-    - **sFlow**: Statistical sampling of packets and counters
-
-- **NetFlow vs sFlow vs IPFIX:**
-
-    |Aspect|NetFlow|sFlow|IPFIX|
-    |---|---|---|---|
-    |**Method**|Flow-based caching|Statistical sampling|Flow-based + templates|
-    |**CPU Impact**|Medium|Low|Medium-High|
-    |**Memory Usage**|High (flow cache)|Low|Medium|
-    |**Accuracy**|High|Medium (sampled)|High|
-    |**Scalability**|Medium|Very High|High|
-    |**Real-time**|Near real-time|Real-time|Near real-time|
-    |**Vendor Support**|Cisco+Others|Multi-vendor|Multi-vendor|
-
-- **Advanced NetFlow Features:**
-    - **Flexible NetFlow (FNF)**: User-defined flow keys and fields
-    - **Performance Monitor**: Application-aware flow monitoring
-    - **NetFlow Lite**: Simplified flow export for small devices
-    - **Ingress/Egress Monitoring**: Bidirectional flow tracking
-    - **MPLS-aware NetFlow**: Label-based flow classification
-    - **BGP Next-hop**: AS path and community information
-
-- **Flow Analysis and Visualization:**
-    - **Top Talkers**: Highest bandwidth consumers
-    - **Traffic Matrix**: Source-destination communication patterns
-    - **Protocol Distribution**: Application usage breakdown
-    - **Anomaly Detection**: Unusual traffic patterns
-    - **Security Events**: DDoS, port scans, data exfiltration
-    - **QoS Monitoring**: Per-class traffic analysis
-
-- **NetFlow Collectors and Tools:**
-    - **Open Source**: nfcapd, SiLK, ntopng, ElasticFlow
-    - **Commercial**: SolarWinds NTA, Plixer Scrutinizer, ManageEngine
-    - **Cloud-based**: AWS VPC Flow Logs, Azure Network Watcher
-    - **Big Data**: Splunk, ELK Stack integration
-
-- **Use Cases and Applications:**
-    - **Bandwidth Monitoring**: 
-        - Track traffic patterns and utilization
-        - Identify bandwidth hogs and peak usage times
-        - Capacity planning and trend analysis
-    - **Security Analysis**: 
-        - DDoS attack detection and mitigation
-        - Botnet and malware communication detection
-        - Data exfiltration and insider threat monitoring
-        - Network forensics and incident response
-    - **Performance Monitoring**:
-        - Application response time analysis
-        - Network latency and jitter measurement
-        - Quality of Service (QoS) validation
-    - **Compliance and Billing**:
-        - Usage-based charging for service providers
-        - Regulatory compliance reporting
-        - SLA monitoring and verification
-    - **Network Optimization**:
-        - Traffic engineering and path optimization
-        - Load balancing effectiveness
-        - Peering and transit cost optimization
-
-- **NetFlow Troubleshooting:**
-    - **Common Issues**:
-        - Flow cache overflow (increase cache size)
-        - Export packet loss (check network connectivity)
-        - Template timeout (verify template refresh)
-        - Clock synchronization (NTP configuration)
-    - **Debugging Commands**:
-        ```
-        show ip flow export
-        show ip flow interface
-        show ip cache flow
-        debug ip flow export
-        ```
-
-### Telnet [Terminal Network]
-- Protocol for remote terminal access
-- Port: `23 TCP`
-- Plain text communication (no encryption)
-- Virtual terminal emulation
-- **Security Risk**: All data including passwords transmitted in clear text
-
-- **Telnet Characteristics:**
-    - **Connection-oriented**: Uses TCP for reliable communication
-    - **Interactive**: Real-time character-by-character transmission
-    - **Platform-independent**: Works across different operating systems
-    - **Simple**: Minimal protocol overhead
-
-- **Telnet Commands (IAC - Interpret As Command):**
-    |Command|Code|Purpose|
-    |---|---|---|
-    |SE|240|End of subnegotiation|
-    |NOP|241|No operation|
-    |DM|242|Data mark|
-    |BRK|243|Break|
-    |IP|244|Interrupt process|
-    |AO|245|Abort output|
-    |AYT|246|Are you there|
-    |EC|247|Erase character|
-    |EL|248|Erase line|
-    |GA|249|Go ahead|
-    |SB|250|Begin subnegotiation|
-    |WILL|251|Will perform option|
-    |WONT|252|Won't perform option|
-    |DO|253|Do perform option|
-    |DONT|254|Don't perform option|
-    |IAC|255|Interpret as command|
-
-- **Security Issues:**
-    - **No Encryption**: All data transmitted in plain text
-    - **Password Exposure**: Login credentials visible to network sniffers
-    - **Session Hijacking**: Unencrypted sessions can be intercepted
-    - **Man-in-the-Middle**: No authentication of remote host
-
-- **Modern Secure Alternatives:**
-    - **SSH (Secure Shell)**: 
-        - Port 22 TCP
-        - Encrypted communication
-        - Strong authentication
-        - Key-based authentication
-    - **HTTPS**: Web-based management interfaces
-    - **VPN**: Encrypted tunnel for remote access
-
-- **Telnet vs SSH Comparison:**
+- **NetFlow Configuration Example:**
 ```
-TELNET (Insecure):
+Cisco Router Configuration:
+ip flow-export version 9
+ip flow-export destination 192.168.1.100 9995
+ip flow-export source GigabitEthernet0/0
+ip flow-export template timeout-rate 1
+ip flow-export template refresh-rate 20
+
+interface GigabitEthernet0/1
+ ip route-cache flow
+ ip flow ingress
+ ip flow egress
+```
+
+- **sFlow vs NetFlow:**
+    - **sFlow**: Sampling-based, lower CPU impact, real-time
+    - **NetFlow**: Flow-based, more detailed, higher accuracy
+    - **Use Cases**: sFlow for high-speed links, NetFlow for detailed analysis
+
+---
+
+## VoIP Protocols
+
+### SIP (Session Initiation Protocol)
+- **Purpose**: Signaling protocol for VoIP calls, video conferencing, instant messaging
+- **Standard**: RFC 3261
+- **Port**: 5060 (UDP/TCP), 5061 (TLS)
+- **Architecture**: User Agent Client (UAC), User Agent Server (UAS), Proxy Server
+- **Methods**: INVITE, ACK, BYE, CANCEL, REGISTER, OPTIONS
+
+```
+SIP Call Flow (Basic Call Setup):
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Alice     │    │ SIP Proxy   │    │ SIP Proxy   │    │     Bob     │
+│ (Caller)    │    │  Server A   │    │  Server B   │    │  (Callee)   │
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │                  │
+       │ 1. INVITE        │                  │                  │
+       │ ────────────────►│                  │                  │
+       │                  │ 2. INVITE        │                  │
+       │                  │ ────────────────►│                  │
+       │                  │                  │ 3. INVITE        │
+       │                  │                  │ ────────────────►│
+       │                  │                  │                  │
+       │                  │                  │ 4. 180 Ringing   │
+       │                  │                  │ ◄────────────────│
+       │                  │ 5. 180 Ringing   │                  │
+       │                  │ ◄────────────────│                  │
+       │ 6. 180 Ringing   │                  │                  │
+       │ ◄────────────────│                  │                  │
+       │                  │                  │                  │
+       │                  │                  │ 7. 200 OK        │
+       │                  │                  │ ◄────────────────│
+       │                  │ 8. 200 OK        │                  │
+       │                  │ ◄────────────────│                  │
+       │ 9. 200 OK        │                  │                  │
+       │ ◄────────────────│                  │                  │
+       │                  │                  │                  │
+       │ 10. ACK          │                  │                  │
+       │ ────────────────►│                  │                  │
+       │                  │ 11. ACK          │                  │
+       │                  │ ────────────────►│                  │
+       │                  │                  │ 12. ACK          │
+       │                  │                  │ ────────────────►│
+       │                  │                  │                  │
+       │◄═══════════════════ RTP Media Stream ═══════════════════►│
+       │                  │                  │                  │
+       │ 13. BYE          │                  │                  │
+       │ ────────────────►│                  │                  │
+       │                  │ 14. BYE          │                  │
+       │                  │ ────────────────►│                  │
+       │                  │                  │ 15. BYE          │
+       │                  │                  │ ────────────────►│
+       │                  │                  │                  │
+       │                  │                  │ 16. 200 OK       │
+       │                  │                  │ ◄────────────────│
+       │                  │ 17. 200 OK       │                  │
+       │                  │ ◄────────────────│                  │
+       │ 18. 200 OK       │                  │                  │
+       │ ◄────────────────│                  │                  │
+
+SIP Message Structure:
+INVITE sip:bob@example.com SIP/2.0
+Via: SIP/2.0/UDP alice.example.com:5060
+From: Alice <sip:alice@example.com>;tag=1928301774
+To: Bob <sip:bob@example.com>
+Call-ID: a84b4c76e66710@alice.example.com
+CSeq: 314159 INVITE
+Contact: <sip:alice@alice.example.com>
+Content-Type: application/sdp
+Content-Length: 142
+
+v=0
+o=alice 53655765 2353687637 IN IP4 alice.example.com
+s=-
+c=IN IP4 alice.example.com
+t=0 0
+m=audio 49170 RTP/AVP 0
+a=rtpmap:0 PCMU/8000
+```
+
+### H.323 Protocol
+- **Purpose**: ITU-T standard for multimedia communications over packet networks
+- **Components**: Terminals, Gateways, Gatekeepers, MCUs (Multipoint Control Units)
+- **Protocols**: H.225 (call signaling), H.245 (media control), RAS (registration)
+- **Ports**: 1720 (H.225), Dynamic (H.245), 1719 (RAS)
+
+```
+H.323 Call Flow:
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  Terminal A │    │ Gatekeeper  │    │ Gatekeeper  │    │  Terminal B │
+│  (Caller)   │    │      A      │    │      B      │    │  (Callee)   │
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │                  │
+       │ 1. ARQ           │                  │                  │
+       │ (Admission Req)  │                  │                  │
+       │ ────────────────►│                  │                  │
+       │                  │                  │                  │
+       │ 2. ACF           │                  │                  │
+       │ (Admission Conf) │                  │                  │
+       │ ◄────────────────│                  │                  │
+       │                  │                  │                  │
+       │ 3. H.225 Setup   │                  │                  │
+       │ ────────────────────────────────────────────────────►│
+       │                  │                  │                  │
+       │                  │                  │ 4. ARQ           │
+       │                  │                  │ ◄────────────────│
+       │                  │                  │                  │
+       │                  │                  │ 5. ACF           │
+       │                  │                  │ ────────────────►│
+       │                  │                  │                  │
+       │ 6. H.225 Call Proceeding            │                  │
+       │ ◄────────────────────────────────────────────────────│
+       │                  │                  │                  │
+       │ 7. H.225 Alerting│                  │                  │
+       │ ◄────────────────────────────────────────────────────│
+       │                  │                  │                  │
+       │ 8. H.225 Connect │                  │                  │
+       │ ◄────────────────────────────────────────────────────│
+       │                  │                  │                  │
+       │ 9. H.245 Terminal Capability Set    │                  │
+       │ ◄──────────────────────────────────────────────────►│
+       │                  │                  │                  │
+       │ 10. H.245 Master/Slave Determination│                  │
+       │ ◄──────────────────────────────────────────────────►│
+       │                  │                  │                  │
+       │ 11. H.245 Open Logical Channel      │                  │
+       │ ◄──────────────────────────────────────────────────►│
+       │                  │                  │                  │
+       │◄═══════════════════ RTP Media Stream ═══════════════════►│
+       │                  │                  │                  │
+       │ 12. H.245 Close Logical Channel     │                  │
+       │ ◄──────────────────────────────────────────────────►│
+       │                  │                  │                  │
+       │ 13. H.225 Release Complete          │                  │
+       │ ◄──────────────────────────────────────────────────►│
+       │                  │                  │                  │
+       │ 14. DRQ          │                  │                  │
+       │ (Disengage Req)  │                  │                  │
+       │ ────────────────►│                  │                  │
+       │                  │                  │                  │
+       │ 15. DCF          │                  │                  │
+       │ (Disengage Conf) │                  │                  │
+       │ ◄────────────────│                  │                  │
+
+H.323 Protocol Stack:
+┌─────────────────────────────────────────────────────────────┐
+│                   Applications                              │
+├─────────────────────────────────────────────────────────────┤
+│ H.225 Call Signaling │ H.245 Control │ RAS │ Audio/Video   │
+├─────────────────────────────────────────────────────────────┤
+│                    RTP/RTCP                                 │
+├─────────────────────────────────────────────────────────────┤
+│                      UDP                                    │
+├─────────────────────────────────────────────────────────────┤
+│                      IP                                     │
+├─────────────────────────────────────────────────────────────┤
+│                   Data Link                                 │
+├─────────────────────────────────────────────────────────────┤
+│                   Physical                                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### RTP (Real-time Transport Protocol)
+- **Purpose**: Transport protocol for real-time applications (audio, video)
+- **Standard**: RFC 3550
+- **Port Range**: 16384-32767 (even ports for RTP, odd for RTCP)
+- **Features**: Sequence numbering, timestamping, payload identification
+- **Companion**: RTCP (Real-time Transport Control Protocol)
+
+```
+RTP Header Structure:
+┌─────────────┬─────────────┬─────────────┬─────────────┐
+│  V  │  P    │  X  │  CC   │  M  │   PT  │
+│(2b) │ (1b)  │(1b) │ (4b)  │(1b) │ (7b)  │
+├─────────────┴─────────────┼─────────────┴─────────────┤
+│        Sequence Number    │                           │
+│         (16 bits)         │                           │
+├───────────────────────────┴───────────────────────────┤
+│                 Timestamp                             │
+│                 (32 bits)                             │
+├───────────────────────────────────────────────────────┤
+│            Synchronization Source (SSRC)              │
+│                 (32 bits)                             │
+├───────────────────────────────────────────────────────┤
+│         Contributing Source (CSRC) List               │
+│              (0-15 items, 32 bits each)               │
+└───────────────────────────────────────────────────────┘
+
+Field Descriptions:
+• V (Version): RTP version (2)
+• P (Padding): Padding flag
+• X (Extension): Header extension flag
+• CC (CSRC Count): Number of CSRC identifiers
+• M (Marker): Application-specific marker bit
+• PT (Payload Type): Format of RTP payload
+• Sequence Number: Increments by 1 for each packet
+• Timestamp: Sampling instant of first octet
+• SSRC: Synchronization source identifier
+• CSRC: Contributing source identifiers
+
+RTP Media Flow:
 ┌─────────────┐                                    ┌─────────────┐
-│   Client    │                                    │   Server    │
+│   Sender    │                                    │  Receiver   │
+│             │                                    │             │
+│ ┌─────────┐ │                                    │ ┌─────────┐ │
+│ │ Audio   │ │                                    │ │ Audio   │ │
+│ │ Codec   │ │                                    │ │ Decoder │ │
+│ └────┬────┘ │                                    │ └────▲────┘ │
+│      │      │                                    │      │      │
+│ ┌────▼────┐ │    RTP Packets (Even Port)         │ ┌────┴────┐ │
+│ │   RTP   │ │ ──────────────────────────────────►│ │   RTP   │ │
+│ │ Encoder │ │                                    │ │ Decoder │ │
+│ └────┬────┘ │                                    │ └────▲────┘ │
+│      │      │                                    │      │      │
+│ ┌────▼────┐ │   RTCP Packets (Odd Port)          │ ┌────┴────┐ │
+│ │  RTCP   │ │ ◄────────────────────────────────► │ │  RTCP   │ │
+│ │         │ │                                    │ │         │ │
+│ └─────────┘ │                                    │ └─────────┘ │
+└─────────────┘                                    └─────────────┘
+
+RTCP Packet Types:
+• SR (Sender Report): Transmission and reception statistics
+• RR (Receiver Report): Reception statistics
+• SDES (Source Description): Source identification
+• BYE: Indicates end of participation
+• APP: Application-specific functions
+
+RTP Payload Types (Common):
+┌─────────┬─────────────────┬─────────────────────────┐
+│   PT    │   Encoding      │       Description       │
+├─────────┼─────────────────┼─────────────────────────┤
+│    0    │ PCMU            │ G.711 μ-law             │
+│    8    │ PCMA            │ G.711 A-law             │
+│   18    │ G729            │ G.729 Audio             │
+│   96-127│ Dynamic         │ Negotiated via SDP      │
+└─────────┴─────────────────┴─────────────────────────┘
+```
+
+---
+
+## Wireless Technologies
+
+### WLAN Protocols and Standards
+
+#### IEEE 802.11 Evolution
+
+```
+Wi-Fi Standards Evolution:
+┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+│  Standard   │    Year     │  Max Speed  │  Frequency  │   Range     │
+├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+│ 802.11      │    1997     │   2 Mbps    │   2.4 GHz   │   20 meters │
+│ 802.11a     │    1999     │  54 Mbps    │   5 GHz     │   35 meters │
+│ 802.11b     │    1999     │  11 Mbps    │   2.4 GHz   │   35 meters │
+│ 802.11g     │    2003     │  54 Mbps    │   2.4 GHz   │   38 meters │
+│ 802.11n     │    2009     │ 600 Mbps    │ 2.4/5 GHz   │   70 meters │
+│ 802.11ac    │    2013     │ 6.93 Gbps   │   5 GHz     │   35 meters │
+│ 802.11ax    │    2019     │ 9.6 Gbps    │ 2.4/5 GHz   │   30 meters │
+│ (Wi-Fi 6)   │             │             │             │             │
+│ 802.11ax-6E │    2020     │ 9.6 Gbps    │2.4/5/6 GHz  │   30 meters │
+│ (Wi-Fi 6E)  │             │             │             │             │
+│ 802.11be    │    2024     │ 46 Gbps     │2.4/5/6 GHz  │   30 meters │
+│ (Wi-Fi 7)   │             │             │             │             │
+└─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘
+```
+
+#### Wi-Fi 6 (802.11ax) Features
+- **OFDMA**: Orthogonal Frequency Division Multiple Access
+- **MU-MIMO**: Multi-User Multiple Input Multiple Output (8x8)
+- **BSS Coloring**: Reduces interference in dense environments
+- **Target Wake Time (TWT)**: Power saving for IoT devices
+- **1024-QAM**: Higher modulation for increased throughput
+
+### Wireless Client Connection Process
+
+#### 1. RF (Radio Frequency) Fundamentals
+- **Frequency Bands**: 2.4 GHz (ISM), 5 GHz (UNII), 6 GHz (UNII-5-8)
+- **Channels**: Non-overlapping channels for interference avoidance
+- **Power**: Measured in dBm, mW, or EIRP
+- **Antenna Types**: Omnidirectional, directional, MIMO
+
+```
+2.4 GHz Channel Layout (20 MHz channels):
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │ 10  │ 11  │ 12  │ 13  │ 14  │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+2412  2417  2422  2427  2432  2437  2442  2447  2452  2457  2462  2467  2472  2484 MHz
+
+Non-overlapping channels: 1, 6, 11 (in most countries)
+
+5 GHz Channel Layout (Sample):
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│ 36  │ 40  │ 44  │ 48  │ 52  │ 56  │ 60  │ 64  │ 100 │ 104 │ ... │ 165 │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+5180  5200  5220  5240  5260  5280  5300  5320  5500  5520       5825 MHz
+
+More channels available, less interference
+```
+
+#### 2. SSID (Service Set Identifier)
+- **Purpose**: Network name identifier for wireless networks
+- **Length**: 0-32 bytes (characters)
+- **Types**: 
+    - **Basic Service Set (BSS)**: Single AP
+    - **Extended Service Set (ESS)**: Multiple APs with same SSID
+    - **Independent BSS (IBSS)**: Ad-hoc network
+
+```
+SSID Broadcast Types:
+┌─────────────────────────────────────────────────────────────┐
+│                    SSID Broadcasting                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ┌─────────────┐    Beacon Frames     ┌─────────────┐        │
+│ │     AP      │ ──────────────────► │   Client    │        │
+│ │             │    (SSID: "WiFi")    │             │        │
+│ │ Broadcast   │                      │ Sees "WiFi" │        │
+│ │ Enabled     │                      │ in list     │        │
+│ └─────────────┘                      └─────────────┘        │
+│                                                             │
+│ ┌─────────────┐    Beacon Frames     ┌─────────────┐        │
+│ │     AP      │ ──────────────────► │   Client    │        │
+│ │             │   (SSID: Hidden)     │             │        │
+│ │ Broadcast   │                      │ Sees hidden │        │
+│ │ Disabled    │                      │ network     │        │
+│ └─────────────┘                      └─────────────┘        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### 3. Wireless Client Association Process
+
+```
+802.11 Association Process:
+┌─────────────┐                                    ┌─────────────┐
+│   Client    │                                    │     AP      │
 │             │                                    │             │
 └──────┬──────┘                                    └──────┬──────┘
        │                                                  │
-       │ 1. TCP Connection (Port 23)                      │
-       │ ──────────────────────────────────────────────►  │
+       │ 1. Passive Scanning                              │
+       │    (Listen for Beacon frames)                    │
+       │ ◄────────────────────────────────────────────── │
+       │    Beacon (SSID, Capabilities, Rates)           │
        │                                                  │
-       │ 2. Login Prompt                                  │
-       │ ◄──────────────────────────────────────────────  │
+       │ 2. Active Scanning (Optional)                    │
+       │    Probe Request (SSID or Broadcast)             │
+       │ ──────────────────────────────────────────────► │
        │                                                  │
-       │ 3. Username: admin (PLAIN TEXT)                  │
-       │ ──────────────────────────────────────────────►  │
+       │ 3. Probe Response                                │
+       │    (SSID, Capabilities, Rates)                   │
+       │ ◄────────────────────────────────────────────── │
        │                                                  │
-       │ 4. Password: secret123 (PLAIN TEXT)              │
-       │ ──────────────────────────────────────────────►  │
+       │ 4. Authentication Request                        │
+       │    (Open System or Shared Key)                   │
+       │ ──────────────────────────────────────────────► │
        │                                                  │
-       │ 5. Commands & Responses (PLAIN TEXT)             │
-       │ ◄──────────────────────────────────────────────  │
+       │ 5. Authentication Response                       │
+       │    (Success/Failure)                             │
+       │ ◄────────────────────────────────────────────── │
        │                                                  │
-    🔓 All data visible to network sniffers! 🔓
+       │ 6. Association Request                           │
+       │    (SSID, Capabilities, Rates)                   │
+       │ ──────────────────────────────────────────────► │
+       │                                                  │
+       │ 7. Association Response                          │
+       │    (Success + AID/Failure)                       │
+       │ ◄────────────────────────────────────────────── │
+       │                                                  │
+       │ 8. 4-Way Handshake (WPA/WPA2/WPA3)              │
+       │ ◄──────────────────────────────────────────────► │
+       │                                                  │
+       │ 9. Data Communication                            │
+       │ ◄══════════════════════════════════════════════► │
 
-SSH (Secure):
+State Transitions:
+Unauthenticated/Unassociated → Authenticated/Unassociated → Authenticated/Associated
+```
+
+#### 4. Wireless LAN Controller (WLC) Architecture
+
+```
+WLC Deployment Models:
+┌─────────────────────────────────────────────────────────────┐
+│                 Centralized WLC Model                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│                    ┌─────────────┐                         │
+│                    │     WLC     │                         │
+│                    │ Controller  │                         │
+│                    └──────┬──────┘                         │
+│                           │                                 │
+│                    CAPWAP Tunnels                          │
+│        ┌──────────────────┼──────────────────┐             │
+│        │                  │                  │             │
+│   ┌────▼────┐        ┌────▼────┐        ┌────▼────┐        │
+│   │Lightweight│      │Lightweight│      │Lightweight│      │
+│   │    AP     │      │    AP     │      │    AP     │      │
+│   │  (LAP)    │      │  (LAP)    │      │  (LAP)    │      │
+│   └───────────┘      └───────────┘      └───────────┘      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+CAPWAP (Control and Provisioning of Wireless Access Points):
+┌─────────────────────────────────────────────────────────────┐
+│                    CAPWAP Protocol                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ Control Messages (UDP 5246):                               │
+│ • Discovery Request/Response                                │
+│ • Join Request/Response                                     │
+│ • Configuration Status Request/Response                     │
+│ • Change State Event Request/Response                       │
+│                                                             │
+│ Data Messages (UDP 5247):                                  │
+│ • 802.11 Data frames                                        │
+│ • Keep Alive                                                │
+│                                                             │
+│ CAPWAP Tunnel Modes:                                        │
+│ • Split MAC: AP handles real-time functions                │
+│ • Local MAC: AP handles all 802.11 functions               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+WLC Functions:
+• Centralized Configuration Management
+• RF Management (Power, Channel Assignment)
+• Client Load Balancing
+• Rogue AP Detection
+• Mobility Management (Roaming)
+• Security Policy Enforcement
+• Quality of Service (QoS)
+• Guest Access Management
+```
+
+#### 5. Wireless Security Evolution
+
+```
+Wireless Security Timeline:
+┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
+│  Security   │    Year     │ Encryption  │    Auth     │   Status    │
+├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+│    WEP      │    1997     │   RC4       │ Shared Key  │ Deprecated  │
+│             │             │  40/104-bit │             │ (Broken)    │
+├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+│   WPA       │    2003     │   TKIP      │   802.1X    │ Deprecated  │
+│             │             │   RC4       │   PSK       │             │
+├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+│   WPA2      │    2004     │    AES      │   802.1X    │   Current   │
+│             │             │   CCMP      │   PSK       │             │
+├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+│   WPA3      │    2018     │    AES      │    SAE      │   Latest    │
+│             │             │   GCMP      │   802.1X    │             │
+└─────────────┴─────────────┴─────────────┴─────────────┴─────────────┘
+
+WPA2/WPA3 4-Way Handshake:
 ┌─────────────┐                                    ┌─────────────┐
-│   Client    │                                    │   Server    │
+│   Client    │                                    │     AP      │
 │             │                                    │             │
 └──────┬──────┘                                    └──────┬──────┘
        │                                                  │
-       │ 1. TCP Connection (Port 22)                      │
-       │ ──────────────────────────────────────────────►  │
+       │ 1. Message 1 (ANonce)                            │
+       │ ◄────────────────────────────────────────────── │
        │                                                  │
-       │ 2. SSH Handshake & Key Exchange                  │
-       │ ◄──────────────────────────────────────────────  │
+       │ 2. Message 2 (SNonce + MIC)                      │
+       │ ──────────────────────────────────────────────► │
        │                                                  │
-       │ 3. Server Authentication (Host Key)              │
-       │ ◄──────────────────────────────────────────────  │
+       │ 3. Message 3 (GTK + MIC)                         │
+       │ ◄────────────────────────────────────────────── │
        │                                                  │
-       │ 4. Client Authentication                         │
-       │ 🔒 Encrypted Username/Password 🔒               │
-       │ 🔒 OR Public Key Authentication 🔒              │
-       │ ──────────────────────────────────────────────►  │
+       │ 4. Message 4 (ACK + MIC)                         │
+       │ ──────────────────────────────────────────────► │
        │                                                  │
-       │ 5. Encrypted Session                             │
-       │ 🔒 All commands & responses encrypted 🔒        │
-       │ ◄──────────────────────────────────────────────  │
-       │                                                  │
-    🔐 All data encrypted and authenticated! 🔐
+       │ Encrypted Data Communication                     │
+       │ ◄══════════════════════════════════════════════► │
 
-Security Comparison:
-┌─────────────────┬─────────────┬─────────────┐
-│    Feature      │   Telnet    │     SSH     │
-├─────────────────┼─────────────┼─────────────┤
-│ Encryption      │     ❌      │     ✅     │
-│ Authentication  │   Basic     │   Strong    │
-│ Data Integrity  │     ❌      │     ✅     │
-│ Port Forwarding │     ❌      │     ✅     │
-│ File Transfer   │     ❌      │ ✅ (SCP/SFTP)│
-│ Key-based Auth  │     ❌      │     ✅      │
-│ Session Security│     ❌      │     ✅      │
-└─────────────────┴─────────────┴─────────────┘
+Key Derivation:
+PMK (Pairwise Master Key) ← PSK or 802.1X
+PTK (Pairwise Transient Key) ← PMK + ANonce + SNonce + MAC addresses
+GTK (Group Temporal Key) ← Generated by AP for multicast/broadcast
 ```
+
+#### 6. Wireless Roaming
+- **Layer 2 Roaming**: Same subnet, fast handoff
+- **Layer 3 Roaming**: Different subnet, requires tunneling
+- **802.11r (Fast BSS Transition)**: Reduces roaming time
+- **802.11k (Radio Resource Management)**: Neighbor reports
+- **802.11v (Wireless Network Management)**: BSS transition management
+
+```
+Roaming Process:
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│     AP1     │    │   Client    │    │     AP2     │
+│             │    │             │    │             │
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │
+       │ Data Transfer    │                  │
+       │ ◄──────────────► │                  │
+       │                  │                  │
+       │ Signal Weakens   │ Scanning for     │
+       │                  │ better signal    │
+       │                  │ ────────────────►│
+       │                  │                  │
+       │                  │ Probe Response   │
+       │                  │ ◄────────────────│
+       │                  │                  │
+       │                  │ Reassociation    │
+       │                  │ Request          │
+       │                  │ ────────────────►│
+       │                  │                  │
+       │                  │ Reassociation    │
+       │                  │ Response         │
+       │                  │ ◄────────────────│
+       │                  │                  │
+       │                  │ Data Transfer    │
+       │                  │ ◄──────────────► │
+```
+
+#### 7. Wireless Troubleshooting
+- **Signal Strength**: RSSI (Received Signal Strength Indicator)
+- **Signal Quality**: SNR (Signal-to-Noise Ratio)
+- **Interference**: Co-channel and adjacent channel interference
+- **Coverage**: Dead zones and coverage holes
+- **Capacity**: Client density and bandwidth requirements
+
+```
+Common Wireless Issues:
+┌─────────────────────┬─────────────────────────────────────┐
+│       Issue         │            Solution                 │
+├─────────────────────┼─────────────────────────────────────┤
+│ Poor Signal         │ Adjust AP placement/power          │
+│ Interference        │ Change channels, reduce power       │
+│ Slow Performance    │ Check for congestion, upgrade APs   │
+│ Connection Drops    │ Check roaming settings, RF issues   │
+│ Authentication Fail │ Verify credentials, certificates    │
+│ IP Assignment       │ Check DHCP, VLAN configuration     │
+└─────────────────────┴─────────────────────────────────────┘
+```
+
+---
+
+## Mobile Networks (LTE/5G)
+
+### LTE (Long Term Evolution) - 4G
+
+#### LTE Network Architecture
+
+```
+LTE Network Components:
+┌─────────────────────────────────────────────────────────────┐
+│                    LTE Architecture                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐       │
+│ │     UE      │    │    eNB      │    │     EPC     │       │
+│ │ (User       │    │ (Enhanced   │    │ (Evolved    │       │
+│ │ Equipment)  │    │ Node B)     │    │ Packet Core)│       │
+│ └──────┬──────┘    └──────┬──────┘    └──────┬──────┘       │
+│        │                  │                  │              │
+│        │ LTE-Uu Interface │ S1 Interface     │              │
+│        │ ◄──────────────► │ ◄──────────────► │              │
+│        │                  │                  │              │
+│        │                  │                  │              │
+│ ┌──────▼──────┐    ┌──────▼──────┐    ┌──────▼──────┐       │
+│ │   Radio     │    │   Radio     │    │   Core      │       │
+│ │ Interface   │    │ Access      │    │  Network    │       │
+│ │             │    │ Network     │    │             │       │
+│ └─────────────┘    └─────────────┘    └─────────────┘       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+EPC Components:
+┌─────────────────────────────────────────────────────────────┐
+│                 Evolved Packet Core (EPC)                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ┌─────────────┐  ┌─────────────┐  ┌─────────────┐           │
+│ │     MME     │  │     SGW     │  │     PGW     │           │
+│ │ (Mobility   │  │ (Serving    │  │ (Packet     │           │
+│ │ Management  │  │ Gateway)    │  │ Data        │           │
+│ │ Entity)     │  │             │  │ Network     │           │
+│ │             │  │             │  │ Gateway)    │           │
+│ └──────┬──────┘  └──────┬──────┘  └──────┬──────┘           │
+│        │                │                │                  │
+│        │ S1-MME         │ S1-U           │ SGi              │
+│        │ ◄─────────────►│ ◄─────────────►│ ◄──────────────► │
+│        │                │                │                  │
+│ ┌──────▼──────┐  ┌──────▼──────┐  ┌──────▼──────┐           │
+│ │     HSS     │  │    PCRF     │  │  Internet   │           │
+│ │ (Home       │  │ (Policy &   │  │             │           │
+│ │ Subscriber  │  │ Charging    │  │             │           │
+│ │ Server)     │  │ Rules       │  │             │           │
+│ │             │  │ Function)   │  │             │           │
+│ └─────────────┘  └─────────────┘  └─────────────┘           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### LTE Protocol Stack
+
+```
+LTE Protocol Stack (User Plane):
+┌─────────────────────────────────────────────────────────────┐
+│                    User Equipment (UE)                     │
+├─────────────────────────────────────────────────────────────┤
+│                   Application                               │
+├─────────────────────────────────────────────────────────────┤
+│                      IP                                     │
+├─────────────────────────────────────────────────────────────┤
+│                     PDCP                                    │
+│            (Packet Data Convergence Protocol)              │
+├─────────────────────────────────────────────────────────────┤
+│                      RLC                                    │
+│              (Radio Link Control)                          │
+├─────────────────────────────────────────────────────────────┤
+│                      MAC                                    │
+│             (Medium Access Control)                        │
+├─────────────────────────────────────────────────────────────┤
+│                      PHY                                    │
+│                 (Physical Layer)                           │
+└─────────────────────────────────────────────────────────────┘
+
+LTE Protocol Stack (Control Plane):
+┌─────────────────────────────────────────────────────────────┐
+│                    User Equipment (UE)                     │
+├─────────────────────────────────────────────────────────────┤
+│                      NAS                                    │
+│             (Non-Access Stratum)                           │
+├─────────────────────────────────────────────────────────────┤
+│                      RRC                                    │
+│            (Radio Resource Control)                        │
+├─────────────────────────────────────────────────────────────┤
+│                     PDCP                                    │
+├─────────────────────────────────────────────────────────────┤
+│                      RLC                                    │
+├─────────────────────────────────────────────────────────────┤
+│                      MAC                                    │
+├─────────────────────────────────────────────────────────────┤
+│                      PHY                                    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### LTE Key Technologies
+- **OFDMA**: Orthogonal Frequency Division Multiple Access (Downlink)
+- **SC-FDMA**: Single Carrier FDMA (Uplink)
+- **MIMO**: Multiple Input Multiple Output antennas
+- **Carrier Aggregation**: Combining multiple frequency bands
+- **QoS**: Quality of Service with bearer management
+
+```
+LTE Attach Procedure:
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│     UE      │    │    eNB      │    │     MME     │    │     HSS     │
+│             │    │             │    │             │    │             │
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │                  │
+       │ 1. RRC Connection Request           │                  │
+       │ ──────────────► │                  │                  │
+       │                  │                  │                  │
+       │ 2. RRC Connection Setup             │                  │
+       │ ◄────────────── │                  │                  │
+       │                  │                  │                  │
+       │ 3. RRC Connection Setup Complete    │                  │
+       │ ──────────────► │                  │                  │
+       │                  │                  │                  │
+       │ 4. Attach Request│                  │                  │
+       │ ──────────────► │ 5. Initial UE Message              │
+       │                  │ ──────────────► │                  │
+       │                  │                  │                  │
+       │                  │                  │ 6. Authentication│
+       │                  │                  │ & Security       │
+       │                  │                  │ ◄──────────────► │
+       │                  │                  │                  │
+       │                  │ 7. Security Mode Command           │
+       │                  │ ◄────────────── │                  │
+       │ 8. Security Mode Command            │                  │
+       │ ◄────────────── │                  │                  │
+       │                  │                  │                  │
+       │ 9. Security Mode Complete           │                  │
+       │ ──────────────► │ ──────────────► │                  │
+       │                  │                  │                  │
+       │                  │                  │ 10. Update Location
+       │                  │                  │ ──────────────► │
+       │                  │                  │                  │
+       │                  │                  │ 11. Update Location Ack
+       │                  │                  │ ◄────────────── │
+       │                  │                  │                  │
+       │                  │ 12. Initial Context Setup Request │
+       │                  │ ◄────────────── │                  │
+       │                  │                  │                  │
+       │ 13. RRC Reconfiguration             │                  │
+       │ ◄────────────── │                  │                  │
+       │                  │                  │                  │
+       │ 14. RRC Reconfiguration Complete    │                  │
+       │ ──────────────► │ 15. Initial Context Setup Response │
+       │                  │ ──────────────► │                  │
+       │                  │                  │                  │
+       │ 16. Attach Accept│                  │                  │
+       │ ◄────────────── │ ◄────────────── │                  │
+       │                  │                  │                  │
+       │ 17. Attach Complete                 │                  │
+       │ ──────────────► │ ──────────────► │                  │
+```
+
+### 5G New Radio (NR)
+
+#### 5G Network Architecture
+
+```
+5G Network Architecture:
+┌─────────────────────────────────────────────────────────────┐
+│                    5G System (5GS)                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ┌─────────────┐    ┌─────────────┐    ┌─────────────┐       │
+│ │     UE      │    │    gNB      │    │    5GC      │       │
+│ │ (User       │    │ (Next       │    │ (5G Core    │       │
+│ │ Equipment)  │    │ Generation  │    │ Network)    │       │
+│ │             │    │ Node B)     │    │             │       │
+│ └──────┬──────┘    └──────┬──────┘    └──────┬──────┘       │
+│        │                  │                  │              │
+│        │ Uu Interface     │ NG Interface     │              │
+│        │ ◄──────────────► │ ◄──────────────► │              │
+│        │                  │                  │              │
+│        │                  │                  │              │
+│ ┌──────▼──────┐    ┌──────▼──────┐    ┌──────▼──────┐       │
+│ │   Radio     │    │   Radio     │    │   Core      │       │
+│ │ Interface   │    │ Access      │    │  Network    │       │
+│ │             │    │ Network     │    │             │       │
+│ └─────────────┘    └─────────────┘    └─────────────┘       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+5G Core Network Functions:
+┌─────────────────────────────────────────────────────────────┐
+│                    5G Core (5GC)                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ┌─────────────┐  ┌─────────────┐  ┌─────────────┐           │
+│ │     AMF     │  │     SMF     │  │     UPF     │           │
+│ │ (Access &   │  │ (Session    │  │ (User Plane │           │
+│ │ Mobility    │  │ Management  │  │ Function)   │           │
+│ │ Management  │  │ Function)   │  │             │           │
+│ │ Function)   │  │             │  │             │           │
+│ └──────┬──────┘  └──────┬──────┘  └──────┬──────┘           │
+│        │                │                │                  │
+│        │                │                │                  │
+│ ┌──────▼──────┐  ┌──────▼──────┐  ┌──────▼──────┐           │
+│ │     UDM     │  │     PCF     │  │     NRF     │           │
+│ │ (Unified    │  │ (Policy     │  │ (Network    │           │
+│ │ Data        │  │ Control     │  │ Repository  │           │
+│ │ Management) │  │ Function)   │  │ Function)   │           │
+│ └─────────────┘  └─────────────┘  └─────────────┘           │
+│                                                             │
+│ ┌─────────────┐  ┌─────────────┐  ┌─────────────┐           │
+│ │     AUSF    │  │     NSSF    │  │     NEF     │           │
+│ │ (Authentication│ (Network    │  │ (Network    │           │
+│ │ Server      │  │ Slice       │  │ Exposure    │           │
+│ │ Function)   │  │ Selection   │  │ Function)   │           │
+│ │             │  │ Function)   │  │             │           │
+│ └─────────────┘  └─────────────┘  └─────────────┘           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### 5G Key Technologies
+
+```
+5G Technology Comparison:
+┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
+│    Feature      │      4G LTE     │      5G NSA     │      5G SA      │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+│ Peak Speed      │ 1 Gbps          │ 2-3 Gbps        │ 10+ Gbps        │
+│ Latency         │ 10-20 ms        │ 8-12 ms         │ 1-5 ms          │
+│ Core Network    │ EPC             │ EPC             │ 5GC             │
+│ Control Plane   │ 4G              │ 4G              │ 5G              │
+│ User Plane      │ 4G              │ 4G/5G           │ 5G              │
+│ Network Slicing │ No              │ Limited         │ Full            │
+│ Edge Computing  │ Limited         │ Limited         │ Native          │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────┘
+
+5G Frequency Bands:
+┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
+│      Band       │   Frequency     │   Bandwidth     │    Use Case     │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+│ Low Band        │ < 1 GHz         │ 5-20 MHz        │ Wide Coverage   │
+│ (Sub-6)         │ 600-900 MHz     │                 │ Rural Areas     │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+│ Mid Band        │ 1-6 GHz         │ 20-100 MHz      │ Urban Coverage  │
+│ (Sub-6)         │ 2.5, 3.5 GHz    │                 │ Capacity        │
+├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
+│ High Band       │ 24-100 GHz      │ 100-800 MHz     │ Ultra-high      │
+│ (mmWave)        │ 28, 39 GHz      │                 │ Speed/Capacity  │
+└─────────────────┴─────────────────┴─────────────────┴─────────────────┘
+```
+
+#### 5G Use Cases and Network Slicing
+
+```
+5G Use Cases:
+┌─────────────────────────────────────────────────────────────┐
+│                    5G Use Cases                            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ┌─────────────┐  ┌─────────────┐  ┌─────────────┐           │
+│ │   eMBB      │  │    URLLC    │  │    mMTC     │           │
+│ │ (Enhanced   │  │ (Ultra      │  │ (Massive    │           │
+│ │ Mobile      │  │ Reliable    │  │ Machine     │           │
+│ │ Broadband)  │  │ Low Latency │  │ Type        │           │
+│ │             │  │ Comms)      │  │ Comms)      │           │
+│ └──────┬──────┘  └──────┬──────┘  └──────┬──────┘           │
+│        │                │                │                  │
+│        ▼                ▼                ▼                  │
+│ • 4K/8K Video    • Autonomous     • IoT Sensors            │
+│ • AR/VR          • Industrial      • Smart Cities          │
+│ • Gaming         • Remote Surgery  • Agriculture           │
+│ • Streaming      • Robotics        • Asset Tracking        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+Network Slicing:
+┌─────────────────────────────────────────────────────────────┐
+│                   Network Slicing                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│                    Physical Infrastructure                  │
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │              5G Network Resources                       │ │
+│ └─────────────────────────────────────────────────────────┘ │
+│                           │                                 │
+│        ┌──────────────────┼──────────────────┐              │
+│        │                  │                  │              │
+│ ┌──────▼──────┐    ┌──────▼──────┐    ┌──────▼──────┐       │
+│ │   Slice 1   │    │   Slice 2   │    │   Slice 3   │       │
+│ │    eMBB     │    │   URLLC     │    │    mMTC     │       │
+│ │             │    │             │    │             │       │
+│ │ • High BW   │    │ • Low Lat   │    │ • High Conn │       │
+│ │ • Mobility  │    │ • Reliable  │    │ • Low Power │       │
+│ │ • Consumer  │    │ • Critical  │    │ • Sensors   │       │
+│ └─────────────┘    └─────────────┘    └─────────────┘       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### 5G Protocol Stack
+
+```
+5G NR Protocol Stack (User Plane):
+┌─────────────────────────────────────────────────────────────┐
+│                    User Equipment (UE)                     │
+├─────────────────────────────────────────────────────────────┤
+│                   Application                               │
+├─────────────────────────────────────────────────────────────┤
+│                      IP                                     │
+├─────────────────────────────────────────────────────────────┤
+│                     SDAP                                    │
+│         (Service Data Adaptation Protocol)                 │
+├─────────────────────────────────────────────────────────────┤
+│                     PDCP                                    │
+│            (Packet Data Convergence Protocol)              │
+├─────────────────────────────────────────────────────────────┤
+│                      RLC                                    │
+│              (Radio Link Control)                          │
+├─────────────────────────────────────────────────────────────┤
+│                      MAC                                    │
+│             (Medium Access Control)                        │
+├─────────────────────────────────────────────────────────────┤
+│                      PHY                                    │
+│                 (Physical Layer)                           │
+└─────────────────────────────────────────────────────────────┘
+
+5G NR Protocol Stack (Control Plane):
+┌─────────────────────────────────────────────────────────────┐
+│                    User Equipment (UE)                     │
+├─────────────────────────────────────────────────────────────┤
+│                      NAS                                    │
+│             (Non-Access Stratum)                           │
+├─────────────────────────────────────────────────────────────┤
+│                      RRC                                    │
+│            (Radio Resource Control)                        │
+├─────────────────────────────────────────────────────────────┤
+│                     PDCP                                    │
+├─────────────────────────────────────────────────────────────┤
+│                      RLC                                    │
+├─────────────────────────────────────────────────────────────┤
+│                      MAC                                    │
+├─────────────────────────────────────────────────────────────┤
+│                      PHY                                    │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### Interview-Worthy 5G Concepts
+
+**Key 5G Technologies:**
+- **Massive MIMO**: 64-256 antenna elements for beamforming
+- **Beamforming**: Directional signal transmission
+- **Carrier Aggregation**: Up to 32 component carriers
+- **Dual Connectivity**: Simultaneous 4G and 5G connections
+- **Network Function Virtualization (NFV)**: Software-based network functions
+- **Software Defined Networking (SDN)**: Centralized network control
+
+**5G Security Enhancements:**
+- **Enhanced Authentication**: 5G-AKA protocol
+- **Network Slicing Security**: Isolation between slices
+- **Edge Computing Security**: Distributed security functions
+- **Privacy Protection**: SUPI (Subscription Permanent Identifier) encryption
+
+**5G Performance Targets:**
+- **Peak Data Rate**: 20 Gbps downlink, 10 Gbps uplink
+- **User Experience**: 100 Mbps downlink, 50 Mbps uplink
+- **Latency**: 1ms for URLLC, 4ms for eMBB
+- **Connection Density**: 1 million devices per km²
+- **Mobility**: Up to 500 km/h
+- **Energy Efficiency**: 100x improvement over 4G
+- **Spectrum Efficiency**: 3x improvement over 4G
+
+---
