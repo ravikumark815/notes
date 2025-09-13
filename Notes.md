@@ -1,14 +1,67 @@
 # GO Notes
 
-Main features:
+## Table of Contents
+
+### 1. Exciting Start
+- [Main Features](#main-features)
+- [Hello World](#hello-world)
+- [Go CLI](#go-cli)
+
+### 2. Core Fundamentals
+- [Variables](#variables)
+- [Data Types](#data-types)
+- [Operators](#operators)
+- [Comments](#comments)
+- [Control and Loop Statements](#control-and-loop-statements)
+
+### 3. Essential Concepts
+- [Functions](#functions)
+- [Pointers](#pointers)
+- [Structs](#structs)
+- [Interfaces](#interfaces)
+- [Error Handling](#error-handling)
+
+### 4. Data Structures
+- [Arrays](#arrays)
+- [Slices](#slices)
+- [Maps](#maps)
+- [Generics](#generics)
+- [Defined Types](#defined-types)
+
+### 5. I/O & Utilities
+- [I/O Functions](#io-functions)
+- [Strings](#strings)
+- [File I/O](#file-io)
+- [Time](#time)
+- [Math](#math)
+- [Command Line Args](#command-line-args)
+
+### 6. Advanced Language Features
+- [Packages/Modules](#packagesmodules)
+- [Defer, Panic, Recover](#defer-panic-recover)
+- [Context Package](#context-package)
+- [Concurrency](#concurrency)
+- [Channels](#channels)
+- [Advanced Concurrency Patterns](#advanced-concurrency-patterns)
+- [Struct Embedding and Methods](#struct-embedding-and-methods)
+
+### 7. Development Practices
+- [Testing Basics](#testing-basics)
+- [Modules and Dependency Management](#modules-and-dependency-management)
+- [Common Standard Library Packages](#common-standard-library-packages)
+- [Go Tooling](#go-tooling)
+- [Closures](#closures)
+- [Regular Expressions](#regular-expressions)
+- [Keywords](#keywords)
+
+## Main Features
 - Efficient Compilation
 - Efficient Execution
 - Ease of Programming
 
 > [Official Documentation](https://go.dev/doc/)
 
-> [Go Packages](https://go.dev/pkg)
-
+> [Go Packages](https://go.dev/pkg/)
 
 ### Hello World:
 ```go
@@ -125,7 +178,7 @@ func main() {
 	// Doesn't work with bools or strings
 	cV1 := 1.5
 	cV2 := int(cV1)
-	fmt.Println(cV2)
+	fmt.Println(cV2) // 1
 
 	// Convert string to int (ASCII to Integer)
 	cV3 := "50000000"
@@ -668,7 +721,7 @@ mapName := map[int]string {1: "a",
 Example:
 ```go
 var heroes map[string]string
-villains := make(map[string]string)
+heroes := make(map[string]string)
 mapName := map[int]string {1: "a",
     2: "b",
     3: "c"
@@ -837,12 +890,157 @@ So s belongs to a struct that has both area and perimeter functions.
 
 func printShapeInfo(s shape) {
     fmt.Printf("Area: %0.2f", s.area())
-    fmtPrintf("Perimeter: %0.2f", s.perimeter())
+    fmt.Printf("Perimeter: %0.2f", s.perimeter())
 }
 
 func main() {
-    printShapeInfo(square_a{length: 15.2})
-    printShapeInfo(circle_a{radius: 7.5})
+    printShapeInfo(square{length: 15.2})
+    printShapeInfo(circle{radius: 7.5})
+}
+```
+
+### Error Handling
+Go uses the `error` type for error handling. Functions often return multiple values where the last is an error.
+
+```go
+import "errors"
+
+// Custom error
+var ErrDivideByZero = errors.New("division by zero")
+
+func divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, ErrDivideByZero
+    }
+    return a / b, nil
+}
+
+func main() {
+    result, err := divide(10, 0)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    fmt.Println("Result:", result)
+}
+```
+
+#### Error Wrapping (Go 1.13+)
+```go
+import "fmt"
+
+func processFile(filename string) error {
+    file, err := os.Open(filename)
+    if err != nil {
+        return fmt.Errorf("failed to open file %s: %w", filename, err)
+    }
+    defer file.Close()
+    // ... process file
+    return nil
+}
+
+// Unwrapping errors
+func main() {
+    err := processFile("nonexistent.txt")
+    if err != nil {
+        // Check if it's a specific type of error
+        if errors.Is(err, os.ErrNotExist) {
+            fmt.Println("File does not exist")
+        }
+        // Get the underlying error
+        fmt.Println("Underlying error:", errors.Unwrap(err))
+    }
+}
+```
+
+### Defer, Panic, Recover
+#### Defer
+- Defers execution of a function until the surrounding function returns
+- Useful for cleanup operations
+- Deferred functions are executed in LIFO (Last In, First Out) order
+
+```go
+func main() {
+    defer fmt.Println("This will print last")
+    defer fmt.Println("This will print second")
+    fmt.Println("This will print first")
+}
+```
+
+#### Panic and Recover
+- `panic` stops normal execution and begins panicking
+- `recover` regains control of a panicking goroutine
+
+```go
+func mayPanic() {
+    panic("Something went wrong!")
+}
+
+func safeFunction() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Recovered from panic:", r)
+        }
+    }()
+    mayPanic()
+    fmt.Println("This won't print")
+}
+
+func main() {
+    safeFunction()
+    fmt.Println("Program continues")
+}
+```
+
+### Context Package
+The `context` package provides a way to pass cancellation signals and deadlines across API boundaries.
+
+```go
+import (
+    "context"
+    "time"
+)
+
+// Function that respects context cancellation
+func worker(ctx context.Context) {
+    for {
+        select {
+        case <-ctx.Done():
+            fmt.Println("Worker cancelled:", ctx.Err())
+            return
+        default:
+            // Do work
+            time.Sleep(100 * time.Millisecond)
+        }
+    }
+}
+
+func main() {
+    // Context with timeout
+    ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+    defer cancel()
+
+    go worker(ctx)
+
+    // Wait for timeout
+    time.Sleep(3 * time.Second)
+}
+```
+
+#### Context with Values
+```go
+type key string
+
+const userKey key = "user"
+
+func processRequest(ctx context.Context) {
+    user := ctx.Value(userKey).(string)
+    fmt.Println("Processing request for user:", user)
+}
+
+func main() {
+    ctx := context.WithValue(context.Background(), userKey, "alice")
+    processRequest(ctx)
 }
 ```
 
@@ -907,6 +1105,378 @@ func main() {
 }
 ```
 
+### Testing Basics
+Go has built-in support for testing with the `testing` package.
+
+```go
+// calculator.go
+package calculator
+
+func Add(a, b int) int {
+    return a + b
+}
+
+func Divide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+```
+
+```go
+// calculator_test.go
+package calculator
+
+import (
+    "testing"
+)
+
+func TestAdd(t *testing.T) {
+    result := Add(2, 3)
+    expected := 5
+
+    if result != expected {
+        t.Errorf("Add(2, 3) = %d; want %d", result, expected)
+    }
+}
+
+func TestDivide(t *testing.T) {
+    result, err := Divide(10, 2)
+    expected := 5.0
+
+    if err != nil {
+        t.Errorf("Divide(10, 2) returned error: %v", err)
+    }
+
+    if result != expected {
+        t.Errorf("Divide(10, 2) = %f; want %f", result, expected)
+    }
+}
+
+func TestDivideByZero(t *testing.T) {
+    _, err := Divide(10, 0)
+
+    if err == nil {
+        t.Error("Divide(10, 0) should return error")
+    }
+}
+
+// Benchmark test
+func BenchmarkAdd(b *testing.B) {
+    for i := 0; i < b.N; i++ {
+        Add(2, 3)
+    }
+}
+```
+
+#### Running Tests
+```bash
+# Run all tests in current package
+go test
+
+# Run tests with verbose output
+go test -v
+
+# Run benchmark tests
+go test -bench=.
+
+# Run specific test
+go test -run TestAdd
+
+# Generate coverage report
+go test -cover
+go test -coverprofile=coverage.out
+go tool cover -html=coverage.out
+```
+
+### Modules and Dependency Management
+Go modules were introduced in Go 1.11 to manage dependencies.
+
+#### Creating a Module
+```bash
+# Initialize a new module
+go mod init example.com/myproject
+
+# This creates go.mod file
+module example.com/myproject
+
+go 1.21
+```
+
+#### Adding Dependencies
+```bash
+# Add a dependency
+go get github.com/gin-gonic/gin
+
+# Update all dependencies
+go get -u
+
+# Remove unused dependencies
+go mod tidy
+```
+
+#### go.mod and go.sum
+- `go.mod`: Defines module path, Go version, and dependencies
+- `go.sum`: Contains cryptographic hashes of dependencies for security
+
+```go
+// Example go.mod
+module example.com/myproject
+
+go 1.21
+
+require (
+    github.com/gin-gonic/gin v1.9.1
+    github.com/go-playground/validator/v10 v10.14.0
+)
+
+require (
+    github.com/bytedance/sonic v1.9.1 // indirect
+    github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
+    // ... more indirect dependencies
+)
+```
+
+### Advanced Concurrency Patterns
+#### Worker Pools
+```go
+func worker(id int, jobs <-chan int, results chan<- int) {
+    for j := range jobs {
+        fmt.Println("worker", id, "started job", j)
+        time.Sleep(time.Second)
+        fmt.Println("worker", id, "finished job", j)
+        results <- j * 2
+    }
+}
+
+func main() {
+    const numJobs = 5
+    jobs := make(chan int, numJobs)
+    results := make(chan int, numJobs)
+
+    // Start 3 workers
+    for w := 1; w <= 3; w++ {
+        go worker(w, jobs, results)
+    }
+
+    // Send jobs
+    for j := 1; j <= numJobs; j++ {
+        jobs <- j
+    }
+    close(jobs)
+
+    // Collect results
+    for a := 1; a <= numJobs; a++ {
+        <-results
+    }
+}
+```
+
+#### Select with Timeout
+```go
+func main() {
+    c1 := make(chan string, 1)
+    go func() {
+        time.Sleep(2 * time.Second)
+        c1 <- "result 1"
+    }()
+
+    select {
+    case res := <-c1:
+        fmt.Println(res)
+    case <-time.After(1 * time.Second):
+        fmt.Println("timeout 1")
+    }
+
+    // Second example with default
+    select {
+    case msg := <-c1:
+        fmt.Println("received", msg)
+    default:
+        fmt.Println("no message received")
+    }
+}
+```
+
+### Struct Embedding and Methods
+Struct embedding allows one struct to include another struct as an anonymous field.
+
+```go
+type Person struct {
+    Name string
+    Age  int
+}
+
+func (p Person) Introduce() {
+    fmt.Printf("Hi, I'm %s and I'm %d years old\n", p.Name, p.Age)
+}
+
+type Employee struct {
+    Person  // Embedded struct
+    Company string
+    Salary  float64
+}
+
+func main() {
+    emp := Employee{
+        Person: Person{
+            Name: "Alice",
+            Age:  30,
+        },
+        Company: "Tech Corp",
+        Salary:  75000,
+    }
+
+    // Can access embedded fields directly
+    fmt.Println(emp.Name)  // Alice
+    fmt.Println(emp.Age)   // 30
+
+    // Can call embedded methods
+    emp.Introduce()  // Hi, I'm Alice and I'm 30 years old
+
+    // Can also access through embedded struct
+    fmt.Println(emp.Person.Name)  // Alice
+}
+```
+
+#### Method Overriding
+```go
+func (e Employee) Introduce() {
+    fmt.Printf("Hi, I'm %s, I work at %s\n", e.Name, e.Company)
+}
+
+func main() {
+    emp := Employee{
+        Person: Person{Name: "Bob", Age: 25},
+        Company: "Dev Inc",
+    }
+
+    emp.Introduce()  // Hi, I'm Bob, I work at Dev Inc (overridden method)
+    emp.Person.Introduce()  // Hi, I'm Bob and I'm 25 years old (original method)
+}
+```
+
+### Common Standard Library Packages
+#### fmt Package
+```go
+import "fmt"
+
+// Printing
+fmt.Print("Hello")           // No newline
+fmt.Println("Hello")         // With newline
+fmt.Printf("Name: %s\n", name) // Formatted
+
+// Scanning
+var name string
+fmt.Scan(&name)              // Read from stdin
+fmt.Scanf("%s", &name)       // Formatted scan
+fmt.Scanln(&name)            // Read line
+```
+
+#### io Package
+```go
+import "io"
+
+// Copy data between readers and writers
+io.Copy(dst, src)
+
+// Read all data from reader
+data, err := io.ReadAll(reader)
+
+// Create multi-reader
+multiReader := io.MultiReader(reader1, reader2)
+```
+
+#### os Package
+```go
+import "os"
+
+// File operations
+file, err := os.Open("file.txt")
+file, err := os.Create("newfile.txt")
+
+// Environment variables
+os.Getenv("PATH")
+os.Setenv("MY_VAR", "value")
+
+// Command line arguments
+os.Args  // []string of command line args
+
+// Exit program
+os.Exit(1)
+```
+
+#### net/http Package
+```go
+import "net/http"
+
+// Simple HTTP server
+http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hello, %s!", r.URL.Path[1:])
+})
+
+http.ListenAndServe(":8080", nil)
+
+// HTTP client
+resp, err := http.Get("http://example.com")
+if err != nil {
+    log.Fatal(err)
+}
+defer resp.Body.Close()
+
+body, err := io.ReadAll(resp.Body)
+```
+
+### Go Tooling
+#### go vet
+Static analysis tool that finds potential errors in Go code.
+
+```bash
+# Run go vet on current package
+go vet
+
+# Run go vet on specific files
+go vet file1.go file2.go
+
+# Common issues go vet catches:
+# - Unused variables
+# - Incorrect printf format strings
+# - Unreachable code
+# - Incorrect lock usage
+```
+
+#### go fmt
+Automatically formats Go source code.
+
+```bash
+# Format all files in current directory
+go fmt
+
+# Format specific files
+go fmt file1.go file2.go
+
+# Check if files need formatting (returns exit code)
+go fmt -d .
+```
+
+#### go doc
+Shows documentation for packages and symbols.
+
+```bash
+# Show package documentation
+go doc fmt
+
+# Show function documentation
+go doc fmt.Println
+
+# Show method documentation
+go doc os.File.Read
+
+# Start local documentation server
+go doc -http=:6060
+```
+
 ### Closures
 - Closures are functions that don't have to be associated with an identifier (Anonymous)
 ```go
@@ -941,7 +1511,7 @@ func main() {
 }
 ```
 
-### Recursion
+### Regular Expressions
 ```go
 import regexp
 func main() {
