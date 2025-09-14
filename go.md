@@ -15,6 +15,7 @@
 - [Control and Loop Statements](#control-and-loop-statements)
 
 ### 3. Essential Concepts
+- [Object-Oriented Programming in Go](#object-oriented-programming-in-go)
 - [Functions](#functions)
 - [Pointers](#pointers)
 - [Structs](#structs)
@@ -1542,5 +1543,462 @@ func main() {
 
 	// Replace all matches with Dog
 	fmt.Println(r.ReplaceAllString(reStr2, "Dog")) // Cat Dog Dog Dog Dog
+}
+```
+
+## Bitwise Operations
+Go supports bitwise operations on integer types.
+
+```go
+// Bitwise AND
+fmt.Println(5 & 3) // 1 (0101 & 0011 = 0001)
+
+// Bitwise OR
+fmt.Println(5 | 3) // 7 (0101 | 0011 = 0111)
+
+// Bitwise XOR
+fmt.Println(5 ^ 3) // 6 (0101 ^ 0011 = 0110)
+
+// Bitwise NOT (complement)
+fmt.Println(^5) // -6 (in two's complement)
+
+// Left shift
+fmt.Println(5 << 1) // 10 (0101 << 1 = 1010)
+
+// Right shift
+fmt.Println(5 >> 1) // 2 (0101 >> 1 = 0010)
+
+// Check if even/odd
+func isEven(n int) bool {
+    return n&1 == 0
+}
+
+// Count set bits (Hamming weight)
+func countBits(n uint) int {
+    count := 0
+    for n > 0 {
+        count += int(n & 1)
+        n >>= 1
+    }
+    return count
+}
+
+// Check if power of 2
+func isPowerOfTwo(n int) bool {
+    return n > 0 && (n&(n-1)) == 0
+}
+
+// Swap two numbers without temp
+func swap(a, b *int) {
+    *a = *a ^ *b
+    *b = *a ^ *b
+    *a = *a ^ *b
+}
+```
+
+## Sorting and Searching
+### Custom Sorting
+Implement `sort.Interface` for custom types.
+
+```go
+import "sort"
+
+type Person struct {
+    Name string
+    Age  int
+}
+
+type ByAge []Person
+
+func (a ByAge) Len() int           { return len(a) }
+func (a ByAge) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+
+func main() {
+    people := []Person{
+        {"Alice", 25},
+        {"Bob", 20},
+        {"Charlie", 30},
+    }
+    sort.Sort(ByAge(people))
+    fmt.Println(people) // [{Bob 20} {Alice 25} {Charlie 30}]
+}
+
+// Sort strings by length, then alphabetically
+type ByLengthThenAlpha []string
+
+func (s ByLengthThenAlpha) Len() int { return len(s) }
+func (s ByLengthThenAlpha) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+func (s ByLengthThenAlpha) Less(i, j int) bool {
+    if len(s[i]) != len(s[j]) {
+        return len(s[i]) < len(s[j])
+    }
+    return s[i] < s[j]
+}
+
+func main() {
+    strs := []string{"apple", "fig", "banana", "date"}
+    sort.Sort(ByLengthThenAlpha(strs))
+    fmt.Println(strs) // [fig date apple banana]
+}
+```
+
+### Binary Search
+```go
+func binarySearch(arr []int, target int) int {
+    low, high := 0, len(arr)-1
+    for low <= high {
+        mid := low + (high-low)/2
+        if arr[mid] == target {
+            return mid
+        } else if arr[mid] < target {
+            low = mid + 1
+        } else {
+            high = mid - 1
+        }
+    }
+    return -1
+}
+```
+
+## Implementing Data Structures
+### Stack
+```go
+type Stack []interface{}
+
+func (s *Stack) Push(v interface{}) {
+    *s = append(*s, v)
+}
+
+func (s *Stack) Pop() interface{} {
+    if len(*s) == 0 {
+        return nil
+    }
+    v := (*s)[len(*s)-1]
+    *s = (*s)[:len(*s)-1]
+    return v
+}
+
+func (s *Stack) Peek() interface{} {
+    if len(*s) == 0 {
+        return nil
+    }
+    return (*s)[len(*s)-1]
+}
+```
+
+### Queue
+```go
+type Queue []interface{}
+
+func (q *Queue) Enqueue(v interface{}) {
+    *q = append(*q, v)
+}
+
+func (q *Queue) Dequeue() interface{} {
+    if len(*q) == 0 {
+        return nil
+    }
+    v := (*q)[0]
+    *q = (*q)[1:]
+    return v
+}
+
+func (q *Queue) Front() interface{} {
+    if len(*q) == 0 {
+        return nil
+    }
+    return (*q)[0]
+}
+```
+
+### Linked List
+```go
+type Node struct {
+    Val  int
+    Next *Node
+}
+
+type LinkedList struct {
+    Head *Node
+}
+
+func (l *LinkedList) Insert(val int) {
+    node := &Node{Val: val}
+    if l.Head == nil {
+        l.Head = node
+        return
+    }
+    current := l.Head
+    for current.Next != nil {
+        current = current.Next
+    }
+    current.Next = node
+}
+
+func (l *LinkedList) Display() {
+    current := l.Head
+    for current != nil {
+        fmt.Printf("%d -> ", current.Val)
+        current = current.Next
+    }
+    fmt.Println("nil")
+}
+```
+
+### Binary Tree
+```go
+type TreeNode struct {
+    Val   int
+    Left  *TreeNode
+    Right *TreeNode
+}
+
+func inorderTraversal(root *TreeNode) []int {
+    var result []int
+    if root == nil {
+        return result
+    }
+    result = append(result, inorderTraversal(root.Left)...)
+    result = append(result, root.Val)
+    result = append(result, inorderTraversal(root.Right)...)
+    return result
+}
+```
+
+### Heap (Min-Heap)
+```go
+import "container/heap"
+
+type MinHeap []int
+
+func (h MinHeap) Len() int           { return len(h) }
+func (h MinHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MinHeap) Push(x interface{}) {
+    *h = append(*h, x.(int))
+}
+
+func (h *MinHeap) Pop() interface{} {
+    old := *h
+    n := len(old)
+    x := old[n-1]
+    *h = old[0 : n-1]
+    return x
+}
+
+func main() {
+    h := &MinHeap{3, 1, 4, 1, 5}
+    heap.Init(h)
+    heap.Push(h, 9)
+    fmt.Println(heap.Pop(h)) // 1
+}
+```
+
+## Algorithms
+### Bubble Sort
+```go
+func bubbleSort(arr []int) {
+    n := len(arr)
+    for i := 0; i < n-1; i++ {
+        for j := 0; j < n-i-1; j++ {
+            if arr[j] > arr[j+1] {
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+            }
+        }
+    }
+}
+```
+
+### Quick Sort
+```go
+func quickSort(arr []int, low, high int) {
+    if low < high {
+        pi := partition(arr, low, high)
+        quickSort(arr, low, pi-1)
+        quickSort(arr, pi+1, high)
+    }
+}
+
+func partition(arr []int, low, high int) int {
+    pivot := arr[high]
+    i := low - 1
+    for j := low; j < high; j++ {
+        if arr[j] < pivot {
+            i++
+            arr[i], arr[j] = arr[j], arr[i]
+        }
+    }
+    arr[i+1], arr[high] = arr[high], arr[i+1]
+    return i + 1
+}
+```
+
+### Merge Sort
+```go
+func mergeSort(arr []int) []int {
+    if len(arr) <= 1 {
+        return arr
+    }
+    mid := len(arr) / 2
+    left := mergeSort(arr[:mid])
+    right := mergeSort(arr[mid:])
+    return merge(left, right)
+}
+
+func merge(left, right []int) []int {
+    result := make([]int, 0, len(left)+len(right))
+    i, j := 0, 0
+    for i < len(left) && j < len(right) {
+        if left[i] < right[j] {
+            result = append(result, left[i])
+            i++
+        } else {
+            result = append(result, right[j])
+            j++
+        }
+    }
+    result = append(result, left[i:]...)
+    result = append(result, right[j:]...)
+    return result
+}
+```
+
+### Fibonacci (DP)
+```go
+func fibonacci(n int) int {
+    if n <= 1 {
+        return n
+    }
+    dp := make([]int, n+1)
+    dp[0], dp[1] = 0, 1
+    for i := 2; i <= n; i++ {
+        dp[i] = dp[i-1] + dp[i-2]
+    }
+    return dp[n]
+}
+```
+
+## Advanced Error Handling
+### Custom Errors
+```go
+type MyError struct {
+    Msg  string
+    Code int
+}
+
+func (e *MyError) Error() string {
+    return fmt.Sprintf("Error %d: %s", e.Code, e.Msg)
+}
+
+func doSomething() error {
+    return &MyError{"Something went wrong", 500}
+}
+```
+
+### Panic and Recover in Production
+```go
+func safeDivide(a, b float64) (float64, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero")
+    }
+    return a / b, nil
+}
+
+func handlePanic() {
+    if r := recover(); r != nil {
+        fmt.Println("Recovered from panic:", r)
+    }
+}
+
+func riskyFunction() {
+    defer handlePanic()
+    // Some risky code
+    panic("Something bad happened")
+}
+```
+
+## Go Idioms and Best Practices
+- Use `make` for slices/maps/channels when you know the size.
+- Prefer `for range` for iteration.
+- Use `defer` for cleanup.
+- Handle errors immediately.
+- Use interfaces for polymorphism.
+- Keep functions small and focused.
+- Use goroutines and channels for concurrency.
+- Follow naming conventions: exported names start with capital.
+- Use `context` for cancellation.
+- Write tests and benchmarks.
+
+## Networking Basics in Go
+### HTTP Server
+```go
+import (
+    "fmt"
+    "net/http"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hello, %s!", r.URL.Path[1:])
+}
+
+func main() {
+    http.HandleFunc("/", handler)
+    http.ListenAndServe(":8080", nil)
+}
+```
+
+### HTTP Client
+```go
+import (
+    "fmt"
+    "io"
+    "net/http"
+)
+
+func main() {
+    resp, err := http.Get("https://api.github.com/users/octocat")
+    if err != nil {
+        panic(err)
+    }
+    defer resp.Body.Close()
+    body, err := io.ReadAll(resp.Body)
+    if err != nil {
+        panic(err)
+    }
+    fmt.Println(string(body))
+}
+```
+
+### TCP Server
+```go
+import (
+    "bufio"
+    "fmt"
+    "net"
+)
+
+func handleConnection(conn net.Conn) {
+    defer conn.Close()
+    scanner := bufio.NewScanner(conn)
+    for scanner.Scan() {
+        fmt.Println("Received:", scanner.Text())
+        conn.Write([]byte("Echo: " + scanner.Text() + "\n"))
+    }
+}
+
+func main() {
+    ln, err := net.Listen("tcp", ":8080")
+    if err != nil {
+        panic(err)
+    }
+    for {
+        conn, err := ln.Accept()
+        if err != nil {
+            continue
+        }
+        go handleConnection(conn)
+    }
 }
 ```
