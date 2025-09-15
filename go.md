@@ -1,4 +1,4 @@
-# GO Notes
+# Go
 
 ## Table of Contents
 
@@ -742,6 +742,20 @@ for k,v := range mapName {
 
 // Delete
 delete(heroes, "Superman")
+```
+
+#### Basic Operations
+```go
+// Insert or Update an element
+m := make(map[string]int)
+m["one"] = 1 // Insert
+m["one"] = 11 // Update
+
+// Remove an element
+delete(m, "one")
+
+// Delete the entire map by setting it to nil
+m = nil
 ```
 
 ### Generics
@@ -1593,6 +1607,8 @@ func swap(a, b *int) {
     *a = *a ^ *b
 }
 ```
+
+---
 
 ## Sorting and Searching
 ### Custom Sorting
