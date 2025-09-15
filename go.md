@@ -1478,23 +1478,21 @@ go doc os.File.Read
 go doc -http=:6060
 ```
 
+---
+
 ### Closures
 - Closures are functions that don't have to be associated with an identifier (Anonymous)
 ```go
+import "fmt"
+
 // Pass a function to a function
 func useFunc(f func(int, int) int, x, y int) {
 	fmt.Println("Answer :", (f(x, y)))
 }
 
 func sumVals(x, y int) int {
-	return x + y
-}
-
-func main() {
-    intSum := func(x, y, )
-	
     // Create a closure that sums values
-	intSum := func(x, y int) int { 
+	intSum := func(x, y int) int {
         return x + y 
     }
 	fmt.Println("5 + 4 =", intSum(5, 4)) // 9
