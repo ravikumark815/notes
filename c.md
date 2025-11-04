@@ -296,9 +296,9 @@ void demo() {
 | Jump            | `return`, `goto`, `break`, `continue`, `exit()`  |
 | Expression      | Any statement ending with `;`                    |
 
-### Example
-
+### Examples
 ```c
+// if-else-if
 int num = 10;
 if (num > 0)
     printf("Positive\n");
@@ -312,9 +312,55 @@ while (num > 0) {
     printf("Num: %d\n", num);
     num--;
 }
-```
 
-> **Switch-case:** Always add `break` to prevent fall-through.
+// switch
+int a = 15;
+switch (a) {
+case 5:
+    printf("a is equal to 5");
+    break;
+case 10:
+    printf("a is equal to 10");
+    break;
+default:
+    printf("a is not equal to 5 or 10");
+}
+
+// for
+for (int i = 0; i < 5; i++) {
+    printf("%d\n", i);
+}
+
+// while
+int count = 0;
+while (count < 5) {
+    printf("%d\n", count);
+    count++;
+}
+
+// do-while
+int count = 0;
+do {
+    printf("%d\n", count); 
+    count++; 
+} while (count < 5);
+
+// continue
+for (int i = 0; i < 10; i++) {
+    if (i % 2 == 1)
+        continue;
+    cout << i << " ";
+}
+
+// goto
+int i = 0;
+loopStart:
+if (i < 5) {
+    cout << i << " ";
+    i++;
+    goto loopStart;
+}
+```
 
 ## Functions
 
