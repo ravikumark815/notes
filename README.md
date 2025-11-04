@@ -1,9 +1,4 @@
 # notes
+This repository contains quick reference guides for a wide range of software engineering topics. Browse the markdown files for concise tables, code snippets, and practical reminders—no fluff, just what you need.
 
-Collection of notes and quick references:
-- **C:** Syntax, memory, I/O, functions, best practices
-- **C++:** Modern features, STL, OOP, containers, templates, idioms, interview tips
-- **Python3:** Core syntax, built-ins, data structures, handy tricks, one-liners
-
-Browse the markdown files for concise tables, code snippets, and practical reminders—no fluff, just what you need.
 **Contributions welcome!**
