@@ -3413,9 +3413,3 @@ public:
 - **Effective C++** - Scott Meyers
 - **C++ Primer** - Stanley Lippman
 - **Modern C++ Design** - Andrei Alexandrescu
-
----
-
-**Last Updated:** 2024  
-**Target Audience:** Senior Software Engineer Interviews  
-**Coverage:** C++98 through C++23
