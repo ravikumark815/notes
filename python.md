@@ -415,6 +415,121 @@ print(f"Calculation: {2 * 3.5}") # Calculation: 7.0
 | | | `print("Name: {name}, Age: {age}".format(name="Bob", age=25))` | `Name: Bob, Age: 25` |
 | **`%` Operator (Printf-style)** | (Oldest, less common in modern Python) Uses `%s`, `%d`, etc., as placeholders. | `print("Name: %s, Age: %d" % ("Charlie", 22))` | `Name: Charlie, Age: 22` |
 
+### T-Strings (Template Strings) - Python 3.14+
+
+T-strings are a new feature in Python 3.14 that provide safer string templating by allowing you to intercept and transform input values before combining them into a final string. Unlike f-strings which produce a `str` object, t-strings resolve to a `Template` instance.
+
+| Feature | Description | Example |
+|---------|-------------|---------|
+| **Basic Syntax** | Use `t` or `T` prefix instead of `f` | `t"Hello, {name}!"` |
+| **Template Object** | Returns `Template` instance, not string | `template = t"Value: {x}"; type(template)` → `<class 'Template'>` |
+| **Security** | Safer for untrusted input - prevents code injection | Ideal for SQL queries, HTML templates |
+| **Components Access** | Access static strings and interpolations separately | `template.strings`, `template.interpolations`, `template.values` |
+
+```python
+# Basic t-string usage
+name = "Alice"
+age = 30
+template = t"Hello, {name}! You are {age} years old."
+
+print(f"Type: {type(template)}")  # <class 'Template'>
+print(f"Strings: {template.strings}")  # ('Hello, ', '! You are ', ' years old.')
+print(f"Values: {template.values}")    # ('Alice', 30)
+
+# Processing t-string components
+def process_template(template):
+    result = []
+    for item in template:
+        if isinstance(item, str):
+            result.append(item.upper())  # Transform static strings
+        else:  # Interpolation object
+            result.append(f"[{item.value}]")  # Transform values
+    return "".join(result)
+
+processed = process_template(t"Hello {name}, welcome!")
+print(processed)  # "HELLO [Alice], WELCOME!"
+
+# Safe SQL query building
+def safe_sql_query(template):
+    query_parts = []
+    params = []
+    
+    for item in template:
+        if isinstance(item, str):
+            query_parts.append(item)
+        else:
+            query_parts.append("?")  # Placeholder for parameter
+            params.append(item.value)
+    
+    return "".join(query_parts), params
+
+# Usage for SQL safety
+username = "john_doe"
+query, params = safe_sql_query(t"SELECT * FROM users WHERE name = {username}")
+print(f"Query: {query}")    # "SELECT * FROM users WHERE name = ?"
+print(f"Params: {params}")  # ['john_doe']
+
+# HTML escaping example
+import html
+
+def safe_html_template(template):
+    result = []
+    for item in template:
+        if isinstance(item, str):
+            result.append(item)
+        else:
+            # Escape HTML in user input
+            escaped_value = html.escape(str(item.value))
+            result.append(escaped_value)
+    return "".join(result)
+
+user_input = "<script>alert('xss')</script>"
+safe_html = safe_html_template(t"<p>User said: {user_input}</p>")
+print(safe_html)  # <p>User said: &lt;script&gt;alert('xss')&lt;/script&gt;</p>
+
+# Template reuse with functions
+def create_greeting_template(name, time_of_day):
+    return t"Good {time_of_day}, {name}! How are you today?"
+
+# Lazy evaluation - template created but not processed until needed
+morning_template = create_greeting_template("Bob", "morning")
+evening_template = create_greeting_template("Alice", "evening")
+
+# Convert template to string when needed
+def template_to_string(template):
+    result = []
+    for item in template:
+        if isinstance(item, str):
+            result.append(item)
+        else:
+            # Apply formatting if specified
+            value = item.value
+            if item.format_spec:
+                value = format(value, item.format_spec)
+            result.append(str(value))
+    return "".join(result)
+
+print(template_to_string(morning_template))   # "Good morning, Bob! How are you today?"
+print(template_to_string(evening_template))   # "Good evening, Alice! How are you today?"
+
+# Advanced: Interpolation attributes
+price = 19.99
+template = t"Price: ${price:.2f}"
+interpolation = template.interpolations[0]
+
+print(f"Expression: {interpolation.expression}")    # "price"
+print(f"Value: {interpolation.value}")              # 19.99
+print(f"Format spec: {interpolation.format_spec}")  # ".2f"
+print(f"Conversion: {interpolation.conversion}")    # None
+
+# Self-documenting t-strings (like f-strings)
+debug_template = t"Debug: {price = :.2f}"
+print(debug_template.interpolations[0].conversion)  # 'r'
+
+# Raw t-strings (prevent escape sequence interpretation)
+path_template = rt"File path: {filename}\n"  # \n treated literally
+```
+
 ## Lists
 
 ```python

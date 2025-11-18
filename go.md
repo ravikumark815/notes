@@ -91,6 +91,8 @@ terminal@linux$
 |`go test`  | Runs any tests associated with current project|
 |`go mod init testproj`| Creates a new project named testproj|
 
+---
+
 ### Variables
 - Start with `[a-z][A-Z][_]`
 - Contains `[a-z][A-Z][0-9][_]`
@@ -355,7 +357,35 @@ label: for x < 8 {
     x++;
 }
 ```
-    
+
+---
+
+### Object-Oriented Programming in Go
+
+Go does not have classes like traditional object-oriented languages. Instead, it uses structs with methods to achieve similar functionality.
+
+```go
+type Rectangle struct {
+    width, height float64
+}
+
+func (r Rectangle) area() float64 {
+    return r.width * r.height
+}
+
+func (r Rectangle) perimeter() float64 {
+    return 2 * (r.width + r.height)
+}
+
+func main() {
+    rect := Rectangle{width: 10, height: 5}
+    fmt.Println("Area:", rect.area())
+    fmt.Println("Perimeter:", rect.perimeter())
+}
+```
+
+---
+
 ### I/O functions
 
 |Placeholder|Purpose|
@@ -1607,8 +1637,6 @@ func swap(a, b *int) {
     *a = *a ^ *b
 }
 ```
-
----
 
 ## Sorting and Searching
 ### Custom Sorting
