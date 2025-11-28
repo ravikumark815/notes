@@ -2096,22 +2096,23 @@ n2->prev = n1;  // No circular reference!
 
 | Container | Type | Ordered | Duplicates | Access | Insert (end) | Insert (middle) | Delete | Search | Header |
 |-----------|------|---------|------------|--------|--------------|-----------------|--------|--------|--------|
-| `vector` | Sequence | No | Yes | O(1) | O(1) amortized | O(n) | O(n) | O(n) | `<vector>` |
-| `deque` | Sequence | No | Yes | O(1) | O(1) | O(n) | O(n) | O(n) | `<deque>` |
-| `list` | Sequence | No | Yes | O(n) | O(1) | O(1) | O(1) | O(n) | `<list>` |
-| `forward_list` | Sequence | No | Yes | O(n) | O(1) | O(1) | O(1) | O(n) | `<forward_list>` |
 | `array` | Sequence | No | Yes | O(1) | N/A | N/A | N/A | O(n) | `<array>` |
-| `set` | Associative | Yes | No | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<set>` |
-| `multiset` | Associative | Yes | Yes | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<set>` |
-| `map` | Associative | Yes (by key) | No | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<map>` |
-| `multimap` | Associative | Yes (by key) | Yes | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<map>` |
-| `unordered_set` | Unordered | No | No | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_set>` |
-| `unordered_multiset` | Unordered | No | Yes | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_set>` |
-| `unordered_map` | Unordered | No | No | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_map>` |
-| `unordered_multimap` | Unordered | No | Yes | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_map>` |
+| `vector` | Sequence | No | Yes | O(1) | O(1) amortized | O(n) | O(n) | O(n) | `<vector>` |
 | `stack` | Adapter | No | Yes | O(1) top | O(1) | N/A | O(1) | N/A | `<stack>` |
 | `queue` | Adapter | No | Yes | O(1) front/back | O(1) | N/A | O(1) | N/A | `<queue>` |
+| `deque` | Sequence | No | Yes | O(1) | O(1) | O(n) | O(n) | O(n) | `<deque>` |
 | `priority_queue` | Adapter | Yes (heap) | Yes | O(1) top | O(log n) | N/A | O(log n) | N/A | `<queue>` |
+| `list` | Sequence | No | Yes | O(n) | O(1) | O(1) | O(1) | O(n) | `<list>` |
+| `forward_list` | Sequence | No | Yes | O(n) | O(1) | O(1) | O(1) | O(n) | `<forward_list>` |
+| `map` | Associative | Yes (by key) | No | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<map>` |
+| `multimap` | Associative | Yes (by key) | Yes | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<map>` |
+| `unordered_map` | Unordered | No | No | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_map>` |
+| `unordered_multimap` | Unordered | No | Yes | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_map>` |
+| `set` | Associative | Yes | No | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<set>` |
+| `multiset` | Associative | Yes | Yes | O(log n) | O(log n) | O(log n) | O(log n) | O(log n) | `<set>` |
+| `unordered_set` | Unordered | No | No | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_set>` |
+| `unordered_multiset` | Unordered | No | Yes | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_set>` |
+
 
 ---
 
@@ -2141,6 +2142,44 @@ std::cout << p1.first << " " << p1.second << "\n";
 ```
 
 **Time Complexity:** All operations O(1)
+
+---
+
+### std::array
+
+**Fixed-size array (C++11)**
+
+```cpp
+#include <array>
+
+// Declaration & Initialization
+std::array<int, 5> arr = {1, 2, 3, 4, 5};
+std::array<int, 5> arr2{};  // All zeros
+
+// Access - O(1)
+int x = arr[2];
+int y = arr.at(2);
+int first = arr.front();
+int last = arr.back();
+int* data = arr.data();
+
+// Modification (size is fixed!)
+arr[0] = 10;
+arr.fill(42);  // Fill all with 42 - O(n)
+
+// Capacity
+size_t sz = arr.size();      // Always 5
+size_t max_sz = arr.max_size();
+bool empty = arr.empty();
+
+// Iterators: begin(), end(), rbegin(), rend()
+
+// Swap
+std::array<int, 5> arr3 = {6, 7, 8, 9, 10};
+arr.swap(arr3);  // O(n)
+
+// Output: 1 2 3 4 5
+```
 
 ---
 
@@ -2205,6 +2244,75 @@ v4.swap(v7);  // O(1)
 
 ---
 
+### std::stack
+
+**LIFO stack (adapter)**
+
+```cpp
+#include <stack>
+
+// Declaration & Initialization
+std::stack<int> st;
+std::stack<int, std::vector<int>> st_vec;  // Specify underlying container
+
+// Modification
+st.push(1);         // Add to top - O(1)
+st.push(2);
+st.push(3);
+st.emplace(4);      // Construct in place - O(1)
+st.pop();           // Remove from top - O(1)
+
+// Access
+int top = st.top(); // Access top - O(1)
+
+// Capacity
+size_t sz = st.size();
+bool empty = st.empty();
+
+// Swap
+std::stack<int> st2;
+st.swap(st2);
+
+// Output: 3 (top element)
+```
+
+---
+
+### std::queue
+
+**FIFO queue (adapter)**
+
+```cpp
+#include <queue>
+
+// Declaration & Initialization
+std::queue<int> q;
+std::queue<int, std::list<int>> q_list;  // Specify underlying container
+
+// Modification
+q.push(1);          // Add to back - O(1)
+q.push(2);
+q.push(3);
+q.emplace(4);       // Construct in place - O(1)
+q.pop();            // Remove from front - O(1)
+
+// Access
+int front = q.front();  // Access front - O(1)
+int back = q.back();    // Access back - O(1)
+
+// Capacity
+size_t sz = q.size();
+bool empty = q.empty();
+
+// Swap
+std::queue<int> q2;
+q.swap(q2);
+
+// Output: front=2, back=4
+```
+
+---
+
 ### std::deque
 
 **Double-ended queue (efficient insertion/deletion at both ends)**
@@ -2240,6 +2348,52 @@ dq.resize(10);
 // Iterators: begin(), end(), rbegin(), rend()
 
 // Output: 0 1 2 3 4 5 6
+```
+
+---
+
+### std::priority_queue
+
+**Max heap by default (adapter)**
+
+```cpp
+#include <queue>
+
+// Declaration & Initialization
+std::priority_queue<int> pq;  // Max heap
+std::priority_queue<int, std::vector<int>, std::greater<int>> min_pq;  // Min heap
+
+// Custom comparator
+auto cmp = [](int a, int b) { return a > b; };  // Min heap
+std::priority_queue<int, std::vector<int>, decltype(cmp)> custom_pq(cmp);
+
+// Modification
+pq.push(3);         // Insert - O(log n)
+pq.push(1);
+pq.push(4);
+pq.push(1);
+pq.push(5);
+pq.emplace(9);      // Construct in place - O(log n)
+pq.pop();           // Remove top - O(log n)
+
+// Access
+int top = pq.top(); // Access top (max) - O(1)
+
+// Capacity
+size_t sz = pq.size();
+bool empty = pq.empty();
+
+// Swap
+std::priority_queue<int> pq2;
+pq.swap(pq2);
+
+// Output: 5 (max element after removing 9)
+
+// Min heap example
+min_pq.push(3);
+min_pq.push(1);
+min_pq.push(4);
+int min = min_pq.top();  // 1
 ```
 
 ---
@@ -2335,115 +2489,6 @@ bool empty = flst.empty();
 
 ---
 
-### std::array
-
-**Fixed-size array (C++11)**
-
-```cpp
-#include <array>
-
-// Declaration & Initialization
-std::array<int, 5> arr = {1, 2, 3, 4, 5};
-std::array<int, 5> arr2{};  // All zeros
-
-// Access - O(1)
-int x = arr[2];
-int y = arr.at(2);
-int first = arr.front();
-int last = arr.back();
-int* data = arr.data();
-
-// Modification (size is fixed!)
-arr[0] = 10;
-arr.fill(42);  // Fill all with 42 - O(n)
-
-// Capacity
-size_t sz = arr.size();      // Always 5
-size_t max_sz = arr.max_size();
-bool empty = arr.empty();
-
-// Iterators: begin(), end(), rbegin(), rend()
-
-// Swap
-std::array<int, 5> arr3 = {6, 7, 8, 9, 10};
-arr.swap(arr3);  // O(n)
-
-// Output: 1 2 3 4 5
-```
-
----
-
-### std::set
-
-**Ordered set (Red-Black Tree, unique elements)**
-
-```cpp
-#include <set>
-
-// Declaration & Initialization
-std::set<int> s = {3, 1, 4, 1, 5, 9};  // Sorted, unique: {1, 3, 4, 5, 9}
-std::set<int, std::greater<int>> s_desc;  // Descending order
-
-// Insertion - O(log n)
-s.insert(2);
-s.insert({6, 7, 8});
-s.emplace(10);
-auto [it, inserted] = s.insert(5);  // Returns pair<iterator, bool>
-
-// Deletion - O(log n)
-s.erase(3);              // Erase by value
-s.erase(s.begin());      // Erase by iterator
-s.erase(s.begin(), s.find(5));  // Erase range
-s.clear();               // Remove all
-
-// Search - O(log n)
-auto it = s.find(4);     // Returns iterator or end()
-bool exists = s.count(4) > 0;  // Returns 0 or 1
-bool contains = s.contains(4);  // C++20
-
-// Bounds - O(log n)
-auto lb = s.lower_bound(4);  // First >= 4
-auto ub = s.upper_bound(4);  // First > 4
-auto [low, high] = s.equal_range(4);  // Range of elements == 4
-
-// Capacity
-size_t sz = s.size();
-bool empty = s.empty();
-
-// Iterators: begin(), end(), rbegin(), rend()
-for (int x : s) { std::cout << x << " "; }  // Sorted order
-
-// Output: 1 2 3 4 5 6 7 8 9 10
-```
-
----
-
-### std::multiset
-
-**Ordered multiset (allows duplicates)**
-
-```cpp
-#include <set>
-
-// Declaration & Initialization
-std::multiset<int> ms = {3, 1, 4, 1, 5, 9, 1};  // {1, 1, 1, 3, 4, 5, 9}
-
-// All operations same as set, but:
-ms.insert(1);  // Can insert duplicates
-int count = ms.count(1);  // Returns number of occurrences (4)
-
-// Erase all occurrences
-ms.erase(1);  // Removes all 1s
-
-// Erase single occurrence
-auto it = ms.find(3);
-if (it != ms.end()) ms.erase(it);
-
-// Output: 1 1 1 1 3 4 5 9
-```
-
----
-
 ### std::map
 
 **Ordered map (Red-Black Tree, key-value pairs)**
@@ -2529,65 +2574,6 @@ mm.erase("Alice");  // Erases all entries with key "Alice"
 // Alice: 30
 // Alice: 31
 ```
-
----
-
-### std::unordered_set
-
-**Hash set (unordered, unique elements)**
-
-```cpp
-#include <unordered_set>
-
-// Declaration & Initialization
-std::unordered_set<int> us = {3, 1, 4, 1, 5, 9};  // Unordered, unique
-
-// Insertion - O(1) average
-us.insert(2);
-us.emplace(10);
-
-// Deletion - O(1) average
-us.erase(3);
-us.clear();
-
-// Search - O(1) average
-auto it = us.find(4);
-bool exists = us.count(4) > 0;
-bool contains = us.contains(4);  // C++20
-
-// Capacity
-size_t sz = us.size();
-bool empty = us.empty();
-
-// Hash table properties
-size_t buckets = us.bucket_count();
-float load = us.load_factor();
-float max_load = us.max_load_factor();
-us.rehash(100);  // Set bucket count
-us.reserve(100);  // Reserve for at least 100 elements
-
-// Iterators: begin(), end() (no reverse iterators, no ordering)
-for (int x : us) { std::cout << x << " "; }  // Unordered
-
-// Output: 9 5 4 2 1 (order not guaranteed)
-```
-
----
-
-### std::unordered_multiset
-
-**Hash multiset (allows duplicates)**
-
-```cpp
-#include <unordered_set>
-
-std::unordered_multiset<int> ums = {1, 2, 2, 3, 3, 3};
-ums.insert(2);  // Can insert duplicates
-int count = ums.count(2);  // Returns 3
-
-// Output: 3 3 3 2 2 2 1 (order not guaranteed)
-```
-
 ---
 
 ### std::unordered_map
@@ -2659,121 +2645,6 @@ int count = umm.count("Alice");  // Returns 2
 
 ---
 
-### std::stack
-
-**LIFO stack (adapter)**
-
-```cpp
-#include <stack>
-
-// Declaration & Initialization
-std::stack<int> st;
-std::stack<int, std::vector<int>> st_vec;  // Specify underlying container
-
-// Modification
-st.push(1);         // Add to top - O(1)
-st.push(2);
-st.push(3);
-st.emplace(4);      // Construct in place - O(1)
-st.pop();           // Remove from top - O(1)
-
-// Access
-int top = st.top(); // Access top - O(1)
-
-// Capacity
-size_t sz = st.size();
-bool empty = st.empty();
-
-// Swap
-std::stack<int> st2;
-st.swap(st2);
-
-// Output: 3 (top element)
-```
-
----
-
-### std::queue
-
-**FIFO queue (adapter)**
-
-```cpp
-#include <queue>
-
-// Declaration & Initialization
-std::queue<int> q;
-std::queue<int, std::list<int>> q_list;  // Specify underlying container
-
-// Modification
-q.push(1);          // Add to back - O(1)
-q.push(2);
-q.push(3);
-q.emplace(4);       // Construct in place - O(1)
-q.pop();            // Remove from front - O(1)
-
-// Access
-int front = q.front();  // Access front - O(1)
-int back = q.back();    // Access back - O(1)
-
-// Capacity
-size_t sz = q.size();
-bool empty = q.empty();
-
-// Swap
-std::queue<int> q2;
-q.swap(q2);
-
-// Output: front=2, back=4
-```
-
----
-
-### std::priority_queue
-
-**Max heap by default (adapter)**
-
-```cpp
-#include <queue>
-
-// Declaration & Initialization
-std::priority_queue<int> pq;  // Max heap
-std::priority_queue<int, std::vector<int>, std::greater<int>> min_pq;  // Min heap
-
-// Custom comparator
-auto cmp = [](int a, int b) { return a > b; };  // Min heap
-std::priority_queue<int, std::vector<int>, decltype(cmp)> custom_pq(cmp);
-
-// Modification
-pq.push(3);         // Insert - O(log n)
-pq.push(1);
-pq.push(4);
-pq.push(1);
-pq.push(5);
-pq.emplace(9);      // Construct in place - O(log n)
-pq.pop();           // Remove top - O(log n)
-
-// Access
-int top = pq.top(); // Access top (max) - O(1)
-
-// Capacity
-size_t sz = pq.size();
-bool empty = pq.empty();
-
-// Swap
-std::priority_queue<int> pq2;
-pq.swap(pq2);
-
-// Output: 5 (max element after removing 9)
-
-// Min heap example
-min_pq.push(3);
-min_pq.push(1);
-min_pq.push(4);
-int min = min_pq.top();  // 1
-```
-
----
-
 ### Container Adapters Summary
 
 | Adapter | Underlying Container | Operations | Use Case |
@@ -2782,7 +2653,134 @@ int min = min_pq.top();  // 1
 | `queue` | `deque` (default), `list` | `push`, `pop`, `front`, `back` | FIFO operations |
 | `priority_queue` | `vector` (default), `deque` | `push`, `pop`, `top` | Heap operations |
 
+---
 
+### std::set
+
+**Ordered set (Red-Black Tree, unique elements)**
+
+```cpp
+#include <set>
+
+// Declaration & Initialization
+std::set<int> s = {3, 1, 4, 1, 5, 9};  // Sorted, unique: {1, 3, 4, 5, 9}
+std::set<int, std::greater<int>> s_desc;  // Descending order
+
+// Insertion - O(log n)
+s.insert(2);
+s.insert({6, 7, 8});
+s.emplace(10);
+auto [it, inserted] = s.insert(5);  // Returns pair<iterator, bool>
+
+// Deletion - O(log n)
+s.erase(3);              // Erase by value
+s.erase(s.begin());      // Erase by iterator
+s.erase(s.begin(), s.find(5));  // Erase range
+s.clear();               // Remove all
+
+// Search - O(log n)
+auto it = s.find(4);     // Returns iterator or end()
+bool exists = s.count(4) > 0;  // Returns 0 or 1
+bool contains = s.contains(4);  // C++20
+
+// Bounds - O(log n)
+auto lb = s.lower_bound(4);  // First >= 4
+auto ub = s.upper_bound(4);  // First > 4
+auto [low, high] = s.equal_range(4);  // Range of elements == 4
+
+// Capacity
+size_t sz = s.size();
+bool empty = s.empty();
+
+// Iterators: begin(), end(), rbegin(), rend()
+for (int x : s) { std::cout << x << " "; }  // Sorted order
+
+// Output: 1 2 3 4 5 6 7 8 9 10
+```
+
+---
+
+### std::multiset
+
+**Ordered multiset (allows duplicates)**
+
+```cpp
+#include <set>
+
+// Declaration & Initialization
+std::multiset<int> ms = {3, 1, 4, 1, 5, 9, 1};  // {1, 1, 1, 3, 4, 5, 9}
+
+// All operations same as set, but:
+ms.insert(1);  // Can insert duplicates
+int count = ms.count(1);  // Returns number of occurrences (4)
+
+// Erase all occurrences
+ms.erase(1);  // Removes all 1s
+
+// Erase single occurrence
+auto it = ms.find(3);
+if (it != ms.end()) ms.erase(it);
+
+// Output: 1 1 1 1 3 4 5 9
+```
+
+---
+
+### std::unordered_set
+
+**Hash set (unordered, unique elements)**
+
+```cpp
+#include <unordered_set>
+
+// Declaration & Initialization
+std::unordered_set<int> us = {3, 1, 4, 1, 5, 9};  // Unordered, unique
+
+// Insertion - O(1) average
+us.insert(2);
+us.emplace(10);
+
+// Deletion - O(1) average
+us.erase(3);
+us.clear();
+
+// Search - O(1) average
+auto it = us.find(4);
+bool exists = us.count(4) > 0;
+bool contains = us.contains(4);  // C++20
+
+// Capacity
+size_t sz = us.size();
+bool empty = us.empty();
+
+// Hash table properties
+size_t buckets = us.bucket_count();
+float load = us.load_factor();
+float max_load = us.max_load_factor();
+us.rehash(100);  // Set bucket count
+us.reserve(100);  // Reserve for at least 100 elements
+
+// Iterators: begin(), end() (no reverse iterators, no ordering)
+for (int x : us) { std::cout << x << " "; }  // Unordered
+
+// Output: 9 5 4 2 1 (order not guaranteed)
+```
+
+---
+
+### std::unordered_multiset
+
+**Hash multiset (allows duplicates)**
+
+```cpp
+#include <unordered_set>
+
+std::unordered_multiset<int> ums = {1, 2, 2, 3, 3, 3};
+ums.insert(2);  // Can insert duplicates
+int count = ums.count(2);  // Returns 3
+
+// Output: 3 3 3 2 2 2 1 (order not guaranteed)
+```
 ---
 
 ## STL Algorithms
