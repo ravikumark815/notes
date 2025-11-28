@@ -2113,6 +2113,15 @@ n2->prev = n1;  // No circular reference!
 | `unordered_set` | Unordered | No | No | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_set>` |
 | `unordered_multiset` | Unordered | No | Yes | O(1) avg | O(1) avg | O(1) avg | O(1) avg | O(1) avg | `<unordered_set>` |
 
+---
+
+### Container Adapters Summary
+
+| Adapter | Underlying Container | Operations | Use Case |
+|---------|---------------------|------------|----------|
+| `stack` | `deque` (default), `vector`, `list` | `push`, `pop`, `top` | LIFO operations |
+| `queue` | `deque` (default), `list` | `push`, `pop`, `front`, `back` | FIFO operations |
+| `priority_queue` | `vector` (default), `deque` | `push`, `pop`, `top` | Heap operations |
 
 ---
 
@@ -2642,16 +2651,6 @@ int count = umm.count("Alice");  // Returns 2
 // Alice: 30
 // Alice: 31
 ```
-
----
-
-### Container Adapters Summary
-
-| Adapter | Underlying Container | Operations | Use Case |
-|---------|---------------------|------------|----------|
-| `stack` | `deque` (default), `vector`, `list` | `push`, `pop`, `top` | LIFO operations |
-| `queue` | `deque` (default), `list` | `push`, `pop`, `front`, `back` | FIFO operations |
-| `priority_queue` | `vector` (default), `deque` | `push`, `pop`, `top` | Heap operations |
 
 ---
 
