@@ -286,3 +286,63 @@ Direct Connect:
 - Amazon route 53: Route 53 is a DNS that provides a reliable and cost-effective way to route end users to internet applications. Route 53 directs end users to your resources with globally dispersed DNS servers and automatic scaling. It gives developers and businesses a reliable way to route end users to internet applications hosted in AWS.
 - Amazon Cloud Front: CloudFront is a content delivery network (CDN) service that delivers your content with faster loading times, cost savings, and reliability.
 - Amazon Global Accelerator: Global Accelerator is a service that uses the AWS global network to improve application availability, performance, and security. It uses intelligent traffic routing and fast failover if something goes wrong in one of your application locations.
+
+---
+
+# Storage
+## Block Storage: 
+    - Data divided into pieces called blocks
+    - Direct data access without file system layers
+    - Best for applications/dbs that need fast frequent updates
+    - Block storage provides persistent, low-latency block-level storage volumes that attach to EC2 instances like physical hard drives. 
+    - Block storage volumes can be encrypted, backed up via snapshots, and modified while in use without disrupting the instance. AWS offers two primary block storage services:
+    - Amazon EC2 instance store: 
+        - An unmanaged non-persistent, high-performance block storage directly attached to EC2 instances for temporary data.
+        - Physically attached to the EC2 instance host computer. 
+        - Best temporary memory-based storage needs like buffers, caches and scratch data. 
+        - No data persistence
+    - Amazon Elastic Block Store (EBS): 
+        - A managed service that provides persistent block storage volumes for EC2 instances, offering various types for different workloads
+        - Similar to external hard drives: Consistent, low latency performance 
+        - Performance measure in IOPs
+        - EBS Snapshots: 
+            - Point-in-time backups of EBS volumes used for disaster recovery, data migration, volume resizing and consistent backups of production workloads.
+            - For all snapshots after the initial one, only the blocks that have changed since the last snapshot are captured and stored. These are called incremental snapshots. They're much smaller and faster to create than full snapshots.
+            - Each incremental snapshot contains references to the previous snapshots, creating a chain that allows for point-in-time recovery.
+        - Amazon Data Lifecycle Manager: You can define policies to help automate snapshot lifecycle management. 
+        - You can schedule snapshot creation, set retention policies, manage lifecycles and apply backup policies across organization. 
+
+## Object Storage: 
+    - Object = data + unique ID + metadata
+    - Full rewrite required to update an object
+    - Organized using buckets
+    - Best for large infrequently changed files. Ex: Videos, Backups, Logs.
+    - Object storage is a data storage architecture that manages data as objects in a flat address space. It offers unlimited scalability so you can store vast amounts of unstructured data without worrying about capacity constraints. 
+    - Object storage provides enhanced metadata capabilities to provide more efficient data management, search, and analytics across massive datasets.
+    - Amazon Simple Storage Service (S3): 
+        - A fully managed scalable object storage service for storing and retrieving any amount of data as objects in buckets.
+        - 99.999999999% durabilit - data is highly protected against loss
+        - Versioning, lifecycle management and various storage classes to optimiza costs.
+        - Everything is private by default, explicit permissions should be granted to access resources. 
+        - S3 Objects: An object is the fundamental unit of storage. Max Object size: 5TB
+        - S3 Bucket: Container for storing objects in S3. They have a globally unique name across AWS and can hold unlimited number of objects. Versioning, logging, access permissions.
+        - S3 Security: Private access by default, bucket policies, time-limited presigned urls for temporary access, S3 access points, S3 audit logs.
+        - S3 Storage Classes:
+            - S3 Standard: Default, general-purpose for cloud apps, dynamic websites, analytics etc.
+            - S3 Intelligent Tiering: For unknown/changing access patterns. Seggregates into 3 tiers: Frequent, infrequent, archive access. Cost effective
+            - S3 Standard Infrequent Access: Accessed less frequently, highly durable, high throughput, low latency. Stores data in 3 AZs
+            - S3 One Zone Infrequent Access: Stores data in a single AZ. Infrequently accessed data without high availability needs. Mainly storing secondary backups. 
+            - S3 Express One Zone: 
+
+## File Storage: 
+    - Cloud-based access through shared file systems. 
+    - Straightforward implementation without code changes.
+    - Best for application needed shared file access
+    - AWS file storage services provide shared file systems accessible over networks, so multiple users and applications can access the same data simultaneously. 
+    - They offer scalability and flexibility so you can expand storage capacity as needs grow without managing physical infrastructure.
+    - Amazon Elastic File System (EFS): A fully managed, scalable NFS file system for use with AWS Cloud services and on-premises resources.
+    - Amazon FSx: A fully managed file storage services for popular file systems like Windows, Lustre, and NetApp ONTAP.
+
+## Additional Storage Solutions:
+- AWS Storage Gateway: A fully managed, hybrid-cloud storage service that provides on-premises access to virtually unlimited cloud storage.
+- AWS Elastic Disaster Recovery: A fully managed service that streamlines the recovery of your physical, virtual, and cloud-based servers into AWS.
