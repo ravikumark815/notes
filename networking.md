@@ -78,6 +78,9 @@
   - [RDP (Remote Desktop Protocol)](#rdp-remote-desktop-protocol)
   - [VNC](#vnc-virtual-network-computing)
 
+### 🚀 **Life of a Packet**
+- [What Happens When...](#life-of-a-packet-what-happens-when)
+
 ### 📡 **Wireless Technologies**
 - [WLAN Protocols](#wlan-protocols)
 - [Wi-Fi Standards](#wi-fi-standards)
@@ -3477,6 +3480,72 @@ RTP Payload Types (Common):
 │   96-127│ Dynamic         │ Negotiated via SDP      │
 └─────────┴─────────────────┴─────────────────────────┘
 ```
+
+---
+
+## Life of a Packet (What Happens When...)
+*Detailed breakdown of "System vs Network" interaction when typing a URL.*
+
+### 1. Physical Keyboard & Interrupts
+*   **Key Press:** Key bottoms out, closing electrical circuit; allowed current flows.
+*   **Scanning:** Keyboard controller scans matrix, debounces electrical noise, converts to keycode.
+*   **Transmission:** Keycode sent via USB (polling endpoint ~10ms) or Bluetooth.
+*   **Interrupt (Hardware):** USB Controller fires interrupt; CPU pauses to run Interrupt Handler (IDT).
+*   **Interrupt (Software):** Kernel driver (`KBDHID.sys` / `I/O Kit`) processes scancode.
+
+### 2. OS Processing (Windows/Linux/Mac)
+*   **Windows:** `Win32K.sys` determines valid window; posts `WM_KEYDOWN` message to queue.
+*   **Mac:** `WindowServer` dispatches `KeyDown` event to application's Mach port.
+*   **App Logic:** Browser's main thread picks up message, triggers `kvirtualeydown` event.
+
+### 3. Parsing & Auto-Complete
+*   **Search vs URL:** Browser checks if text is valid URL or search term.
+*   **HSTS Check:** Browser checks HSTS list; upgrades HTTP to HTTPS if found.
+*   **Non-ASCII:** Hostname converted to Punycode if non-ASCII characters present.
+
+### 4. DNS Lookup (The Resolution)
+*   **Browser Cache:** Checked first (`chrome://net-internals/#dns`).
+*   **OS Cache:** `gethostbyname` checks local cache and `hosts` file.
+*   **Resolver:** Request sent to configured DNS Server (Iterative/Recursive).
+*   **Packet:** `SIP=LocalIP`, `DIP=DNS_Server_IP`, `SPort=Random`, `DPort=53 (UDP)`.
+*   **ARP Check:** If DNS server on local subnet, ARP for MAC.
+
+### 5. ARP Process (Link Layer)
+*   **Cache Check:** OS checks local ARP cache (`arp -a`) for Target IP.
+*   **Routing Table:** If Target IP remote, lookup Default Gateway IP.
+*   **Broadcast:** If MAC unknown, send ARP Request (`Who has IP?`).
+*   **Packet:** `SMAC=LocalMAC`, `DMAC=FF:FF:FF:FF:FF:FF`, `SIP=LocalIP`, `DIP=TargetIP`.
+*   **Switch Logic:** Switch floods (if no CAM); Router replies with Interface MAC.
+*   **Reply:** `SMAC=TargetMAC`, `DMAC=LocalMAC` (Unicast).
+
+### 6. Opening a Socket (Transport Layer)
+*   **Syscall:** Browser calls `socket(AF_INET, SOCK_STREAM)` calling kernel.
+*   **Three-Way Handshake (TCP):**
+    1.  **SYN:** `Flags=SYN`, `Seq=Risk`, `SPort=Random`, `DPort=443`.
+    2.  **SYN-ACK:** `Flags=SYN,ACK`, `Ack=Risk+1`, `Seq=ServerISN`, `SIP=ServerIP`.
+    3.  **ACK:** `Flags=ACK`, `Ack=ServerISN+1`, `SIP=LocalIP`.
+
+### 7. TLS Handshake (Security)
+*   **Client Hello:** Sends TLS version, cipher suites, randomness.
+*   **Server Hello:** Selects cipher, sends Certificate (Public Key) + Randomness.
+*   **Verification:** Client verifies Cert Authority (CA) signature chain.
+*   **Key Exchange:** Client sends Pre-Master Secret encrypted with Server's Public Key.
+*   **Session Keys:** Both derive symmetric Session Keys; exchange `Finished` hashes.
+
+### 8. HTTP Protocol (Application Layer)
+*   **Request:** `GET / HTTP/1.1`. Headers: `Host: google.com`, `Connection: keep-alive`.
+*   **Processing:** HTTPD (Apache/Nginx) matches Virtual Host, checks rewrites/permissions.
+*   **Response:** Server returns `200 OK` (or `304 Not Modified`) + HTML Payload.
+*   **Persistence:** Connection stays open if `Keep-Alive` requested.
+
+### 9. Browser Rendering (The Engine)
+*   **Parsing:** HTML parsed into DOM Tree; fixes invalid syntax automatically.
+*   **Resources:** Background fetch for CSS, JS, Images (`GET` requests).
+*   **CSSOM:** CSS parsed into CSS Object Model (Style Rules).
+*   **Render Tree:** DOM + CSSOM combined; invisible elements (head, display:none) excluded.
+*   **Layout:** Calculates geometry (width, height, position) of each node (Reflow).
+*   **Paint:** Rasterizes elements (color, shadow) onto layers (CPU/GPU).
+*   **Composite:** GPU combines layers; displays final frame on screen.
 
 ---
 
