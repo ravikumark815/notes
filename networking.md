@@ -828,6 +828,52 @@ Discovery Protocol Comparison:
 └─────────────────┴─────────────┴─────────────┘
 ```
 
+```
+
+### UDLD (UniDirectional Link Detection)
+- **Purpose**: Detects unidirectional links (fiber/copper) to prevent spanning-tree loops
+- **Problem**: Fiber strand breaks (Tx works, Rx fails), creating a "one-way" link. STP logic fails because BPDUs aren't received, potentially causing loops.
+- **Mechanism**: Layer 2 protocol (Cisco Proprietary) that uses "Echo" mechanism.
+- **Modes**:
+    - **Normal**: Informational. Marks port as "Undetermined" if bidirectionality fails.
+    - **Aggressive**: Protective. Err-disables the port if bidirectionality fails (Recommended).
+
+```
+UDLD Echo Mechanism:
+┌─────────────┐                      ┌─────────────┐
+│  Switch A   │                      │  Switch B   │
+│ (ID: AAAA)  │                      │ (ID: BBBB)  │
+└──────┬──────┘                      └──────┬──────┘
+       │                                    │
+       │ 1. UDLD Hello (My ID: AAAA)        │
+       │ ─────────────────────────────────► │
+       │                                    │
+       │ 2. UDLD Hello (My ID: BBBB,        │
+       │                Neighbor: AAAA)     │
+       │ ◄───────────────────────────────── │
+       │                                    │
+       │ 3. Bidirectional Link Detected!    │
+       │    (See my ID in peer's Hello)     │
+       │                                    │
+```
+
+```
+UDLD Configuration:
+! Global Configuration (enables on all fiber ports)
+Switch(config)# udld enable           ! Normal Mode
+Switch(config)# udld aggressive       ! Aggressive Mode
+
+! Interface Configuration (Specific ports)
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# udld port aggressive
+
+! Verification
+Switch# show udld neighbors
+Switch# show udld interface GigabitEthernet0/1
+! Reset err-disabled ports
+Switch# udld reset
+```
+
 ### 802.1X Authentication
 - **Purpose**: Port-based network access control
 - **Components**: Supplicant (client), Authenticator (switch), Authentication Server (RADIUS)
