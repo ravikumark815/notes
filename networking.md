@@ -709,6 +709,21 @@ Switch(config-if)# switchport trunk allowed vlan 10,20,30
 Switch(config-if)# switchport trunk native vlan 99
 ```
 
+```
+Inter-VLAN Routing (SVI - Switch Virtual Interface):
+Switch(config)# ip routing
+Switch(config)# interface vlan 10
+Switch(config-if)# ip address 192.168.10.1 255.255.255.0
+Switch(config-if)# no shutdown
+
+Router-on-a-Stick (Inter-VLAN Routing with Router):
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# no shutdown
+Router(config)# interface GigabitEthernet0/0.10
+Router(config-subif)# encapsulation dot1q 10
+Router(config-subif)# ip address 192.168.10.1 255.255.255.0
+```
+
 ### Spanning Tree Protocol (STP)
 - **Purpose**: Prevents loops in Layer 2 switched networks
 - **Standard**: IEEE 802.1D (Original STP), 802.1w (RSTP), 802.1s (MSTP)
@@ -1299,6 +1314,20 @@ OSPF Area Design:
    │  Area)  │        │  Area)  │        │  Area)  │
    └─────────┘        └─────────┘        └─────────┘
 
+```
+OSPF Configuration (Single Area):
+Router(config)# router ospf 1
+Router(config-router)# router-id 1.1.1.1
+! Network statement: Network Address + Wildcard Mask + Area
+Router(config-router)# network 192.168.10.0 0.0.0.255 area 0
+Router(config-router)# network 10.0.0.0 0.0.0.3 area 0
+Router(config-router)# passive-interface GigabitEthernet0/1
+
+! Interface Config (Newer method)
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip ospf 1 area 0
+```
+
 OSPF LSA Types:
 • Type 1: Router LSA (within area)
 • Type 2: Network LSA (DR generated)
@@ -1317,6 +1346,22 @@ OSPF LSA Types:
 **BGP Session Types:**
 - **eBGP (External BGP)**: Between different ASes (TTL=1, AD=20)
 - **iBGP (Internal BGP)**: Within same AS (TTL=255, AD=200)
+
+```
+BGP Configuration (eBGP & iBGP):
+Router(config)# router bgp 65001
+Router(config-router)# bgp router-id 1.1.1.1
+
+! iBGP Neighbor (Same AS)
+Router(config-router)# neighbor 10.0.0.2 remote-as 65001
+Router(config-router)# neighbor 10.0.0.2 update-source Loopback0
+
+! eBGP Neighbor (Different AS)
+Router(config-router)# neighbor 172.16.1.1 remote-as 65002
+
+! Advertise Networks
+Router(config-router)# network 192.168.1.0 mask 255.255.255.0
+```
 
 **BGP Message Types:**
 1. **OPEN**: Establish BGP session
@@ -1850,6 +1895,25 @@ NAT Translation Table:
 │ 192.168.1.10:80 │ 203.0.113.1:1024│   TCP    │
 │ 192.168.1.11:80 │ 203.0.113.1:1025│   TCP    │
 └─────────────────┴─────────────────┴──────────┘
+```
+```
+
+NAT Configuration (Static, Dynamic, PAT):
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip nat inside
+Router(config)# interface GigabitEthernet0/1
+Router(config-if)# ip nat outside
+
+! Static NAT (One-to-One)
+Router(config)# ip nat inside source static 192.168.1.10 203.0.113.1
+
+! Dynamic NAT (Many-to-Many)
+Router(config)# access-list 1 permit 192.168.1.0 0.0.0.255
+Router(config)# ip nat pool MY_POOL 203.0.113.10 203.0.113.20 netmask 255.255.255.0
+Router(config)# ip nat inside source list 1 pool MY_POOL
+
+! PAT (Overload - Many-to-One)
+Router(config)# ip nat inside source list 1 interface GigabitEthernet0/1 overload
 ```
 
 ### Policy Based Routing (PBR)
@@ -2450,6 +2514,22 @@ Message Types:
     - `DHCP option 12`: host name of the client, very useful for IoT and any device without user
     - `DHCP option 121`: classless static route table composed of multiple network and subnet mask.
 
+```
+DHCP Server Configuration:
+Router(config)# ip dhcp pool LAN_POOL
+Router(dhcp-config)# network 192.168.1.0 255.255.255.0
+Router(dhcp-config)# default-router 192.168.1.1
+Router(dhcp-config)# dns-server 8.8.8.8
+Router(dhcp-config)# lease 7
+
+! DHCP Excluded Addresses (Reserve IPs)
+Router(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.10
+
+! DHCP Relay Agent (on interface facing client)
+Router(config)# interface GigabitEthernet0/1
+Router(config-if)# ip helper-address 10.0.0.1
+```
+
 ### Domain Name Server [DNS]:
 - DNS is a hierarchical distributed naming system that translates human-readable domain names to IP addresses
 - Port: `53 UDP` (primary), `53 TCP` (zone transfers, large responses)
@@ -2490,6 +2570,30 @@ Message Types:
     - `Non-Recursive Query`: Non-Recursive Query is the query that occurs when a DNS Resolver queries a DNS Server for some record that has access to it because of the record that exists in its cache.
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/dns-query.png)
+
+### Access Control Lists (ACLs)
+- **Purpose**: Filter network traffic based on rules
+- **Types**: Standard (1-99) and Extended (100-199)
+- **Implicit Deny**: All ACLs have an invisible "deny all" at the end
+
+```
+ACL Configuration (Standard & Extended):
+! Standard ACL (Source IP only)
+Router(config)# access-list 10 permit 192.168.1.0 0.0.0.255
+Router(config)# access-list 10 deny any
+
+! Apply Standard ACL
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip access-group 10 out
+
+! Extended ACL (Source, Dest, Protocol, Port)
+Router(config)# access-list 100 permit tcp 192.168.1.0 0.0.0.255 host 10.0.0.1 eq 80
+Router(config)# access-list 100 deny ip any any
+
+! Apply Extended ACL
+Router(config)# interface GigabitEthernet0/0
+Router(config-if)# ip access-group 100 in
+```
 
 ### Internet Protocol Security [IPsec]
 - Security:
