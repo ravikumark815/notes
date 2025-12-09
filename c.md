@@ -556,6 +556,111 @@ arr = NULL; // after free
 - `realloc(ptr, 0)` is like `free(ptr)` (implementation-defined).
 - **Common errors:** forgetting to `free()`, double `free()`, dereferencing freed memory.
 
+### How malloc() and free() Work Internally
+
+**Critical Interview Question: How does free() know the size of memory block?**
+
+#### Memory Allocation Header
+
+When `malloc()` allocates memory, it stores metadata in a **header** located **BEFORE** the pointer returned to the user. This header contains:
+
+- **Size of allocated block** (in bytes)
+- **Pointer to next/previous block** (for free list management)
+- **Flags** (allocated/free status, alignment info)
+- **Alignment padding** (to meet alignment requirements)
+
+#### Memory Layout
+
+```
+[Header (16-32 bytes)][User Data][Optional Footer]
+^ptr returned to user (malloc returns this address)
+^header address (ptr - header_size)
+```
+
+**Example:**
+```c
+void *ptr = malloc(100);  // Allocates 100 bytes for user
+// Internally, malloc allocates: header (e.g., 16 bytes) + 100 bytes = 116 bytes
+// Returns address pointing to start of user data (after header)
+```
+
+#### How free() Works
+
+When you call `free(ptr)`:
+
+1. **Calculate header address:** `header_addr = ptr - header_size`
+2. **Read metadata from header:** Extract size, flags, etc.
+3. **Mark block as free:** Update flags in header
+4. **Merge adjacent free blocks:** If neighboring blocks are free, merge them
+5. **Add to free list:** Insert into free block list for future allocations
+6. **Update heap metadata:** Update heap manager's data structures
+
+**Why this design?**
+- No need to pass size to `free()` - it's stored in header
+- Enables block merging and fragmentation management
+- Allows heap manager to track all allocations
+
+#### Implementation Details (Conceptual)
+
+```c
+// Simplified memory block structure
+typedef struct block_header {
+    size_t size;           // Size of user data
+    struct block_header *next;  // Next block in free list
+    struct block_header *prev;  // Previous block
+    unsigned int flags;     // Allocated/free flag, alignment info
+} block_header_t;
+
+// When malloc(size) is called:
+void* malloc(size_t size) {
+    size_t total_size = sizeof(block_header_t) + size + alignment_padding;
+    block_header_t *header = sbrk(total_size);  // Request memory from OS
+    header->size = size;
+    header->flags = ALLOCATED;
+    return (void*)(header + 1);  // Return pointer after header
+}
+
+// When free(ptr) is called:
+void free(void *ptr) {
+    if (ptr == NULL) return;
+    
+    block_header_t *header = (block_header_t*)ptr - 1;  // Get header
+    size_t size = header->size;
+    
+    // Mark as free
+    header->flags = FREE;
+    
+    // Merge with adjacent free blocks if possible
+    merge_adjacent_free_blocks(header);
+    
+    // Add to free list
+    add_to_free_list(header);
+}
+```
+
+#### Key Points
+
+- **Header is stored BEFORE user pointer:** This is why `free()` can find it
+- **Header size:** Typically 16-32 bytes (implementation dependent)
+- **Why you can't free() non-malloc'd pointers:** They don't have valid headers
+- **Why double-free is dangerous:** Corrupts header metadata
+- **Why free(NULL) is safe:** Standard library checks for NULL
+
+#### Common Memory Errors
+
+1. **Double free:** `free(ptr); free(ptr);` - Corrupts header
+2. **Use after free:** Accessing `ptr` after `free(ptr)` - Undefined behavior
+3. **Memory leak:** Forgetting to `free()` - Memory not returned to system
+4. **Freeing non-heap memory:** `int x; free(&x);` - Stack variable, no header
+5. **Buffer overflow:** Writing beyond allocated size - Corrupts adjacent blocks/headers
+
+#### Debugging Memory Issues
+
+- **Valgrind:** `valgrind --leak-check=full ./program`
+- **AddressSanitizer:** `gcc -fsanitize=address program.c`
+- **GDB:** Use breakpoints and memory inspection
+- **Manual tracking:** Log all malloc/free calls
+
 ## Structures, Unions, Enumerations, Bit Fields
 
 ### Structures
