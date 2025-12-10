@@ -867,3 +867,290 @@ if (file) {
 - `-fsanitize=address`: Detect memory errors.
 - `-pedantic`: Warn on non-standard code.
 - `-o output`: Name the output file.
+
+## Socket Programming
+
+- Use `<sys/socket.h>`, `<netinet/in.h>`, `<arpa/inet.h>`.
+- **Key Concepts:**
+    - **Server:** `socket()` -> `bind()` -> `listen()` -> `accept()` -> `recv()/send()` -> `close()`
+    - **Client:** `socket()` -> `connect()` -> `send()/recv()` -> `close()`
+
+### TCP Server Example
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main() {
+    int server_fd, client_fd;
+    struct sockaddr_in address;
+    int opt = 1;
+    int addrlen = sizeof(address);
+    char buffer[1024] = {0};
+
+    // 1. Create Socket (IPv4, TCP)
+    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+        perror("socket failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // 2. Bind to Port 8080
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = INADDR_ANY; // Bind to all interfaces
+    address.sin_port = htons(8080);       // Host to Network Short
+
+    if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        perror("bind failed");
+        exit(EXIT_FAILURE);
+    }
+
+    // 3. Listen for incoming connections
+    if (listen(server_fd, 3) < 0) {
+        perror("listen");
+        exit(EXIT_FAILURE);
+    }
+    printf("Listening on port 8080...\n");
+
+    // 4. Accept a connection
+    if ((client_fd = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
+        perror("accept");
+        exit(EXIT_FAILURE);
+    }
+    printf("Connection accepted\n");
+
+    // 5. Read data
+    read(client_fd, buffer, 1024);
+    printf("Client: %s\n", buffer);
+
+    // 6. Send response
+    char *hello = "Hello from server";
+    send(client_fd, hello, strlen(hello), 0);
+    printf("Hello message sent\n");
+
+    close(client_fd);
+    close(server_fd);
+    return 0;
+}
+```
+
+### TCP Client Example
+```c
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main() {
+    int sock = 0;
+    struct sockaddr_in serv_addr;
+    char *hello = "Hello from client";
+    char buffer[1024] = {0};
+
+    // 1. Create Socket
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\n Socket creation error \n");
+        return -1;
+    }
+
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(8080);
+
+    // Convert IPv4 and IPv6 addresses from text to binary form
+    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
+        printf("\nInvalid address/ Address not supported \n");
+        return -1;
+    }
+
+    // 2. Connect to server
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        printf("\nConnection Failed \n");
+        return -1;
+    }
+
+    // 3. Send data
+    send(sock, hello, strlen(hello), 0);
+    printf("Hello message sent\n");
+
+    // 4. Read response
+    read(sock, buffer, 1024);
+    printf("Server: %s\n", buffer);
+
+    close(sock);
+    return 0;
+}
+```
+
+## Multithreading (POSIX Threads)
+
+- Use `<pthread.h>`.
+- Compile with `-pthread` flag (e.g., `gcc main.c -pthread`).
+
+### Basic Thread Example
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
+
+// Function executed by thread
+void *myThreadFun(void *vargp) {
+    sleep(1);
+    printf("Printing GeeksQuiz from Thread \n");
+    return NULL;
+}
+
+int main() {
+    pthread_t thread_id;
+    printf("Before Thread\n");
+
+    // Create a thread
+    pthread_create(&thread_id, NULL, myThreadFun, NULL);
+
+    // Wait for thread to finish
+    pthread_join(thread_id, NULL);
+
+    printf("After Thread\n");
+    exit(0);
+}
+```
+
+## Synchronization
+
+### Mutex (Mutual Exclusion)
+- Protects shared resources (critical section) from concurrent access.
+- Only one thread can hold the mutex at a time.
+
+```c
+#include <stdio.h>
+#include <pthread.h>
+
+pthread_mutex_t lock;
+int counter = 0;
+
+void* count_up(void* arg) {
+    // Lock before critical section
+    pthread_mutex_lock(&lock);
+    
+    // Critical Section
+    unsigned long i = 0;
+    counter += 1;
+    printf("Job %d started\n", counter);
+    for(i=0; i<(0xFFFFFFFF);i++); // Simulate work
+    printf("Job %d finished\n", counter);
+    
+    // Unlock after
+    pthread_mutex_unlock(&lock);
+    
+    return NULL;
+}
+
+int main() {
+    pthread_t tid[2];
+    
+    // Initialize mutex
+    if (pthread_mutex_init(&lock, NULL) != 0) {
+        printf("\n mutex init has failed\n");
+        return 1;
+    }
+
+    int i = 0;
+    while(i < 2) {
+        pthread_create(&(tid[i]), NULL, &count_up, NULL);
+        i++;
+    }
+
+    pthread_join(tid[0], NULL);
+    pthread_join(tid[1], NULL);
+    
+    // Destroy mutex
+    pthread_mutex_destroy(&lock);
+
+    return 0;
+}
+```
+
+### Semaphore
+- Uses a counter to control access to shared resources.
+- `sem_wait()`: Decrements (locks/waits if 0).
+- `sem_post()`: Increments (unlocks/signals).
+- Binary Semaphore (Values 0, 1) is similar to Mutex.
+
+```c
+#include <stdio.h>
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h>
+
+sem_t mutex;
+
+void* thread(void* arg) {
+    // Wait
+    sem_wait(&mutex);
+    printf("\nEntered..\n");
+
+    // Critical Section
+    sleep(2);
+    
+    // Signal
+    printf("\nJust Exiting...\n");
+    sem_post(&mutex);
+    return NULL;
+}
+
+int main() {
+    // Initialize semaphore
+    // 0 = shared between threads of process, 1 = initial value
+    sem_init(&mutex, 0, 1);
+    
+    pthread_t t1, t2;
+    pthread_create(&t1,NULL,thread,NULL);
+    sleep(2);
+    pthread_create(&t2,NULL,thread,NULL);
+    
+    pthread_join(t1,NULL);
+    pthread_join(t2,NULL);
+    
+    // Destroy
+    sem_destroy(&mutex);
+    return 0;
+}
+```
+
+## Process Management
+
+- **Process:** An instance of a running program.
+- **`fork()`:** Creates a new process (child) by duplicating the calling process (parent).
+    - Returns `0` to child process.
+    - Returns `child_pid` to parent process.
+    - Returns `-1` on error.
+- **`exec()` family:** Replaces the current process image with a new one.
+- **`wait()`:** Parent waits for child to terminate.
+
+### Fork Example
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main() {
+    pid_t pid = fork();
+
+    if (pid < 0) {
+        perror("fork failed");
+        return 1;
+    } else if (pid == 0) {
+        // Child process
+        printf("Hello from Child! (PID: %d)\n", getpid());
+    } else {
+        // Parent process
+        printf("Hello from Parent! (PID: %d)\n", getpid());
+        printf("Parent waiting for Child...\n");
+        wait(NULL); // Wait for child to finish
+        printf("Child finished.\n");
+    }
+    return 0;
+}
+```
