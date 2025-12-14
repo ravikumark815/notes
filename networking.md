@@ -2030,16 +2030,16 @@ DSCP Marking Values:
 └─────────────────┴─────────┴─────────┴─────────────────────────┘
 
 Assured Forwarding (AF) Classes:
+
 ┌─────────┬─────────┬─────────┬─────────┐
 │  Class  │  Low    │ Medium  │  High   │
 │         │ Drop    │  Drop   │  Drop   │
-├─────────┼─────────┼─────────┼─────────┤
+|---|---|---|---|
 │ AF1x    │  AF11   │  AF12   │  AF13   │
 │ AF2x    │  AF21   │  AF22   │  AF23   │
 │ AF3x    │  AF31   │  AF32   │  AF33   │
 │ AF4x    │  AF41   │  AF42   │  AF43   │
 └─────────┴─────────┴─────────┴─────────┘
-```
 
 #### 3. Congestion Management (Queuing)
 **Queuing Algorithms:**
@@ -2061,8 +2061,9 @@ Assured Forwarding (AF) Classes:
 - Combines classification with WFQ
 - Guarantees minimum bandwidth per class
 
-```
 CBWFQ Configuration:
+
+```
 policy-map WAN_POLICY
  class VOICE
   priority percent 20
@@ -2085,29 +2086,32 @@ policy-map WAN_POLICY
 **Method**: Buffer excess traffic and release at configured rate
 **Benefits**: Reduces packet loss, smooths bursty traffic
 
-```
+
 Traffic Shaping Concepts:
+```
 ┌─────────────────────────────────────────────────────────────┐
 │                    Token Bucket Algorithm                   │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│    ┌─────────────┐     Tokens added at CIR rate            │
+│    ┌─────────────┐     Tokens added at CIR rate             │
 │    │   Bucket    │ ◄─────────────────────────────           │
-│    │  (Bc size)  │                                         │
-│    └──────┬──────┘                                         │
+│    │  (Bc size)  │                                          │
+│    └──────┬──────┘                                          │
 │           │                                                 │
 │           ▼                                                 │
-│    ┌─────────────┐     Packets consume tokens              │
-│    │   Packets   │ ────────────────────────►               │
-│    │             │                                         │
-│    └─────────────┘                                         │
+│    ┌─────────────┐     Packets consume tokens               │
+│    │   Packets   │ ────────────────────────►                │
+│    │             │                                          │
+│    └─────────────┘                                          │
 │                                                             │
 │ CIR: Committed Information Rate                             │
 │ Bc:  Committed Burst Size                                   │
 │ Be:  Excess Burst Size                                      │
 └─────────────────────────────────────────────────────────────┘
+```
 
 Shaping Configuration:
+```
 policy-map SHAPE_POLICY
  class class-default
   shape average 1000000  ! 1 Mbps
@@ -2130,8 +2134,10 @@ Policing vs Shaping:
 │ Implementation  │ Any interface   │ Outbound only   │
 │ TCP Behavior    │ May cause drops │ TCP-friendly    │
 └─────────────────┴─────────────────┴─────────────────┘
+```
 
 Policing Configuration:
+```
 policy-map POLICE_POLICY
  class BULK_DATA
   police cir 500000 bc 10000 be 10000
@@ -2157,13 +2163,13 @@ WRED Operation:
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │ Drop    ▲                                                   │
-│ Prob.   │     ┌─────────────────────                       │
+│ Prob.   │     ┌─────────────────────                        │
 │ 100%    │     │                                             │
 │         │    /                                              │
 │         │   /                                               │
 │  50%    │  /                                                │
 │         │ /                                                 │
-│   0%    └─────────────────────────────────────────────►    │
+│   0%    └─────────────────────────────────────────────►     │
 │         0   Min    Max                            Queue     │
 │             Threshold Threshold                   Depth     │
 │                                                             │
@@ -2171,7 +2177,8 @@ WRED Operation:
 │ • Min-Max: Linear increase in drop probability              │
 │ • Above Max: Drop all packets                               │
 └─────────────────────────────────────────────────────────────┘
-
+```
+```
 WRED Configuration:
 policy-map WRED_POLICY
  class BULK_DATA
@@ -2182,8 +2189,6 @@ policy-map WRED_POLICY
 ```
 
 #### 7. QoS Models Comparison
-
-```
 ┌─────────────────┬─────────────────┬─────────────────┬─────────────────┐
 │     Model       │  Best Effort    │    IntServ      │    DiffServ     │
 ├─────────────────┼─────────────────┼─────────────────┼─────────────────┤
@@ -2194,7 +2199,6 @@ policy-map WRED_POLICY
 │ Granularity     │ None            │ Per-flow        │ Per-class       │
 │ Deployment      │ Universal       │ Limited         │ Widespread      │
 └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
-```
 
 #### 8. QoS Best Practices
 - **Trust Boundaries**: Set at network edge, verify markings
@@ -2217,8 +2221,8 @@ policy-map WRED_POLICY
 
 *1. Header Structure:*
 
-```
 TCP Header (20-60 bytes):
+```
 ┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
 │                Source Port                │              Destination Port             │
 │                (16 bits)                  │                (16 bits)                 │
@@ -2238,7 +2242,7 @@ TCP Header (20-60 bytes):
 │                    Options (0-320 bits, if Data Offset > 5)                         │
 │                         + Padding to 32-bit boundary                                │
 └─────────────────────────────────────────────────────────────────────────────────────┘
-
+```
 TCP Flags (8 bits):
 ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
 │ CWR │ ECE │ URG │ ACK │ PSH │ RST │ SYN │ FIN │
