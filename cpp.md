@@ -1,4 +1,4 @@
-# C++ - Senior Software Engineer Interview Guide
+# C++
 
 ## Table of Contents
 - [Preset](#preset)
