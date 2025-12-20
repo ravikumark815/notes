@@ -208,13 +208,6 @@ Scope determines the visibility of an identifier within the program text.
 | **`_Atomic`** | **Thread Safety** | Guarantees "all-or-nothing" operations and enforces memory barriers. | Shared packet counters or ring-buffer indices accessed by multiple CPU cores. |
 ## Storage Classes
 
-| Specifier  | Description                                                                    |
-|------------|--------------------------------------------------------------------------------|
-| `auto`     | Default for local variables (automatic storage)                                |
-| `extern`   | Defined elsewhere; accessible across files                                     |
-| `static`   | Persists for program lifetime, scope-limited                                   |
-| `register` | Hints to store in CPU register (may be ignored)                                |
-
 Storage classes define the **lifetime** (how long it stays in memory) and the **linkage** (how the linker sees it across files).
 
 | Specifier | Lifetime | Linkage | Description / Modern Context |
