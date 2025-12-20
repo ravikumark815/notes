@@ -117,6 +117,10 @@ int main(void) {
 |   function calls)     |
 |   Grows downward      |
 +-----------------------+
+|                       |
+|                       |
+|                       |
++-----------------------+
 |       Heap            |
 |  (dynamic memory,     |
 |   malloc/new/free)    |
@@ -183,9 +187,8 @@ int main(void) {
 | int      | long     | register | return   | short    | signed   | sizeof   | static   |
 | struct   | switch   | typedef  | union    | unsigned | void     | volatile | while    |
 
-## Scope, Type Qualifiers, Storage Classes
 
-### Scope
+## Scope
 
 | Scope                      | Meaning                                              |
 |----------------------------|-----------------------------------------------------|
@@ -194,16 +197,15 @@ int main(void) {
 | Function Prototype Scope   | Valid only inside prototype                         |
 | Function Scope             | Valid only inside function                          |
 
-### Type Qualifiers
+## Type Qualifiers
 
-| Qualifier    | Description                                                                  |
-|--------------|------------------------------------------------------------------------------|
-| `const`      | Value cannot be changed after initialization                                 |
-| `volatile`   | May change in ways unanticipated by the compiler                             |
-| `restrict`   | Pointer is the only reference to the object                                  |
-| `_Atomic`    | Special atomic access (C11 and later)                                        |
-
-### Storage Classes
+| Qualifier | Technical Purpose | Impact on Optimization | Networking/Systems Use Case |
+| :--- | :--- | :--- | :--- |
+| **`const`** | **Read-Only** | Allows storage in write-protected memory segments (ROM/Flash). | Defining fixed protocol constants (e.g., Ethernet EtherTypes or IP versions). |
+| **`volatile`** | **External Sync** | Prevents register caching; forces a fresh read from RAM every time. | Reading Memory-Mapped I/O (MMIO) registers on a Network Interface Card (NIC). |
+| **`restrict`** | **Aliasing Promise** | Assumes no pointer overlap, enabling aggressive SIMD and loop vectorization. | Packet processing. Processing a buffer payload without worrying about source/destination overlap. |
+| **`_Atomic`** | **Thread Safety** | Guarantees "all-or-nothing" operations and enforces memory barriers. | Shared packet counters or ring-buffer indices accessed by multiple CPU cores. |
+## Storage Classes
 
 | Specifier  | Description                                                                    |
 |------------|--------------------------------------------------------------------------------|
