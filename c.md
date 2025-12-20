@@ -189,13 +189,14 @@ int main(void) {
 
 
 ## Scope
+Scope determines the visibility of an identifier within the program text.
 
-| Scope                      | Meaning                                              |
-|----------------------------|-----------------------------------------------------|
-| File Scope                 | Valid throughout the file                           |
-| Block Scope                | Valid within `{ ... }`                              |
-| Function Prototype Scope   | Valid only inside prototype                         |
-| Function Scope             | Valid only inside function                          |
+| Scope | Visibility | Typical Use Case |
+| :--- | :--- | :--- |
+| **File Scope** | From point of declaration to the end of the translation unit (file). | Global configuration flags or shared state (often paired with `static`). |
+| **Block Scope** | Limited to the `{ ... }` where it is defined, including nested blocks. | Loop counters (`for(int i...)`) and temporary local variables. |
+| **Function Prototype** | Exists only within the parameter list of a function declaration. | Providing descriptive names for parameters in `.h` header files. |
+| **Function Scope** | Applies only to labels (e.g., `start:`); visible throughout the entire function. | Error handling patterns (e.g., `goto cleanup;`) inside complex functions. |
 
 ## Type Qualifiers
 
@@ -213,6 +214,16 @@ int main(void) {
 | `extern`   | Defined elsewhere; accessible across files                                     |
 | `static`   | Persists for program lifetime, scope-limited                                   |
 | `register` | Hints to store in CPU register (may be ignored)                                |
+
+Storage classes define the **lifetime** (how long it stays in memory) and the **linkage** (how the linker sees it across files).
+
+| Specifier | Lifetime | Linkage | Description / Modern Context |
+| :--- | :--- | :--- | :--- |
+| **`auto`** | Function/Block | None | **Default local variable.** Allocated on the stack. In modern C, the keyword is rarely used as it is implied. |
+| **`extern`** | Program | External | Tells the compiler: "This variable exists somewhere else." Essential for **global shared state** across multiple `.c` files. |
+| **`static`** | Program | Internal/None | **Two roles:** 1. Inside a function: Retains value between calls. 2. At file scope: Hides the variable/function from other files (**Encapsulation**). |
+| **`register`**| Function/Block | None | A hint to the compiler to store the variable in a CPU register. **Note:** You cannot take the address (`&`) of a register variable. Modern compilers usually ignore this hint. |
+| **`_Thread_local`**| Thread | Internal/Ext | (C11) The variable is unique to each thread. Vital for **thread-safe** global variables in multi-threaded networking apps. |
 
 #### Example
 
