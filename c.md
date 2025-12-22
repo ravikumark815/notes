@@ -380,14 +380,14 @@ if (i < 5) {
 ### Example
 
 ```c
-int add(int, int); // prototype
+int add(int, int); // Declaration
 
 int main() {
-    printf("%d\n", add(2, 3));
+    printf("%d\n", add(2, 3)); // Call
     return 0;
 }
 
-int add(int x, int y) {
+int add(int x, int y) { // Definition
     return x + y;
 }
 ```
@@ -411,7 +411,7 @@ int main(int argc, char *argv[]) {
 
 ## Strings
 
-- C strings are arrays of `char` ending with `'\0'`.
+- A string in C is a sequence of characters stored in a contiguous block of memory, terminated by a **null character** (`'\0'`).
 - Declared as arrays or pointers.
 
 ### Declaration & Initialization
@@ -427,8 +427,11 @@ char *str4 = "Literal"; // read-only in modern C
 
 ```c
 char buf[100];
-scanf("%99s", buf);       // Reads up to whitespace
-fgets(buf, sizeof(buf), stdin); // Reads a line, includes spaces/newline
+scanf("%99s", buf);       // SAFE: Limit input to 99 chars (+1 for \0) and read up to whitespace
+// SAFER: Reads entire line including spaces
+if (fgets(buf, sizeof(buf), stdin)); {
+    buf[strcspn(buf, "n")] = 0; // Remove trailing newline if present
+} 
 printf("%s\n", buf);
 ```
 
@@ -499,17 +502,119 @@ int main() {
 
 ## Pointers
 
-- A pointer holds the address of another variable.
-- **Declaration:** `int *p = &var;`
-- Dereference using `*p`, get address using `&var`.
-- Always initialize pointers; use `NULL` if not pointing anywhere.
+> "A pointer is a variable that stores a memory address."
 
-### Pointer Arithmetic
+### 1. Conceptual Model
+Imagine memory as a giant street of houses.
+- **Variable (`int x = 10`)**: House #1004 containing the value `10`.
+- **Pointer (`int *p = &x`)**: House #2008 containing the note "Go to #1004".
 
-- `p++` advances pointer by `sizeof(type)`.
-- Arrays and pointers are closely related.
+```text
+Memory Address |  Variable Name  |   Value     | Notes
+-----------------------------------------------------------
+0x1000         |      a          |    99       | int
+0x1004         |      x          |    10       | int <---- p points here
+...            |                 |             |
+0x2008         |      p          |   0x1004    | int* (stores address of x)
+```
 
-### Function Pointers
+### 2. Syntax & Operations
+
+- **Declaration**: `int *p;` (Reads: "p is a variable, dereferencing p gives an int")
+- **Initialization**: `p = &x;` (Reads: "p now holds the address of x")
+- **Dereferencing**: `int y = *p;` (Reads: "Go to the address in p, and fetch the value there")
+
+```c
+int x = 10;
+int *p = &x;    // p holds address of x
+*p = 20;        // Go to address in p/x, change value to 20
+printf("%d", x); // Prints 20
+```
+
+### 3. Pointer Arithmetic
+
+Pointer arithmetic is **scaled by the type size**.
+- If `p` is `int*` (assume 4 bytes), `p + 1` increases the address by **4 bytes**.
+- If `p` is `char*` (1 byte), `p + 1` increases the address by **1 byte**.
+
+```c
+int arr[] = {10, 20, 30};
+int *p = arr;     // Points to arr[0] (e.g., 0x100)
+
+p++;              // 0x100 -> 0x104 (Points to arr[1] = 20)
+p += 1;           // 0x104 -> 0x108 (Points to arr[2] = 30)
+
+printf("%d", *(p-1)); // Go back 1 int size (0x104). Prints 20.
+```
+
+> `void*` arithmetic is illegal in standard C because `sizeof(void)` is unknown. (GCC allows it as 1-byte, but standard C forbids it).
+
+### 4. Pointers vs Arrays
+They are close, but **NOT** identical.
+
+| Feature | `int arr[10]` | `int *p` |
+| :--- | :--- | :--- |
+| **Storage** | Allocates 10 ints on stack | Allocates 1 pointer (4/8 bytes) |
+| **Modifiability** | `arr = p` is ILLEGAL (Array name is a constant label) | `p = arr` is VALID (Pointer can move) |
+| **`sizeof`** | `sizeof(arr)` = 40 bytes | `sizeof(p)` = 8 bytes (on 64-bit) |
+
+**Decay Rule**: When passed to a function, an array **decays** into a pointer to its first element.
+```c
+void func(int a[]) {
+    printf("%zu", sizeof(a)); // Prints 8 (pointer size), NOT array size!
+}
+```
+
+### 5. Types of Pointers
+
+#### `void *` (Generic Pointer)
+- Can hold address of **any** type.
+- **Cannot be dereferenced** without casting.
+- **Cannot do arithmetic** without casting.
+```c
+int a = 10;
+void *ptr = &a;
+// printf("%d", *ptr); // ERROR: Size unknown
+printf("%d", *(int*)ptr); // OK: Cast to int* then dereference
+```
+
+#### `NULL` Pointer
+- Points to nothing (typically address `0x0`).
+- Dereferencing causes Segfault (`SIGSEGV`).
+- **Always check:** `if (p != NULL) ...`
+
+#### Dangling Pointer
+- Points to memory that has been freed or is out of scope.
+**Pitfall Example**:
+```c
+int* dangerous() {
+    int local = 5;
+    return &local; // ERROR: 'local' dies when function ends. Returns garbage address.
+}
+```
+
+### 6. Const Qualifiers and Pointers (Read Right-to-Left)
+
+| Syntax | Description | Mnemonic |
+| :--- | :--- | :--- |
+| `const int *p` | Pointer to a **Constant Integer** | "Value is constant, Pointer can change" |
+| `int const *p` | Same as above | |
+| `int * const p` | **Constant Pointer** to Integer | "Address is constant, Value can change" |
+| `const int * const p` | Const Pointer to Const Int | "Locked down completely" |
+
+### 7. Double Pointers (`int **pp`)
+- A pointer to a pointer. Used to change *where* a pointer points to in a function.
+
+```c
+void allocate_memory(int **ptr) {
+    *ptr = malloc(sizeof(int)); // Changes the caller's pointer
+}
+
+int *p = NULL;
+allocate_memory(&p); // Pass address of p
+```
+
+### 8. Function Pointers
 
 - Store function addresses, enable callbacks.
     ```c
@@ -517,24 +622,6 @@ int main() {
     int (*fptr)(int, int) = add;
     printf("%d\n", fptr(2, 3));
     ```
-
-### Pointers and `const`
-
-| Declaration                | Meaning                                    |
-|----------------------------|--------------------------------------------|
-| `int *const ptr`           | Constant pointer to int (cannot change address) |
-| `const int *ptr`           | Pointer to constant int (cannot change value) |
-| `const int *const ptr`     | Constant pointer to constant int           |
-
-### Pointer to Pointer, Void Pointer
-
-```c
-int a = 10;
-int *p = &a;
-int **pp = &p; // pointer to pointer
-
-void *vp = p; // generic pointer (must cast to use)
-```
 
 ## Dynamic Memory Allocation
 
@@ -563,8 +650,6 @@ arr = NULL; // after free
 - **Common errors:** forgetting to `free()`, double `free()`, dereferencing freed memory.
 
 ### How malloc() and free() Work Internally
-
-**Critical Interview Question: How does free() know the size of memory block?**
 
 #### Memory Allocation Header
 
