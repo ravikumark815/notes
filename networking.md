@@ -307,7 +307,6 @@ Direct Attachment Cable (DAC) Copper Twinax:
 - **Broadcast:** Communication from one point to all other points
 - **Multicast:** Communication from one/more points to a set of other points
 - **Anycast:** Communication from one to nearest. It is a network addressing and routing methodology in which a single destination IP address is shared by nodes in multiple locations.
-![](https://github.com/ravikumark815/notes/blob/main/images/communication-types.png)
 
 ```
 1. UNICAST (One-to-One):
@@ -588,8 +587,6 @@ Ethernet II Frame Format (64-1518 bytes):
 └─────────────┴─────────────┴─────────────┴─────────────┘
 ```
 
-![](https://github.com/ravikumark815/notes/blob/main/images/ethernet-header.png)
-
 - *Preamble:* Pattern of alternative 0s and 1s to allow sender and receiver to establish bit synchronization.
 - *Start Frame Delimiter (SFD):* 1 Byte field that is always set to 10101011 to indicate that the upcoming bits are starting of the frame which destination address.
 - *Destination MAC Address*
@@ -609,7 +606,7 @@ Ethernet II Frame Format (64-1518 bytes):
 - *CRC:* Contains 32-bit hash code generated from destination address, source address, length and data fields. If checksum computed by destination is not same as sent checksum value, data received is corrupted.  
 - *Jumbo Frames:* To increase n/w throughput by reducing the overhead associated with transmitting many small frames. 
 
-**VLAN Trunking Protocol (VTP):**
+### VLAN Trunking Protocol (VTP):
 - 802.1Q. Used to manage all configured VLANs consistency across a switched network
 - VTP Domain: Consists of a group interconnected switches that share the same VLAN details. A Router or L3 switches defines the boundary of a VTP Domain.
 - VTP Modes:
@@ -648,11 +645,11 @@ Ethernet II Frame Format (64-1518 bytes):
 
 ```
 802.1Q Tag Structure (4 bytes):
-┌─────────────────────┬─────────┬─────┬─────────────────────┐
-│        TPID         │   PCP   │ DEI │      VLAN ID        │
-│   (16 bits)         │(3 bits) │(1bit│     (12 bits)       │
-│      0x8100         │Priority │Drop │     1-4094          │
-└─────────────────────┴─────────┴─────┴─────────────────────┘
+┌─────────────────────┬────────────┬─────┬─────────────────────┐
+│        TPID         │     PCP    │ DEI │      VLAN ID        │
+│   (16 bits)         │  (3 bits)  │(1bit│     (12 bits)       │
+│      0x8100         │  Priority  │Drop │     1-4094          │
+└─────────────────────┴────────────┴─────┴─────────────────────┘
 
 TPID (Tag Protocol Identifier):
 • 0x8100: Standard 802.1Q
@@ -828,8 +825,6 @@ Discovery Protocol Comparison:
 └─────────────────┴─────────────┴─────────────┘
 ```
 
-```
-
 ### UDLD (UniDirectional Link Detection)
 - **Purpose**: Detects unidirectional links (fiber/copper) to prevent spanning-tree loops
 - **Problem**: Fiber strand breaks (Tx works, Rx fails), creating a "one-way" link. STP logic fails because BPDUs aren't received, potentially causing loops.
@@ -928,24 +923,24 @@ Port States:
 ```
 IPv4 Header (20-60 bytes):
 ┌─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┬─────────────┐
-│   Version   │     IHL     │   DSCP/ToS  │     ECN     │                Total Length               │
-│   (4 bits)  │  (4 bits)   │  (6 bits)   │  (2 bits)   │                (16 bits)                 │
-├─────────────┴─────────────┼─────────────┴─────────────┼─────────────┬─────────────┬─────────────┤
-│        Identification     │     Flags   │                Fragment Offset                │
-│         (16 bits)         │   (3 bits)  │                (13 bits)                     │
-├─────────────┬─────────────┼─────────────┴─────────────┴─────────────┴─────────────────┤
-│     TTL     │  Protocol   │                Header Checksum                            │
-│  (8 bits)   │  (8 bits)   │                (16 bits)                                  │
-├─────────────┴─────────────┼─────────────────────────────────────────────────────────┤
-│                           Source IP Address                                          │
-│                           (32 bits)                                                  │
-├─────────────────────────────────────────────────────────────────────────────────────┤
-│                        Destination IP Address                                        │
-│                           (32 bits)                                                  │
-├─────────────────────────────────────────────────────────────────────────────────────┤
-│                    Options (0-320 bits, if IHL > 5)                                  │
-│                         + Padding to 32-bit boundary                                 │
-└─────────────────────────────────────────────────────────────────────────────────────┘
+│   Version   │     IHL     │   DSCP/ToS  │     ECN     │                        Total Length                   │
+│   (4 bits)  │  (4 bits)   │  (6 bits)   │  (2 bits)   │                         (16 bits)                     │
+├─────────────┴─────────────┼─────────────┴─────────────┼─────────────┬─────────────┬─────────────┬─────────────┤
+│                      Identification                   │     Flags   │                Fragment Offset          │
+│                        (16 bits)                      │   (3 bits)  │                (13 bits)                │
+├─────────────┬─────────────┼─────────────┴─────────────┼─────────────┴─────────────────────────────────────────┤
+│            TTL            │          Protocol         │                    Header Checksum                    │
+│         (8 bits)          │          (8 bits)         │                      (16 bits)                        │
+├─────────────┴─────────────┼───────────────────────────┼───────────────────────────────────────────────────────┤
+│                                               Source IP Address                                               │
+│                                                   (32 bits)                                                   │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                            Destination IP Address                                             │
+│                                                   (32 bits)                                                   │
+├───────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                       Options (0-320 bits, if IHL > 5)                                        │
+│                                         + Padding to 32-bit boundary                                          │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
 Field Details:
 • Version: 4 (for IPv4)
@@ -1682,7 +1677,7 @@ GRP Framework Architecture:
 ├─────────────────────────────────────────────────────────────┤
 │                 Network Interface                           │
 └─────────────────────────────────────────────────────────────┘
-
+```
 GRP vs Specific Protocols:
 ┌─────────────────┬─────────────────┬─────────────────┐
 │    Feature      │      GRP        │ Specific (OSPF) │
