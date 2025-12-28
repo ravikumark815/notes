@@ -1101,22 +1101,22 @@ ARP Process Example:
 └──────┬──────┘                                    └──────┬──────┘
        │                                                  │
        │ 1. ARP Request (Broadcast)                       │
-       │ Who has 192.168.1.20? Tell 192.168.1.10        │
-       │ Src MAC: AA:BB:CC:DD  Dst MAC: FF:FF:FF:FF:FF:FF│
-       │ ──────────────────────────────────────────────► │
+       │ Who has 192.168.1.20? Tell 192.168.1.10          │
+       │ Src MAC: AA:BB:CC:DD  Dst MAC: FF:FF:FF:FF:FF:FF │
+       │ ──────────────────────────────────────────────►  │
        │                                                  │
        │ 2. ARP Reply (Unicast)                           │
-       │ 192.168.1.20 is at 11:22:33:44                  │
-       │ Src MAC: 11:22:33:44  Dst MAC: AA:BB:CC:DD      │
-       │ ◄────────────────────────────────────────────── │
+       │ 192.168.1.20 is at 11:22:33:44                   │
+       │ Src MAC: 11:22:33:44  Dst MAC: AA:BB:CC:DD       │
+       │ ◄──────────────────────────────────────────────  │
        │                                                  │
-   ┌───▼────┐                                        ┌───▼────┐
+   ┌───▼─────┐                                       ┌────▼────┐
    │ARP Cache│                                       │ARP Cache│
    │192.168.1│                                       │192.168.1│
    │.20 →    │                                       │.10 →    │
    │11:22:33:│                                       │AA:BB:CC:│
    │44       │                                       │DD       │
-   └────────┘                                        └────────┘
+   └─────────┘                                       └─────────┘
 
 ARP Message Types:
 • ARP Request: Broadcast to find MAC address
