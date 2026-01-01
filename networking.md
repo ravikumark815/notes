@@ -1174,12 +1174,12 @@ Proxy ARP Example:
        │                  │                  │
        │ ARP: Who has     │                  │
        │ 192.168.2.20?    │                  │
-       │ ────────────────► │                  │
+       │ ────────────────►│                  │
        │                  │ Router responds  │
        │ ARP Reply:       │ with its own MAC │
        │ 192.168.2.20 is  │ (proxy response) │
        │ at Router-MAC    │                  │
-       │ ◄──────────────── │                  │
+       │ ◄────────────────│                  │
 ```
 
 #### 4. Reverse ARP (RARP)
