@@ -1148,12 +1148,12 @@ Gratuitous ARP Example:
 └──────┬──────┘                                    └──────┬──────┘
        │                                                  │
        │ Gratuitous ARP (Broadcast)                       │
-       │ Who has 192.168.1.10? Tell 192.168.1.10         │
+       │ Who has 192.168.1.10? Tell 192.168.1.10          │
        │ (Announcing own IP/MAC mapping)                  │
        │ ──────────────────────────────────────────────►  │
        │                                                  │
        │ Updates ARP cache with Host A's mapping          │
-       │ ◄────────────────────────────────────────────── │
+       │ ◄──────────────────────────────────────────────  │
 ```
 
 #### 3. Proxy ARP
