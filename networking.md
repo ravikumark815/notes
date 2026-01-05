@@ -1211,7 +1211,7 @@ IPv6 Neighbor Discovery:
        │                                                  │
        │ Neighbor Solicitation (Multicast)                │
        │ Target: 2001:db8::20                             │
-       │ To: ff02::1:ff00:20 (solicited-node multicast)  │
+       │ To: ff02::1:ff00:20 (solicited-node multicast)   │
        │ ──────────────────────────────────────────────► │
        │                                                  │
        │ Neighbor Advertisement (Unicast)                 │
