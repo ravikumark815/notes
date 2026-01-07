@@ -1212,11 +1212,11 @@ IPv6 Neighbor Discovery:
        │ Neighbor Solicitation (Multicast)                │
        │ Target: 2001:db8::20                             │
        │ To: ff02::1:ff00:20 (solicited-node multicast)   │
-       │ ──────────────────────────────────────────────► │
+       │ ──────────────────────────────────────────────►  │
        │                                                  │
        │ Neighbor Advertisement (Unicast)                 │
-       │ Target: 2001:db8::20, MAC: 11:22:33:44:55:66    │
-       │ ◄────────────────────────────────────────────── │
+       │ Target: 2001:db8::20, MAC: 11:22:33:44:55:66     │
+       │ ◄──────────────────────────────────────────────  │
 ```
 
 #### 7. ARP Security Issues and Mitigations
