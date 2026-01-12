@@ -1418,7 +1418,7 @@ BGP Session Establishment:
 └──────┬──────┘                                    └──────┬──────┘
        │                                                  │
        │ 1. TCP Connection (Port 179)                     │
-       │ ──────────────────────────────────────────────► │
+       │ ──────────────────────────────────────────────►  │
        │                                                  │
        │ 2. OPEN Message                                  │
        │ (AS Number, BGP Version, Hold Time)              │
