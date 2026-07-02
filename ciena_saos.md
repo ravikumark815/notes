@@ -112,7 +112,16 @@
     - CFM uses Continuity Check  messages (CCM) at an interval to Maintenance End Points (MEPs) using Maintenance Association (MA). 
     - The trace links and loopback messages to locate a fault more specifically. 
     - Hierarchical Fault management
-- Supports Y.1731 Performance Monitoring standard (Frame delay measurement messages (DMM))
+- Supports Y.1731 Performance Monitoring standard (Frame delay measurement) that use Delay Measurement messages (DMM) and Delay Measurement Reply (DMR) with timers to measure performance. 
+- Supports 802.3ah EOAM standard: Ethernet in first mile routers. Uses EOAM PDUs for link failure discovery.
+- Supports RFC 2544 Service Assurance Testing. Focused on network performance - benchmarking mostly. Throughput, burstability, frame-loss test, latency test, rtt, interface testing etc.
+- Zero Touch Provisioning (ZTP), Secure Zero Tech Provisioning (SZTP over TLS), RFC based SZTP. 
+
+## SAOS 10 QoS Support:
+- Scheduled Services based on priorities of interfaces. 
+- By default egress shaping is disabled for all logical ports. 
+
+![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-qos_egress.png)
 
 ## SAOS 10 Supported Platforms
 ### 39xx Family:
