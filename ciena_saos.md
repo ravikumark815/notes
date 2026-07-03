@@ -120,6 +120,9 @@
 ## SAOS 10 QoS Support:
 - Scheduled Services based on priorities of interfaces. 
 - By default egress shaping is disabled for all logical ports. 
+- Hierarchal Egress QoS consists of:
+    - Scheduling at more than one level relative to a logical-port
+    - Multiple Queue Group instances per logical-port. Each queue-group instance is being scheduled independently. 
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-qos_egress.png)
 
@@ -146,7 +149,7 @@
 - Application: 39xx, 51xx, 81xx can be chosen during setup
 - Built in trial license: 90 days, no license portal needed
 
-Licenses can be processed in 2 ways:
+### Licenses can be processed in 2 ways:
 - Local Licensing: Registration request file is generated from the node, uploaded to ciena portal, a license file is downloaded from the portal and uploaded to the node 
 - License Server: Nodes can be configured with license server, and the rest is same as above 
 
