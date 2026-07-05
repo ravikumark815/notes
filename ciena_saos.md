@@ -189,3 +189,40 @@
 				- Exterior BGP (eBGP): Exchanges routing information among AS
 				- Interior BGP (iBGP): Exchanges routing information with the same AS
 			- All the routers running BGP should peer with one another and have full mesh connectivity
+	
+## Multi Protocol Label Switching (MPLS)
+- MPLS defines the function of each device along the LSP to move customer data from source to destination
+- Each device performs a specific operation that determines what will happen to the customer's datagram at that point
+- Devices:
+	- Ingress Label Edge Router (iLER): Ingress devices are where customer data, in its native format, will be adapted into the MPLS network.
+	- Label switch router (LSR): The core device acts as intermediate point for the LSP to its destination
+	- Egress Label Edge Router (eLER): Terminating device at the destination of the LSP
+
+- MPLS Control Plane and Data Plane
+	- Init:
+		- The network must have an IGP routing protocol configured and support MPLS
+		- The routers first create protocol sessions before an operator starts the MPLS label signalling protocol on the routers.
+		- The routers can create these sessions according to the routing data in the route tables.
+	- Following the establishment of sessions, the routers exchange label bindings for FECs (Forwarding Equivalence Classes)
+	- Label Information Base (LIB): DB that stores the data that is sent and received. Label forwarding is possible once this process has been completed on an LSP tunnel's end-to-end path
+	- Label Forwarding Information Base (LFIB) must be stored on the data plane to forward label switched packets just as an FIB is necessary for native IP traffic When creating LFIB a selection process may be performed on the LIB
+	- MPLS TE uses the label exchange protocol which also includes Label Distribution Protocol (LDP) and Resource Reservation Protocol (RSVP) with Traffic Engineering (TE) extensions.
+	- DP operations:
+		- The MPLS LSPs are virtual tunnels created by using labels signaled between MPLS-enabled routers. 
+		- At each subsequent hop, the MPLS router looks up the label value in a table to make the forwarding decision. No need to parse the IP header
+		- Since the Label is a fixed size header, label look-up is fast and simple. 
+- MPLS Flow:
+	- iLER adds a label to an unlabeled packet: This is called **Push** Operation
+	- Transit LSRs check the incoming label to find the interface and the outgoing label needed to forward to next hop: This is called **Swap** operation.
+	- eLER of the LSP strips the label and sends the data again as unlabelled by **pop** operation
+
+- Label Distrbution Protocol (LDP)
+	- It is signaling protocol for MPLS configured devices. 
+	- It delivers labels in non-traffic-engineered destinations by directly mapping the network-layer routing data to data-link layer switched packets
+	- It enables routers to establish Label-Switched Paths (LSPs)
+	- LDP endpoints at directly attached neighbor or network egress node enable switching for all intermediary nodes.
+	- LDP assigns an FEC with each LSP
+	- Each router chooses the label and connects it to the label it advertises to all other routers. 
+
+![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-mpls.png)
+
