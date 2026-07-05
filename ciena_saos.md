@@ -264,3 +264,29 @@
 	- MAC withdrawal & status TLV
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-l2vpn.png)
+
+# Layer 3 VPN
+- VPNs are deployed to allow multiple entities to share a common infrastructure while keeping their addressing and data private
+- L3 VPNs are IP-routed through service provider's network. 
+- PE routers are the interface into and out of the provider's network
+- Provider routers (P routers) are service provider routers not directly connected to the interface customer devices
+- CE routers are Mobile Back Haul (MBH) instances.
+- Concepts:
+	- Virtual Routing and Forwarding (VRF): A virtual routed created for each VPN
+	- Router Distinguisher (RD): Configured for each VRF to distinguish the customer routes
+	- Route Target (RT): To define traffic flows for VRF
+	- Multiprotocol BGP (MP-BGP): Carry attributes needed to establish L3-VPN
+- L3 VPN Protocols:
+	- IS-IS/OSPF: Serves as IGP in service provider network
+	- LDP/SR: Distributes MPLS labels for IP prefixes
+	- BGP/Static: Used as PE-CE protocols
+	- MP-BGP: Distributes customer prefixes within the provider's network
+- L3 End-to-End View: 
+	- The customer edge router provides the IPv4 address, L2 frame and VLAN-ID to the provider edge router (PE1)
+	- The PE1 router takes the IP address, but discards the L2 frame and the VLAN-ID and pushes a new L2 frame and VLAN-ID along with the MPLS label and the MPLS VPN label. 
+	- It then forwards this packet to next router which will be a provider router (P1)
+	- P1 simply swaps the MPLS label and forwards to the next router - P2
+	- P2 performs the same function and since its the last router it performs Penultimate Hop Popping (PHP) - a provess by which the last LSR (P) router removes the outermost label of an MPLS tagged packet before the packet is passed to the LER (PE) router.
+	- The  PE2 router pops the MPLS label and forwards the IP packet to the customer's router
+
+![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-l3vpn.png)
