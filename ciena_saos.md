@@ -290,3 +290,18 @@
 	- The  PE2 router pops the MPLS label and forwards the IP packet to the customer's router
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-l3vpn.png)
+
+# SAOS 10 Synchronization
+- Time synchronized information ensures optimal network performance
+- System Timing is the recovery and distribution of frequency, phase and time-of-day (ToD) information
+- Supported Synchronization Protocols:
+	- SyncE: Provides frequency sync for extending a reliable clock source over the Ethernet conenctions. Supports carrying a time signal form a timer source. 
+	- PTP: Syncs real-time clocks over a network with sub-microsecond accuracy. 
+
+# Flexible Ethernet (FlexE)
+- It is a mechanism defined by the Optical Internetworking Firm (OIF) Implementation Agreements. 
+- It supports diverse Ethernet MAC rates to address flexible dynamic and scalable bandwidth rates. 
+- FlexE basically introduces a Shim layer to decouple the MAC and physical layer to provide flexible MAC rates.
+- Capabilities:
+	- Bonding: To aggregate 100G links to obtain a 100G x link. For ex, two 100G links can be aggregated to a single 200G link
+	- Channelization: Allows a user to define a custom guaranteed sub-rate over a FlexE link. For ex, 100G link can be divided into 50G, 25G and 25G links. This reduces latency for traffic flowing over FlexE link. 
