@@ -153,3 +153,39 @@
 - Local Licensing: Registration request file is generated from the node, uploaded to ciena portal, a license file is downloaded from the portal and uploaded to the node 
 - License Server: Nodes can be configured with license server, and the rest is same as above 
 
+## Routing Protocols
+1. Static Routing Protocols:
+	- Manual Routing
+2. Dynamic Routing Protocols
+	- Routes Learned through protocols
+	- Interior Gateway Protocols (IGP): 
+		- Routing **within** an Autonomous System
+		- Based on Link State algorithm
+		- OSPF:
+			- Routers exchange topological information with the nearest routers
+			- Topology information -- LSA (Link State Advertisement) is flooded throughout the autonomous system
+			- Uses the Hello Protocol to discover its neighbours
+			- Adjacencies are formed by synchronizing the neighbors' topology databases.
+			- Dijkstra's Shortest Path First (SPF) algorithm is used to calculate the path tree
+			- Based on this data, systems build an LSDB (Link State Data base). For each area, to which an Area Border Router (ABR) is connected, there is one LSDB.
+			- When the topology chages, the shortest path tree must be recalculated and the network will converge. 
+			- Area Routing: Multi level hierarchy inside an AS. (Restricting LSAs to a defined area)
+		- IS-IS:
+			- Routers exchange Topology and IPv4 reachability information in Link-State PDUs (LSPs)
+			- It is a L2 link state IGP used for interdomain routing. 
+			- Sends hello messages periodically to form an adjacency with neighbours
+			- Each router maintains and advertises database information to each other: Link-State Data base (LSDB)
+			- Once the DB is built and is identical on all the routers, the device can calculate routes to destinations. 
+			- SPF Algorithm uses an LSDB to calculate the shortest path to all destinations.
+			- Each router checks if its DB is up to date, else they will send a request for update
+	- Exterior Gateway Protocols (EGP): 
+		- Routing **between** Autonomous Systems
+		- Based on Path Vector algorithm
+		- BGP:
+			- BGP shares routing information between Autonomous Systems (AS). 
+			- Provides a system to exchange Network Layer Reachability Information (NLRI) with other BGP systems. 
+			- This is used to construct full network topology of the connectivity for each AS
+			- Types of BGP:
+				- Exterior BGP (eBGP): Exchanges routing information among AS
+				- Interior BGP (iBGP): Exchanges routing information with the same AS
+			- All the routers running BGP should peer with one another and have full mesh connectivity
