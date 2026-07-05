@@ -226,3 +226,41 @@
 
 ![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-mpls.png)
 
+## Layer 2 VPN
+- Used to provide Layer 2 connection between customer sites over a service provider's MPLS Packet Switched Network (PSN). 
+- Service Providers use Pseudowire (PW) technology and MPLS labels to transport Layer 2 traffic transparently through the MPLS PSN.
+- MPLS tunnel services transport packets from the ingress Provider Edge (PE) router to the egress PR router
+- Types of services:
+	- Virtual Private Wire Service (VPWS) or Point to Point L2 VPN
+		- Single wire point to point service
+		- Single attachment circuit and PW configured as members of a virtual switch
+		- No L2 forwarding lookup and no source MAC address learning is required which saves memory resources
+	- Virtual Private Local Area Network Service (VPLS) or Point to multipoint L2 VPN
+		- Multipoint-to-multipoint service
+		- Emulates a LAN environment for a subscriber over the service provider network
+		- Virtual switch instance:
+			- Performs an L2 lookup for forward ethernet frames
+			- Determined by PW labels and selection determined by ethernet MAC address
+	- Hierarchical VPLS (H-VPLS)
+		- Created for spoke PW
+		- Decreases the number of virtual circuits required
+		- Consists of spoke and mesh virtual circuits
+		- Simplifies edfe devices and reduces cost
+		- Minimalizes signaling overhead.
+- Features supported by SAOS:
+	- Virtual Private Wire Service (VPWS)
+	- Virtual Private LAN Service (VPLS) & Hierarchical VPLS 
+	- Spoke Pseudowires
+	- Mesh Pseudowires
+	- Dynamic/Static Pseudiwire over LDP tunnels like SR, SR-TE, BGP-LU, MPLs-TP
+	- Ingress/Egress L2 transform on L2 VPN attachment circuits
+	- Control Word & FAT
+	- L2VPN interoperate with older versions
+	- YANG models for L2 VPN
+	- Pseudowire status for the dynamic/static pseudowires
+	- Pseudowire protection
+	- Multisegment pseudowire (MS-PW)
+	- OAM (Ping & traceroute)
+	- MAC withdrawal & status TLV
+
+![](https://github.com/ravikumark815/notes/blob/main/images/ciena_saos-l2vpn.png)
