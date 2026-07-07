@@ -29,6 +29,7 @@
 	- Installation of SAOS 10 is done through ONIE (Open Network Install Environment) :: Open source install environment that acts as an enhanced bootloader utilizing facilities in a linux busy box environment
 
 ```
+
 ┌─────────────────────────────────────────────────────────────────────────────────────┐
 │                    YANG Model Management Plane and Front-end Database               │   
 ├────────────────────────────────┐────────────────────────────┐───────────────────────┤   ┌────────────┐
@@ -44,6 +45,7 @@
 ├─────────────────────────────────────────────────────────────────────────────────────┤   
 │                                Linux Kernel and Utilities                           │
 └─────────────────────────────────────────────────────────────────────────────────────┘
+
 ```
 
 
